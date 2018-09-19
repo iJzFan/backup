@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DrugSelectItem>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    Layout = null; 
+    var u = this.GetUserSelf();
+    string aaa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+}
+
+@{
+
+    foreach (var c in aaa)
+    {
+        var items = Model.Where(m => m.FirstLetter == c);
+
+        if (items.Count() > 0)
+        {
+            <div class="ah-mcdrug-gp">
+
+                <i id="md_@(c)">@(c == '_' ? "特殊" : c.ToString()) (@(items.Count()))</i>
+                <ul class="ah-flex">
+                    @foreach (var item in items)
+                    {
+                        <li data-drugid="@(item.DrugId)" data-stockfromid="@(item.StockFromId)" data-drugname="@item.DrugName"
+                            data-drugmodel="@item.DrugModel" data-py="@(item.PyCode.ToLower())">
+                            <div><img src="@(item.DefDrugImg)" width="40" /></div>
+                            <div class="ah-mcdrug-items">
+                                <div class="drugName">@item.DrugName</div>
+                                <div class="drugModel">@item.DrugModel</div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+}

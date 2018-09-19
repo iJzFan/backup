@@ -1,0 +1,82 @@
+﻿@model IEnumerable<DoctorSEntityV01>
+@inject CHIS.Services.DoctorService _dctrSvr
+@{
+    var u = this.GetUserSelf();
+    var agent = Context.Request.Headers[Microsoft.Net.Http.Headers.HeaderNames.UserAgent].ToString().ToLower();
+    var isAndroid = agent.IndexOf("android") > 0;
+    var appIds = string.Join(',', Model.Select(m => m.DoctorAppId));
+    var defRxDoctorId = _dctrSvr.GetMyRxDoctors(u.StationId).FirstOrDefault(m => m.IsRxDefault).DoctorId;
+}
+@foreach (var item in Model)
+{
+    <div class='ah-doctor-items'>
+        <div class='ah-flex ah-doctor-main'>
+            <div class=' layui-anim ah-doctor-bj' data-rxdoctorid="@defRxDoctorId"  data-doctorid="@item.DoctorId" data-defdepartmentid="@item.DefDepartmentId">
+                <div class='ah-doctor-pic' eleid="docpicapp_@item.DoctorAppId" style='background:url(@item.DoctorPhotoUrl)'>
+
+                </div>
+                <div class="ah-flex-auto" style="overflow:hidden;">
+                    <div class='doctorName'>@item.DoctorName</div>
+                    <div><span class='postTitleName'>@item.PostTitleName</span></div>
+                    <div class="doctorRmk">
+                        @if (item.DoctorSkillRmk.Count() > 37)
+                        {
+                            @item.DoctorSkillRmk.Substring(0, 37)<span>...</span>
+                        }
+                        else
+                        {
+                            @item.DoctorSkillRmk
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="ah-flex ah-doctor-active">
+                <a class="ah-flex" onclick="DrugStoreNureseRegister_DoctorInfo(@item.DoctorId)"><i class="layui-icon">&#xe705;</i>医生介绍</a>
+                @if (isAndroid)
+                {
+                    <button class="ah-flex ah-btn-noborder" onclick="location.href='com.xhw.angelhealth.doctorId:@item.DoctorAppId'"  eleid="vbtn_@item.DoctorAppId"><i class="layui-icon">&#xe6ed;</i>视话咨询</button>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+@if (this.DEBUG())
+{
+    @*<div>@agent</div>*@
+}
+
+
+
+<script>
+    /**/
+    var AppIds = getDoctorList([@appIds], AppIds_rx);
+
+    /**/
+    $(function () {
+        detectDoctorStatus();//侦测医生状态
+    })
+
+    function getDoctorList(arr1, arr2) {
+        if (arr2 == undefined) return arr1;
+        for (var i = 0; i < arr1.length; i++) {
+            for (var j = 0; j < arr2.length; j++) {
+                if (arr1[i] === arr2[j]) {
+                    arr1.splice(i, 1); //利用splice函数删除元素，从第i个位置，截取长度为1的元素
+                }
+            }
+        }
+        for (var i = 0; i < arr2.length; i++) {
+            arr1.push(arr2[i]);
+        }
+        return arr1;
+    }
+</script>
+

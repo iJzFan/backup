@@ -1,0 +1,292 @@
+﻿@using Ass
+@model CHIS.Models.ViewModels.PatientDetailViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var mWhereList = myRazor.GetSelectListItemsByDictKey("DrugGivenWhereType");
+    var mTimeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTimeType");
+    var mTakeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+
+    var umgr = this.GetUserMgr();
+    var isCanCharge = umgr.IsMenuAllowed("OutpatientCharge");
+
+}
+@section links{
+    <link href="~/lib/jquery-ui/themes/base/autocomplete.css" rel="stylesheet" />
+
+    <style>
+        .ah-main-content {
+            padding: 0;
+            border: none;
+            margin-bottom: 0;
+        }
+
+        .layui-tab-title li {
+            color: #666;
+        }
+
+        .ah-main-content {
+            background: none;
+        }
+
+        .glyphicon-remove {
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .glyphicon-remove:hover {
+            color: #4780eb !important;
+        }
+    </style>
+}
+<div class="ah-flex ah-flex-auto ah-patient-wrap">
+    <div class="ah-patient-sidebar">
+        <div class="ah-patient-user-wrap">
+            <div class="ah-postion-relative">
+                <img src="@(myRazor.GetCustomerDefImagePath(Model.CHIS_Code_Customer.PhotoUrlDef, Model.CHIS_Code_Customer.Gender))" class="ah-patient-pic">
+                @if (Model.CHIS_Code_Customer.IsVIP == true)
+                {
+                    <i class="ah-icon-vip" style="position:absolute;top:3px;right:3px;" title="@(Model.CHIS_Code_Customer.VIPcode)"></i>
+                }
+                <div class="ah-patient-user">
+                    <span>@(Model.CHIS_Code_Customer.CustomerName)</span>
+                    <span>@(Model.CHIS_Code_Customer.Gender?.ToGenderString())</span>
+                    <span>@(Model.CHIS_Code_Customer.Birthday?.ToAgeString())</span>
+                </div>
+            </div>
+            <div class="ah-patient-u-active">
+                @*<a onclick="modifyCustomerInfo('@Model.CHIS_Code_Customer.CustomerID')">完善信息</a>*@
+                <a target="_blank" asp-action="MyMedicalRecords" asp-controller="MedicalLib" asp-route-customerId="@Model.CHIS_Code_Customer.CustomerID">病历</a>
+            </div>
+        </div>
+        <div class="ah-patient-info">
+            <div class="ah-patient-input-wrap">
+                <span>身高:</span>
+                <input type="text" ah-input-key="Height" value="@(Model.DoctorTreat.Height)" />
+                <span>cm</span>
+            </div>
+            <div class="ah-patient-input-wrap">
+                <span>体重:</span>
+                <input type="text" ah-input-key="Weight" value="@(Model.DoctorTreat.Weight )" />
+                <span>kg</span>
+            </div>
+            <div class="ah-patient-input-wrap">
+                <span>体温:</span>
+                <input type="text" ah-input-key="Temperature" value="@(Model.DoctorTreat.Temperature )" />
+                <span>℃</span>
+            </div>
+            <div class="ah-patient-input-wrap">
+                <span>呼吸:</span>
+                <input type="text" ah-input-key="RespiratoryPerMinute" value="@(Model.DoctorTreat.RespiratoryPerMinute)" />
+                <span>次/分</span>
+            </div>
+            <div class="ah-patient-input-wrap">
+                <span class="ah-postion-relative">血压:<span class="ah-bloodPress-h">高</span></span>
+                <input type="text" ah-input-key="BloodPress_H" value="@(Model.DoctorTreat.BloodPress_H)" />
+                <span>mmHg</span>
+            </div>
+            <div class="ah-patient-input-wrap">
+                <span class="ah-postion-relative">血压:<span class="ah-bloodPress-l">低</span></span>
+                <input type="text" ah-input-key="BloodPress_L" value="@(Model.DoctorTreat.BloodPress_L)" />
+                <span>mmHg</span>
+            </div>
+            <div class="ah-patient-input-wrap">
+                <span>脉搏:</span>
+                <input type="text" ah-input-key="Pulse" value="@(Model.DoctorTreat.Pulse)" />
+                <span>次/分</span>
+            </div>
+            @if (Model.CHIS_Code_Customer.Gender == 0)
+            {
+                <div class="ah-patient-input-wrap">
+                    <span class="ah-patient-input-tips">月经</span>
+                    <span>初潮:</span>
+                    <input type="text" ah-input-key="MenstruationStartOldYear" value="@(Model.DoctorTreat.MenstruationStartOldYear)" />
+                    <span>岁</span>
+                </div>
+                <div class="ah-patient-input-wrap">
+                    <span class="ah-patient-input-tips">月经</span>
+                    <span>周期:</span>
+                    <input type="text" ah-input-key="MenstruationCircleDay" value="@(Model.DoctorTreat.MenstruationCircleDay)" />
+                    <span>岁</span>
+                </div>
+                <div class="ah-patient-input-wrap">
+                    <span class="ah-patient-input-tips">月经</span>
+                    <span>经期:</span>
+                    <input type="text" ah-input-key="MenstruationDays" value="@(Model.DoctorTreat.MenstruationDays)" />
+                    <span>日</span>
+                </div>
+                <div class="ah-patient-input-wrap">
+                    <span>最后日:</span>
+                    <input type="text" ah-input-key="MenstruationDay" value="@(Model.DoctorTreat.MenstruationDay)" />
+                    <span>号</span>
+                </div>
+                <div class="ah-patient-input-wrap">
+                    <span class="ah-patient-input-tips">妊娠</span>
+                    <span>孕有:</span>
+                    <input type="text" ah-input-key="PregnancyNum" value="@(Model.DoctorTreat.PregnancyNum)" />
+                    <span>胎</span>
+                </div>
+                <div class="ah-patient-input-wrap">
+                    <span class="ah-patient-input-tips">妊娠</span>
+                    <span>已产:</span>
+                    <input type="text" ah-input-key="BirthChildrenNum" value="@(Model.DoctorTreat.BirthChildrenNum)" />
+                    <span>胎</span>
+                </div>
+                <div class="ah-patient-input-wrap">
+                    <span class="ah-patient-input-tips">妊娠</span>
+                    <span>育有:</span>
+                    <input type="text" ah-input-key="AliveChildrenNum" value="@(Model.DoctorTreat.AliveChildrenNum)" />
+                    <span>名</span>
+                </div>
+            }
+            <div class="ah-patient-input-wrap  ah-patient-healthInfo">
+                <span>既往史:</span>
+                <input type="text" ah-input-type="TextArea" ah-input-key="PastMedicalHistory" value="@(Model.CustomerHealthInfo.PastMedicalHistory)" />
+            </div>
+            <div class="ah-patient-input-wrap ah-patient-healthInfo">
+                <span>过敏史:</span>
+                <input class="ah-area-gms_1"
+                       type="text" ah-input-type="TextArea" ah-input-key="Allergic"
+                       title="@(Model.CustomerHealthInfo.Allergic)"
+                       value="@(Model.CustomerHealthInfo.Allergic)" />
+            </div>
+        </div>
+    </div>
+    <div class="ah-flex-auto ah-patient-main">
+        <form id="treat_data">
+            @Html.HiddenFor(m => m.DoctorTreat.TreatId)
+            <div class="layui-tab layui-tab-brief" lay-filter="">
+                <ul class="layui-tab-title" style="border-bottom:none;">
+                    <li class="layui-this">主诉与诊断</li>
+                    <li>处置与建议</li>
+                    <li>开药</li>
+                    <li>其他</li>
+                    <li>病假单</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <!--主诉与诊断-->
+                    <div class="layui-tab-item layui-show">
+                        @{
+                            await Html.RenderPartialAsync("_pvPatientDetailBase", Model);
+                        }
+                        @if (Model.SpecialTreat != null)
+                        {
+                            //载入特殊接诊
+                            await Html.RenderPartialAsync($"_pvSt_{Model.RegistDepartment.SpetialDepartTypeVal}", Model.SpecialTreat);
+                        }
+                    </div>
+                    <!--处置与建议-->
+                    <div class="layui-tab-item">
+                        <div class="ah-flex-layout">
+                            <div class="ah-col-md2 ah-flex-data">
+                                <div class="ah-data-label ah-flex ah-space-between">
+                                    处理
+                                </div>
+                                <textarea rows="7" placeholder="输入用药建议" asp-for="DoctorTreat.TreatDoctorMethod" class="layui-textarea"></textarea>
+                            </div>
+                            <div class="ah-col-md2 ah-flex-data">
+                                <div class="ah-data-label ah-flex ah-space-between">
+                                    用药
+                                </div>
+                                <textarea asp-for="DoctorTreat.TreatDoctorUseDrug" rows="7" placeholder="输入用药建议" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="ah-flex-layout">
+                            <div class="ah-col-md2 ah-flex-data">
+                                <div class="ah-data-label ah-flex ah-space-between">
+                                    打针
+                                </div>
+                                <textarea rows="7" placeholder="输入打针建议" asp-for="DoctorTreat.TreatDoctorUseDrip" class="layui-textarea"></textarea>
+                            </div>
+                            <div class="ah-col-md2 ah-flex-data">
+                                <div class="ah-data-label ah-flex ah-space-between">
+                                    随访
+                                </div>
+                                <textarea asp-for="DoctorTreat.TreatDoctorFollowUp" rows="7" placeholder="输入随访建议" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!--开药-->
+                    <div class="layui-tab-item" style="padding:0;">
+                        <div class="ah-max-height ah-patient-drug">
+                            <div class="layui-tab layui-tab-brief ah-postion-relative">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">成药处方<span class="ah-num-mk-@(Ass.Utils.ZeroFlag(Model.FormedList.Count()))" id="formed_pre_num" style="position:absolute;">@(Model.FormedList.Count())</span></li>
+                                    <li>中药处方<span class="ah-num-mk-@(Ass.Utils.ZeroFlag(Model.HerbList.Count()))" id="herb_pre_num" style="position:absolute;">@(Model.HerbList.Count())</span></li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show" id="top_box">
+                                        <a class="ah-add-prescription" href="javascript:void(0)" onclick="AddFormedPrescription();">新增成药处方</a>
+                                        <!--添加成药的数据-->
+                                        @foreach (var item in Model.FormedList)
+                                        {
+                                            await Html.RenderPartialAsync("_pvFormedMain", item);
+                                        }
+                                    </div>
+                                    <div class="layui-tab-item" id="top_box_herbs">
+                                        <a class="ah-add-prescription" href="javascript:void(0)" onclick="AddHerbPrescription();">新增中药处方</a>
+                                        <!--添加中药的数据-->
+                                        @foreach (var item in Model.HerbList)
+                                        {
+                                            await Html.RenderPartialAsync("_pvHerbMain", item);
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--其他-->
+                    <div class="layui-tab-item">
+                        <div ah-id="pvExtraFeesForm">
+                            @await Html.PartialAsync("_pvExtraFees", Model.TreatExtraFees)
+                        </div>
+                    </div>
+                    <!--病假单-->
+                    <div class="layui-tab-item">
+                        <div ah-id="pvSickNote">
+                            @await Html.PartialAsync("_pvSickNote", Model.SickNote)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="ah-patient-submit ah-flex">
+        <div id="fee_sumary" class="ah-patient-fee">
+            @{ await Html.RenderPartialAsync("_pvFeeSumary", Model.FeeSumary); }
+        </div>
+        <a class="ah-phone-hide" ahd-role="RefreshFeeSumary" style="font-size:1.2em" title="刷新"><i class="fa fa-refresh"></i></a>
+        <div class="ah-flex-fill"></div>
+
+        <div class="ah-patient-active ah-flex">
+            <a asp-action="Patientvisit">返回</a>
+            <a onclick="treatCMD(0)">取消接诊</a>
+            <a onclick="treatCMD(1)">暂存</a>
+            <a class="ah-patient-active-blue" onclick="treatCMD(2)">接诊完毕</a>
+        </div>
+    </div>
+    <div class="ah-patient-tofoot" onclick="foot()"></div>
+</div>
+<div ah-id="ah-multiple-wrap" class="ah-forme-multiple ah-fMultiple-hide"></div>
+@section scripts{
+    <environment names="Development">
+        <script src="~/lib/jquery-ui/ui/widget.js"></script>
+        <script src="~/lib/jquery-ui/ui/widgets/autocomplete.js"></script>
+        <script src="~/lib/jquery-ui/ui/jquery-ui.min.js"></script>
+        <script src="~/js/pages/patient-visit-patient-detail.js"></script>
+        <script src="~/js/pages/select-fmultiple-drug.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" src="~/js/pages/ahzp-patient-detail.min.js"></script>
+    </environment>
+    <script type="text/javascript">
+        var pagedata = {
+            currentModalWin: -1,
+            treatId: '@(Model.DoctorTreat.TreatId)',
+            isCanCharge: '@(isCanCharge)' == "True",
+            main: $('body[ah-body="wrap"]').find(".ah-wrap").first(),
+        };
+    </script>
+}

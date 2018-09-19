@@ -1,0 +1,50 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_Charge_Pay>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+ @{
+ 
+}
+@if (!Model.HaveRecords)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th width="250px">订单编号</th>
+                <th>用户名</th>
+                <th>联系方式</th>
+                <th style="text-align:right;padding-right:20px;">支付金额</th>
+                <th>支付时间</th>
+                <th class="ah-tr-hide">备注</th>
+                <th>明细</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.PayOrderId</td>
+                    <td>@(item.CustomerName) ( @(item.Gender?.ToGenderString()) )</td>
+                    <td>@item.CustomerMobile</td>
+                    <td style="text-align:right;padding-right:20px;">￥@item.TotalAmount</td>
+                    <td>@item.PayedTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="ah-tr-hide">@item.PayRemark</td>
+                    <td><span class="ah-linkbg"><a onclick="loadDetail(event,'@item.PayId')">查看明细</a></span></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <div><span>共计 @(Model.RecordTotal) 条 / @(Model.PageTotal) 页</span></div>
+}
+@ViewBag.DebugText
+<script>
+    $("#pager").ahPages(@(Model.RecordTotal),@(Model.PageIndex), @(Model.PageTotal));
+  
+    function loadDetail(e, id) {
+        SEARCH.loadRowDetail(e, '/Charge/ChargeListDetail?payId=' + id);
+    }
+</script>

@@ -1,0 +1,14 @@
+﻿@model ah.Models.ViewModel.MyFollowsViewModel
+@{
+    Layout = null;
+}
+<div class="layui-tab-item layui-show">
+    <div class="ah-myfollow-lists ah-flex">
+        @await Html.PartialAsync("_pvDoctorList", Model.Doctors)
+    </div>
+</div>
+<div class="layui-tab-item">
+    <div class="ah-myfollow-lists ah-flex">
+        @await Html.PartialAsync("_pvStationList", Model.Stations)
+    </div>
+</div>

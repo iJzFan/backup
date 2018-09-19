@@ -1,0 +1,150 @@
+﻿@model ah.Models.ViewModel.WechatBindingModel
+@{
+    ViewData["Title"] = "选择会员";
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutBase.cshtml";
+
+    var cusList = ViewBag.Customers as IEnumerable<vwCHIS_Code_Customer>; //查找到的用户
+}
+@section links{
+<link href="~/lib/jquery-weui/jquery-weui.css" rel="stylesheet" />
+<link href="~/lib/jquery-weui/weui.min.css" rel="stylesheet" />
+    <style>
+        .bg {
+            padding: 10px;
+            font-size: 12px;
+        }
+
+            .bg > h4 { 
+                background: #ccc;
+                padding: 6px;
+                margin-top: 0;
+            }
+
+        .ah-app-readonly {
+            border: none;
+            background: transparent;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .ah-app-middle {
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+
+        img.upic {
+            border-radius: 100px;
+            width: 40%;
+            margin: 9px;
+        }
+
+        .uname {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #198e7c;
+        }
+
+        .gd {
+            margin: 5px;
+        }
+
+        .ah-input-group {
+            width: 100%;
+            position: relative;
+            margin-bottom: 9px;
+        }
+
+        .input-validation-error {
+            border-color: #ee2222;
+        }
+
+        .field-validation-error {
+            color: #ee2222;
+        }
+        .identify-code {
+            margin-top: 15px;
+            display: flex;
+        }
+        input {
+            height:40px!important;
+        }
+        .form-inline .form-group {
+            display: inline-block;
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+        .weui-cell__bd p{
+            margin:0;
+        }
+        .validation-summary-errors{color:#ee2222;font-size:12px;}
+    </style>
+}
+
+<div class="bg">
+    <form method="post" asp-action="WechatChooseCustomer" asp-controller="Home">
+        <input type="hidden" asp-for="openid" /> @* openid *@
+        <input type="hidden" name="CustomerId" id="CustomerId" data-rule-required="true" /> @*customerId*@
+        <input type="hidden" asp-for="mobile" /> @*mobile*@
+        <div class="ah-app-middle">
+            <img class="upic" src="@Model.WxPicUrl" />
+            <input type="hidden" asp-for="WxPicUrl" />
+        </div>
+        <div class="ah-app-middle">
+            <span class="uname">@Model.NickName @if (Model.Gender == 1) { <span class="uname">♂</span>}else{<span class="uname">♀</span>}</span>
+            <input type="hidden" asp-for="NickName" />
+        </div>
+        <div class="ah-app-middle" style="display:none;">
+            <label class="gd"> <input type="radio" asp-for="Gender" value="0" />&nbsp;女</label>
+            <label class="gd"> <input type="radio" asp-for="Gender" value="1" />&nbsp;男</label>
+            @Html.ValidationMessageFor(m => m.Gender)
+        </div>
+        <hr />
+   
+        
+        <div class="weui-cells__title">
+          <b>请选择并核实个人信息，如非本人，请点击</b>&nbsp;<a asp-controller="Home" asp-action="WechatRegister" asp-area="Customer" asp-route-mobile="@Model.mobile" >注册</a>
+        </div>
+        <div class="weui-cells weui-cells_radio" id="select_customer">
+            @foreach (var item in cusList)
+            {
+                <label class="weui-cell weui-check__label" for="@(item.CustomerID)" onclick="ChangeCustomerId(@(item.CustomerID))">
+                    <div class="weui-cell__bd">
+                        <p>@(item.CustomerName.ToMarkString(Ass.Models.MaskType.UserName))
+                        <span>@(item.Gender?.ToGenderString())</span>
+                        <span>@(item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode))</span>
+                        </p>                       
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input type="radio" class="weui-check" name="radio1" id="@(item.CustomerID)" checked="checked">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                </label>
+            }             
+            @Html.ValidationSummary(true)
+
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px;"> 绑定 </button>
+        </div>
+        
+    </form>
+</div>
+
+
+
+@section scripts{
+<script src="~/lib/jquery-weui/fastclick.js"></script>
+<script src="~/lib/jquery-weui/jquery-weui.js"></script>
+    <script>
+        $(function () {
+            $("form").validate();
+            FastClick.attach(document.body);
+
+            var cusId = $("#select_customer").find("input[name='radio1']:checked").attr("id");
+            $("#CustomerId").val(cusId);
+        });       
+
+        function ChangeCustomerId(customerId) {
+            $("#CustomerId").val(customerId);            
+        }
+    </script>
+}

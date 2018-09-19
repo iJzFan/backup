@@ -1,0 +1,218 @@
+﻿@model ah.Models.vwCHIS_Data_PsychPretreatQs
+@{
+    ViewData["Title"] = "预约";
+    Layout = "../Shared/_LayoutAppointment.cshtml";
+
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+@section links{
+    <link href="~/customer/css/pages/appointment-psy-questionnaire.css" rel="stylesheet" />
+    <style></style>
+}
+<form id="savaPsychPretreatForm">
+    <input type="hidden" id="formData" />
+    @Html.HiddenFor(m=>m.DoctorId)
+    @Html.HiddenFor(m => m.CustomerId)
+    <div class="psy-wrap">
+        <div class="psy-text-wrap" style="padding-right: 30px;">
+            <a onclick="PSY.closePsy()" class="ah-back-link"><i class="fa fa-backward"></i> 忽略并返回</a>
+            <div class="psy-title">来访者登记表</div>
+            <div class="psy-text-title">
+                <i class="glyphicon glyphicon-th-large"></i>基本信息
+            </div>
+            <div class="psy-main-wrap">
+                <div class="psy-input-wrap">
+                    <label class="title-label">姓名：</label>
+                    <div class="input-wrap">
+                        <input class="psy-input" asp-for="CustomerName" type="text" placeholder="请填写姓名，方便我们称呼您"
+                               data-rule-required="true" data-msg-required="请填写姓名称呼" />
+                    </div>
+                </div>
+                <div class="psy-input-wrap">
+                    <label class="title-label">性别：</label>
+                    <div class="input-wrap">
+                        <select class="form-control border3" asp-for="Gender" data-rule-required="true" data-msg-required="请选择性别">
+                            <option value="">请选择</option>
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="psy-input-wrap">
+                    <label class="title-label">出生年月：</label>
+                    <div class="input-wrap">
+                        <input type="text" class="psy-input" required asp-for="Birthday" placeholder="yyyy-MM-dd 比如1985-06-18"
+                               asp-format="{0:yyyy-MM-dd}"
+                               data-rule-required="true" data-msg-required="请填写出生日期，可计算年龄，年龄是很重要的数据"
+                               data-rule-date="true" />
+                    </div>
+                </div>
+                <div class="psy-input-wrap">
+                    <label class="title-label">宗教：</label>
+                    <div class="input-wrap">
+                        <input class="psy-input" type="text" asp-for="Religion" placeholder="请填写宗教"
+                               data-rule-required="true" data-msg-required="请填写宗教" />
+                    </div>
+                </div>
+                <div class="psy-input-wrap">
+                    <label class="title-label">手机：</label>
+                    <div class="input-wrap">
+                        <input class="psy-input" type="text" asp-for="CustomerMobile" placeholder="请填写您的真实手机"
+                               data-rule-required="true" data-msg-required="请填写您的手机方便为您服务"
+                               data-rule-mobile="true" />
+                    </div>
+                </div>
+                <div class="psy-input-wrap psy-input-autoW">
+                    <label class="title-label">住址：</label>
+                    <div class="input-wrap">
+                        <div id="cty" class="psy-cty-wrap">
+                            <select class="prov form-control" style="margin-right:10px;"></select>
+                            <select class="city form-control" style="margin-right:10px;"></select>
+                            <select class="dist form-control"></select>
+                            <input type="hidden" name="AreaId" id="AreaId" data-rule-required="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="psy-text-wrap">
+            <div class="psy-text-title">
+                <i class="glyphicon glyphicon-cog"></i>职业信息
+            </div>
+            <div class="psy-main-wrap">
+                <div class="psy-input-wrap">
+                    <label class="title-label">职业：</label>
+                    <div class="input-wrap">
+                        <input class="psy-input" type="text" asp-for="Occupation" placeholder="请填写职业"
+                               data-rule-required="true" data-msg-required="请填写职业" />
+                    </div>
+                </div>
+                <div class="psy-input-wrap psy-input-autoW">
+                    <label class="title-label">职业描述：</label>
+                    <div class="input-wrap">
+                        <textarea class="psy-textarea" maxlength="250" asp-for="WorkStatus" placeholder="请填写职业工作描述"
+                                  data-rule-required="true" data-msg-required="请填写职业工作描述"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="psy-text-wrap">
+            <div class="psy-text-title">
+                <i class="glyphicon glyphicon-book"></i>教育信息
+            </div>
+            <div class="psy-main-wrap">
+                <div class="psy-input-wrap">
+                    <label class="title-label">教育程度：</label>
+                    <div class="input-wrap">
+                        @{
+                            var EduLevel = myRazor.GetSelectListItemsByDictKey("EduLevel");
+                        }
+                        <select class="form-control border3" asp-for="EduLevel" asp-items="EduLevel" data-rule-required="true" data-msg-required="请选择教育程度">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="psy-input-wrap">
+                    <label class="title-label">就读学校：</label>
+                    <div class="input-wrap">
+                        <input class="psy-input" type="text" asp-for="TopSchool" placeholder="请填写就读学校"
+                               data-rule-required="true" data-msg-required="请填写就读学校" />
+                    </div>
+                </div>
+                <div class="psy-input-wrap psy-input-autoW">
+                    <label class="title-label">教育描述：</label>
+                    <div class="input-wrap">
+                        <textarea class="psy-textarea" maxlength="250" asp-for="StudyStatus" placeholder="请填写教育描述"
+                                  data-rule-required="true" data-msg-required="请填写教育描述"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="psy-text-wrap">
+            <div class="psy-text-title">
+                <i class=" glyphicon glyphicon-heart"></i>婚姻信息
+            </div>
+            <div class="psy-main-wrap">
+                <div class="psy-input-wrap">
+                    <label class="title-label">婚姻状况：</label>
+                    <div class="input-wrap">
+                        @{
+                            var Marriage = myRazor.GetSelectListItemsByDictKey("Marriage");
+                        }
+                        <select class="form-control border3" asp-for="MarriageId" asp-items="Marriage" data-rule-required="true" data-msg-required="请选择婚姻情况">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="psy-input-wrap">
+                    <label class="title-label">孕育子女：</label>
+                    <div class="input-wrap">
+                        <div class="psy-children">
+                            孕<span><input type="text" asp-for="PregnancyNum" /></span>
+                        </div>
+                        <div class="psy-children">
+                            产<span><input type="text" asp-for="BirthChildrenNum" /></span>
+                        </div>
+                        <div class="psy-children">
+                            育<span><input type="text" asp-for="AliveChildNum" /></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="psy-input-wrap psy-input-autoW">
+                    <label class="title-label">婚姻描述：</label>
+                    <div class="input-wrap">
+                        <textarea class="psy-textarea" maxlength="250" asp-for="MarrageStatus" placeholder="请填写婚姻描述"
+                                  data-rule-required="true" data-msg-required="请填写婚姻描述"></textarea>
+                    </div>
+                </div>
+                <div class="psy-input-wrap psy-input-autoW">
+                    <label class="title-label">子女描述：</label>
+                    <div class="input-wrap">
+                        <textarea class="psy-textarea" maxlength="250" asp-for="ChildStatus" placeholder="请填写子女描述"
+                                  data-rule-required="true" data-msg-required="请填写子女描述"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="psy-text-wrap">
+            <div class="psy-text-title">
+                <i class="glyphicon glyphicon-dashboard"></i>咨询原因
+            </div>
+            <textarea class="psy-textarea" maxlength="250" asp-for="NeedTreatCause" placeholder="请填写咨询原因"
+                      data-rule-required="true" data-msg-required="请填写咨询原因"></textarea>
+        </div>
+
+        <div class="psy-text-wrap">
+            <div class="psy-text-title">
+                <i class="glyphicon glyphicon-time"></i>预期结果
+            </div>
+            <textarea class="psy-textarea" maxlength="250" asp-for="ExpectRlt" placeholder="请填写预期结果"
+                      data-rule-required="true" data-msg-required="请填写预期结果"></textarea>
+        </div>
+
+        <div class="psy-info-sub">
+            <a class="return-btn app" onclick="PSY.closePsy()">忽略并返回</a>
+            <button class="sub-btn" type="submit">提交</button>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script src="~/customer/js/pages/appointment-psy-questionnaire.js"></script>
+    <script>
+        $(function () { 
+            $.set3LevelAddress({
+                $province: $('#cty .prov'),
+                $city: $('#cty .city'),
+                $county: $('#cty .dist'),
+                $val: $('#cty #AreaId')
+            });
+        })
+    </script>
+}

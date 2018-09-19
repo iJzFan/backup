@@ -1,0 +1,35 @@
+﻿@model Ass.Mvc.PageListInfo<PayedItem>
+@{    var u = this.GetUserSelf();
+    var isDrugStoreNurse = u.MyRoleNames.Contains("drugstore_nurse");
+    var bchecked = u.MyRoleNames.Contains("treat_nurse") || u.MyRoleNames.Contains("treat_nuse_adv");
+}
+@*已支付*@
+<form class="charge-search-wrap">
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data" style="padding-right:0;">
+@if (!isDrugStoreNurse)
+{
+            <div class="ah-data-label ah-flex ah-space-between">
+                <input ah-id="bAllClinic-Pay" name="bAllClinic" @Html.Raw(Ass.P.PBool(ViewBag.IsAllClinic) ? "checked=checked" : "") lay-skin="primary" title="包括整个诊所" type="checkbox"  @Html.Raw(bchecked?"checked":"")>
+            </div> 
+}
+
+            <div class="ah-search-group">
+                <input id="search_pay_input" class="ah-data-input" name="searchText" placeholder="请输入用姓名" type="text" value="@ViewBag.SearchText">
+                <button class="ah-btn-search" type="button" onclick="CHARGE.getChargeListPayed(this);"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
+<ul class="ah-user-items">
+    @foreach (var item in Model.DataList)
+    {        
+        <li onclick="CHARGE.chargePayedInfo(@item.PayId);setShow(false,this);" class="ah-flex">
+            <img src="@item.CustomerPic" class="ah-user-item-pic">
+            <div class="ah-user-item-main">
+                <div>@(item.CustomerName)(￥@item.TotalAmount)</div>
+                <div>缴费时间：@(item.PayedTime.ToStdString())</div>
+            </div>
+        </li>
+    }
+</ul>

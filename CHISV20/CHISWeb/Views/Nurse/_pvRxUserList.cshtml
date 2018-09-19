@@ -1,0 +1,43 @@
+﻿@model IEnumerable<RxUserViewModel>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var u = this.GetUserSelf();
+}
+<div class="ah-rxDrugSave-userWrap">
+    @{
+        List<RxUserViewModel> list = new List<RxUserViewModel>();
+        list = Model.ToList();
+
+        var routeId = @Html.ViewContext.RouteData.Values["id"];
+        long rxSaveId = 0;
+        if (routeId != null)
+        {
+            rxSaveId = Convert.ToInt64(routeId.ToString());
+        }
+    }
+    @for (int i = 0; i < list.Count(); i++)
+    {
+        <div class="ah-rxDrugSave-userItems ah-flex">
+            <img src="/images/pport.png" class="ah-user-item-pic">
+            <div class="info ah-flex">
+                <div>@list[i].CustomerName</div>
+                <div>@list[i].CustomerIdCode</div>
+            </div>
+            @if (list[i].RxSaveId == rxSaveId)
+            {
+                <div class="ah-data-div">已选择</div>
+            }
+            else
+            {
+                <a class="ah-flex" href="/Nurse/RxDrugSave/@list[i].RxSaveId">选择</a>
+            }
+
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+
+    })
+</script>

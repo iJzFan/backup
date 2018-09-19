@@ -1,0 +1,93 @@
+﻿*{margin:0;padding:0;list-style-type:none}
+a,img{border:0;text-decoration:none}
+.content-wrap{position:absolute;bottom:0;top:53px;left:0;right:0;display:flex;padding:10px;background:#f0f0f0;color:#666;min-width:1000px}
+.wrap_left{display:flex;flex-direction:column;flex:1}
+.base_infor{display:flex;flex-flow:column nowrap;padding-left:15px}
+.title{display:flex;flex-direction:column;line-height:35px;color:#005293;font-weight:800;padding:5px 0}
+.base_img{display:flex;flex-direction:row;width:128px;height:128px;margin-left:15px}
+.base_detail{display:flex;flex:1;flex-flow:row wrap;padding-left:10px}
+.wrap_right{display:flex;flex-direction:column;padding:0 20px;min-width:300px}
+.searchbox{display:flex;flex-direction:column;padding:0 20px;height:80px;border-bottom:1px solid #ccc}
+.wrap_row{display:flex;align-content:center;justify-content:center}
+.base_content{display:flex;flex-direction:row}
+.items{display:flex;line-height:30px;padding:5px}
+.items a{line-height:30px;color:#666;font-size:12px;font-weight:700;text-decoration:none}
+.items a.selected{color:#005293}
+.search{display:flex;align-content:center;justify-content:center}
+.search input{height:30px;line-height:30px;padding:0 10px}
+.search .one{border:#000 3px solid}
+.search .one1{background-color:#000}
+.search button{flex-direction:column-reverse;border:0;height:30px;flex:1;padding:0 5px;color:#FFF;line-height:30px;text-align:center;overflow:hidden}
+.wrap_list{display:flex;flex-direction:column;align-content:center;justify-content:center}
+.wrap_list li {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    line-height: 45px;
+    background: #337ab7;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+.wrap_list li img {
+    width: 40px;
+    position: relative;
+    border: 2px solid #fff;
+    padding: 2px;
+}
+.wrap_list li .dimg{line-height:32px;}
+.wrap_list li .dt{line-height:20px;width:calc(100% - 36px);}
+.wrap_list li .uname{margin-left:5px;font-size:12px;font-weight:600;}
+.wrap_list li .data{margin-left:5px;}
+.payed-li {
+    background: #26a69a !important;
+}
+.charge-search-wrap{
+    margin:8px 0px;
+}
+.table>tbody>tr>td{line-height:30px;border:none}
+.otherCharge{display:flex;align-content:flex-start;flex-direction:row}
+.otherCharge span{margin-right:25px;line-height:30px}
+.sendBtn{display:flex;align-content:flex-end;justify-content:flex-end;padding-right:15px}
+.table-set{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main_detail{padding-left:10px}
+.pagination>li{display:inline;border-bottom:none!important}
+.ah-address-bg{border-bottom:1px solid #ff6a00}
+.charge-flex{display:flex}
+.charge-index {background-image: url(../../images/bg/drugs_bg.png);height: 100%;background-repeat: no-repeat;background-position-y: bottom;}
+.SubChargeDetails{display:flex;position:relative}
+.SubChargeDetails a{background-image:url(../../images/1ccefb0be294587892268d5b6598cccb.png);color:#fff;height:43px;width:126px;cursor:pointer;display:flex;background-size:100% 100%;position:absolute;top:61px;right:0;line-height:29px;justify-content:center;font-size:14px;font-weight:700;box-shadow:0 1px 0 #888}
+.SubChargeDetails span{font-size:24px}
+.SubChargeDetails span::before{content:"￥";font-family:Arial}
+.charge-wrap{height:100%;display:flex}
+.charge-list-wrap{flex:1;margin-right:10px}
+.charge-refund-wrap{width:300px;display:flex;flex-direction:column}
+.charge-details-wrap{height:100%;display:flex;flex-direction:column}
+.charge-main-title{color:#005293;font-weight:700}
+.charge-user-wrap{display:flex}
+.charge-userPic-wrap{background-image:url(../../images/bg/bg.jpg);background-position:100% 100%;height:156px;margin-bottom:10px;position:relative;display:flex;align-items:center;padding:0 20px;color:#FFF;border-radius:5px}
+.charge-userPic-wrap-payed{background-image:url(../../images/bg/green_bg.jpg);background-position:100% 100%;height:156px;margin-bottom:10px;position:relative;display:flex;align-items:center;padding:0 20px;color:#FFF;border-radius:5px}
+.charge-user-pic{width:96px;height:96px;border:3px solid #fff;margin-right:30px;border-radius:50%}
+.charge-customer-data{margin-right:15px}
+.charge-data-margin-bottom-10{margin-bottom:10px}
+.charge-table-layout{table-layout:fixed;width:100%;margin-bottom:10px}
+.charge-table-pNo{height:30px}
+.charge-table-title{font-weight:700;background:#dee1e3;color:#727677;height:30px}
+.charge-table-title td{padding:0 10px}
+.charge-table-text{color:#666;height:30px;border-bottom:1px solid #e9e9e9}
+.charge-table-text:hover{background:#7c9eb1;color:#fff}
+.charge-table-text td{padding:0 10px}
+.charge-table-amount{text-align:right;padding-right:10px}
+.charge-table-amount span{font-size:16px;font-family:Arial;color:#ff6a00;font-weight:700}
+.charge-table-amount span::before{content:"￥";font-family:Arial}
+.charge-prescriptionNo{color:#ff6a00}
+.ah-charge-otherpay, .ah-charge-otherpay span,
+ .ah-charge-otherpay td, .ah-charge-otherpay b
+{color:#ccc!important;}
+.ah-charge-otherpay tbody tr:hover{background:transparent;}
+
+.charge-checkbox-label{display:flex;align-items:center;}
+.icheckbox_square-blue{margin-right:10px;}
+.icheckbox_square-green{margin-right:10px;}

@@ -1,0 +1,45 @@
+﻿@using Ass;
+@{ 
+ 
+}
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor 
+
+<div class="container">
+     <form method="post">
+         <input type="text" name="arr[0]" value="aaaa2" />
+         <input type="text" name="arr[1]" value="bbbb1" />
+         <input type="text" name="arr[2]" value="aaaa2" />
+         <input type="text" name="arr[3]" value="aaaa3" />
+         <input type="text" name="arr[4]" value="aaaa4" />
+         <input type="text" name="arr[5]" value="aaaa5" />
+         <input type="text" name="arr[6]" value="aaaa6" />
+         <input type="text" name="arr[7]" value="aaaa7" />
+         <input type="text" name="arr[8]" value="aaaa8" />
+         <input type="text" name="arr[9]" value="aaaa9" />
+         <input type="text" name="arr[12]" value="aaaa12" />
+         <button type="submit">提交</button>
+     </form>
+    <form method="post" asp-action="ReturnView" >
+        <button type="button" onclick="smt();">提交</button>
+    </form>
+    <div id="rlt">
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        function smt() {
+            $.post("/Examples/ReturnView", {}, function (jn) { 
+                 
+                if (jn.rlt) {
+                    $('#rlt').html(jn.html);
+                } else alert(jn.msg);
+            },"json");
+        }
+
+
+    </script>
+}

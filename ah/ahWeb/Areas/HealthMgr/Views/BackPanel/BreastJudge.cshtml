@@ -1,0 +1,165 @@
+﻿@model ah.Models.ViewModel.AHMSLoginAccountViewModel
+@{
+    var bMgr = (vwAHMS_HMGR_BreastMgr)ViewBag.BreastMgr;//乳腺癌管理的数据
+    var qMain = (AHMS_QAFlow_Main)ViewBag.QuestionMain;//乳腺癌的问卷主表
+    var qList = (IEnumerable<vwAHMS_QAFlow_Main_detail>)ViewBag.QuestionList;//乳腺癌问卷的详细
+}
+@section links{
+    <style>
+        .judge-wrap {
+            display: flex;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            flex-direction: column;
+        }
+        .judge-title {
+            display: flex;
+            height: 40px;
+            line-height: 40px;
+            margin-bottom: 10px;
+        }
+        .judege-title-icon {
+            color: #009688;
+        }
+        .judege-title-text {
+            color: #828282;
+        }
+        .judge-data-wrap {
+            display:flex;
+        }
+        .judge-data-title {
+            width:190px;        
+        }
+        .judge-content-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            line-height: 22px;
+        }
+        .QAItem-wrap {
+            width: 50%;
+            display: flex;
+        }
+        .QAItem-title {
+            width: 155px;
+            text-align: right;
+            margin-right: 25px;
+        }
+        .QAItem-value {
+            color: #ff9800;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .judege-select-wrap {
+        
+        }
+        .judege-select-wrap select {
+            border: 1px solid #ccc;
+            width: 220px;
+            height: 40px;
+        }
+    </style>
+}
+<input type="hidden" id="BreastMgrId" value="@bMgr.BreastMgrId" />
+<div class="judge-wrap">
+    <div class="judge-title">
+        <div class="judege-title-icon">
+            <i class="glyphicon glyphicon-file"></i>问卷结果
+        </div>
+        <div class="judege-title-text"> - 乳腺癌调查问卷</div>
+    </div>
+    <div class="judge-content-wrap">
+        @{
+            var nulllist = qList.Where(m => m.MainItemId == null);
+            var list = qList.Where(m => m.MainItemId > 0).OrderBy(m => m.MainItemId);
+        }
+        @foreach (var item in nulllist)
+        {
+            <div class="QAItem-wrap">
+                <span class="QAItem-title">@item.QName - </span>
+                <span class="QAItem-value">@item.QAItemValue</span>
+            </div>
+        }
+
+        @{
+            int? nowMainItemId = null;
+            foreach (var item in list)
+            {
+
+                @if (nowMainItemId != item.MainItemId)
+                {
+                    nowMainItemId = item.MainItemId;
+                    <div class="QAItem-wrap">
+
+                        <span class="QAItem-title">@item.MainTitle - </span>
+                        <span class="QAItem-value">
+                            @{
+                                foreach (var i in list)
+                                {
+                                    @if (i.MainItemId == item.MainItemId)
+                                    {
+                                        <span>@i.QName - @i.QAItemValue</span>
+                                    }
+                                }
+                            }
+                        </span>
+                    </div>
+                }
+            }
+        }
+
+    </div>
+    <div class="judge-title">
+        <div class="judege-title-icon">
+            <i class="glyphicon glyphicon-file"></i>等级评定
+        </div>
+        <div class="judege-title-text">
+            - 慢性病等级评定
+        </div>
+    </div>
+    <div class="judege-select-wrap">
+        <select asp-for="@bMgr.BreastMgrLevel" id="BreastMgrLevel" >
+            <option value="">请评定等级</option>
+            <option value="1">一级</option>
+            <option value="2">二级</option>
+            <option value="3">三级</option>
+            <option value="4">四级</option>
+        </select>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            
+        });
+        function submitForm() { 
+            var win = this;
+            var BreastMgrId = $("#BreastMgrId").val();
+            var level = $("#BreastMgrLevel").val();
+            $.ajax({
+                type: "post",
+                url: "/HealthMgr/BackPanel/SetBreastJudge",
+                data: {
+                    BreastMgrId: BreastMgrId,
+                    level: level
+                },
+                dataType: "json",
+                success: function (jn) {
+                    console.log(jn);
+                    if (jn.rlt) { 
+                        layer.msg("修改成功！")
+                        win.parent.location.reload();
+                    }
+                }
+            });
+        }
+    </script>
+}

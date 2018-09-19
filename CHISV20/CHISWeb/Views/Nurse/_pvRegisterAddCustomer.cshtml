@@ -1,0 +1,142 @@
+﻿@model RegistNewCustomerViewModel
+<form id="new_cus_form" method="post" asp-action="AddCustomer" asp-controller="Nurse" asp-area="" ah-role-method="ajax" ah-success-callback="sendSuccess" ah-fail-callback="failAddCustomer">
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">姓名</div>
+            <input class="ah-data-input" placeholder="请输入会员姓名" type="text" asp-for="Customer.CustomerName" onchange="changeSetLoginName">
+            <span class="ah-data-tips" asp-validation-for="Customer.CustomerName"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">性别</div>
+            <select role-initial="false" class="ah-data-select" asp-for="Customer.Gender" onchange="changeSetLoginName">
+                <option value="">请选择</option>
+                <option value="1">男</option>
+                <option value="0">女</option>
+                <option value="2">其他</option>
+            </select>
+            <span class="ah-data-tips" asp-validation-for="Customer.Gender"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">出生年月</div>
+            <div class="ah-range" style="position:absolute;right:0;">
+                <span>0岁</span>
+                <input type="range" min="0" max="99" oninput="setAgeDay('#Customer_Birthday',this)" style="width:99px;display:inline-block;" />
+                <span>99岁</span>
+                <i></i>
+            </div>
+            <input class="ah-data-input ah-date ah-data-can-input" placeholder="请输入会员出生年月" type="text" asp-for="Customer.Birthday" onchange="changeSetLoginName"/>
+            <span class="ah-data-tips" asp-validation-for="Customer.Birthday"></span>
+        </div>
+    </div>
+    <section ah-role-validate="require_one" class="ah-require-one-group">
+        <h5>以下至少填写任一项</h5>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">联系手机</div>
+                <input class="ah-data-input" placeholder="请输入会员联系方式" type="text" asp-for="Customer.CustomerMobile">
+                <span asp-validation-for="Customer.CustomerMobile"></span>
+            </div>
+        </div>
+        <div class="ah-flex-layout" style="flex-direction:row-reverse">
+            <a onclick="$.moreToggle('#keymore',this);"><i class="fa fa-angle-double-down"></i>&nbsp;更多</a>
+        </div>
+        <section id="keymore" style="display:none;">
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label">身份证号码</div>
+                    <input class="ah-data-input" placeholder="请输入会员身份证号码" type="text" asp-for="Customer.IDcard">
+                    <span asp-validation-for="Customer.IDcard"></span>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label">电子信箱</div>
+                    <input class="ah-data-input" placeholder="请输入会员电子信箱" type="text" asp-for="Customer.Email">
+                    <span asp-validation-for="Customer.Email"></span>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label">
+                        登录码
+                        <span class="ah-data-label-rmk">小写字母数字和.构成</span>
+                        <a class="ah-right-clickfill" onclick="setLoginName('#Customer_LoginName');">点此自动填</a>
+                    </div>
+                    <input class="ah-data-input" placeholder="输入登录码。比如[姓名.生日]" type="text" asp-for="Customer.LoginName">
+                    <span asp-validation-for="Customer.LoginName"></span>
+                </div>
+            </div>
+        </section>
+    </section>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">过敏史<a class="ah-right-clickfill" onclick="$('#Customer_Allergic').text('无');">点此填【无】</a></div>
+            <textarea placeholder="请输入过敏史" class="layui-textarea" asp-for="Customer.Allergic"></textarea>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">既往史<a class="ah-right-clickfill" onclick="$('#Customer_PastMedicalHistory').text('无');">点此填【无】</a></div>
+            <textarea placeholder="请输入既往史" class="layui-textarea" asp-for="Customer.PastMedicalHistory"></textarea>
+        </div>
+    </div>
+    <div class="ah-col-md1 ah-right-wrap">
+        <button class="ah-btn-blue" type="submit">新增会员</button>
+        <button class="ah-btn-blue" type="reset">重置信息</button>
+    </div>
+</form>
+<script>   
+ 
+
+    function changeSetLoginName() {
+        console.log("change");
+        var cid = "#Customer_LoginName";
+        if (!$(cid).val()) { setLoginName(cid, true); }
+
+    }
+
+    function failAddCustomer() {
+        alert("传输失败了");
+    }
+    function sendSuccess(jn) {
+        if (jn.rlt) {
+            $.ok("添加成功！");
+            //清空后载入到新增约号
+            $('#search_customer_input').val('');
+            $(':input', '#new_cus_form').not(':button,:submit,:reset,:hidden').val('').removeAttr("checked").removeAttr("selected");
+            loadCustomer(jn.stationId, jn.customerId);//导入到预约
+        } else $.err(jn.msg);
+    }
+    function setLoginName(id, bchk) {
+        var n = $('#Customer_CustomerName').val();
+        var g = $('#Customer_Gender').val();
+        var b = $('#Customer_Birthday').val();
+        console.log(n + "," + g + "," + b);
+
+        if (bchk) {
+            if (n && b & g != "");
+            else return;
+        }
+
+        $.post("/Customer/GetDefCustomerLoginName",
+            { name: n, gender: g, birthday: b }, function (jn) {
+                if (jn.rlt) $(id).val(jn.loginName);
+                else $.err("获取错误" + jn.msg);
+            });
+
+    }
+    function setAgeDay(selector, _this) {
+        var age = _this.value;
+        var n = new Date();
+        var date = new Date(n.getFullYear() - age, n.getMonth(), 1);
+        $(selector).val(date.formatDateTime("yyyy-MM-dd"));
+        //初始左边的值+步长*range
+        var ileft = 24 + ((_this.max - _this.min) / $(_this).width()) * _this.value;
+        $(_this).parent().find("i").text(_this.value).css("left", ileft + "px");
+        $(selector).blur();
+    }
+</script>

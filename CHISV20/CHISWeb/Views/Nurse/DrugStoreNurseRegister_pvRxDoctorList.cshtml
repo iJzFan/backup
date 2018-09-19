@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DoctorSEntityV02>
+@{
+    var u = this.GetUserSelf();
+    var agent = Context.Request.Headers[Microsoft.Net.Http.Headers.HeaderNames.UserAgent].ToString().ToLower();
+    var isAndroid = agent.IndexOf("android") > 0;
+    var appIds = string.Join(',', Model.Select(m => m.DoctorAppId));
+}
+@foreach (var item in Model)
+{
+    <div class='ah-doctor-items'>
+        <div class='ah-flex ah-doctor-main @(item.IsRxDefault?"ah-rxdoctor-def":"")'>
+            <div class=' layui-anim ah-doctor-bj'  data-doctorid="@u.DoctorId" data-defdepartmentid="@u.SelectedDepartmentId" data-rxdoctorid="@item.DoctorId">
+                <div class='ah-doctor-pic' eleid="docpicapp_@item.DoctorAppId" style='background:url(@item.DoctorPhotoUrl)'>
+
+                </div>
+                <div class="ah-flex-auto" style="overflow:hidden;">
+                    <div class='doctorName'>@item.DoctorName</div>
+                    <div><span class='postTitleName'>@item.PostTitleName</span></div>
+                    <div class="doctorRmk">
+                        @if (item.DoctorSkillRmk.Count() > 37)
+                        {
+                            @item.DoctorSkillRmk.Substring(0, 37)<span>...</span>
+                        }
+                        else
+                        {
+                            @item.DoctorSkillRmk
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="ah-flex ah-doctor-active">
+                <a class="ah-flex" onclick="DrugStoreNureseRegister_DoctorInfo(@item.DoctorId)"><i class="layui-icon">&#xe705;</i>医生介绍</a>
+                @if (isAndroid)
+                {
+                    <button class="ah-flex ah-btn-noborder" onclick="location.href='com.xhw.angelhealth.doctorId:@item.DoctorAppId'"  eleid="vbtn_@item.DoctorAppId"><i class="layui-icon">&#xe6ed;</i>视话咨询</button>
+                }
+            </div>
+        </div>
+    </div>
+}
+@if (this.DEBUG())
+{
+    @*<div>@agent</div>*@
+}
+
+
+
+<script>
+    /**/
+    var AppIds_rx = [@appIds];
+    /**/
+  
+
+</script>
+

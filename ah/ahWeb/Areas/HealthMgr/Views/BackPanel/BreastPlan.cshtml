@@ -1,0 +1,122 @@
+﻿@model Ass.Mvc.PageListInfo<vwAHMS_HMGR_BreastMgr>
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        img.upic {
+            border-radius: 100px;
+            width: 48px;
+            height: 48px;
+        }
+        .u-contact{text-align:left;width:180px;margin:0 auto;}
+        .u-contact i.glyphicon{margin-right:5px;color:#38a98a;}
+        .level-pic {
+            width: 20px;
+        }
+          .s-rlt-True{color:#fff;background:#ff6a00;padding:3px;border-radius:2px;}
+               .s-rlt-False{color:#38b720;}
+    </style>
+}
+
+<div class="main-title">
+    <i class="glyphicon glyphicon-th-list"></i>健康干预
+</div>
+<div class="main-content">
+    <div class="search-wrap">
+        <form>
+            <input type="text" name="searchText" placeholder="手机/邮箱/身份证" />
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th></th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>婚况</th>
+                <th>联系方式</th>
+
+                <th>是否异常</th>
+                <th>管理等级</th>            
+                <th>创建时间</th>
+                <th>最后干预</th>
+                <th>下次干预</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.BreastMgrId</td>
+                    <td>
+                        <img class="upic" src="@(myRazor.GetCustomerDefImagePath(item.CustomerPhoto,item.Gender))" />
+                    </td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.Gender?.ToGenderString()</td>
+                    <td>@item.Birthday?.ToAgeString()</td>
+                    <td>@item.MarriageStatus</td>
+                    <td>
+                        <div class="u-contact">
+                            @if (item.CustomerMobile.IsNotEmpty())
+                            {
+                            <div><i class="glyphicon glyphicon-phone"></i>@item.CustomerMobile </div>
+                            }
+                            @if (item.Email.IsNotEmpty())
+                            {
+                            <div><i class="glyphicon glyphicon-envelope"></i>@item.Email </div>
+                            }
+                            @if (item.IDcard.IsNotEmpty())
+                            {
+                            <div><i class="glyphicon glyphicon-credit-card"></i>@item.IDcard </div>
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <span class="s-rlt-@(item.BreastIsNotRight)"   >@item.BreastIsNotRight.ToString("异常", "OK", "-")</span>                    
+                    </td>
+                    <td title="判定时间 : @(item.BreastJudgeTime?.ToStdString())">
+                        @if(item.BreastMgrLevel>0){
+                        <img class="level-pic" src="../../HealthMgr/img/level_@(item.BreastMgrLevel).png" />   
+                        }
+                    </td>
+                    <td>@item.BreastCreateTime?.ToString("yyyy-MM-dd")</td>      
+                    <td>@item.LastPlanTime?.ToString("yyyy-MM-dd")</td>
+                    <td>@item.NextPlanTime?.ToStdString()</td>
+                    <td>
+                        <a href="BreastPlanDetailOfCus?breastMgrId=@item.BreastMgrId">干预</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            @*var page = $("#page").XPage({
+                pageIndex:@(Model.PageIndex),//当前页
+                pageTotal:@(Model.PageTotal),//总页数
+                pageSize:@(Model.PageSize),//页条数
+                recordTotal:@(Model.RecordTotal),//总条数
+                showPageCount: 4,//用于显示分页显示的量
+                onPageClick: function (pageIndex) {
+                    if (pageIndex) {
+                        window.location.href = "/HealthMgr/BackPanel/CustomerDaily?pageIndex=" + pageIndex;
+                    }
+                }
+            });*@
+        });
+    </script>
+}

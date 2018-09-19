@@ -1,0 +1,37 @@
+﻿@{
+    Layout=null;
+    ViewData["Title"] = "测试";
+}
+
+@section links{
+    <style>
+ 
+    </style>
+}
+
+ 
+<div >
+ 
+    <span>@(Context.Connection.RemoteIpAddress.MapToIPv4())</span>
+    <p id="demo"></p>
+    <p id="hideval"></p>
+    <button onclick="getLocation()">获取经纬度</button>
+
+</div>
+
+<script>
+    var x=document.getElementById("demo");
+var x2=document.getElementById("hideval");
+function getLocation(){    //检测是否支持地理定位 如果支持，则运行 getCurrentPosition() 方法。如果不支持，则向用户显示一段消息。
+　　if (navigator.geolocation){//如果getCurrentPosition()运行成功， //则向参数showPosition中规定的函数返回一个coordinates对象
+　　　　navigator.geolocation.getCurrentPosition(showPosition);
+　　}else{
+　　　　x.innerHTML="地理位置浏览器支持";
+　　}
+}
+
+function showPosition(position){  //showPosition() 函数获得并显示经度和纬度
+　　x.innerHTML="纬度: " + position.coords.latitude + "<br />经度: " + position.coords.longitude;
+　　x2.innerHTML= +position.coords.latitude +","+position.coords.longitude;
+}
+</script>

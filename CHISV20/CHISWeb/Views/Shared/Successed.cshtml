@@ -1,0 +1,22 @@
+﻿@model string
+@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    ViewData["Title"] = "操作成功";
+}
+
+<div class="container">
+    <div style="font-size:60px;color:#20974a;float:left;margin-right:20px;"><i class="fa fa-check-circle"></i></div>
+    <div style="float:left;">
+        <h1 class="text-info">@Model</h1>
+        <h2 class="text-info">您刚才的操作已经成功处理了！请<a href="#" onclick="exitLayer(true);">退出</a>后刷新</h2>
+
+    </div>
+
+</div>
+<script>
+    function exitLayer(bRefresh) {
+        var index = parent.layer.getFrameIndex(self.window.name); //先得到当前iframe层的索引
+        parent.layer.close(index);
+        bRefresh && parent.window.location.reload(true);
+    }
+</script>

@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.Title = "药店首页";
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.DoctorService _dctrSvr
+@{
+
+}
+<script>
+    if (self != top) top.window.location.href = "/home/RedirectDefaultIndexPage";
+</script>
+@section links{
+    <link href="~/css/pages/doctor-index.css" rel="stylesheet" />
+    <style>
+        .ah-sec-item {
+            padding: 20px;
+            border-right: 1px dashed #ccc;
+            width: 50%;
+            text-align: center;
+            float: left;
+        }
+
+            .ah-sec-item:last-child {
+                border-right: none;
+            }
+
+            .ah-sec-item > a:hover .ah-sec-itembg {
+                background-position-y: -200px;
+            }
+
+        .ah-sec-itembg {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-image: url(/images/bg200.png)
+        }
+
+        .ah-sec-itembg-doctor {
+            background-position: 0 0;
+        }
+
+            .ah-sec-itembg-doctor:hover {
+                background-position-y: -200px;
+            }
+
+        .ah-sec-itembg-drugsave {
+            background-position: -200px 0;
+        }
+
+            .ah-sec-itembg-drugsave:hover {
+                background-position-y: -200px;
+            }
+
+        .ah-sec-btngrp > a {
+            width: 50%;
+            display: block;
+            margin: auto auto;
+        }
+
+            .ah-sec-btngrp > a:hover {
+                border: 1px solid #2060e4;
+                border-radius: 8px;
+            }
+    </style>
+}
+<div class="ah-max-width ah-flex" style="align-items:center;">
+    <div class="ah-sec-item ah-sec-btngrp">
+        <a href="/Nurse/DrugStoreNurseRegister">
+            <div class="ah-sec-itembg ah-sec-itembg-doctor"></div>
+            <h4>问医生</h4>
+        </a>
+        <div>
+            可以快速咨询后台医生
+        </div>
+    </div>
+
+    @{
+        var bRxSave = this.GetUserMgr().IsMenuAllowed("RxDrugSave");
+    }
+    @if (bRxSave)
+    {
+        <div class="ah-sec-item ah-sec-btngrp">
+            <a href="/Nurse/RxDrugSave">
+                <div class="ah-sec-itembg ah-sec-itembg-drugsave"></div>
+                <h4>处方药备录</h4>
+            </a>
+            <div>
+                记录处方拿药
+            </div>
+        </div>
+    }
+
+    <div class="ah-sec-item ah-sec-btngrp">
+        <div id="drug_reg_2d_scan">
+        </div>
+        <h4>
+            约处方，扫一扫
+        </h4>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/lib/qrcode/jquery.qrcode.min.js"></script>
+    <script>
+        $(function () {
+            //var qrUrl = "@(Context.Request.Scheme)://@(Context.Request.Host)/Tools/RegScan?s=@(u.StationId)&d=@(u.DoctorId)&rxd=@(_dctrSvr.GetMyDefRxDoctor(u.StationId)?.DoctorId)";
+            var qrUrl = "@ViewBag.QrCodeUrl";
+            if (qrUrl) {
+                $("#drug_reg_2d_scan").qrcode({
+                    text: qrUrl,
+                    width: 250,
+                    height: 250,
+                });
+            } else {
+                $("#drug_reg_2d_scan").html("请先配置默认处方医生");
+            }
+        });
+    </script>
+}

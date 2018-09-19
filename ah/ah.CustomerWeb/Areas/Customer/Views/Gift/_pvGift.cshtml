@@ -1,0 +1,184 @@
+﻿@model ah.Models.ViewModel.GiftViewModel
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@inject ah.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "积分商品详情";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerId").Value));
+}
+@section links{
+    <link href="~/lib/jquery-weui/weui.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-weui/jquery-weui.min.css" rel="stylesheet" />
+}
+<div class="ah-giftinfo-top ah-flex">
+    <a class="return" href="/Customer/Gift/List"></a>
+    @*<a class="shopping" onclick="$.err('开发中')"></a>*@
+</div>
+<div class="ah-giftinfo-main" data-giftid="@Model.GiftId">
+    <img src="@Model.CoverImg" style="width:100%;min-height:200px" />
+    <div class="giftName">@Model.GiftName</div>
+    @if (Model.Type != 0)
+    {
+        <div class="ah-gift-type">
+            @if (Model.Type == 1)
+            {
+                <span>满减券</span>
+            }
+            else if (Model.Type == 2)
+            {
+                <span>满打折券</span>
+            }
+        </div>
+    }
+    <div class="giftNeedPoints ah-flex">
+        <div>
+            <span>兑换积分：</span>@Model.NeedPoints
+        </div>
+        <a href="javascript:;" class='open-popup' data-target="#exchangeGift">兑换</a>
+    </div>
+    @if (Model.Description != "")
+    {
+        <div class="ah-giftinfo-text">
+            <h3 class="module-title">商品描述</h3>
+            <div class="module-content">
+                <div class="rmk">
+                    @Model.Description
+                </div>
+            </div>
+        </div>
+    }
+    <div class="ah-giftinfo-text">
+        <h3 class="module-title">商品图片</h3>
+        <div class="module-content">
+            @if (Model.Img1 != null)
+            {
+                <img src="@Model.Img1" style="width:100%;" />
+            }
+            @if (Model.Img2 != null)
+            {
+                <img src="@Model.Img2" style="width:100%;" />
+            }
+            @if (Model.Img3 != null)
+            {
+                <img src="@Model.Img3" style="width:100%;" />
+            }
+        </div>
+    </div>
+</div>
+<div class="ah-giftinfo-foot" style="display:none;">
+
+</div>
+<div id="exchangeGift" class="weui-popup__container">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal">
+        <div class="ah-addressesList-wrap">
+            <a class="close-address" onclick="GIFTINFO.CloseAddressList()">
+                选择地址
+            </a>
+            <ul class="popup-ul">
+
+            </ul>
+            <button class="add-address" onclick="GIFTINFO.AddAddress()">新增地址</button>
+        </div>
+        <div class="ah-giftPopup-wrap">
+            <a class="close-popup" aria-label="关闭">
+                填写订单
+            </a>
+            @if (Model.Type == 0)
+            {
+                <input id="customerName" type="hidden" />
+                <input id="phoneNumber" type="hidden" />
+                <input id='city-picker' type="hidden" />
+                <input id="city-other" type="hidden" />
+                <div class="defaultAddress">
+                    <div class="defaultAddress-bj">
+                    </div>
+                </div>
+            }
+            <div class="header">
+                <div class="giftName">@Model.GiftName</div>
+                <div class="img-wrap">
+                    <img src="@Model.CoverImg" class="j-summary-img" aria-label="选中的商品图">
+                </div>
+                <div class="main">
+                    <div>
+                        所需积分:<dis class="price" style="font-size:16px;">@Model.NeedPoints</dis>
+                    </div>
+                    @*<div class="stock">库存 8196件</div>*@
+                    @if (Model.Type != 0)
+                    {
+                        <div class="sku-info">
+                            @if (Model.Type == 1)
+                            {
+                                <span>满减券</span>
+                            }
+                            else if (Model.Type == 2) { 
+                                <span>满打折券</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="popup-body">
+                <div class="number-wrap">
+                    <div class="number-line">
+                        <label for="number">兑换数量</label>
+                        <span class="J_limitTxt limit-txt"></span>
+                        <div class="number">
+                            <button class="decrease disabled">-</button>
+                            <input id="number" readonly="readonly" type="number" value="1">
+                            <button class="increase">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="ah-giftPopup-btn" onclick="GIFTINFO.ExchangeGift(@Model.GiftId,@Model.Type)">兑换</button>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/lib/jquery-weui/jquery-weui.min.js"></script>
+    <script src="~/lib/jquery-weui/city-picker.js" charset="utf-8"></script>
+    <script>
+        var pagedata = {
+            giftType: '@Model.Type',
+            number: $("#number"),
+        }
+        $(window).on("load", function () {
+            if (pagedata.giftType == 0) {
+                $("#city-picker").cityPicker({
+                    title: "请选择收货地址"
+                });
+                //设置默认地址
+                GIFTINFO.GetCustomerDefaultAddress(@cus.CustomerID);
+                //选择地址监听
+                GIFTINFO.SelectAddress(@cus.CustomerID);
+            }
+            $(".ah-giftinfo-foot").hide();
+            $(".customer-wrap").css("margin-bottom", "0px");
+            var len = $(".giftNeedPoints").offset().top + 36;
+            $(".customer-main").scroll(function (event) {
+                if ($(event.currentTarget).scrollTop() > len) {
+                    $(".ah-giftinfo-foot").show();
+                    $(".giftNeedPoints a").addClass("ah-active-scroll");
+                } else {
+                    $(".ah-giftinfo-foot").hide();
+                    $(".giftNeedPoints a").removeClass("ah-active-scroll");
+                }
+            });
+            $(".increase").click(function () {
+                $(".decrease").removeClass("disabled");
+                var val = pagedata.number.val();
+                pagedata.number.val(parseInt(val) + 1);
+            });
+            $(".decrease").click(function () {
+                var val = parseInt(pagedata.number.val());
+                if (val >= 2) {
+                    pagedata.number.val(val - 1);
+                    if (val <= 2) {
+                        $(".decrease").addClass("disabled");
+                    }
+                }
+            })
+        })
+    </script>
+}

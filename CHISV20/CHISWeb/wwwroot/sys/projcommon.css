@@ -1,0 +1,768 @@
+input,select{font-size:12px;}
+
+/*主页面导航的选择*/
+li.menusel {
+    background: #97e8fe;
+    position: relative;
+}
+
+    li.menusel:after {
+        content: "  ";
+        display: block;
+        position: absolute;
+        right: -2px;
+        top: -1px;
+        background: transparent;
+        border-top: 17px solid transparent;
+        border-bottom: 17px solid transparent;
+        border-right: 17px solid #fff;
+    }
+     
+#main-nav .navigation > .nav > li > .nav > li > .nav > li > a {
+    padding-left: 47px;
+    font-size: 0.9em;
+}
+
+
+i.icon-blank {
+    display: inline-block;
+    width: 25px;
+}
+
+.search-label {
+    font-weight: 700;
+    margin-right: 6px;
+  /*  padding-left: 30px;*/
+    font-size: 12px;
+}
+
+.search-label2 {
+    font-weight: 700;
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.input-large {
+    width: 145px;
+    padding-left: 0px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+select {
+
+    font-size: 1em;
+    font-family: 'Microsoft YaHei',SimHei,SimSun,Arial;
+}
+td.keep{word-break:keep-all;}
+
+.control-group {
+    position: relative;
+}
+
+    .control-group label.error {
+        color: red;
+    }
+
+.page-btns-bar, .navigation,
+.ah-findeara {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.mainbgcolor{background-color:#3B8DB5;}
+
+.page-btns-bar {
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    margin-bottom: 0px;
+    padding: 1px 0 1px 10px;
+}
+
+.controlitem {
+    width: 206px;
+    max-width: 206px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+    .controlitem input[type=text], .controlitem input[type=password] {
+        width: 100%;
+        box-sizing: border-box;
+        height: 28px;
+    }
+
+    .controlitem select {
+        width: 100%;
+    }
+
+    .controlitem .select2 {
+        padding: 0;
+        box-sizing: padding-box;
+    }
+
+    .controlitem span.chkbox-caption {
+        vertical-align: text-top;
+    }
+
+    .controlitem textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px;
+    }
+
+.modal-body {
+    overflow-y: auto;
+    padding: 10px;
+    position: relative;
+}
+
+.ah-tdinfo {
+    font-size: 0.8em;
+}
+/*紧凑表格*/
+
+.ah-table-min th, .ah-table-min td {
+    padding: 1px 8px;
+}
+
+.ah-header-min ul.breadcrumb {
+    padding: 0 15px;
+}
+
+.ah-tdminw {
+    font-family: 'Courier New';
+    font-size: 0.8em;
+}
+
+
+/*小按钮*/
+a.ah-minbtn {
+    color: #004f6d;
+    cursor: pointer;
+}
+
+    a.ah-minbtn:hover {
+        text-decoration: none;
+    }
+
+    a.ah-minbtn[data-type=MODIFY]:hover {
+        color: #00acec;
+    }
+
+    a.ah-minbtn[data-type=DELETE]:hover {
+        color: #ff6a00;
+    }
+
+/*小链接按区*/
+a.ah-min-a {
+    font-size: 0.85em;
+    color: #00acec;
+}
+
+    a.ah-min-a:hover {
+        color: orange;
+    }
+
+/*错误提示*/
+
+.text-danger {
+    color: #ff6a00;
+}
+
+.ah-form-need {
+    color: #b27709;
+    font-weight: bold;
+}
+
+    .ah-form-need span:before {
+        content: "*";
+    }
+
+
+.debug {
+    display: none;
+}
+
+
+/*分页控制*/
+.ah-pagenav {
+    font-size: 0.8em;
+    padding: 0;
+    margin: 0;
+}
+
+    .ah-pagenav > div {
+        padding: 2px 0;
+    }
+
+    .ah-pagenav .pull-left {
+        vertical-align: text-bottom;
+        margin-top: 6px;
+    }
+
+    .ah-pagenav input.gotoinput {
+        width: 40px;
+        text-align: center;
+        box-sizing: border-box;
+        font-family: "Arial";
+        margin: 3px;
+        vertical-align: text-bottom;
+    }
+
+    .ah-pagenav a {
+        cursor: pointer;
+        min-width: 20px;
+        display: inline-block;
+        text-align: center;
+        margin: 0;
+        padding: 2px;
+    }
+
+        .ah-pagenav a:hover {
+            background: #ccc;
+        }
+
+        .ah-pagenav a.ah-pagenav-sel {
+            background: #00acec;
+            color: white;
+        }
+
+/*查找列表样式*/
+.ah-find-box {
+    margin-bottom: 0;
+    position: relative;
+}
+
+    .ah-find-box .box-content {
+        background: white none repeat scroll 0 0;
+        border: 1px solid #dddddd;
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.055);
+        display: block;
+        padding: 10px;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+.ah-findeara > ul {
+    margin-bottom: 2px;
+    margin-left: 0;
+}
+
+    .ah-findeara > ul > li {
+        display: inline-block;
+    }
+
+        .ah-findeara > ul > li label {
+            margin-bottom: 1px;
+            font-size: 0.85em;
+        }
+
+        .ah-findeara > ul > li input[type=text] {
+            padding: 2px;
+        }
+
+        .ah-findeara > ul > li input[type=text], .ah-findeara > ul > li select {
+            max-width: 160px;
+        }
+
+/*查找条*/
+.ah-findblock {
+    position: relative;
+    height: 28px;
+    margin-bottom: 7px;
+    margin-top: 9px;
+}
+
+    .ah-findblock .box {
+        position: absolute;
+        z-index: 1;
+    }
+
+    .ah-findblock .box-header {
+        background-color: #efefef !important;
+        border: 1px dashed #ccc;
+    }
+
+    .ah-findblock .title {
+        color: #004f6d !important;
+    }
+
+.ah-find-btnarea {
+    margin-left: 0;
+    padding-top: 7px;
+}
+
+    .ah-find-btnarea .btn {
+        box-sizing: border-box;
+        margin-left: 0;
+        float: left;
+    }
+
+    .ah-find-btnarea .ah-btn-find {
+        padding: 10px 10px;
+    }
+
+    .ah-find-btnarea > .ah-findclearbtn {
+        font-size: 10px;
+        padding: 10px 5px 10px 3px;
+        margin-left: 0;
+        color: #888;
+        border-top-right-radius: 50px !important;
+        border-bottom-right-radius: 50px !important;
+    }
+/*搜索排序*/
+li.ah-sort {
+    color: #0695ca;
+}
+
+a > b.ahtreatlst-name {
+    min-width: 40px;
+    display: inline-block;
+    color: #1F98C7;
+}
+
+a:hover > b.ahtreatlst-name {
+    color: white;
+}
+
+
+
+
+/*列表*/
+ul.ah-item-list {
+    margin: 0;
+    padding: 0;
+}
+
+    ul.ah-item-list li {
+        list-style: none;
+        padding: 0;
+        border-bottom: 1px dashed #ccc;
+    }
+
+        ul.ah-item-list li:hover a {
+            color: white;
+        }
+
+        ul.ah-item-list li a {
+            padding: 1px 0px 1px 3px;
+            display: inline-block;
+            width: calc(100% - 28px);
+        }
+
+            ul.ah-item-list li a:focus {
+                outline: none;
+            }
+
+            ul.ah-item-list li a:hover {
+                color: white;
+                text-decoration: none;
+            }
+
+            ul.ah-item-list li a > span.pull-right {
+                margin-right: -15px;
+                font-size: 0.8em;
+                color: #777;
+                font-family: Arial;
+            }
+
+        ul.ah-item-list li:hover {
+            background: #00acec;
+            color: white;
+        }
+
+.ah-item-list-liseled, .ah-item-list-liseled a {
+    background: #00acec;
+    color: white;
+    text-decoration: none;
+}
+
+    .ah-item-list-liseled a:focus {
+        outline: none;
+    }
+
+.ykf:before {
+    content: "(";
+    padding-right: 2px;
+}
+
+.ykf:after {
+    content: ")";
+    padding-left: 2px;
+}
+
+/*部件格式*/
+.ah-timerange {
+    max-width: 250px;
+}
+
+    .ah-timerange .ah-mid-add-on {
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-left: none;
+        border-right: none;
+        padding: 2px 5px;
+    }
+
+    .ah-timerange .add-on {
+        padding: 2px 5px;
+    }
+
+    .ah-timerange .ah-mid-add-on {
+        background-color: #eeeeee;
+        border: 1px solid #ccc;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+        height: 20px;
+        line-height: 20px;
+        min-width: 16px;
+        text-align: center;
+        text-shadow: 0 1px 0 #ffffff;
+        width: auto;
+        margin-left: 4px;
+    }
+
+
+a.close12 {
+    display: block;
+    width: 40px;
+    height: 12px;
+    background: url("/images/btns.png");
+}
+a.close12:hover{background-position:0 -12px;}
+a.close12:active{background-position:0 -24px;}
+
+/*一般 ture绿false红*/
+ah-yn-normal {
+    color: black;
+}
+/*警告True 黄 False 绿 */
+.ah-yn-warning {
+    color: black;
+}
+
+.ah-warning-1 {
+    color: #ff0000;
+}
+
+.ah-warning-0 {
+    color: green;
+}
+/*是否按钮*/
+select.ah-sel-m {
+    border: none;
+    /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+    /*很关键：将默认的select选择框样式清除*/
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    /*在选择框的最右侧中间显示小箭头图片*/
+    background: url("/images/arrow.png") no-repeat scroll right center transparent;
+    /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+    padding-right: 14px !important;
+}
+    /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+    select.ah-sel-m::-ms-expand {
+        display: none;
+    }
+
+    select.ah-sel-m:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+.ah-limitwidth {
+    display: inline-block;
+    word-wrap: break-word;
+    vertical-align: top;
+}
+
+.brmk {
+    border: 1px solid red;
+    background-color: red;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 0 3px;
+    line-height: 16px;
+    color: #fff;
+    font-size: 11px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    display: inline-block;
+}
+
+ 
+
+.ah-markm {
+    background: #777;
+    color: white;
+    border-radius: 3px;
+    width: 18px;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    font-size: 11px;
+    display: inline-block;
+    padding: 0;
+    margin: 0 2px;
+}
+
+.ah-jqCanEdit {
+    background-color: #efefef;
+}
+
+.ah-jqSavedBg {
+    background: #caeffe;
+}
+
+.ah-jqChargedBg {
+    background: #f7f0cf;
+}
+.ah-jqCharged3 {
+    background: #ccc;
+    color:#aaa!important;
+}
+
+.ah-jqCanEdit select {
+    height: 22px !important;
+    padding: 0 !important;
+}
+
+tr.jqNotEdit:before{
+    content:" ";
+    display:block;
+    width:100%;
+    height:100%;
+    background:rgba(255, 255, 255, 0.05);
+    position:absolute;
+    left:0;top:0;
+}
+
+.ah-tempdlg {
+    position: absolute;
+    z-index: 1000;
+    min-width: 160px;
+    min-height: 120px;
+    border: 5px solid #ccc;
+    background: #ddd;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+input:active {
+    outline: none;
+}
+
+fieldset.disabled {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+    fieldset.disabled:before {
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background: rgba(255, 255, 255, 0.02);
+        left: 0;
+    }
+
+    fieldset.disabled input[type=text], fieldset.disabled select, fieldset.disabled .add-on {
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+        border-top: 1px solid transparent;
+        border-bottom: 1px dashed #ddd;
+        background-color: transparent;
+        box-shadow: none;
+        color: #017cc2;
+    }
+
+    fieldset.disabled select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+        fieldset.disabled select::-ms-expand {
+            display: none;
+        }
+
+
+
+fieldset[disabled] input[type=text], fieldset[disabled] select, fieldset[disabled] .add-on {
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-top: 1px solid transparent;
+    border-bottom: 1px dashed #ddd;
+    background-color: transparent;
+    box-shadow: none;
+    color: #017cc2;
+}
+
+fieldset[disabled] select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+    fieldset[disabled] select::-ms-expand {
+        display: none;
+    }
+
+
+
+
+.yuannum {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    background: #1F98C7;
+    color: white;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 50px;
+}
+
+/*16图片*/
+.ahico {
+    background-image: url(/images/16.png);
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.ahico-skin-test {
+    background-position: 0 0;
+}
+.ahico-capsule{background-position:-16px 0;}
+
+.price {
+    font-family: 'Courier New';
+    font-size: 12px;
+    text-align: right;
+    color: #554730;
+}
+
+    .price:before {
+        content: "\00a5";
+        font-family: Arial,SimSun,SimHei,'Microsoft YaHei';
+    }
+
+.bigger {
+    font-size: 1.5em;
+}
+
+.td-right {
+    text-align: right;
+}
+
+.td-overhidden {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+.inputgroup > input {
+    width: 160px;
+    display: inline-block;
+}
+
+.inputgroup > button {
+    display: inline-block;
+}
+
+.inputgroup > input[data-role="WDatePicker"] {
+    width: 160px !important;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+
+/*confirmx/alertx*/
+
+.msgbox-bg {
+    background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+}
+
+.msgbox-modal{
+    background-color: #eee;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    height: 100px;
+    left: 35%;
+    position: absolute;
+    top: 25%;
+    width: 300px;
+    z-index: 1002;
+}
+.msgbox-title {
+    background-color: #3b8db5;
+    border-radius: 2px 2px 0 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    padding: 0 0 0 15px;
+    width:inherit;
+}
+.btns-x:hover{
+    color:#777;
+}
+.btns{
+   position:absolute;
+   bottom:0;
+   right:0;
+
+}
+
+ .border3{
+            border-radius:3px!important;
+        }
+
+
+ /*Enum的数据常用样式归集*/
+ .TransferTreatStatus0{color:black;}
+ .TransferTreatStatus1{color:tomato;}
+ .TransferTreatStatus2{color:darkgreen;}
+
+ .btn-bottom-right{width:100%;padding:10px;background:#dfdfdf;position:absolute;bottom:0;box-sizing:border-box;left:0;}
+
+
+
+.readonly .input-large[type=text],
+.readonly .input-large[type=number] {
+    border: none;
+}
+.btn-hidden {display:none;}
+@media screen and (max-width: 767px) {
+    .controlitem {
+        width: 100%;
+    }
+}
+
+
+/* lg */
+@media screen and (min-width:1200px){
+    .panel-body .row .lock .col-md-8 {
+        padding-left: 10px;
+    }
+}

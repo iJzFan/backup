@@ -1,0 +1,177 @@
+﻿@using Ass;
+@inject CHIS.Services.AccessService _accSvr
+@{
+    var u = this.GetUserSelf();
+    var bnew = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsNew).ToBool();
+    var bmod = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsMod).ToBool();
+    var bdel = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsDel).ToBool();
+}
+@{
+    ViewBag.Title = "健康会员档案";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+    //Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+    var umgr = this.GetUserMgr();
+}
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
+            vertical-align: middle;
+        }
+
+        .ah-vip {
+            color: #ff6a00;
+            background-image: url(/images/vip.png);
+            display: inline-block;
+            width: 27px;
+            height: 16px;
+        }
+    </style>
+}
+<div class="container">
+    <div class="topPanel row">
+        <div class="toolbar">
+            <div class="btn-group">
+                <a class="btn btn-primary" onclick="$.reload();"><span class="glyphicon glyphicon-refresh"></span></a>
+            </div>
+            <div class="btn-group">
+                @if (bnew)
+                {
+                    <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_Add()"><i class="fa fa-plus"></i>新建</a>
+                }
+            </div>
+            <div class="operate">
+                <ul class="nav nav-pills">
+                    @*<li class="first">已选中<span>1</span>项</li>*@
+                    @if (bmod)
+                    {
+                        <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                    }
+                    @if (bdel)
+                    {
+                        <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete()"><i class="fa fa-trash-o"></i>删除</a></li>
+                    }
+
+                    <li class="split"></li>
+                    <li><a id="btn_View" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看</a></li>
+                </ul>
+                <a href="javascript:;" class="close"></a>
+            </div>
+        </div>
+        <div class="search">
+            <div style="float:left;line-height:50px;padding-top:10px;">
+                <div class="input-group">
+                    <input id="txt_Search" type="text" class="form-control" placeholder="姓名/手机/身份证/Email" style="width: 200px;margin-top:1px;">
+                    <span class="input-group-btn">
+                        <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="gridPanel">
+            <table id="gridList"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+    <script>
+        var pagedata = {
+            customerPath:'@(Global.ConfigSettings.CustomerImagePathRoot)',
+        }
+
+
+        $(function () {
+
+            gridInit();
+
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+
+            //载入过程内函数
+            function Search() {
+                CE.reload({
+                    keyword: $('#txt_Search').val()
+                });
+            }
+        })
+        var CE;
+        //网格初始化
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "健康会员信息",
+                url: "/Code/CHIS_Code_Customer_Edit",  //编辑记录地址
+                jqurl: "/Code/SearchJson_CHIS_Code_Customer",   //网格查询地址
+                width: "80%", height: "95%",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager",
+                deletePrompt:"注意：删除该会员资料，会彻底删除所有信息，包括会员信息，医生信息，登录信息。请谨慎操作。是否继续删除？"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: 'customerId', name: 'customerId', width: 0, align: 'right', hidden: true },
+                    { label: '会员头像', name: 'photoUrlDef', width: 68, formatter: function (cellvalue) { return "<img class='tbupic2' src='" + $.getImgPath( pagedata.customerPath , cellvalue) + "'></img>"; } },
+                    { label: ' ', name: 'isVip', width: 40, formatter: function (cellvalue) { return cellvalue?"<i class='ah-vip'></i>":"" } },
+                    { label: '姓名', name: 'customerName', width: 60 },
+                    { label: '性别', name: 'gender', width: 60, align: 'center', formatter: "select", editoptions: { value: "1:男;0:女;2:保密" } },
+                    { label: '年龄', name: 'age', width: 120 },
+                    { label: '身份证号', name: 'iDcard', width: 180, align: 'left' },
+                    { label: '手机', name: 'mobile', width: 140, align: "left" },
+                    { label: '联系电话', name: 'telephone', width: 140, align: "left" },
+                    { label: 'Email', name: 'email', width: 180 },
+                    { label: '注册时间', name: 'creatDate', width: 120, align: "left" },
+                    { label: '联系地址', name: 'mergerName', width: 200, align: "left" },
+
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            });
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().customerId;
+            CE.Modify("recID=" + keyValue,
+                function (index, win) {
+                    win.submitForm();
+                });
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().customerId;
+            CE.Delete("recID=" + keyValue);
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().customerId;
+            CE.View("recID=" + keyValue);
+        }
+
+
+
+    </script>
+}

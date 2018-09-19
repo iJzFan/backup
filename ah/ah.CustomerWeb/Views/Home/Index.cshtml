@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null; // 不使用模板页面
+    ViewData["Title"] = "首页";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 天使健康</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <div class="nav">
+        <div class="pull-right" style="font-weight:bold;"><a href="Customer/Home">进入个人中心</a></div>
+    </div>
+
+    <div class="container">
+
+        <div>
+            <a title="慈康系列"><img src="~/HealthMgr/img/ck.png" width="64" /></a><span style="font-size:1.3em;margin-left:5px;">健康管理</span>
+        </div>        
+        <div style="margin-left:70px;">
+            <ul>
+                <li>
+                    <a class="" asp-controller="Breast" asp-action="Index" asp-area="HealthMgr">乳腺癌的健康管理</a>
+                </li>
+            </ul>
+    
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+    </environment>
+</body>
+</html>

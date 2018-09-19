@@ -1,0 +1,373 @@
+﻿/*
+    网站通用的样式表，一定要做好样式注释
+*/
+u,em,i{font-style:normal;}
+
+
+.ah-inline{display:inline;}
+.ah-inline-block{display:inline-block;}
+.ah-v-middle{vertical-align:middle;}
+
+
+.search-adv{padding-top:14px;}
+/*通用搜索样式*/
+.search-conditions {
+    display: none;
+    align-items: center;
+    min-height: 44px;
+}
+.search-conditions .title {
+    padding: 6px;
+    width: 120px;
+    flex:none;
+}
+.search-conditions .sel-items {
+    flex: 1;
+}
+
+/*通用条件列表*/
+.sl-value{}
+.sl-value tbody>tr>th{padding-right:20px;padding-top:14px;font-weight:normal;background-color:#ccc;}
+.sl-value .section-inline{margin-right:66px;display:inline;}
+.sl-value label.radio-inline:first-child{}
+.sl-value label.radio-inline{cursor:pointer;color:#666;padding-left:0;}
+.sl-value label.radio-inline>span{padding:3px 5px;}
+.sl-value label.radio-inline:hover>span{background-color:#eee;}
+.sl-value .ah-search-radio:checked+span{background-color:#143ee5;color:white;font-weight:bold;padding:2px 5px;}
+.sl-value .ah-search-radio{display:none;}
+
+/*日期段选择*/
+.sl-value .ah-layout-two-date{position:relative;display:inline-block;vertical-align:middle;}
+.sl-value .ah-layout-two-date input[type=text]:first-child{float:left; border-right:none;border-top-right-radius:0;padding-right:20px;  border-bottom-right-radius :0;width:calc(50% - 10px);display:inline-block;}
+.sl-value .ah-layout-two-date .date-line{float:left;border-top:1px solid #ccc;border-bottom:1px solid #ccc; font-size: 12px;
+     height: 30px;    line-height: 1.5;    padding: 5px 4px;}
+.sl-value .ah-layout-two-date input[type=text]:last-child{float:left;border-left:none;border-top-left-radius:0;padding-right:20px; border-bottom-left-radius:0;width:calc(50% - 10px);display:inline-block;}
+.sl-value .ah-layout-two-date .ah-dt-start-ico{position:absolute;left:calc(50% - 26px);top:9px;}
+.sl-value .ah-layout-two-date .ah-dt-end-ico{position:absolute;top:0;right:13px;top:9px;}
+
+.more-search-list-fm{margin-top:17px;margin-left:8px;}
+
+/*只有一个输入框*/
+.sl-value .ah-search-text-one{display:inline-block;max-width:200px;height:28px;border-radius:2px;}
+
+.ah-search-dtrange{display:inline-block;position:relative; vertical-align:bottom;}
+.ah-search-dtrange .ah-input-date{width:110px;float:left;cursor:pointer;}
+.ah-search-dtrange .ah-input-date:hover{background-color:#c4d8fe;}
+.ah-search-dtrange .ah-input-date:first-child{border-right:none;border-top-right-radius:0;border-bottom-right-radius:0;}
+.ah-search-dtrange .ah-input-date:last-child{border-left:none;border-top-left-radius:0;border-bottom-left-radius:0;}
+.ah-search-dtrange .mk{border-top:1px solid #ddd;border-bottom:1px solid #ddd;display: inline-block;line-height: 30px;float:left;}
+.ah-search-dtrange::after{clear:both;}
+
+/*高级搜索按钮*/
+.sl-value .ah-more-search-btn{background-color:#3097be;color:white;border:none;padding:5px 8px;border-radius:2px;line-height:17px;cursor:pointer;}
+.sl-value .ah-more-search-btn:hover{background-color:#143ee5;}
+
+/*高级搜索默认选择*/
+.ah-def-active {
+    background: #4680ea !important;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 2px;
+}
+/*搜索结果排列*/
+.crumb-select-item {
+    border: 1px solid #4780EB;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    height: 24px;
+    line-height: 22px;
+    margin: 0 5px 5px 0;
+    padding: 0 26px 0 4px;
+    position: relative;
+    vertical-align: top;
+    background: #fff none repeat scroll 0 0;
+    text-decoration: none;
+}
+ .crumb-select-item b {
+    color: #333;
+    font-weight: 400;
+}
+ .crumb-select-item em {
+    color: #4780EB;
+    margin-right: 3px;
+
+}
+ 
+.crumb-select-item i {
+    background-position:7px -140px;
+    display: block;
+    height: 22px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25px;
+}
+.crumb-select-item i{
+    background-image:url("/images/jd.png");
+    background-color: #4780EB;
+    background-position: 7px -158px;
+}
+.crumbs-arrow {
+    float: left;
+    font-family: "Helvetica Neue","Hiragino Sans GB",SimSun,serif;
+    font-style: normal;
+    margin-right: 5px;padding:4px 0px 3px 3px;
+}
+
+.crumbs-nav-item {
+    float: left; 
+    margin-right: 5px; padding:3px 0 3px 0;
+}
+
+.crumbs-nav-item .search-key {
+    margin-left: 0px;
+}
+.crumbs-nav-item .search-key:before{content:"“";}
+.crumbs-nav-item .search-key::after{content:"”";}
+.crumb-select-item:hover {
+    background: #fff none repeat scroll 0 0;
+    border-color: #4780EB;
+    text-decoration: none;
+}
+.crumb-select-item:hover i {
+    background-color: #4780EB;
+    background-position: 7px -158px;
+}
+.ah-colspan:after{
+    content:" ";
+    display:block;
+    border-bottom:none;
+    border-left:4px solid transparent;
+    border-right:4px solid transparent;
+    border-top:4px solid #4780EB;
+    width:4px;
+    position:absolute;
+ 
+}
+/*选择*/
+.selector {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #e6e6e6;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.J_extMore{
+    text-decoration:none
+}
+.section-more-wrap {
+    padding:3px 0;
+}
+.select_open {
+    height: auto !important;
+}
+.select_open .sl-ext i {
+    background-position: 4px -27px !important;
+}
+.selector .s-brand {
+}
+.selector .s-brand, .selector .s-line {
+    width: auto;
+    overflow: hidden;
+    height: 43px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.selector .sl-wrap {
+    line-height: 34px;
+    position: relative;
+}
+.selector .sl-key {
+    float: left;
+    overflow: hidden;
+    padding-left: 10px;
+    white-space: nowrap;
+    width: 100px;
+    padding: 5px;
+}
+.selector .sl-key strong {
+    font-weight: normal !important;
+    font-size: 13px;
+}
+.selector .sl-value {
+    background: #fff none repeat scroll 0 0;
+    margin-left: 110px;
+    overflow: hidden;
+    padding-left: 10px;
+}
+.selector .sl-ext {
+    height: auto;
+    line-height: 22px;
+    overflow: hidden;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 57px;
+}
+.clr {
+    visibility: hidden;
+}
+.clear, .clr {
+    clear: both;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+}
+.selector .sl-v-list {
+    overflow: hidden;
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+}
+.selector .sl-v-list ul {
+    float: left;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+}
+.selector .s-brand .sl-v-list li {
+    margin-right: 5px;
+    width: 130px;
+}
+.selector .sl-v-list li {
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    margin-bottom: 4px;
+    margin-right: 50px;
+}
+.selector .s-brand .sl-v-list li a {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 130px;
+}
+.selector .sl-v-list li a {
+    color: #005aa0;
+    float: left;
+    white-space: nowrap;
+}
+.selector .sl-btns {
+    display: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+}
+ .selector .sl-ext .sl-e-more {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #333;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    margin-right: 10px;
+    padding: 0 7px 0 4px;
+    position: relative;
+    visibility: hidden;
+    width: 55px;
+    text-decoration:none;
+}
+ .selector .sl-ext .sl-e-more:hover{
+     border-color:#4680ea;
+ }
+ .selector .sl-ext .sl-e-multiple {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #333;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    padding: 0 3px 0 18px;
+    position: relative;
+}
+ .selector .sl-ext .sl-e-multiple i {
+    background-position: 0 -63px;
+    display: block;
+    font-style: normal;
+    height: 20px;
+    left: 3px;
+    position: absolute;
+    top: 1px;
+    width: 13px;
+}
+.selector .sl-ext .sl-e-more i, .selector .sl-ext .sl-e-multiple i {
+    background: rgba(0, 0, 0, 0) url("/images/jd.png") no-repeat scroll 9999px 9999px;
+    transition: background-position 0.15s ease-in-out 0s;
+}
+
+.selector .sl-ext .sl-e-more i {
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-position: 4px 7px;
+}
+.select_open .sl-ext .sl-e-more:hover i {
+    background-position: 4px -45px !important;
+}
+.selector .sl-ext .sl-e-more:hover i {
+    border-color: #e4393c;
+    background-position: 4px -11px;
+}
+.selector .sl-ext .sl-e-more:hover {
+    text-decoration: none;
+    color: #4680ea;
+}
+
+
+/*特殊页面的布局*/
+.pg-datetime-group{max-width:240px;}
+
+/*--------------------------------*/
+
+
+/*------------------------- layer 弹出层自定义样式 ------------------- */
+/*ah-layer*/
+.ah-layer-err{border:none;background-color:rgba(245, 26, 26, 0.64);color:white;}
+.ah-layer-err .layui-layer-ico{background: rgba(0, 0, 0, 0) url("/images/layer-icon.png") no-repeat scroll 0 0;}
+.ah-layer-err .layui-layer-ico2{ background-position: -60px 0;}
+
+.ah-layer-ok{border:none;background-color:rgba(16, 114, 12, 0.79);color:white;}
+.ah-layer-ok .layui-layer-ico{background: rgba(0, 0, 0, 0) url("/images/layer-icon.png") no-repeat scroll 0 0;}
+.ah-layer-ok .layui-layer-ico2{ background-position: -30px 0;}
+
+
+
+
+body .ah-layer .layui-layer-title {background-color: #4780eb;}
+
+.ah-tb-multline{}
+.ah-tb-multline .mobile_1,.ah-tb-multline .idcode_1,.ah-tb-multline .email_1
+{display:block;}
+.ah-nickname-1{color:#aaa;display:block;}
+.ah-nickname-1:before{content:"(";}
+.ah-nickname-1:after{content:")";}
+
+body .change-station{background-color:transparent!important;}
+body .change-station iframe{background-color:transparent!important;}
+
+/*-------------------- ViewComponent -----------------------*/
+ 
+.ah-th-customer{width:140px;}
+.ah-vc-tdcustomer{}
+.ah-vc-tdcustomer .customer {
+    font-weight: bold;
+    width: 50px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ah-vc-tdcustomer .gender{}
+.ah-vc-tdcustomer .birthday{}
+@media (max-width:800px) {
+    .ah-th-customer{width:auto;}
+.ah-vc-tdcustomer .customer{}
+.ah-vc-tdcustomer .gender{display:none;}
+.ah-vc-tdcustomer .birthday{display:none;}
+}

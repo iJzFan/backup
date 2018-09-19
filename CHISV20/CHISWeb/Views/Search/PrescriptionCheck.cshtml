@@ -1,0 +1,108 @@
+﻿@model CHIS.Models.ViewModel.PrescriptionCheckModel
+@{
+    ViewBag.Title = "处方签查证";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <style>
+        .navbar-inverse {
+            background-color: #1e94ea;
+            border: none;
+            border-radius: 0px;
+        }
+
+        .navbar-inverse .ah-nav-logo {
+            height: 40px;
+            margin-top: -11px;
+        }
+        #select_rlt .ah-prescription-items{}
+        #select_rlt .ah-prescription-items li{
+            display:inline-block;margin:3px 5px;width:200px;
+        }
+        #select_rlt .ah-prescription-items li>a{cursor:pointer;}
+    </style>
+}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img src="~/images/ahlogo2.png" class="ah-nav-logo" />
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class="text-center">
+            <h3>诊断处方查询系统</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4"></div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+            <section role="search">
+                <div class="form-group">
+                    <label class="control-label">患者：</label>
+                    <input type="text" placeholder="患者手机/邮箱/身份证/登录号/处方号/接诊号" name="SearchText" id="SearchText" class="form-control" value="@(Model.Treat?.CustomerMobile)" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">开始日期</label>
+                    <input type="date" placeholder="开始日期" name="DateTimeFrom" id="DateTimeFrom" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">结束日期</label>
+                    <input type="date" placeholder="结束日期" name="DateTimeEnd" id="DateTimeEnd" class="form-control" value="@(DateTime.Today.ToString("yyyy-MM-dd"))" />
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-default" style="width:100%;" id="search_btn">
+                        <i class="glyphicon glyphicon-search"></i>
+                        查询
+                    </button>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-4 col-md-4"></div>
+    </div>
+    <hr />
+    <div id="select_rlt"></div>
+    <div>
+        查询结果:
+    </div>
+    <div id="search_rlt">
+        @if (Model.Treat != null)
+        {
+            @await Html.PartialAsync("PrescriptionCheck_pv_SearchResult", Model)
+        }
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#search_btn").on("click", function () {
+                $.get("/openapi/Prescription/HtmPrescriptionOfCustomer", {
+                    searchText: $('#SearchText').val(),
+                    dateTimeFrom: $('#DateTimeFrom').val(),
+                    dateTimeEnd: $('#DateTimeEnd').val()
+                }, function (html) {
+                    $('#select_rlt').html(html);
+                });
+            });
+
+            $('#select_rlt').on("click", "li", function () {
+                $.post("/Search/LoadPrescriptionCheck?prescriptionNo=" + $(this).attr("prescription-no"), function (html) {
+                    $('#search_rlt').html(html);
+                });
+            });
+        });
+
+    </script>
+
+}

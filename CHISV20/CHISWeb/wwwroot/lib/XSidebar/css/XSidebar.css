@@ -1,0 +1,37 @@
+﻿.XS-li {
+    border-bottom: 1px dashed #ccc;
+    cursor: pointer;
+    height: 30px;
+    line-height: 28px;
+    text-indent: 9px;
+    display: flex;
+}
+.XS-li-active {
+    background: #ccc;
+}
+.XS-li input{
+    margin-left:9px;
+}
+.XS-li-content {
+    flex:1;
+}
+.XS-li span {
+    float: right;
+    font-size: 12px;
+    color: #999;
+}
+.XB-action-wrap {
+    flex: none;
+    height: 30px;
+    line-height: 30px;  
+    background: #eee;
+    border: 1px solid #ddd;
+}
+.XS-ul-items {
+    flex:1;
+    overflow:auto;
+}
+.XB-action-wrap i {
+    margin-left: 10px;
+    cursor: pointer;
+}

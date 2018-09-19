@@ -1,0 +1,174 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+
+@section links{ 
+    <style>
+        .ah-sign-bg{width:100%;min-height:500px;}
+        .ah-sign-panel{background-color:white;border:1px solid #ccc;border-radius:3px;
+                          box-shadow: 0 0px 13px #ababab;margin-top:10px;
+                          margin-bottom:10px;margin-left:10%;
+        }
+        .container{margin-top:2%;}
+     </style>
+}
+ 
+
+<div class="container">
+    <div>
+        <span>请在签名板上手动签名</span>
+    </div>
+    <div class="ah-sign-bg">
+        <canvas id="drawPanel" class="ah-sign-panel"></canvas>
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-primary" id="clear_btn">重签</button>
+        <button class="btn btn-primary">确定</button>
+        <button class="btn btn-default">取消</button>
+    </div>
+</div>
+
+
+@section scripts{
+   
+    <script>       
+
+        window.onload = function () {
+            //定义画布常量宽高(如果屏幕的大小-20比650小的话则在移动端，反之在pc端)
+            var baseHeight=Math.min(650, $(window).height() - 120);
+            var canvasWidth = baseHeight * 1.5;
+            var canvasHeight = baseHeight;
+            //默认鼠标按下为false
+            var isMouseDown = false;
+            //上一次鼠标记录的位置
+            var lastLoc = { x: 0, y: 0 };
+            //设置当前默认颜色
+            var strokeColor = "black";
+            //获取画布
+            var canvas = document.getElementById('drawPanel');
+            //获取画布上下文
+            var context = canvas.getContext('2d');
+            //设置画布大小
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            //调用画布
+            //drawGrid();
+
+            //动态设置 #controller宽度,让其适应手机屏幕
+            $(" #controller").css('width', canvasWidth + 'px');
+            //清除画布操作
+            $('#clear_btn').click(function () {
+                //清除画布上的字体
+                context.clearRect(0, 0, canvasWidth, canvasHeight);
+                //重新绘画
+                //drawGrid();
+            });
+            //颜色更换
+            $('.color_btn').click(function (e) {
+                //选中按钮时移除掉边框
+                $('.color_btn').removeClass('color_btn_selected');
+                //再在当前按钮添加边框
+                $(this).addClass('color_btn_selected');
+                //把当前选中的按钮颜色赋值给画笔
+                strokeColor = $(this).css('background-color');
+            });
+
+            //鼠标在画布按下时
+            canvas.onmousedown = function (e) {
+                e.preventDefault();
+                isMouseDown = true;
+                //console.log("mouse Down!");
+                //e.clientX和e.clientY传入当前屏幕坐标
+                lastLoc = windowToCanvas(e.clientX, e.clientY);
+                //alert(loc.x+","+loc.y);
+            };
+            //鼠标在画布按下松开后
+            canvas.onmouseup = function (e) {
+                e.preventDefault();
+                isMouseDown = false;
+                //console.log("mouse Up!");
+            };
+            //鼠标离开画布时
+            canvas.onmouseout = function (e) {
+                e.preventDefault();
+                isMouseDown = false;
+                //console.log("mouse out!");
+            };
+            //鼠标移动在画布上时
+            canvas.onmousemove = function (e) {
+                e.preventDefault();
+                if (isMouseDown) {
+                    //console.log("mouse move!");
+                    var curLoc = windowToCanvas(e.clientX, e.clientY);
+
+                    //draw
+                    context.beginPath();
+                    context.moveTo(lastLoc.x, lastLoc.y);
+                    context.lineTo(curLoc.x, curLoc.y);
+                    //设置画笔颜色
+                    context.strokeStyle = strokeColor;
+                    //设置画笔粗细
+                    context.lineWidth = 10;
+                    //填补空白
+                    context.lineCap = "round";
+                    //线条更加平滑
+                    context.lineJoin = "round";
+                    //画线
+                    context.stroke();
+                    //当再画时，当前就是等于上一次开始的时候
+                    lastLoc = curLoc;
+
+                }
+            };
+
+            //*屏幕坐标与canvas坐标的转换
+            function windowToCanvas(x, y) {
+                //创建canvas所对应的包围盒
+                var bbox = canvas.getBoundingClientRect();
+                //返回屏幕x坐标减去bbox距离左边的间距就是canvas距离左边的位置,顶部同理左边
+                return { x: Math.round(x - bbox.left), y: Math.round(y - bbox.top) };
+            };
+            function drawGrid() {
+                //保存当前画布
+                context.save();
+                //设置画布颜色
+                context.strokeStyle = "rgb(230,11,9)";
+                context.beginPath();
+                context.moveTo(3, 3);
+                context.lineTo(canvasWidth - 3, 3);
+                context.lineTo(canvasWidth - 3, canvasHeight - 3);
+                context.lineTo(3, canvasHeight - 3);
+                context.closePath();
+
+
+                context.lineWidth = 6;
+                context.stroke();
+
+
+                //四条直线
+                context.beginPath();
+                context.moveTo(0, 0);
+                context.lineTo(canvasWidth, canvasHeight);
+
+                context.moveTo(0, canvasHeight);
+                context.lineTo(canvasWidth, 0);
+
+                context.moveTo(0, canvasHeight / 2);
+                context.lineTo(canvasWidth, canvasHeight / 2);
+
+                context.moveTo(canvasWidth / 2, 0);
+                context.lineTo(canvasWidth / 2, canvasHeight);
+
+                context.lineWidth = 1;
+                context.stroke();
+
+                context.restore();
+            }
+
+        }
+    </script>
+}

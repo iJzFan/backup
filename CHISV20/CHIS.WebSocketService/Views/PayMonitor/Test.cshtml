@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "测试";
+}
+<div>
+    <br /><br />
+    <input class="form-control" type="text" id="sendtxt" value="测试" />
+    <input type="button" onclick="doStart()" value="连接" />
+    <input type="button" onclick="doClose()" value="关闭" />
+    <hr />
+    <div id="msg">
+
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        var socket, qrSocket;
+        var uri = "ws://" + window.location.host + "/ws-pay-station-monitor?stationId=10&doctorId=9";
+        var qruri = "ws://" + window.location.host + "/ws-pay-qr-monitor?stationId=10&doctorId=9";
+        console.log(uri);
+        //初始化连接
+        function doConnect(open, accept, close, error) {
+            //创建websocket,并定义事件回调
+            if (socket != null) { socket.close(); socket == null; }
+            socket = new WebSocket(uri);
+            socket.onopen = function (e) { open(); };
+            socket.onclose = function (e) { close(); };
+            socket.onmessage = function (e) { accept(e.data); };
+            socket.onerror = function (e) { error(e.data); };
+            console.log(socket);
+        }
+
+        function doStart() { doConnect(open, accept, close, error); }
+        //发送信息
+        function doSend(message) { socket.send(message); }
+        //关闭socket
+        function doClose() { socket.close(); socket = null; }
+
+
+
+        function msg(msg) {
+            document.getElementById("msg").innerHTML += msg + "<br/>";
+        }
+
+
+        //打开连接回调
+        function open() { msg("连接打开"); }
+        //接收数据回调
+        function accept(result) {
+            msg("从服务器获取数据:" + result);
+            var jn = eval("(" + result + ")");
+            console.log(jn);
+            if (jn.rlt && jn.payOrderId) {
+                var url = qruri + "&payOrderId=" + jn.payOrderId;
+                doPayConnect(url);
+            }
+
+            //封装到此调用函数内
+            function doPayConnect(url, open, accept, close, error) {
+                //创建websocket,并定义事件回调
+                if (qrSocket != null) { qrSocket.close(); qrSocket == null; }
+                qrSocket = new WebSocket(url);
+                qrSocket.onopen = function (e) { qropen(); };
+                qrSocket.onclose = function (e) { qrclose(); };
+                qrSocket.onmessage = function (e) { qraccept(e.data); };
+                qrSocket.onerror = function (e) { qrerror(e.data); };
+            }
+
+            function qropen() { msg("【二维码监控】启动"); }
+            function qrclose() { msg("【二维码监控】关闭"); }
+            function qraccept(result) {
+                msg("【二维码监控】获取数据：" + result);             
+                var jn = eval("(" + result + ")");
+                console.log(jn);
+                switch (jn.status) {
+                    case "GETPAYINFO"://获取到二维码相关数据
+
+                        break;
+                    case "PAYEDSUCCESS"://已经支付成功了
+
+                        break;
+                    case "THISPAYOK"://当次支付成功
+
+                        break;
+                    case "ERROR"://出现失败
+
+                        break;
+                    case "TIMEOUT"://超时
+
+                        break;
+                    default://未知状态
+                        break;
+                }   
+            }
+            function qrerror(err) { msg("【二维码监控】Error:"+err); }
+
+
+        }
+        //关闭连接回调
+        function close() { msg("连接关闭"); }
+        //错误回调
+        function error(result) { msg("<div style='color:red'>错误：" + result + "</div>"); }
+        function send() {
+            var msg = document.getElementById("sendtxt").value;
+            doSend(msg); msg("发送数据:" + msg);
+        }
+    </script>
+}

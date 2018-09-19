@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="=en">
+<head>
+    <meta charset="utf-8" />
+    <title>预约</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <metaname ="screen-orientation" content="portrait" />
+    <metaname ="x5-orientation" content="portrait" />
+    <meta name="author" content="" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="full-screen" content="yes" />
+    <environment names="Development">
+        <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link href="~/lib/iCheck/skins/all.css" rel="stylesheet" />
+        <link href="~/lib/datepicker/foundation-datepicker.css" rel="stylesheet" />
+        <link href="~/lib/jquery-weui/jquery-weui.css" rel="stylesheet" />
+        <link href="~/lib/jquery-weui/weui.min.css" rel="stylesheet" />
+        <link href="~/lib/jquery-pager/Pager.css" rel="stylesheet" />
+        <link href="~/lib/jquery.scrollbar/css/jquery.scrollbar.css" rel="stylesheet" />
+        <link href="~/customer/css/appintment-layer-0.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/common-overide.css" />
+        <link rel="stylesheet" href="~/css/common-self.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/ahzp-appointment.min.css" />
+        <link href="~/lib/iCheck/skins/all.css" rel="stylesheet" />
+    </environment>
+
+    @RenderSection("links", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/layer/build/layer.js"></script>
+    <script src="~/js/ah-config.js"></script>
+</head>
+<body>
+    @* 页面内容占位 *@
+    <div class="portrait">
+        <div class="wrap">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="landscape">
+        <img src="~/customer/image/land-tips.png" width="250" style="margin-top:55px" />
+    </div>
+
+    @* js部分的载入 *@
+    <environment names="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/vue.min.js"></script>
+        <script src="~/lib/template.js"></script>
+        <script src="~/lib/third-part-library/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/lib/third-part-library/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+        <script src="~/lib/datepicker/foundation-datepicker.js"></script>
+        <script src="~/lib/third-part-library/template.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/iCheck/icheck.js"></script>
+        <script src="~/lib/jquery-weui/fastclick.js"></script>
+        <script src="~/lib/jquery-weui/jquery-weui.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/jquery-pager/jquery.pager.js"></script>
+        <script src="~/lib/jquery.form.min.js"></script>
+        <script src="~/lib/jquery.scrollbar/js/jquery.scrollbar.js"></script>
+        <script src="~/lib/citySelect.js"></script>
+        <script src="~/lib/layui/layui.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/layui/layui.js"></script>
+        <script type="text/javascript" src="~/js/ahzp-appointment.min.js"></script>
+    </environment>
+    @* 公用js *@
+    <script src="~/js/common-function.js"></script>
+    <script src="~/js/common-project.js"></script>
+
+    @*载入属于页面的JS*@
+
+    @RenderSection("scripts", required: false)
+    <script>
+        //处理横屏
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+        function hengshuping() {
+            if (window.orientation == 90 || window.orientation == -90) {
+                //横屏
+                $(".landscape").css("display", "flex");
+                $(".portrait").hide();
+            } else {
+                //竖屏
+                $(".landscape").hide();
+                $(".portrait").show();
+            }
+        }
+        //载入最后的复写样式
+        $(function () {
+            $("head").append('<link rel="stylesheet" href="/css/common-overide-last.css" />');
+            hengshuping();
+        });
+    </script>
+</body>
+
+</html>

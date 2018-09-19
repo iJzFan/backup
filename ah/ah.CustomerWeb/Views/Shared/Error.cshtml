@@ -1,0 +1,31 @@
+﻿@model Exception
+@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    ViewData["Title"] = "Error";
+}
+
+<div class="container">
+    <div style="font-size:60px;color:#ff6a00;float:left;margin-right:20px;"><i class="fa fa-remove"></i></div>
+    <div style="float:left;">
+        <h1 class="text-danger">后台出现错误</h1>
+        <h2 class="text-danger">处理您的请求的时候出现错误</h2>
+
+        <p class="text-danger">
+            <span>错误内容 : </span>  @Model.Message
+        </p>
+        @if (Ass.P.PBool(ViewBag.IsShowBack,true))
+        {
+        <div>
+            @if (Ass.P.PStr(ViewBag.BackLink) == "")
+            {
+                <a href="javascript:void(0)" onclick="history.go(-1);">返回</a>
+            }
+            else
+            {
+                <a href="@ViewBag.BackLink">@ViewBag.BackLinkName</a>
+            }
+        </div>
+        }
+    </div>
+
+</div>

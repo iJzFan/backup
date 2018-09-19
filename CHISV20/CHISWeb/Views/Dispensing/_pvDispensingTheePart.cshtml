@@ -1,0 +1,44 @@
+﻿@model DispensingDetailOfStoreViewModel
+@{
+
+}
+
+<div class="public-tab-content">
+    <div>
+        <div>工作站</div>
+        @Model.Station.StationName
+    </div>
+    @if (Model.WebSupplier != null)
+    {
+        <div>
+            <div>供应商信息</div>
+            @Model.WebSupplier.CompanyName
+            <span>@Model.WebSupplier.CompanyShortName</span>
+        </div>
+    }
+    <div>
+        @foreach (var item in Model.Formed)
+        {
+            <div>
+                @item.DrugName
+            </div>
+        }
+    </div>
+    <div>
+        @foreach (var key in Model.Herb.Keys)
+        {
+            <div>
+                @key.HerbTitle
+                @key.Qty
+            </div>
+            <ul>
+                @foreach (var item in Model.Herb[key])
+                {
+                    <li>
+                        <b>@item.DrugName</b>  <i>@item.Qty</i>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div> 

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CHIS.DbContext\CHIS.DbContext.csproj" />
+    <ProjectReference Include="..\CHIS.Models.SysAuto\CHIS.Models.SysAuto.csproj" />
+    <ProjectReference Include="..\CHIS.Models\CHIS.Models.csproj" />
+  </ItemGroup>
+
+</Project>

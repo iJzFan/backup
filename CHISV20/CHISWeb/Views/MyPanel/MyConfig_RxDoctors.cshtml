@@ -1,0 +1,23 @@
+﻿@model IEnumerable<DoctorSEntityV02>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li class="ah-rx-li">
+            <div class="ah-rxdoc @Html.Raw(item.IsRxDefault?"ah-rxdoc-def":"")">
+                <div><img src="@item.DoctorPhotoUrl" class="ah-doctor-pic" /></div>
+                <div>
+                    <div>@item.DoctorName</div>
+                    <div>@item.PostTitleName</div>
+                    <div>@item.DoctorSkillRmk</div>
+                </div>
+                <div>
+                    @if (!item.IsRxDefault)
+                    {
+                        <a onclick="setDefRxDoctor(@item.DoctorId)">设默认</a>
+                    }
+                    <a onclick="delRxDoctor(@item.DoctorId)">删除</a>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

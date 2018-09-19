@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "我的药房-新药申请明细";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+    <link href="~/css/pages/chis-pharmacy.css" rel="stylesheet" />
+    <style>
+    </style>
+}
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入用姓名或手机号码" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap ah-flex-auto">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <button class="ah-btn-red" onclick="NewDrugApply(1);">申请西药/中成药</button>
+        </div>
+        <div class="ah-tool-wrap">
+            <button class="ah-btn-red" onclick="NewDrugApply(2);">申请中草药</button>
+        </div>
+        <div class="ah-tool-wrap">
+            <button class="ah-btn-red" onclick="NewDrugApply(3);">申请材料</button>
+        </div>
+        <div class="ah-tool-wrap">
+            <button class="ah-btn-red" onclick="NewDrugApply(4);">申请处置项目</button>
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="status"><strong>进度：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" class="ah-search-radio" value="APPLYING" name="activeStatus" /><span>核查中</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" class="ah-search-radio" value="ALLOWED" name="activeStatus" /><span>通过</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" class="ah-search-radio" value="REJECT" name="activeStatus" /><span>未通过</span></label>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="TimeRange"><strong>时间段：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span>当日</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                        </section>
+
+                        <section class="section-inline ah-search-input">
+                            <div class="section-more-wrap">
+                                <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                至
+                                <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                <button class="ah-btn-blue" type="button">确定</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="sl-ext">
+                    <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ah-table-wrap" ah-id="MENU-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+@section scripts{
+    <script src="~/js/ah-common-search.js"></script>
+    <script src="~/js/pages/pharmacy-my-drug-store.js"></script>
+    <script>
+        SEARCH.searchMain = "MENU-TABLE";//搜索结果存放区域
+        SEARCH.searchUrl = "/Pharmacy/MyDrugMenuList"; //设置搜索的请求地址
+        SEARCH.search(1);
+        $(function () {
+            //删除入库药品
+            $('tbody[ah-id="income-main-table"]').on("click", "a[ah-income-active='del']", function () {
+                INCOME.delIncomeDrug(this);
+            });
+        })
+        function NewDrugApply(pare) {
+
+            $.open({
+                type: 2,
+                title: "申请药品",
+                fix: false,
+                content: "/code/CHIS_Code_DrugMsg_Edit?op=NEWF&type=1&mold="+pare,
+                btn: ["确定", "取消"],
+                yes: function (index, layero) {
+                    var win = top.window[layero.find('iframe')[0]['name']];
+                    win.ApplyDrug({
+                        sendSuccess: function (jn) {
+                            if (jn.rlt) {
+                                top.layer.close(index);
+                                SEARCH.search(1);
+                            } else $.alertError(jn.msg);
+                        },
+                        sendFailed: function (jn) { $.err("传送错误！"); }
+                    });
+                }
+            });
+        }
+        //鼠标移入移出
+        function showBigImg(_this) {
+            $(_this).next().show();
+        }
+        function hideBigImg(_this) {
+            $(_this).next().hide();
+        }
+    </script>
+}

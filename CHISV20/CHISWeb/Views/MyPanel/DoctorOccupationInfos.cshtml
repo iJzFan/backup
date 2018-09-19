@@ -1,0 +1,343 @@
+﻿@using Ass;
+@model CHIS.Models.DataModel.vwDoctor
+@{
+    ViewBag.Title = "完善医生职业信息";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+    var bShowDetail =!u.MyRoleNames.Contains("drugstore_nurse") && (u.StationTypeId != CHIS.DictValues.StationType.k_StationType_DrugStore);
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        .single-selector a.select {
+            line-height: 22px;
+        }
+    </style>
+}
+
+
+
+<div class="ah-max-width">
+    <form>
+        <div class="container layui-form">
+            <!--该部分是导航部分-->
+            <ul class="ah-step-wrap ah-flex">
+                <li><a href="/MyPanel/DoctorInfos">基本信息</a></li>
+                <li class="ah-strp-active"><a>职业信息</a></li>
+            </ul>
+
+            @if (bShowDetail)
+    {
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2">
+                <div class="ah-col-md1 ah-flex-layout">
+                    <div class="ah-fixed-md2">
+                        <div class="ah-data-label">门诊</div>
+                        <div style="height:32px;margin-right:10px;">
+                            <div class="single-selector" id="sel_station">
+                                <span class="station-name"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ah-fixed-md2" style="padding-right:10px;">
+                        <div class="ah-data-label">科室:</div>
+                        <select class="ah-data-select" id="sel_dep" onchange="addDep()">
+                            <option value="">请选择门诊</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="ah-data-label">科室信息</div>
+                <div class="ah-myPanel-depWrap ah-flex" id="depItemsWrap">
+                    @foreach (var item in Model.DoctorAllowedDepartsNormal)
+            {
+                <div class="ah-fixed-md2 ah-flex ah-myPanel-depItems">
+                    <div class="ah-flex ah-myPanel-dep dep-isverified-@item.IsVerified">
+                        <div class="ah-flex">
+                            <span ah-id="dep-stationName">@(item.StationName)</span>
+                            <span class="depart">
+                                <span ah-id="dep-name">@(item.DepartmentName)</span>
+                                @if (item.IsVerified)
+                        {
+                            <i class="ah-mk-char">审</i>
+                }
+                            </span>
+                        </div>
+                        <i name="dep-remove" class="glyphicon glyphicon-remove" did="@item.DepartId"></i>
+                    </div>
+                </div>
+    }
+                </div>
+
+            </div>
+            <div class="ah-col-md2 ah-flex-data ah-align-self">
+                <input id="CertificateItem" type="hidden" autocomplete="off" value="" />
+                <div class="ah-col-md1 ah-flex-layout">
+                    <div class="ah-data-label">上传证书</div>
+                    <div class="ah-col-md1">
+                        @{
+                    var cer = myRazor.GetSelectListItemsByDictKey("DoctorCertTypes").ToList();
+                        }
+                        <select asp-items="cer" id="Certificate" class="ah-data-select" onchange="addCertificate()">
+                            <option value="">未选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label">证书</div>
+                    <div class="ah-myPanel-cert-wrap" id="CertificateWrap">
+                        @foreach (var item in Model.MyCertificates)
+                {
+                    <div class="ah-fixed-md1 ah-flex">
+                        <div class="ah-flex ah-myPanel-cert cert-isverified-@item.IsVerified">
+                            <div class="ah-flex">
+                                <span>@(item.DoctorCertType)</span>
+                                <span>
+                                    <a class="picIcon" ah-id="cert-img" href="@(Global.ConfigSettings.CertificateImagePathRoot + item.CertImgUrl)" target="_blank">
+                                        [图]
+                                        <img class="certificatePic" src="@(Global.ConfigSettings.CertificateImagePathRoot + item.CertImgUrl)" style="display: none;">
+                                    </a>
+                                    @if (item.IsVerified)
+                            {
+                                <i class="ah-mk-char">审</i>
+                    }
+                                </span>
+                            </div>
+                            <i name="cert-remove" class="glyphicon glyphicon-remove" cid="@(item.CertTypeId)" curl="@(item.CertImgUrl)"></i>
+                        </div>
+                    </div>
+        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-mb-10">
+                <div class="ah-data-label">网上医生</div>
+                <input type="checkbox" asp-for="IsNetDoctor" value="true" title="我要做网上医生">
+            </div>
+            <div class="ah-col-md1">
+                <div class="ah-data-label">网医科室</div>
+                <div class="ah-flex ah-flex-wrap">
+                    @foreach (var item in Model.NetDepartments)
+            {
+                <div class="ah-mb-10 ">
+                    @if (Model.MyNetDepartments.FirstOrDefault(m => m.DepartId == item.DepartmentID)?.IsVerified == true)
+            {
+                <i class="ah-mk-char">审</i>
+    }
+                    <input type="checkbox" value="@item.DepartmentID" name="net_depart" title="@item.DepartmentName"
+                           @Html.Raw(Model.MyNetDepartments.Any(m => m.DepartId == item.DepartmentID) ? "checked='checked'" : "") />
+                </div>
+
+    }
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-mb-10">
+                <div class="ah-data-label">职称等级</div>
+                @{
+            var pos = myRazor.GetSelectListItemsByDictKey("PostTitle", tagGroup: "doctor");
+                }
+                <select class="ah-data-select" asp-items="pos" asp-for="DoctorBase.PostTitle">
+                    <option value="">-- 选择职级 --</option>
+                </select>
+            </div>
+            <div class="ah-col-md1">
+                <div class="ah-data-label">专长描述</div>
+                <textarea placeholder="请输入内容" cols="3" style="height:150px" class="layui-textarea" asp-for="DoctorBase.DoctorSkillRmk"></textarea>
+            </div>
+        </div>
+
+}
+            <div class="ah-flex ah-justify-end">
+                <button type="button" class="ah-btn-blue" onclick="Save();">保存职业信息 </button>
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+
+
+@section scripts{
+    <script>
+        var pagedata = {
+            op: null,
+            ver: 1,
+            certRoot:'@(Global.ConfigSettings.CertificateImagePathRoot)'
+        }
+
+        function Save() {
+            //设置基本数据
+            var d = {
+                DoctorBase: {
+                    PostTitle: $('#DoctorBase_PostTitle').val(),
+                    DoctorSkillRmk: $('#DoctorBase_DoctorSkillRmk').val()
+                }
+            };
+            //-------------------------------- 设置工作站科室数据 --------------------------------------------------------
+            var didArray = new Array(); //int
+
+            if ($('#IsNetDoctor').is(":checked")) {/*网络医生*/
+                $('[name=net_depart]:checked').each(function (i, item) {
+                    didArray.push(parseInt($(item).val()));//添加该数据
+                });
+            }
+            $('#depItemsWrap [did]').each(function (i, item) { didArray.push(parseInt($(item).attr("did"))); });/*添加清单表上的工作站数据*/
+
+            //------------------------------ 设置人员的证书数据 ------------------------------------------------------------
+            var certArray = new Array();//{ CertTypeId: 111, CertImgUrl:"" }
+            $("i[name='cert-remove']").each(function () {
+                certArray.push({ CertTypeId: parseInt($(this).attr("cid")), CertImgUrl: $(this).attr("curl") });
+            })
+            $.post("/MyPanel/DoctorOccupationInfosSave", { model: d, departsId: didArray, certbooks:certArray }, function (jn) {
+                if (jn.rlt) {
+                    layer.msg(jn.message);
+                    location.href = "/MyPanel/CheckingOccupationInfo";
+                } else {
+                    layer.msg("保存失败，请重试！");
+                }
+            });
+        }
+
+        $(function () {
+            $('#sel_station').singleSelector({
+                placeholder: "请输入门诊的名称",
+                valueName: 'stationID',
+                searchUrl: '/api/syshis/TreatStationOfSearch',
+                isReadonly: pagedata.op == "VIEW",
+                onSelect: function (jn) {
+                    $('#sel_station').find('.station-name').text(jn.stationName).attr("sid", jn.stationID);
+                    $.loadJSON('/api/syshis/DepartsOfStation', { stationId: jn.stationID,bAllDepart:false}, function (jn) {
+                        $("#sel_dep").html("").append("<option value='null'>请选择</option>");
+                        for(var i = 0; i < jn.length; i++){
+                            $("#sel_dep").append("<option value=" + jn[i].departmentID +">"+jn[i].departmentName+"</option>")
+                        }
+                        $.updataAllLayui()
+                    });
+                },
+                formatSearchItem: function (jn) {
+                    return "<li><a>" + jn.stationName+"</a></li>";
+                }
+            });
+            //删除科室监听
+            $("#depItemsWrap").on("click", "i[name='dep-remove']", function () {
+                var _this = $(this);
+                var pthis = _this.prev();
+                $.confirm("删除", "是否删除</br>" + pthis.find("span[ah-id='dep-stationName']").html() + "</br>" + pthis.find("span[ah-id='dep-name']").html(), function () {
+                    _this.parents(".ah-myPanel-depItems").remove();
+                });
+            })
+            //删除证书监听
+            $("#CertificateWrap").on("click", "i[name='cert-remove']", function () {
+                var _this = $(this);
+                $.confirm("删除", "是否删除该证书？", function () {
+
+                    _this.parents(".ah-fixed-md1").first().remove();
+                });
+            });
+            //证书图片
+            $("#CertificateWrap").on("mouseover mouseout", ".picIcon", function (event) {
+                var _this = $(this);
+                if(event.type == "mouseover"){
+                    _this.find("img").show();
+                }else if (event.type == "mouseout") {
+                    _this.find("img").hide();
+                }
+            })
+        });
+        //新增证书
+        function addCertificate() {
+            var sVal = $("#Certificate").val();
+            if (sVal == "null" || sVal == "") {
+                layer.msg("请选择证书!");return;
+            }
+            var state = false;
+            $("i[name='cert-remove']").each(function () {
+                if ($(this).attr("cid") == sVal) {
+                    state = true
+                }
+            });
+            if (!state) {
+                var handle = layer.open({
+                    type: 2,
+                    title: "上传证书",
+                    area: ['60%', '98%'],
+                    content: '/tools/UploadPic?picType=cert&size=856x540&posType=cert&sourceId=cert&fileName=' + $('#Customer_CustomerPic_Cert').val()
+                });
+            } else {
+                $.err("该证书已存在!")
+            }
+        }
+        //上传图片回调
+        function setPicName(fileName, sourceId) {
+            if (sourceId == "cert") {
+                var c = $("#Certificate").find("option:selected");
+                eachCertificate(c.html(), fileName, false, c.val());
+            }
+        }
+        //证书遍历
+        function eachCertificate(title,url,state,cid) {
+
+            var html = "";
+            html += '<div class="ah-fixed-md1 ah-flex">';
+            html += '    <div class="ah-flex ah-myPanel-cert cert-isverified-False">';
+            html += '        <div class="ah-flex">';
+            html += '            <span>' + title+'</span>';
+            html += '            <span>';
+            html += '                <a  class="picIcon" ah-id="cert-img" href="' + pagedata.certRoot + url +'" target="_blank">';
+            html += '                    [图]';
+            html += '                    <img class="certificatePic" src="' + pagedata.certRoot + url +'" style="display: none;">';
+            html += '                </a>';
+            html += '             </span>';
+            html += '        </div>';
+            html += '        <i name="cert-remove" class="glyphicon glyphicon-remove" cid="' + cid+'" curl="'+url+'"></i>';
+            html += '    </div>';
+            html += '</div>';
+            
+            $("#CertificateWrap").append(html);
+            $.ok("添加成功,请及时保存！");
+        }
+        //新增科室
+        function addDep() {
+            var sel_dep_id = $("#sel_dep").val();//科室ID
+            var sel_dep_val = $("#sel_dep").find("option:selected").html();//科室名称
+            var stationID = $('#sel_station').find('.station-name').attr("sid");//门诊ID
+            var stationName= $('#sel_station').find('.station-name').text();//门诊名称
+
+            if (stationID == null || stationID == "") { layer.msg("请选择门诊!"); return; }
+            if (sel_dep_id == "null" || sel_dep_id == "") { layer.msg("请选择科室!"); return; }
+
+            var state = false;
+            //判断科室是否已经存在
+            $("i[name='dep-remove']").each(function () {
+                if (parseInt($(this).attr("did")) == sel_dep_id) {
+                    state = true;
+                }
+            });
+
+            if (state) { $.err("科室不能重复!"); return; }
+            else {
+                var html = "";
+                html += '<div class="ah-fixed-md2 ah-flex ah-myPanel-depItems">';
+                html += '    <div class="ah-flex ah-myPanel-dep dep-isverified-False">';
+                html += '        <div class="ah-flex">';
+                html += '            <span ah-id="dep-stationName">' + stationName +'</span>';
+                html += '            <span class="depart">';
+                html += '                <span ah-id="dep-name">' + sel_dep_val+'</span>';
+                html += '            </span>';
+                html += '        </div>';
+                html += '        <i name="dep-remove" class="glyphicon glyphicon-remove" did="' + sel_dep_id+'"></i>';
+                html += '    </div>';
+                html += '</div>';
+                $("#depItemsWrap").append(html);
+                $.ok("添加成功,请及时保存！");
+            }
+        }
+    </script>
+}

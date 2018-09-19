@@ -1,0 +1,117 @@
+﻿@model Ass.Mvc.PageListInfo<ah.Models.vwAHMS_HMGR_BreastMgr>
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        img.upic { border-radius: 100px; width:48px;height:48px; }
+        .s-notok{color:#fff;background:#ff6a00;padding:3px;border-radius:2px;}
+        .level-pic {
+            width: 20px;
+        }
+    </style>
+}
+
+<div class="main-title">
+    <i class="glyphicon glyphicon-folder-open"></i>乳腺癌健康档案
+</div>
+<div class="main-content">
+    <div class="search-wrap">
+        <form>
+            <input type="text" name="searchText" placeholder="手机/邮箱/身份证" />
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th></th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>是否会员</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>婚况</th>
+                <th>是否异常</th>
+                <th>预判管理等级</th>
+                <th>评定时间</th>
+                <th>创建时间</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.BreastMgrId</td>
+                    <td>           
+                        <img class="upic" src="@(myRazor.GetCustomerDefImagePath(item.CustomerPhoto,item.Gender))" />
+                    </td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.Gender?.ToGenderString()</td>
+                    <td>@item.Birthday?.ToAgeString()</td>
+                    <td>@(item.CustomerId > 0 ? "是" : "")</td>
+                    <td>@item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                    <td>@item.Email.ToMarkString(Ass.Models.MaskType.EmailCode)</td>
+                    <td>@item.MarriageStatus</td>
+                    <td>
+                        @if (item.BreastIsNotRight == true)
+                        {
+                            <span class="s-notok">异常</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="breast-level-@item.BreastMgrLevel">
+                            <img class="level-pic" src="../../HealthMgr/img/level_@(item.BreastMgrLevel).png" />   
+                        </span>
+                    </td>
+                    <td>@item.BreastJudgeTime?.ToStdString()</td>
+                    <td>@item.BreastCreateTime?.ToStdString()</td>
+                    <td class="action">
+                        <a class="edit" href="javascript:void(0)" onclick="breastLevel(@item.BreastMgrId)">乳腺癌评级</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            @*var page = $("#page").XPage({
+                pageIndex:@(Model.PageIndex),//当前页
+                pageTotal:@(Model.PageTotal),//总页数
+                pageSize:@(Model.PageSize),//页条数
+                recordTotal:@(Model.RecordTotal),//总条数
+                showPageCount: 4,//用于显示分页显示的量
+                onPageClick: function (pageIndex) {
+                    if (pageIndex) {
+                        window.location.href = "/HealthMgr/BackPanel/CustomerDaily?pageIndex=" + pageIndex;
+                    }
+                }
+            });*@
+        });
+        function breastLevel(bid) {
+            layer.open({
+                type: 2,
+                btn: ['提交','取消'],
+                title: '疾病评级',
+                shade: 0.8,
+                area: ['880px', '80%'],
+                content: '/HealthMgr/BackPanel/BreastJudge?breastMgrId=' + bid,
+                yes: function (index, layero) {
+                    window[layero.find('iframe')[0]['name']].submitForm();
+                }
+            }); 
+        }
+    </script>
+}

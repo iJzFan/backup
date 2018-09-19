@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ah.Models.ViewModel.StationSimpleInfo>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <div class="follow-doctor" style="height:200px;">
+        <div class="ah-flex ah-doctor-main">
+            <div class=" layui-anim ah-doctor-bj">
+                <div class="ah-doctor-pic" style="background:url(@item.StationImgUrl)"></div>
+                <div class="ah-flex-auto ah-station" style="overflow:hidden;">
+                    <div><span class="postTitleName">@item.StationName</span></div>
+                </div>
+            </div>
+            @if (item.IsFollow == true)
+            {
+                <div class="ah-flex ah-doctor-active">
+                    <a class="ah-flex" onclick="FOLLOW.CustomerFollow(@item.StationId,null,false,this)"><i class="layui-icon">&#xe600;</i>取消关注</a>
+                </div>
+            }
+            else
+            {
+                <div class="ah-flex ah-doctor-active">
+                    <a class="ah-flex" onclick="RECANT.ContinueAppointment(@item.StationId,'@item.StationName','station')"><i class="fa fa-history fa-lg"></i>继续约诊</a>
+                </div>
+            }
+        </div>
+    </div>
+}

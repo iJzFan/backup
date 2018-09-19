@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@section links{
+    <style>
+        .address_map {
+            height: 540px;
+        }
+    </style>
+
+
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/CallCenter">客服中心</a></li>
+    </ol>
+</div>
+<div class="ah-public-main">
+    <div class="address_map col-md-8" id="address_map">
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=56cdf40e52d7dbbd2d57753250b68966">
+            //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+            //v1.4版本及以前版本的引用方式：src="http://api.map.baidu.com/api?v=1.4&key=您的密钥&callback=initialize"
+        </script>
+        <script type="text/javascript">
+            var map = new BMap.Map("address_map");          // 创建地图实例
+            var point = new BMap.Point(113.897109, 22.956617);  // 创建点坐标
+            map.centerAndZoom(point, 17);
+            var marker = new BMap.Marker(point);        // 创建标注
+            map.addOverlay(marker);                     // 将标注添加到地图中
+        </script>
+    </div>
+    <div class="addressInfo col-md-4">
+        <address>
+            <h4><strong>天使健康客服中心</strong></h4>
+            广东省东莞市南城区第一国际B座703-704<br>
+            财富中心<br>
+            <abbr title="Phone">P:</abbr> (0769) 2341585
+        </address>
+        <address>
+            <h4><strong>天使健康客服中心</strong></h4>
+            广东省东莞市南城区第一国际B座703-704<br>
+            财富中心<br>
+            <abbr title="Phone">P:</abbr> (0769) 2341585
+        </address>
+        <address>
+            <h4><strong>天使健康</strong></h4>
+            <a href="mailto:#">ts.tsjk365@@.com</a>
+        </address>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "信息审核中";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+<style>
+    .wrap {
+        position: absolute;
+        top: 52px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+    }
+    .checking-pic {
+        width: 230px;
+    }
+</style>
+}
+ <div class="wrap">
+     <img class="checking-pic" src="~/images/checking.png" />
+ </div>
+@section scripts{
+   
+}

@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="=en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta charset="utf-8" />
+    <title>打印预览-@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width,initial=scale=1.0" />
+    <meta name="author" content="" /> 
+    <script id="jquery" src="http://chis.jk213.com/lib/jquery/dist/jquery.min.js"></script>
+    <script id="jq_qrcode" src="http://chis.jk213.com/lib/qrcode/jquery.qrcode.min.js"></script> 
+    <style>
+        body{background-color:#aaa;}
+        body,table,td,th{font-size:13px;font-family:SimSun,SimHei;}
+         body{margin:0;padding:0;}
+        .fullrow{position:relative;width:100%;background-color:#eee;height: 50px;line-height: 50px;}
+        .clearfix{clear:both;}
+        .right{float:right;}
+        .page-bg{background:#aaa;}
+        .page-bg *{box-sizing:border-box;}
+        #content{margin:10px auto 0;padding:30px 0;}
+        .page{position:relative;padding:30px;width:100%;height:100%;border:1px solid #888;background:#fff;}
+        .A4{width:210mm;height:297mm;}
+        .A5{width:148mm;height:210mm;}
+    </style>
+    @RenderSection("links", required: false)
+    @RenderSection("headscript",required:false)
+</head>
+<body>
+
+    <div class="fullrow">
+        <div class="right" style="margin-left:10px;margin-right:10px;">
+            <button style="width: 100px;height: 30px;background: #4780eb;cursor:pointer; border: none;color: #fff;" onclick="printpage();">打印</button>
+        </div>
+        <div class="right">
+            <label><input type="radio" name="pageSize" value="A4"  />A4</label>@*21*29.7*@
+            <label><input type="radio" name="pageSize" value="A5" checked />A5</label>@*14.8*21*@
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="page-bg">
+        <div id="content" class="A4">
+            <div class="page">
+                <!--startprint-->
+                <div style="position:relative;width:100%;height:100%;">
+                    @RenderBody()
+                </div>
+                <!--endprint-->
+            </div>
+        </div>
+    </div>
+
+    <iframe style="display:none;width:100%;height:1000px;" id="printfm"></iframe>
+
+
+    <script type="text/javascript">
+           $(function () {
+               $('input[name=pageSize]').on("change", setPage);
+               setPage();
+           });
+
+           function setPage() {
+               var cls = $('input[name=pageSize]:checked').val();
+               $('#content').removeAttr("class").addClass(cls);
+           }
+        //开始打印
+           function printpage() {
+               var bdhtml = window.document.body.innerHTML;//获取当前页的html代码 
+               var startStr = "<!--startprint-->";//设置打印开始区域 
+               var endStr = "<!--endprint-->";//设置打印结束区域 
+               var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
+               var head = document.getElementsByTagName('head')[0];
+               var fm = document.getElementById("printfm");
+               var ed = document.all ? fm.contentWindow.document : fm.contentDocument;
+               
+               ed.open(); 
+              if(ed.body!=null) ed.body.innerHTML = "";
+               ed.write(printHtml);
+               ed.contentEditable = true;
+               ed.designMode = 'on';
+               var hd = ed.getElementsByTagName('head')[0];
+                
+               hd.innerHTML = head.innerHTML;
+               ed.title = "　";
+              // window.document.body.innerHTML = printHtml;//需要打印的页面         
+               console.log(fm);
+               console.log(fm.contentWindow);
+
+               fm.contentWindow.print();
+              // window.document.body.innerHTML = bdhtml;//还原界面           
+           } 
+    </script>
+    @RenderSection("scripts",required:false)
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+﻿@model DispensingDetailOfStoreViewModel
+@{
+
+}
+<style>
+    caption a.dispensing-send {
+        float: right;
+        background: #4780eb;
+        color: #fff !important;
+        padding: 2px 16px;
+        border-radius: 3px;
+    }
+    
+    .ah-table-wrap table {
+        margin-bottom: 20px;
+    }
+</style>
+@* 本地药品 *@
+<div class="ah-drug-table">
+    @if (Model.WebSupplier != null)
+    {
+        <div>
+            <div>供应商信息</div>
+            @Model.WebSupplier.CompanyName
+            <span>@Model.WebSupplier.CompanyShortName</span>
+        </div>
+    }
+
+    @if (Model.Formed.Count() > 0)
+    {
+        var tread = (from t in Model.Formed orderby t.TreatId select t).First();
+        var preNos = Model.Formed.Select(m => m.PrescriptionNo).Distinct();
+        foreach (var pre in preNos)
+        {
+            var n = 0;
+            var forms = Model.Formed.Where(m => m.PrescriptionNo == pre);
+            <table ah-id="formed-section"
+                   ah-treatId="@(tread.TreatId)"
+                   ah-supplierId="@(tread.SupplierId)"
+                   ah-PrescriptionNo="@(pre)">
+                <tbody>
+                    <tr>
+                        <th class="ah-td-left">品名</th>               
+                        <th class="ah-table-center">数量</th>
+                        <th>产地</th>
+                        <th>是否派发</th>
+                        <th>备注</th>
+                        <th class="ah-table-center active">操作</th>
+                    </tr>
+                    <tr class="number">
+                        <td colspan="6">订单号：@(pre)</td>
+                    </tr>
+                    @foreach (var item in forms)
+                    {
+                        <tr ah-type="FORMED"
+                            ah-drugId="@item.DrugId"
+                            ah-dbid="@item.AdviceFormedId"
+                            class="ah-drug-despnesing-state-@(item.DispensingStatus)">
+                            <td  class="ah-td-left">
+                                <div class="drugName">@(item.DrugName)</div>
+                                <div class="drugModel">@(item.DrugModel)</div>
+                            </td>                      
+                            <td class="ah-table-center">
+                               <span style="font-size:1.2em;">@(item.Qty)@(item.UnitName)</span>
+                                @if (item.IsMultyUnit && item.BigStockNumber >0)
+                                {
+                                    <div>
+                                        <span class="ah-kf-gray">
+                                            @item.PackageShow                                   
+                                        </span>
+                                    </div>
+                                
+                                }
+                            </td>
+                            <td>@(item.ManufacturerOrigin)</td>
+                            <td ah-route="Status" class="@(item.DispensingStatus!=1?"ah-red-highlight":"")">
+                                <span>@(MPS.ts_DispensingStatus(item.DispensingStatus))</span>   
+                            </td>
+                            <td ah-route="Rmk">
+                                <div>@(item.DispensingRmk)</div>
+                                @if (forms.Any(m => m.DispensingStatus == 0)) { 
+                                    <div><a onclick="DISPENSING.addDispensingRmk(this)">添加备注</a></div>
+                                }
+                            </td>
+                            @if (n==0)
+                            {
+                                <td class="ah-table-center" rowspan="@(forms.Count())">
+                                    @if (forms.Any(m => m.DispensingStatus == 0))
+                                    {
+                                        <a class="dispensing-send" onclick="DISPENSING.SendDrugLocalFormed(this)">全部派发</a>
+                                    }else
+                                    {
+                                        <a class="no-active">暂无操作</a>
+                                    }
+                                </td>
+                                n++;
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    @if (Model.Herb.Count > 0)
+    {
+        @foreach (var sheet in Model.Herb.Keys)
+        {
+            var n = 0;
+            <table ah-id="herb-section"
+                     ah-treatId="@sheet.TreatId"
+                     ah-PrescriptionNo="@(sheet.PrescriptionNo)">
+                <tr>
+                    <th class="ah-td-left">品名</th>
+                    <th>数量</th>
+                    <th>是否派发</th>
+                    <th>备注</th>
+                    <th class="ah-table-center active">操作</th>
+                </tr>
+                <tr class="number">
+                    <td colspan="5">处方号：@(sheet.PrescriptionNo) -- <span class="ah-red-highlight">共<i class="ah-num-lg">@sheet.Qty</i>付</span></td>
+                </tr>
+                @foreach (var item in Model.Herb[sheet])
+                    {
+                    <tr ah-type="HERB"
+                        ah-drugId="@item.CnHerbId"
+                        ah-dbid="@item.Id"
+                        ah-Rmk="@item.DispensingRmk"
+                        class="ah-drug-despnesing-state-@(item.DispensingStatus)">
+                        <td  class="ah-td-left">
+                            <div class="drugName">@(item.DrugName)</div>
+                        </td>
+                        <td><span style="font-size:1.2em;">@(item.Qty)@(item.UnitName)</span></td>
+                        <td ah-route="Status" class="@(item.DispensingStatus!=1?"ah-red-highlight":"")">@(MPS.ts_DispensingStatus(item.DispensingStatus))</td>
+                        <td ah-route="Rmk">
+                            <div>@(item.DispensingRmk)</div>
+                            <div>
+                                @if (Model.Herb.Values.Any(m => m.Any(t => t.DispensingStatus == 0)))
+                                {
+                                    <a onclick="DISPENSING.addDispensingRmk(this)">添加备注</a>
+                                }
+                            </div>
+                        </td>
+                        @if (n==0)
+                        {
+                            <td class="ah-table-center" rowspan="@(Model.Herb[sheet].Count())">
+                                @if (Model.Herb[sheet].Any(t => t.DispensingStatus == 0))
+                                {
+                                    <a class="dispensing-send" onclick="DISPENSING.SendDrugLocalHerb(this)">全部派发</a>
+
+                                }
+                                else
+                                {
+                                    <a class="no-active">暂无操作</a>
+                                }
+
+                            </td>
+                            n++;
+                        }
+                    </tr>
+                }
+
+
+            </table>
+        }
+    }
+</div> 

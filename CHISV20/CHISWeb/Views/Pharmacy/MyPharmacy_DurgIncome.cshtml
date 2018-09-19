@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "我的药房-入库";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+    <link href="~/css/pages/chis-pharmacy.css" rel="stylesheet" />
+    <style>
+        .ah-table-input {
+            font-weight: bold;
+            background: none !important;
+            color: #cc5648;
+        }
+        tbody[ah-id=income-main-table] > tr > td:nth-child(2),
+        tbody[ah-id=income-main-table] > tr > td:nth-child(3),
+        tbody[ah-id=income-main-table] > tr > td:nth-child(4),
+        tbody[ah-id=income-main-table] > tr > td:nth-child(5) {
+            text-align: left;padding-left:9px;
+        }
+    </style>
+}
+<div class="income-wrap ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <a class="ah-btn-blue" onclick="INCOME.SelectDurgIncome()" title="使用键盘的【空格】可以快速打开" id="sel_drug"><i class="glyphicon glyphicon-plus" style="position:relative;"></i>选择药品</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <a class="ah-btn-blue" onclick="INCOME.SaveDurgIncome()"><i class="glyphicon glyphicon-floppy-disk"></i>保存</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <input type="checkbox" id="chk_addnum" title="相同药数量累加" />
+        </div>
+        <div class="ah-tool-wrap ah-postion-relative ah-flex-auto">
+            <span>
+                <a class="ah-tool-more-btn auto-input-cfg" title="说明：估填信息包括批号、生产日期、过期日期，仅仅为了方便，注意不能保证准确。" onclick="$('#auto_input_cfg').toggle();">估填设置</a>
+            </span>
+            <div id="auto_input_cfg" class="ah-income-opt auto-input-cfg">
+                <input type="checkbox" id="auto_input" checked title="估填" />
+                <p class="ah-mt-10">估填如果药品有设定，则按设定,否则按以下规则估填:</p>
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md1 ah-flex-data">
+                        <div class="ah-data-label">入库数量(默认填)</div>
+                        <input class="ah-data-input" type="number" id="pcfg_num" value="1">
+                    </div>
+                </div>
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md1 ah-flex-data">
+                        <div class="ah-data-label">生产时间(今日前/天)</div>
+                        <input class="ah-data-input" type="number" id="pcfg_sdt" value="30">
+                    </div>
+                </div>
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md1 ah-flex-data">
+                        <div class="ah-data-label">过期时间(今日后/天)</div>
+                        <input class="ah-data-input" type="number" id="pcfg_edt" value="300">
+                    </div>
+                </div>
+                @*<div>包装拆包：<input type="checkbox" id="pcfg_umin" checked />执行拆包为封装单位,</div>*@
+                <div class="ah-mt-10">入库价格：按照前次价格填入</div>
+            </div>
+        </div>
+        <div class="ah-tool-wrap">
+            <a class="ah-tool-more-btn" asp-action="MyPharmacy_Income" asp-route-pagefn="1118">入库记录</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <a class="ah-tool-more-btn" asp-action="MyDrugMenu" asp-route-pagefn="1121" target="_blank">申请新药</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <a class="ah-btn-red" onclick="INCOME.ImportExcelFile();"><i class="glyphicon glyphicon-import"></i>批量入库</a>
+        </div>
+    </div>
+    <div class="ah-table-wrap layui-form">
+        <table class="hidden" ah-table="INCOME">
+            <thead>
+                <tr>
+                    <th style="width:40px">序号</th>
+                    <th  style="width:80px" class="ah-td-left">商品ID</th>
+                    <th class="ah-td-left">商品名称</th>
+                    <th class="ah-td-left">规格</th>
+                    <th class="ah-td-left">厂商/产地</th>
+                    <th>批号</th>
+                    <th>生产时间</th>
+                    <th>过期时间</th>
+                    <th>入库价格</th>
+                    <th>入库数量</th>
+                    <th>入库单位</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody ah-id="income-main-table"></tbody>
+        </table>
+        <img class="income-not-data" src="~/images/not-data.png" />
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script src="~/js/pages/pharmacy-my-drug-store.js"></script>
+    <script>
+        var pagedata = {
+            initDrugId:'@(Context.Request.Query["drugId"])'
+        }
+        $(function () {
+            //删除入库药品
+            $('tbody[ah-id="income-main-table"]').on("click", "a[ah-income-active='del']", function () {
+                INCOME.delIncomeDrug(this);
+            });
+            //鼠标监听
+            $(document).on("click touchstart", function (e) {
+                e = window.event || e; // 兼容IE7
+                obj = $(e.srcElement || e.target);
+                //用户信息点击其他位置
+                if (!$(obj).hasClass("auto-input-cfg")) {
+                    if ($(obj).parents(".auto-input-cfg").first().length <= 0) {
+                        $(".ah-income-opt").hide();
+                    }
+                }
+            });
+            //检测drugId
+            if (pagedata.initDrugId) {
+                setTimeout(function () { 
+                    INCOME.SelectDurgIncome(pagedata.initDrugId);
+                }, 300);
+            }
+
+        });
+        //监听整个页面的按键，以提升操作
+        document.onkeydown = keyDownListenor;
+        function keyDownListenor(e) {
+            var theEvent = e || window.event;
+            var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+            console.log(code);
+            //空格则搜索药品
+            if (code == 32) {
+                $('#sel_drug').focus().click();
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

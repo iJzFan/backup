@@ -1,0 +1,171 @@
+﻿@model ah.Models.ViewModel.ReservationRlt
+@inject ah.Code.Managers.IMyRazor myRazor
+@{
+/*
+ *          {
+                rlt = true,
+                msg = "",
+                registStatus = haveRegisted ? "请注意,您已经预约了,不能重复预约。先前预约信息如下。" : "",
+                registerId = add.RegisterID,
+                registerSeq = add.RegisterSeq,
+                customer = cust,
+                stationName = depart.StationName,
+                departmentName = depart.DepartmentName,
+                employee = doctor,
+                reservationDate = reservationDate.ToString("yyyy-MM-dd"),
+                timeInfo = timestr
+            };
+ */
+}
+
+<style>
+    .bg {
+        width: 100%;
+    }
+
+        .bg .ah-row {
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+            .bg .ah-row a {
+                color: #666 !important;
+                text-decoration: underline;
+            }
+
+    .d-title {
+        color: #d8b00f;
+    }
+
+        .d-title:before {
+            content: "(";
+            margin-right: 3px;
+            margin-left: 3px;
+        }
+
+        .d-title::after {
+            content: ")";
+            margin-left: 3px;
+        }
+
+    .d-img {
+        width: 48px;
+        border-radius: 50px;
+    }
+
+    .u-img {
+        width: 48px;
+        border-radius: 50px;
+    }
+
+    .mk-station {
+    }
+
+    .mk-depart {
+    }
+
+    .seq {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: darkorange;
+        text-align: center;
+        margin-top: 6px;
+    }
+
+    .u-card, .d-card {
+        position: relative;
+        flex: 0 1 auto;
+        display: flex;
+    }
+
+    .success-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+    }
+
+        .success-wrap span {
+            font-size: 2.2em;
+            color: #34b388;
+        }
+
+    .appintment-info {
+        margin-bottom: 20px;
+        color: #666;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 25px;
+        border: 1px solid #34b388;
+        padding: 20px 5px 15px;
+        border-radius: 3px;
+        background: #fbf6f6;
+    }
+
+    .people {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .appintment-info-div {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    #backnum{color:#ff6a00;font-size:.8em;}
+    #backnum:before{content:"(";margin:0 2px;}
+    #backnum:after{content:")";margin:0 2px;}
+</style>
+
+@if (Model.ex != null)
+{
+    <div>
+        出现错误：@(Model.ex.Message)
+        <div>
+            <a href="/Customer/Appointment/Index">重新预约</a>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="bg">
+        <div class="success-wrap">
+            <img src="~/customer/appointment/image/success.png" width="25%" />
+            @Model.registStatus
+            <div class="seq">第 @Model.registerSeq 号</div>
+            <span>预约成功</span>
+        </div>
+        <div class="ah-row">
+            <a asp-controller="Appointment" asp-action="Index" asp-Area="Customer" asp-route-t="@DateTime.Now.Ticks"><span id="continue_resv">继续预约</span></a><span id="backnum">20秒</span>
+            <a href="/customer/home">返回个人中心</a>
+        </div>
+        <div class="appintment-info">
+            <div class="people">
+                <img src="@myRazor.GetCustomerDefImagePath(Model.customer.CustomerPhoto,Model.customer.Gender)" class="u-img" />
+                <span>@Model.customer.CustomerName</span>
+            </div>
+            <div class="appintment-info-div">
+                <span class="mk-station">@(Model.stationName)</span>
+                <span class="mk-depart"> @(Model.departmentName)</span>
+                <span>@(Model.reservationDate.ToString("yyyy年M月d日"))</span>
+                <span>@(Model.timeInfo)</span>
+            </div>
+            <div class="people">
+                <img src="@(Global.ConfigSettings.DoctorImagePathRoot+ Model.doctor.PhotoUrlDef)" class="d-img" />
+                <span>@Model.doctor.DoctorName</span>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var sec = 20;var handle= setInterval(function () {
+            $('#backnum').text((sec--) + "秒"), sec == 0 && ($('#continue_resv').click(), clearInterval(handle));
+        }, 1000);
+    </script>
+}
+
+
+

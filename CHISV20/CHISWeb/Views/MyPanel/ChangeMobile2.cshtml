@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "修改手机号";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+    <style>
+        .ah-fixed-md1, .ah-col-md1 {
+            position: relative
+        }
+    </style>
+}
+<div class="container layui-form">
+    <ul class="ah-step-wrap ah-flex">
+        <li class="ah-strp-active"><a>1.验证身份</a></li>
+        <li class="ah-strp-active"><a>2.绑定新手机</a></li>
+        <li><a>3.完成修改</a></li>
+    </ul>
+    <form class="form-one" asp-controller="MyPanel" asp-action="ChangeMobileOk" method="post">
+        <input type="hidden" name="CheckCode" value="@ViewBag.CheckCode" />
+        <input type="hidden" name="OriginalMobile" value="@ViewBag.OriginalMobile" />
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1">
+                <div class="ah-data-label">原手机</div>
+                <div class="ah-data-div">@(ViewBag.OriginalMobile)</div>
+            </div>
+            <div class="ah-col-md1">
+                <div class="ah-data-label">新手机号码</div>
+                <input class="ah-data-input" id="mobileNumber" name="mobileNumber" type="text" onblur="checkMobile(this)" />
+            </div>
+            <div class="ah-col-md1">
+                <div class="ah-data-label">验证码</div>
+                <input class="ah-data-input" type="text" name="vcode" placeholder="输入验证码" />
+                <button class="ah-btn-blue ah-code-btn " type="button" onclick="SendMobileNewVCode(this)">获取效验码</button>
+            </div>
+            <div class="ah-col-md1 ah-flex ah-justify-end" style="padding-top:13px">
+                <a class="ah-btn-white ah-sub-btn" type="button" href="/MyPanel/ChangeMobile">返回</a>
+                <button class="ah-btn-blue ah-sub-btn" type="submit" onclick="buttonOne">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        //提醒新手机输入错误
+        function checkMobile(event) {
+            var sMobile = $(event).val();
+            if (!(/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(sMobile))) {
+                $.err("请检查输入的手机号是否有误");
+                return false;
+            }
+        }
+    </script>
+    <script>
+
+        function SendMobileNewVCode(c) {
+                //首先调用后台接口，发送手机验证码
+            var mobile = $('#mobileNumber').val();
+                 
+            $.loadJSON("/mypanel/SendMobileNewVCode", { newMobile: mobile }, function (jn) {
+                    if (jn.rlt) {
+                        //成功了开始计时
+                        var e = $(c);
+                        e.attr('disabled', true).addClass("disabled");
+                        var n = 60;
+                        var handle = setInterval(function () {
+                            e.html("(剩余" + (n--) + "秒重发)");
+                            if (n == 0) {
+                                clearTimeout(handle);
+                                e.removeClass("disabled").removeAttr('disabled').html("重新发送");
+                            }
+                        }, 1000);
+                    } else {
+                        $.alertError("发现错误" + jn.msg);
+                    }
+                });
+            }
+    </script>
+}

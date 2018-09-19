@@ -1,0 +1,14 @@
+﻿@model List<vwCHIS_DoctorAdvice_Formed_Detail>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var mWhereList = myRazor.GetSelectListItemsByDictKey("DrugGivenWhereType");
+    var mTimeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTimeType");
+    var mTakeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+}
+
+@{
+    foreach (var item in Model)
+    {
+        @await Html.PartialAsync("_pvFormedDetail",item)
+    }
+}

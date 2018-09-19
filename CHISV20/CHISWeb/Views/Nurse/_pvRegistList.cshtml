@@ -1,0 +1,70 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_Register>
+@inject CHIS.Services.DoctorService _dctrSvr
+@{
+    var u = this.GetUserSelf();
+    var doctorList = _dctrSvr.FindList(Model.DataList.Select(m => m.RxDoctorId ?? 0)).ToList();
+}
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>预约时间</th>
+                <th class="ah-tr-hide">序号</th>
+                <th>会员</th>
+                <th>科室</th>
+                <th>医生</th>
+                @*用于药店*@
+                @if (u.StationTypeId == CHIS.DictValues.StationType.k_StationType_drugstore2)
+                {
+                    <th>处方医生</th>
+                }
+                <th class="ah-tr-hide">来源</th>
+                <th class="ah-tr-hide"></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td title="于 @(item.OpTime?.ToStdString()) 发起预约">@(item.RegisterDate?.ToDateString())</td>
+                    <td class="ah-tr-hide">@item.RegisterSeq</td>
+                    <td>
+                        @await Component.InvokeAsync("TdCustomer", new TdCustomerModel { CustomerName = item.CustomerName, Gender = item.Gender, BirthDay = item.Birthday })
+                    </td>
+                    <td>@(item.DepartmentName)</td>
+                    <td><i class="ahico16 ahico-doctor"></i> @(item.DoctorName)  </td>
+                    @*用于药店*@
+                    @if (u.StationTypeId == CHIS.DictValues.StationType.k_StationType_drugstore2)
+                    {
+                        <td>
+                            <i class="ahico16 ahico-rxdoctor"></i>
+                            @(doctorList.FirstOrDefault(m => m.DoctorId == item.RxDoctorId)?.DoctorName)
+                        </td>
+                    }
+                    <td class="ah-tr-hide">@(item.RegisterFromName)</td>
+                    <td class="ah-tr-hide">@item.OpMan</td>
+                    <td>
+                        @if (u.IsCanTreat && item.EmployeeID == u.DoctorId && item.FirstTreatTime == null)
+                        {
+                            <a class="ah-btn-white ah-tb-btn"
+                               href="/Doctor/PatientDetail?customerId=@(item.CustomerID)&registId=@(item.RegisterID)&treatId=@(item.TreatId)">接诊</a>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<script>
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+</script>

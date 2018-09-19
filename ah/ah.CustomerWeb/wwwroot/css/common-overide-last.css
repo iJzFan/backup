@@ -1,0 +1,80 @@
+/*
+    公用复写样式 最后载入
+*/
+
+ 
+
+ /*Layer 由于是动态最后载入的，所以放在最后载入复写*/
+
+.layui-layer-btn .layui-layer-btn0,
+.layui-layer-btn .layui-layer-btn0:active,
+.layui-layer-btn .layui-layer-btn0:focus,
+.layui-layer-btn .layui-layer-btn0:hover,
+.layui-layer-btn .layui-layer-btn1,
+.layui-layer-btn .layui-layer-btn1:active,
+.layui-layer-btn .layui-layer-btn1:focus,
+.layui-layer-btn .layui-layer-btn1:hover
+ {
+    font-size:14px;font-weight:bold;padding:4px 25px;height:auto;border:none;border-radius:4px;
+ }
+
+
+.layui-layer-btn .layui-layer-btn0,
+.layui-layer-btn .layui-layer-btn0:active,
+.layui-layer-btn .layui-layer-btn0:focus{
+    background:#1276c1; 
+}
+.layui-layer-btn .layui-layer-btn0:hover{
+    background:#1480d1;
+}
+.layui-layer-btn .layui-layer-btn1,
+.layui-layer-btn .layui-layer-btn1:active,
+.layui-layer-btn .layui-layer-btn1:focus{
+    background:#b0b0b0;
+}
+.layui-layer-btn .layui-layer-btn1:hover{background:#bbb;}
+.layui-layer-title{text-align:left;}
+
+.layui-layer-setwin .layui-layer-close2 {right: -24px;top: -24px;}
+
+
+   
+/* msg */
+.ah-layer-err {
+    border: none;
+    background-color: rgba(245, 26, 26, 0.64) !important;
+    color: white;
+}
+
+.ah-layer-err .layui-layer-ico {
+    background: rgba(0, 0, 0, 0) url("/images/layer-icon.png") no-repeat scroll 0 0;
+}
+
+.ah-layer-err .layui-layer-ico2 {
+    background-position: -60px 0;
+}
+
+.ah-layer-ok {
+    border: none;
+    background-color: #22a88f !important;
+    color: white;
+}
+
+.ah-layer-ok .layui-layer-ico {
+    background: rgba(0, 0, 0, 0) url("/images/layer-icon.png") no-repeat scroll 0 0;
+}
+
+.ah-layer-ok .layui-layer-ico2 {
+    background-position: -30px 0;
+}
+
+.ah-layer-ok .layui-layer-ico-ok {
+    background: url("/images/layer-icon-1.png") no-repeat scroll 0 0 !important;
+    background-size: 100% 100% !important;
+}
+
+.ah-layer-err .layui-layer-ico-err {
+    background: url("/images/layer-icon-2.png") no-repeat scroll 0 0 !important;
+    background-size: 100% 100% !important;
+}
+  

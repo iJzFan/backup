@@ -1,0 +1,147 @@
+﻿@using Ass;
+@model vwCHIS_Code_Drug_Main
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "药品一般修改";
+    Layout = "~/Views/Shared/_LayoutMin.cshtml";
+    var goodsUnit = myRazor.GetSelectListItemsByDictKey("GoodsUnit");
+    var goodsUnit_om = myRazor.GetSelectListItemsByDictKey("GoodsUnit", tagGroup: "drug");
+}
+
+@section links{
+    <style>
+        .ah-drugedit-sec {
+            position: relative;
+            display: inline-block;
+        }
+        .table>caption{font-size:2em;text-align:center;}
+        .table>tbody>tr>th{background:#5897fc;color:#fff;vertical-align:middle;text-align:right;padding-right:20px;border-bottom:1px solid #4484eb;}
+ 
+    </style>
+}
+<div class='row-fluid'>
+    <div style="padding:6%;">
+        <form asp-action="DrugNormalEdit" asp-controller="Code" method="post">
+            @Html.HiddenFor(m => m.DrugId)
+            <table class="table table-bordered table-hover table-responsive">
+                <caption>修改药品基本信息</caption>
+                <tbody>
+                    <tr>
+                        <th><i class="glyphicon glyphicon-exclamation-sign" style="font-size:2.5em;"></i></th>
+                        <td colspan="7">
+                            <p>药品基础数据信息，请谨慎修改</p>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>药品Id</th>
+                        <td colspan="7">@Model.DrugId</td>
+                    </tr>
+                    <tr>
+                        <th>药品名</th>
+                        <td><b>@Model.DrugName</b></td>
+                        <th>别名</th>
+                        <td>
+                            <input type="text" asp-for="Alias" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>规格</th>
+                        <td>@Model.DrugModel</td>
+              
+                    
+                        <th>商标</th>
+                        <td>
+                            <div>
+                                <span>@Model.Trademark</span>
+                            </div>
+                            <div>
+                                <input type="text" asp-for="Trademark" class="form-control" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>厂商</th>
+                        <td>
+                            <div>
+                                <span>@Model.ManufacturerOrigin</span>
+                            </div>
+                            <div>
+                                <input type="text" asp-for="ManufacturerOrigin" class="form-control" />
+                            </div>
+                        </td>
+                    
+                        <th>产地</th>
+                        <td>
+                            <div>
+                                <span>&nbsp;@Model.OriginPlace</span>
+                            </div>
+                            <div>
+                                <input type="text" asp-for="OriginPlace" class="form-control" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>默认用法</th>
+                        <td  colspan="7">
+                            @{
+                                var a0 = myRazor.GetSelectListItemsByDictKey("DrugGivenWhereType");                           
+                                var a2 = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+                            }
+                            <select asp-for="DefDrugGivenTakeTypeId" asp-items="a2"></select>                        
+                            <select asp-for="DefDrugGivenWhereTypeId" asp-items="a0"></select>
+                            <span>
+                                默认一次剂量为
+                                <input type="number" asp-for="DefDosage" min="0.01" max="9999.99" step="0.01" />
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">单位转换<br />(拆零转换)</th>
+                        <td  colspan="7">
+                            <div class="ah-drugedit-sec">
+                                <select asp-for="@Model.UnitBigId" asp-items="goodsUnit"></select>
+                            </div>
+                            <div class="ah-drugedit-sec">
+                                =  <input type="number" asp-for="@Model.OutpatientConvertRate" style="width:120px;"
+                                          onkeydown="return $.f.onlyNumbersEvt(event);" />
+                            </div>
+                            <div class="ah-drugedit-sec">
+                                <select asp-for="@Model.UnitSmallId" asp-items="goodsUnit_om"></select>
+                            </div>
+                            <div class="ah-drugedit-sec">
+                                (含量 <input type="text" asp-for="@Model.DosageContent" style="width:120px;"
+                                           onkeydown="return $.f.onlyNumbersEvt(event);" />
+                            </div>
+                            <div class="ah-drugedit-sec">
+                                <select asp-for="@Model.DosageUnitId" asp-items="goodsUnit_om"></select>）
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="7">
+
+                            <p>修改药品基本单位关系后，<b style="color:red;">所有</b>工作站的该药品库存记录将会删除,需要重新入库,并核对库存数据。</p>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" align="center">
+                            <button type="submit" class="btn btn-primary" style="width:150px;">确定</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </form>
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/js/ah-common-function.js"></script>
+    <script>
+
+    </script>
+}

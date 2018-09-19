@@ -1,0 +1,63 @@
+﻿@model IEnumerable<vwCHIS_Code_Customer>
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+}
+@section links{
+    <style>
+    </style>
+}
+
+<div class="container">
+
+    <div class="main-title">
+        <i class="fa fa-users"></i>转为正式用户
+    </div>
+    <div class="main-content">
+
+        <table class="main-table">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>手机</th>
+                    <th>邮箱</th>
+                    <th>身份证</th>
+                    <th>创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td> <input type="radio" name="CustomerId" value="@(item.CustomerID)" /> </td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.Gender?.ToGenderString()</td>
+                        <td>@item.Birthday?.ToAgeString()</td>
+                        <td>@item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                        <td>@item.Email.ToMarkString(Ass.Models.MaskType.EmailCode)</td>
+                        <td>@item.IDcard.ToMarkString(Ass.Models.MaskType.IDCode)</td>
+                        <td>@item.CustomerCreateDate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button type="button" class="btn btn-default">确定成为会员</button>
+        <a href="javascript:void(0)" onclick="window.history.back(-1);">返回</a>
+
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        var pagedata = {
+            MemberId:@(ViewBag.MId),
+            ver:1
+        }
+        $(function () {
+
+        });
+    </script>
+}

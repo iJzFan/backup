@@ -1,0 +1,163 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "登录管理";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+
+@section links{
+  <style>
+      .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {vertical-align:middle;}
+      .auth,.authen{background:#ff6a00;color:#fff; }
+      .authen{ border-radius:3px;margin:3px;padding:3px; }
+            .auth{ border-radius:60px;width:20px;height:20px;line-height:20px;display:inline-block;margin-left:3px;text-align:center;font-weight:bold;}
+    </style>
+    }
+<div class="container">
+    <div class="topPanel row">
+        <div class="toolbar">
+            <div class="btn-group">
+                <a class="btn btn-primary" onclick="$.reload();"><span class="glyphicon glyphicon-refresh"></span></a>
+            </div>
+            <div class="btn-group">
+                <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_Add()"><i class="fa fa-plus"></i>新建</a> 
+            </div>
+            <div class="operate">
+                <ul class="nav nav-pills">
+                    @*<li class="first">已选中<span>1</span>项</li>*@
+                    <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                    <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete()"><i class="fa fa-trash-o"></i>删除</a></li>
+                    <li class="split"></li>
+                    <li><a id="btn_View" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看</a></li>      
+                </ul>
+                <a href="javascript:;" class="close"></a>
+            </div>
+        </div>
+        <div class="search">
+            <input type="hidden" id="txt_Station" />
+            <table>
+                <tr>
+                    <td>
+                        <div class="input-group search-group">
+                            <input id="txt_Search" type="text" class="form-control" placeholder="名称/地址/法人">
+                            <span class="input-group-btn">
+                                <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        &emsp; <input type="checkbox" id="Is_OnlyDoctor" />&nbsp;只搜医生 
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row"> 
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="pager"></div>
+            </div>   
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        var pagedata = {
+            customerPicPath: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+           doctorPicPath:'@(Global.ConfigSettings.DoctorImagePathRoot)'
+        }
+
+        $(function () {
+
+            gridInit();
+
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+
+            //载入过程内函数
+            function Search() {
+                CE.reload({
+                    keyword: $('#txt_Search').val(),
+                    isOnlyDoctor: $('#Is_OnlyDoctor').is(":checked")
+                });
+            }
+        })
+
+
+
+
+
+        var CE;
+        //网格初始化
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "登录信息",
+                url: "/Code/LoginManage_Edit",  //编辑记录地址
+                jqurl: "/Code/LoginList",   //网格查询地址
+                width: "80%", height: ($(window).height()-30)+"px",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: "主键", name: "loginId", hidden: true, key: true },
+                    { label: '用户头像', name: 'customerPhotoUrlDef', width: 68, formatter: function (cellvalue) { return "<img class='tbupic' src='" + $.getImgPath(pagedata.customerPicPath, cellvalue)  + "'></img>"; } },
+                    { label: '姓名', name: 'customerName', width: 100, align: 'left' },
+                    { label: '医生头像', name: 'doctorPhotoUrlDef', width: 68, formatter: function (cellvalue, options, rowObject) { return rowObject.doctorId > 0? "<img class='tbdpic' src='"+pagedata.doctorPicPath+ cellvalue+"'></img>":""; }},
+                    { label: '性别', name: 'gender', width: 30, align: 'center', formatter: "select", editoptions: { value: "1:男;0:女;2:保密" } },
+                    { label: '手机', name: 'mobile', width: 120, align: 'left', formatter: function (cellvalue, options, rowObject) { if (cellvalue) { return rowObject.mobileIsAuthenticated ? cellvalue + "<span class='auth'>验</span>" : cellvalue; } else { return ''; } } },
+                    { label: '邮箱', name: 'email', width: 220, align: 'left', formatter: function (cellvalue, options, rowObject) { if (cellvalue) { return rowObject.emailIsAuthenticated ? cellvalue + "<span class='auth'>验</span>" : cellvalue; } else { return ''; } } },
+                    { label: '身份证', name: 'idCardNumber', width: 180, align: 'left', formatter: function (cellvalue, options, rowObject) { if (cellvalue) { return rowObject.idCardNumberIsAuthenticated ? cellvalue + "<span class='auth'>认</span>" : cellvalue; } else { return ''; } } },
+                    { label: '是否锁定', name: 'isLock', width: 40, formatter: function (cellvalue) { return cellvalue ? "<i class='fa fa-lock' ></i>是" : ""; } },
+                    { label: '锁定时间', name: 'lockTime', width: 80, align: 'left' },
+                    { label: '锁定原因', name: 'whyLock', width: 180, align: 'left' },
+                    { label: '是否是医生', name: 'doctorId',   formatter: function (cellvalue, options, rowObject) { return cellvalue > 0 ?"<i class='fa fa-user-md dcolor' style='font-size:18px;margin-right:6px;'></i>是":"" }},
+                    { label: '医生认证', name: 'doctorIsAuthenticated', formatter: function (cellvalue,options, rowObject) { return cellvalue ? ("<span class='authen'>已认证</span>" + rowObject.doctorAuthenticatedTime) : ""; } },
+                 //   { label: '认证时间', name: 'doctorAuthenticatedTime' },
+                    { label: '医生申请时间', name: 'doctorCreatTime' }
+
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            });
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().loginId;
+            CE.Modify("recID=" + keyValue,
+                function (index, win) {
+                    win.submitForm();
+                });
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().loginId;
+            CE.Delete("recID=" + keyValue);
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().loginId;
+            CE.View("recID=" + keyValue);
+        }
+
+    </script>
+  
+
+}

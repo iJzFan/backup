@@ -1,0 +1,52 @@
+﻿@{
+   
+}
+
+<div class="ah-statement-data ah-flex" id="_pvVun">
+    <div class="ah-statement-total ah-flex ah-flex-column">
+        <span v-html="web.total.val">0</span>
+        <span>合计收益</span>
+    </div>
+    <div class="ah-statement-survey ah-flex-auto ah-flex">
+        <div class="ah-statement-survey-title">
+            收入概况
+        </div>
+        <div v-for="par in web.partList" class="ah-statement-survey-data ah-flex">
+            <span>{{par.val}}</span>
+            <span>{{par.title}}</span> 
+        </div>
+    </div>
+</div>
+<div class="ah-statement-wrap" id="ah-webchart" style="width:100%;height:600px"></div>
+<div class="ah-statement-table ah-table-wrap" id="ah-webtable">
+    <table>
+        <tbody>
+            <tr>
+                <th>类型</th>
+                <th>价格</th>
+            </tr>
+            @if (Model != null)
+            {
+                foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@(i.FeeProp)收益</td>
+                        <td>@(i.Amount)</td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td>合计收益</td>
+                <td><b class="ah-price">@ViewBag.TotalAmount</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var pagedata_web = {}
+    $(function () {
+        $(window).resize(function () {
+            WEB_Finace.initChart();
+        });
+    });
+</script>

@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+
+@section links{
+    <style>
+        .rmk-flex {
+            display: flex;
+            height: 30px;
+            align-items: center;
+            color:#666;
+            font-weight:unset;
+        }
+        .rmk-flex .iradio_flat-red{
+            margin-right:6px;
+        }
+        .rmk-btn {
+            display: flex;
+            justify-content: right;
+        }
+        .rmk-btn a {
+            height: 28px;
+            line-height: 28px;
+            margin: 6px 6px 0;
+            padding: 0 15px;
+            border: 1px solid #dedede;
+            border-top-color: rgb(222, 222, 222);
+            border-right-color: rgb(222, 222, 222);
+            border-bottom-color: rgb(222, 222, 222);
+            border-left-color: rgb(222, 222, 222);
+            background-color: #f1f1f1;
+            color: #333;
+            border-radius: 2px;
+            font-weight: 400;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-table;
+        }
+        .rmk-btn .rmk-btn-active {
+            border-color: #4898d5;
+            background-color: #2e8ded;
+            color: #fff;
+        }
+        .rmk-flex span{
+            cursor:pointer;
+        }
+        .rmk-flex .rmk-other-input {
+            width: 200px;
+            border: 1px solid #ccc;
+            height: 28px;
+        }
+    </style>
+}
+<input type="hidden" ah-id="drugType" value="@(ViewBag.drugType)"/>
+<input type="hidden" ah-id="drugId" value="@(ViewBag.drugId)" />
+<input type="hidden" ah-id="dbid" value="@(ViewBag.dbid)" />
+<div style="padding:10px;">
+    <label class="rmk-flex">
+        <input type="radio" name="rmk-radio" checked />
+        <span>仓库库存不足</span>
+    </label>
+    <div class="rmk-flex">
+        <input type="radio" name="rmk-radio" ah-other-rmk="OTHER" />
+        其他:  <input type="text" class="rmk-other-input"/>
+    </div>
+    <label class="rmk-flex">
+        <input type="radio" name="rmk-radio" ah-remove-rmk="REMOVE"/>
+        <span>撤销备注</span>
+    </label>
+    <div class="rmk-btn">
+        <a class="rmk-btn-active" onclick="subDispensingRmk()">确定</a>
+        <a onclick="closeIframe()">取消</a>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        var index;
+        $(function () { 
+            $("input[name='rmk-radio']").iCheck({
+                checkboxClass: 'icheckbox_flat-red',
+                radioClass: 'iradio_flat-red'
+            });
+            index = parent.layer.getFrameIndex(window.name);
+            parent.layer.iframeAuto(index);
+        });
+        //取消
+        function closeIframe() {
+            parent.layer.close(index);
+        }
+        //提交
+        function subDispensingRmk() { 
+            var drugType = $("input[ah-id='drugType']").first().val();
+            var drugId = $("input[ah-id='drugId']").first().val();
+            var dbid = $("input[ah-id='dbid']").first().val();
+            var state = 2;
+            var Rmk;
+            var radio = $('input[name="rmk-radio"]:checked ').first();
+            if (radio.attr("ah-other-rmk") == "OTHER") {
+                Rmk = radio.parents('.rmk-flex').find(".rmk-other-input").first().val();
+            } else if (radio.attr("ah-remove-rmk") == "REMOVE") {
+                Rmk = "";
+                state = 0;
+            } else { 
+                Rmk = radio.parents('.rmk-flex').find("span").first().html();
+            }
+            parent.DISPENSING.SetDispensingStatus(drugType, drugId, dbid, Rmk,state);
+            parent.layer.close(index);
+        }
+    </script>
+
+}

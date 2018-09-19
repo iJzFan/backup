@@ -1,0 +1,71 @@
+﻿@model DispensingDetailSumary
+@{
+
+}
+@* 本地药库 *@
+<div class="ah-table-wrap">
+    <table>
+        <tbody>
+            @{ var i = 1;}
+            <tr>
+                <th style="width:40px;">序号</th>
+                <th class="ah-td-left">品名</th>
+                <th>数量</th>
+                <th>是否派发</th>
+                <th>未成功发药备注</th>
+            </tr>
+            @foreach (var item in Model.Formed)
+            {
+                <tr>
+
+                    <td>@(i++)</td>
+                    <td class="ah-td-left">
+                       <b>@item.DrugName</b> 
+                        <div>@item.DrugModel</div>
+                    </td>
+                    @*<td>@item.Qty/@item.UnitName</td>*@
+
+                    <td>
+                        <span style="font-size:1.4em;">@item.Qty @item.UnitName </span>
+                        @if (item.IsMultyUnit && item.UnitId == item.UnitSmallId&&item.BigStockNumber>=1)
+                        { 
+                            <div>
+                                <span class="ah-kf-gray">
+                                    @((int)item.BigStockNumber)@item.OutUnitBigName
+                                    @(item.QtyModel.ToString("#0.##")) @(item.OutUnitSmallName)
+                                </span>
+                            </div>
+                        }
+                    </td>                   
+                    <td class="@(item.DispensingStatus!=1?"ah-red-highlight":"")">@(MPS.ts_DispensingStatus(item.DispensingStatus))</td>
+                    <td>@item.DispensingRmk</td>
+                </tr>
+            }
+            @if (Model.Herb.Keys.Count() != 0)
+            {
+                @foreach (var sheet in Model.Herb.Keys)
+                {
+                    i = 1;
+                    <tr>
+                        <td class="ah-td-left" colspan="5">中药: @(sheet.Qty) 付</td>
+                    </tr>
+                    @foreach (var item in Model.Herb[sheet])
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td class="ah-td-left">
+                                <b>@item.DrugName</b>
+                                <div>@item.OriginPlace</div>
+                            </td>
+                            <td>
+                                <span style="font-size:1.4em;">@item.Qty @item.UnitName </span>                               
+                            </td>  
+                            <td class="@(item.DispensingStatus!=1?"ah-red-highlight":"")">@(MPS.ts_DispensingStatus(item.DispensingStatus))</td>
+                            <td>@item.DispensingRmk</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>

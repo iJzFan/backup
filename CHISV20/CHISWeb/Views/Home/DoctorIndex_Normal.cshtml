@@ -1,0 +1,22 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.Title = "首页";
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+<script>
+    if (self != top) top.window.location.href = "/home/DoctorIndex_Normal";
+</script>
+<link href="~/css/pages/doctor-index.css" rel="stylesheet" />
+
+<div class="doctor-index-wrap">
+
+</div>
+@*<h1>Doctor Index</h1>
+
+@{
+    var items = myRazor.GetSelectListItemsByDictKey("FormType");
+}
+<select asp-items="items">
+    <option value="">未选择剂型</option>
+</select>*@
+ 

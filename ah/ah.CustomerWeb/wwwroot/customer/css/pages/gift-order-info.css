@@ -1,0 +1,155 @@
+﻿
+@media screen and (max-width: 800px) {
+    .customer-wrap {
+        height: 100%;
+    }
+    .ah-order-type {
+        color: #fff;
+        flex: 1 1 auto;
+        font-size: 14px;
+        align-items: center;
+    }
+    .ah-order-type i{
+        font-size:26px;
+        margin-right:10px;
+    }
+    .customer-main {
+        padding: 0;
+    }
+    .ah-gift-wrap {
+        display: initial;
+        background-image: url('/customer/appointment/image/head-bj.png');
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 0 15px;
+    }
+    .ah-retnrn {
+        display: initial !important;
+        background: #3497b0;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 22px;
+        font-size: 14px;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+    }
+    .ah-order-number {
+        background: #fff;
+        padding: 10px;
+        color: #666;
+        font-size: 14px;
+        line-height: 24px;
+    }
+    .ah-order-address {
+        margin-top: 5px;
+        background: #fff;
+        padding: 10px;
+        color: #666;
+        font-size: 14px;
+    }
+    .map-marker {
+        background-image: url('/customer/appointment/image/map-marker.png');
+        width: 20px;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+    .ah-order-address .text{
+        margin-top:5px;
+    }
+    .ah-order-gift {
+        margin-top: 10px;
+        background: #fff;
+        padding: 10px;
+        color: #666;
+        font-size: 14px;
+        flex-direction:column;
+    }
+    .ah-order-gift .title {
+        border-bottom: 1px solid #efefef;
+        padding-bottom: 10px;
+    }
+    .ah-order-gift .gift-icon{
+        background-image: url('/customer/appointment/image/gift-icon.png');
+        width: 20px;
+        height:20px;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+    .ah-order-gift .info{
+        padding-top:10px;
+    }
+    .ah-order-gift .info .ah-gift-pic {
+        width: 70px;
+        height: 70px;
+        border: 1px solid #efefef;
+        margin-right: 10px;
+        flex:none;
+    }
+    .ah-order-gift .ah-gift-info{
+
+    }
+    .ah-order-gift .ah-gift-info .main{
+        flex:1 1 auto;
+    }
+    .ah-order-gift .gift-name {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        word-break: break-all;
+        overflow: hidden;
+        color: #666;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+    .ah-order-gift .gift-rmk {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        word-break: break-all;
+        overflow: hidden;
+        color: #999;
+    }
+    .ah-order-gift .gift-active-wrap {
+        justify-content: flex-end;
+        margin-top: 4px;
+    }
+    .ah-order-gift .gift-active {
+        border: 1px solid #3497b0;
+        color: #3497b0;
+        padding: 1px 6px;
+        border-radius: 3px;
+    }
+    .ah-order-help {
+        margin-top: 10px;
+        background: #fff;
+        padding: 10px;
+        color: #666;
+        font-size: 14px;
+        flex-direction: column;
+    }
+    .ah-order-help .title {
+        border-bottom: 1px solid #efefef;
+        padding-bottom: 10px;
+    }
+
+    .ah-order-help .help-icon {
+        background-image: url('/customer/appointment/image/gift-help.png');
+        width: 20px;
+        height: 20px;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+    .ah-order-help .info {
+        margin-top:10px;
+        font-size:13px;
+        line-height:27px;
+    }
+}

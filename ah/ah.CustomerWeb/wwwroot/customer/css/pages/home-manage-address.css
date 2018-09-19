@@ -1,0 +1,82 @@
+﻿
+.form-group-margin {
+    margin-bottom: 15px !important;
+    font-size: 13px;
+    color: #333;
+}
+
+    .form-group-margin .label {
+        font-weight: 500;
+    }
+
+    .form-group-margin span {
+        position: relative;
+        top: 3px;
+    }
+
+.error {
+    color: #ff0000;    
+}
+label.error[for=AreaId]{position:absolute;top:57px;left:15px;}
+
+form#addorupdate_address .col-md-12 {
+    padding-left: 0px;
+}
+
+
+@media screen and (max-width:800px) {
+    .breadcrumb {    background-color:#f5f5f5;    border-radius: 0;}
+    
+    .table-addr {position:relative;font-size:11px;display:flex;}
+    .table-addr >thead { display:none;    }
+    .table-addr>tbody{width:100%;}
+    .table-addr > tbody >tr:focus,.table-addr > tbody >tr:hover{background:url(/images/addrBox.png) no-repeat; background-size:100% 100%;}
+    .table-addr>tbody>tr.tr-def-1{background:url(/images/addrBox.png) no-repeat; background-size:100% 100%;}
+    .table-addr > tbody >tr{
+         background: rgba(0, 0, 0, 0) url("/images/addrBox0.png") no-repeat scroll 0 0 / 100% 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 33px;margin-top:16px;
+    min-height: 90px;
+    padding: 6px 9px;
+    position: relative;
+        }
+    .table-addr >tbody >tr>td,.table-addr >tbody >tr>th{position:relative;display:inline-block;margin:-2px;border:none;}
+    .table-addr>tbody>in{position:absolute;left:0;display:block;}
+
+     .table-addr > tbody .area,.table-addr > tbody .area-detail,.table-addr > tbody .area-zcode{display:inline-block;float:left; top:26px;position:absolute;border-top:none;}        
+    .table-addr > tbody .area{ left:9px; }
+    .table-addr > tbody .area-detail{ top:42px;left:9px; }
+    .table-addr > tbody .area-zcode{ float:right!important;right:9px;}
+    .table-addr > tbody button{padding:0px;margin:0px;border:none;background:none;cursor:pointer;color:#1faa9e;}
+    .table-addr > tbody button:hover{color:#48ded1;}
+
+    .table-addr>tbody td:last-child{float:right;}
+    .table-addr>tbody td:nth-child(2){width:20%;}
+     .table-addr>tbody td:nth-child(6){width:20%;}
+    .table-addr>tbody td:nth-child(7){text-align:right;}
+
+    .table-addr>tbody>tr>td.td-def{position:static;/*显示取消定位，让他不要锚点在此级别，而是上一个节点去*/}
+    .table-addr>tbody>tr>td.td-def .label-default{position:absolute;bottom:0;right:0;padding:8px 3px 4px 8px;border-bottom:1px solid #ddd;border-right:1px solid #ddd;background-color:#b8635e;color:#fff;border-top-left-radius:50px;}
+
+
+    form#address_edit{box-sizing:border-box;}
+    form.form-group-margin{padding:0;}
+    .form-group-margin {  padding-left:3px;padding-right:3px;    }
+    #address_edit .form-group > input[type="text"] {    width: 100%!important;}
+    #address_edit .btn{width:100%;margin-top:20px;padding:9px;}
+
+
+    label.error[for=AreaId]{position:absolute;top:57px;left:4px;}
+    .area-rmk{background-color: #b8635e;
+    border: 1px solid #b8635e !important;
+    color: #ffffff;
+    display: inline-block !important;
+    height: 21px;
+    left: 3px;
+    padding: 2px 10px !important;
+    position: absolute !important;
+    text-align: left !important;
+    border-top-right-radius:20px;
+    top: -15px;}
+}

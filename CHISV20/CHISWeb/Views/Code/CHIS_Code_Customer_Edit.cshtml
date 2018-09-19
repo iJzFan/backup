@@ -1,0 +1,544 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.DataModel.CustomerInfo
+@{
+    ViewBag.Title = "编辑用户资料";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <style>
+        table.form tr td select {
+            height: 30px;
+        }
+
+        .panel-body .formValue .row .col-lg-4,
+        .panel-body .formValue .row .col-md-4,
+        .panel-body .formValue .row .col-ms-4 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        .ah-pic-edit {
+            width: 128px;
+            height: 152px;
+            position: relative;
+            /*border:1px solid #000;*/
+            border: none;
+            padding: 1px;
+            border-radius: 2px;
+            margin-bottom: 6px;
+            background: url(/images/def/u256_.png) no-repeat #000;
+            background-size: contain;
+        }
+
+        .ah-pic-edit > .img {
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: 1px;
+        }
+
+        .ah-pic-edit .pic-btns {
+            position: absolute;
+            right: 3px;
+            bottom: 3px;
+        }
+        /*table.form>tbody>tr>th:first-child{padding-left:25%;}
+          table.form>tbody> tr>td:first-child{}
+          table.form>tbody> tr>td:last-child{padding-right:10%;}
+          .form tr>th.formTitle:first-child { width: 380px;}
+          .form .formValue{padding-right:100px;padding-left:30px;}*/
+        .mycol-4 {
+            width: 33.3%;
+            float: left;
+        }
+
+        .form > tbody > tr > th {
+            padding-left: 3%;
+            padding-right: 20px;
+            text-align: right;
+            width: 10%;
+            color: #337ab7;
+        }
+
+        .form > tbody > tr > th:first-child {
+            padding-left: 20%;
+            width: 30%;
+        }
+
+        .form > tbody > tr > td {
+            padding: 5px;
+        }
+
+        .form > tbody > tr > td:last-child {
+            padding-right: 50px;
+        }
+
+        .form .input-group {
+            width: 100%;
+        }
+
+        .can-use {
+            position: absolute;
+            right: -15px;
+        }
+
+        .sameCusBg {
+            padding: 10px;
+        }
+
+        a.clear {
+            cursor: pointer;
+        }
+
+        .ah-range{position:relative;}
+        .ah-range i{position:absolute;top:-18px;color:#1368d0;}
+    </style>
+}
+<form id="form1" asp-controller="Code" asp-action="CHIS_Code_Customer_Edit" asp-route-op="@ViewBag.OP">
+    <div style="padding: 10px">
+        @*//患者id隐藏文本框*@
+        <input type="hidden" asp-for="Customer.CustomerID" />
+        @*<div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                请填写用户的记录信息，用于创建或修改用户记录！
+            </div>*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">基本信息&nbsp;<small>ID:@Model.Customer?.CustomerID</small></h3>
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <table class="form">
+                    <tr>
+                        <th style="padding:initial;">
+                            <div class="ah-pic-edit" style="float:right;margin-right:20px;">
+                                <input asp-for="Customer.CustomerPic" type="hidden" />
+                                <div id="cusImg" class="img" style="background-image:url(@(myRazor.GetCustomerDefImagePath(Model.Customer?.CustomerPic,Model.Customer?.Gender)));"></div>
+                                <div class="pic-btns"><a id="EditUserPic" style="cursor:pointer;">修改</a></div>
+                            </div>
+                        </th>
+                        <td colspan="6">
+                            <div style="float:left;width:100%;">
+                                <div style="text-align:left;margin-bottom:6px;"><span class="ah-form-need" title="必填">用户姓名</span></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control required border3" asp-for="Customer.CustomerName" required style="font-size:1.3em;" data-msg-required="必须要有用户姓名" />
+                                    <span class="input-group-addon select-addon">
+                                        <select class="form-control" asp-for="Customer.Gender" required data-msg-required="必须要选择性别">
+                                            <option value="">未选择</option>
+                                            <option value="1">男</option>
+                                            <option value="0">女</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <th></th>
+                        <td colspan="6">
+                            <div style="display:inline-block;padding-top:8px;">
+                                <div class="status3">
+                                    <select asp-for="Customer.IsVIP" onclick="$('#sel_vip')">
+                                        <option value="">未选择</option>
+                                        <option value="True">是</option>
+                                        <option value="False">否</option>
+                                    </select>
+                                    <label>是否VIP</label>
+                                </div>
+                            </div>                        
+                            <div style="display:inline-block;width:100%;">                                 
+                                    <select asp-for="Customer.VIPcode">                
+                                        <option value="">--选择VIP类别--</option>
+                                        <option value="AH_VIP_01">天使VIP-01</option>                                     
+                                    </select>                                                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="tr-separator"><td colspan="14">&nbsp;</td></tr> @*------------------------分割栏位--------------------*@
+                    <tr>
+                        <th><span class="ah-form-needone" title="必选其一">手机号码</span></th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.CustomerMobile" onblur="checkTheSameCustomer(this,'mobile');" />
+                        </td>
+                        <th><span class="ah-form-needone" title="必选其一">电子信箱</span></th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.Email" onblur="checkTheSameCustomer(this,'email');" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="ah-form-needone" title="必选其一">身份证号码</span></th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.IDcard" id="IDcard" onblur="checkTheSameCustomer(this,'idcard');" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="tr-separator"><td colspan="14">&nbsp;</td></tr>@*------------------------分割栏位--------------------*@
+                    <tr>
+                        <th>电话(非手机)</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.Telephone" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>其他证件</th>
+                        <td colspan="6">
+                            @{
+                                var certtypes = myRazor.GetSelectListItemsByDictKey("CertificateType").Where(m => m.Text != "身份证");
+                            }
+                            <div class="input-group input-display">
+                                <div class="input-group-addon select-addon">
+                                    <select class="form-control" asp-items="certtypes" asp-for="Customer.CertificateNo">
+                                        <option value="">未选择&emsp;&emsp;&emsp;</option>
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control" asp-for="Customer.CertificateTypeId" />
+                            </div>
+                        </td>
+                        <th>社保卡号</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.InsuranceNo" id="InsuranceNo" />
+                        </td>
+                    </tr>
+                    <tr class="tr-separator"><td colspan="14">&nbsp;</td></tr>@*------------------------分割栏位--------------------*@
+                    <tr>
+                        <th><span class="ah-form-need">出生日期</span></th>
+                        <td colspan="6">
+                            <div class="input-group">
+                                <input type="text" class="input-datetime form-control" asp-format="{0:yyyy-MM-dd}" data-format="yyyy-mm-dd" asp-for="Customer.Birthday" required data-msg-required="出生日期为必要填写项目"  />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td colspan="6">
+                            <div  class="ah-range">
+                                <span>0岁</span>
+                                <input type="range" min="0" max="120" oninput="setAgeDay('#Customer_Birthday',this)" style="width:120px;display:inline-block;" />
+                                <span>120岁</span>
+                                <i></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>婚姻状况</th>
+                        <td colspan="6">
+                            @{ var marg = myRazor.GetSelectListItemsByDictKey("Marriage");}
+                            <select class="form-control" asp-items="marg" asp-for="Customer.Marriage">
+                                <option value="">未选择</option>
+                            </select>
+                        </td>
+                        <th>文化程度</th>
+                        <td colspan="6">
+                            @{ var edu = myRazor.GetSelectListItemsByDictKey("EduLevel");}
+                            <select class="form-control" asp-items="edu" asp-for="Customer.EduLevel">
+                                <option value="">未选择</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr class="tr-separator"><td colspan="14">&nbsp;</td></tr>@*------------------------分割栏位--------------------*@
+                    <tr>
+                        <th style="width:85px">联系人   </th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.ContactMan" />
+                        </td>
+                        <th>联系人电话</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.ContactPhone" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>家庭成员</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="Customer.Relation" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="tr-separator"><td colspan="14">&nbsp;</td></tr>@*------------------------分割栏位--------------------*@
+                    <tr>
+                        <th>工作单位</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control  border3" asp-for="Customer.WorkUnit" />
+                        </td>
+                        <th>职业类型</th>
+                        <td colspan="6">
+                            @{ var zy = myRazor.GetSelectListItemsByDictKey("Profession");}
+                            <select class="form-control" asp-items="zy" asp-for="@Model.Customer.Presfession">
+                                <option value="">未选择</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="tr-separator"><td colspan="14">&nbsp;</td></tr>@*------------------------分割栏位--------------------*@
+                    <tr>
+                        <th>微信号</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" for="Customer.WXCode" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>家庭地址</th>
+                        <td colspan="6">
+
+                            <div class="mycol-4">
+                                <select id="province" name="province" class="form-control"></select>
+                            </div>
+                            <div class="mycol-4">
+                                <select id="citys" name="city" class="form-control"></select>
+                            </div>
+                            <div class="mycol-4">
+                                <select id="county" name="county" class="form-control"></select>
+                                <input type="hidden" id="areaId" asp-for="@Model.Customer.AddressAreaId" />
+                            </div>
+
+                        </td>
+                        <th>详细地址</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control" placeholder="详细地址填写这里" asp-for="Customer.Address" />
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            @* 健康基本信息 *@
+            <div class="panel panel-default" style="border:none;">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse"
+                           href="#collapseOne">
+                            健康基本信息 <small>请正确的填写个人健康基本信息</small>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse on in" style="height:auto;">
+                    <div class="panel-body" style="width: 98%;">
+                        <table class="form">
+                            <tr>
+                                <th>身高</th>
+                                <td colspan="6">
+                                    <input type="text" class="form-control border3" asp-for="Health.Height" />
+                                </td>
+                                <th>体重</th>
+                                <td colspan="6">
+                                    <input type="text" class="form-control border3" asp-for="Health.Weight" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>血型</th>
+                                <td colspan="6">
+                                    @{
+                                        var bloodtypes = myRazor.GetSelectListItemsByDictKey("BloodType");
+                                    }
+                                    <select class="form-control" asp-items="bloodtypes" asp-for="Health.BloodType">
+                                        <option value="">未选择</option>
+                                    </select>
+                                </td>
+                                @* 选填写 *@
+                                <th>患者标签</th>
+                                <td colspan="6">
+                                    <select class="form-control">
+                                        <option value="">未选择</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>月经初潮年龄</th>
+                                <td colspan="6">
+                                    <input type="text" class="form-control border3" asp-for="Health.MenstruationStartOldYear" />
+                                </td>
+                                <th>绝经年龄</th>
+                                <td colspan="6">
+                                    <input type="text" class="form-control border3" asp-for="Health.MenstruationEndOldYear" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>生产子女数量</th>
+                                <td colspan="6">
+                                    <input type="text" class="form-control border3" asp-for="Health.BirthChildrenNum" />
+                                </td>
+                                <th>怀孕子女数量</th>
+                                <td colspan="6">
+                                    <input type="text" class="form-control border3" asp-for="Health.PregnancyNum" />
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <th>过敏史</th>
+                                <td colspan="13">
+                                    <input type="text" class="form-control border3" asp-for="Health.Allergic" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>既往史</th>
+                                <td colspan="13">
+                                    <textarea cols="2" class="form-control" asp-for="Health.PastMedicalHistory"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+@section scripts{
+    <script>
+
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        cusRoot: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+        customerId:@(Model.Customer==null?0:Model.Customer.CustomerID),
+        ver:1
+        };
+
+        $(function () {
+        //地址
+        $.set3LevelAddress({
+            $province: $('#province'),
+            $city: $('#citys'),
+            $county: $('#county'),
+            $val: $('#areaId')
+            });
+        //图片修改
+        $('#EditUserPic').click(function () {
+            var handle = layer.open({
+                    type: 2,
+                    title:"上传图片",
+                    area: ['60%','98%'],
+                    content: '/tools/UploadPic?posType=customer&fileName=' + $('#Customer_CustomerPic').val()
+            });
+        });
+
+
+        });
+
+
+    //保存记录
+        function submitForm(opt) {
+            if (!$('#form1').formValid()) {
+                return false;
+            }
+
+            $.submitForm({
+                url: "/Code/CHIS_Code_Customer_Edit?op=" + pagedata.op,
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    if (opt&&opt.success) opt.success();
+                    else $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+
+        function setPicName(fileName) {
+            $('#Customer_CustomerPic').val(fileName);
+             
+            var path = pagedata.cusRoot + fileName;
+             
+            var val = "url('" + path + "')";
+             
+            $('#cusImg').css("background-image",val);
+        }
+
+        //检查同名客户，并提示
+        function checkTheSameCustomer(c,type) {
+            var s = $(c).val();
+            if (s.length > 6) {
+                $.loadJSON("/Api/Common/GetCustomersMasked", { searchtext: s }, function (jn) {
+
+                    var bnewCheck = jn && (pagedata.op == "NEW" && jn.length > 0);//新增的时候发现了数据
+                    //修改的时候发现了多余数据，或者发现了2条及以上修改的数据，或者出现的关键项数据的主键不一致。
+                    var bmodCheck =jn &&( pagedata.op == "MODIFY" && (jn.length > 1 || (jn.length == 1 && jn[0].customerId != pagedata.customerId)));
+
+                    if (jn && (bnewCheck ||bmodCheck)) {
+                        var bg = $("<div></div>");
+                        var h = $("<div class='sameCusBg'></div>");
+                        bg.append(h);
+                        h.append("<h5>出现多个用户具有相同信息，继续将会要求验证后清理这些数据信息。</h5>")
+                        var $tb = $("<table class='table'></table>");
+                        $tb.append("<tr><th>姓名</th><th>性别</th><th>年龄</th><th>手机</th><th>邮箱</th><th>身份证号</th><th>其他联系号</th><th></th></tr>");
+                        $.each(jn, function (i, m) {
+                            var $tr = $("<tr></tr>");
+                            $tr.append("<td>" + m.customerName + "</td>");
+                            $tr.append("<td>" + m.gender + "</td>");
+                            $tr.append("<td>" + m.age + "</td>");
+                            $tr.append("<td>" + m.customerMobile + "</td>");
+                            $tr.append("<td>" + m.email + "</td>");
+                            $tr.append("<td>" + m.iDcard + "</td>");
+                            $tr.append("<td>" + m.telephone + "</td>");
+                            $tr.append("<td><a class='clear-cus' data-cusid='{0}' onclick=\"clearCusInfo({0},'{1}','{2}');\">清除</a></td>".format(m.customerId,type,s));
+                            $tb.append($tr);//添加一行
+                        });
+                        h.append($tb);
+
+
+
+                        //if (type != "idcard") {
+                        //    $va = $("<a class='btn btn-primary'>发送验证码</a>");
+                        //    $va.on("click", function () {
+                        //        var lk = "", d = {};
+                        //        if (type == "mobile") { lk = "/api/vcode/SendMobileNewVCode"; d.newMobile = s; }
+                        //        if (type == "email") { lk = "/api/vcode/SendNewEmailVCode"; d.newEmail = s;}
+
+                        //    });
+                        //    $vc = $("<div><input class='form-control' type='text' name='svcode' /></div>").append($va);
+                        //    h.append($vc);
+                        //}
+
+        
+                        layer.open({
+                            type: 1,
+                            area: ['700px', '530px'],
+                            title: "发现重复用户",
+                            shadeClose: true,
+                           // btn: ['清除并继续', '取消'],
+                            content: bg.html(),
+                            //yes: function (index, layero) {
+                            //    //var vcode = $(layero).find("[name=svcode]").val();
+                            //    var vcode = "";
+                            //    $.loadJSON("/api/Common/ResetOtherCustomerInfo", { mobileOrEmailOrIdCard: s, type: type, vcode: vcode, customerId: $('Customer_CustomerID').val() }, function (jn) {
+                            //        if (jn.rlt) $.alertMsg("清除其他成员的数据成功");
+                            //        else $.alertError(jn.msg);
+                            //    });
+                            //}
+                        });
+                    }
+                    else {
+                        $(c).after("<span class='can-use'>可用</span>");
+                    }
+                });
+            }
+        }
+        function clearCusInfo(customerId, type, mo) {
+            var dd = { customerId:customerId, type: type, txt: mo }
+            $.loadJSON("/api/Common/ClearCustomerInfo", dd, function (jn) {
+                if (jn.rlt) {
+                    $.alertMsg("操作成功");
+                    $("a[data-cusid=" + dd.customerId+"]").parents("tr").first().remove();
+                }
+                else $.alertError(jn.msg);
+            });
+
+        }
+        function setAgeDay(selector, _this) {
+            var age = _this.value;
+            var n = new Date();
+            var date = new Date(n.getFullYear() - age, n.getMonth(), 1);
+            $(selector).val(date.formatDateTime("yyyy-MM-dd"));
+            //初始左边的值+步长*range
+            var ileft = 14 + ((_this.max - _this.min) / $(_this).width()) * _this.value;
+            $(_this).parent().find("i").text(_this.value).css("left",ileft+"px");
+        }
+    </script>
+}

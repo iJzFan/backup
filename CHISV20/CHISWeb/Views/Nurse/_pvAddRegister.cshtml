@@ -1,0 +1,172 @@
+﻿@model NewRegistViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.DoctorService _dctrSvr
+@{
+    var u = this.GetUserSelf();
+}
+
+<form id="regist_cus_form" method="post" action="/Reservation/Json_GetReservationInfo" ah-role-method="ajax" ah-success-callback="sendRegistSuccess" ah-fail-callback="sendRegistFailed">
+    <input type="hidden" name="returnType" value="json" />
+    <input type="hidden" asp-for="CustomerId" />
+    <ul class="ah-register-customer ah-flex-layout">
+        <li class="ah-flex ah-register-active" ah-cid="@(Model.Customer.CustomerID)">
+            <img src="@(myRazor.GetCustomerDefImagePath(Model.Customer.PhotoUrlDef,Model.Customer.Gender))" width="48" />
+            <div class="ah-flex ah-flex-column ah-hidden-text">
+                <div>@(Model.Customer.CustomerName)(@(Model.Customer.Gender?.ToGenderString())) - @Model.Customer.Birthday?.ToAgeString()</div>
+                <div class="ah-hidden-text">@Model.Customer.IDcard</div>
+            </div>
+            @if (Model.Customer.IsVIP == true)
+            {
+                <i class="ah-icon-vip"></i>
+                @*@Model.Customer.VIPcode*@
+            }
+        </li>
+    </ul>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">科室</div>
+            @{
+                var departs = myRazor.GetDepartsOfStation(Model.StationId);
+            }
+            <select role-initial="false" class="ah-data-select" asp-items="departs" onchange="loadDoctorOfDepartId(this.value);"
+                    asp-for="DepartmentId">
+                <option value="">请选择</option>
+            </select>
+            <span asp-validation-for="DepartmentId"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">医生/助理医生</div>
+            <select role-initial="false" ah-select="DoctorItems" class="ah-data-select" asp-for="DoctorId"></select>
+            <span asp-validation-for="DoctorId"></span>
+        </div>
+    </div>
+
+    @if (u.StationTypeId == CHIS.DictValues.StationType.k_StationType_drugstore2)
+    {
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label ah-required">处方医生</div>
+                @{
+                    var rxdoctoritems = _dctrSvr.GetMyRxDoctors(u.StationId).Select(m => new SelectListItem
+                    {
+                        Text = m.DoctorName + (m.IsRxDefault ? "(默认)" : ""),
+                        Value = m.DoctorId.ToString(),
+                        Selected = m.IsRxDefault
+                    });
+                }
+                <select role-initial="false" class="ah-data-select" id="RxDoctorId" name="RxDoctorId" asp-items="rxdoctoritems">
+                    <option value="">请选择处方医生</option>
+                </select>
+            </div>
+        </div>
+
+    }
+    @*旧版本的药店系统*@
+    @if (u.StationTypeId == CHIS.DictValues.StationType.k_StationType_DrugStore)
+    {
+        int? opId = null; string opMan = "";
+        if (u.MyRoleNames.Contains("drugstore_nurse")) { opId = u.OpId; opMan = u.OpMan; }
+
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label ah-required">预约来源</div>
+                <input type="hidden" id="RegistOpId" name="RegistOpId" data-val="true" data-val-required="请选择来源" value="@opId" />
+                <input type="text" class="ah-data-input" id="register_source" value="@opMan" />
+                <div class="ah-register-source-wrap layui-anim" style="top: 61px;">
+                    <div class="ah-flex">
+                        <input type="text" class="ah-data-input" id="register_source_search" ah-outInputId="RegistOpId" />
+                        <button class="ah-btn-search" type="button" onclick="registerSource('@u.StationId')"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                    <dl></dl>
+                </div>
+                <span asp-validation-for="RegistOpId"></span>
+            </div>
+        </div>
+    }
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">预约时间</div>
+            <input class="ah-date ah-data-input" ah-max-date="20" ah-min-date="0" placeholder="请输入预约时间" type="text"
+                   asp-for="ReservationDate" asp-format="{0:yyyy-MM-dd}" />
+            <span asp-validation-for="ReservationDate"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-required">预约班段</div>
+            <select role-initial="false" class="ah-data-select" asp-for="ReservationSlot">
+                <option value="">请选择</option>
+                <option value="1">上午</option>
+                <option value="2">下午</option>
+            </select>
+            <span asp-validation-for="ReservationSlot"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">过敏史</div>
+            <textarea placeholder="请输入过敏史" class="layui-textarea" asp-for="Allergic"></textarea>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">既往史</div>
+            <textarea placeholder="请输入既往史" class="layui-textarea" asp-for="PastMedicalHistory"></textarea>
+        </div>
+    </div>
+    <div class="ah-col-md1 ah-right-wrap">
+        <button class="ah-btn-blue" type="submit">约号</button>
+        <button class="ah-btn-blue" type="button" onclick="$('#add_regist').html('')">取消</button>
+    </div>
+</form>
+
+
+<script>
+ 
+
+    $(function () {
+        /*初始化数据*/
+        if (pagedata.defDepartId) {
+            $('#DepartmentId').val(pagedata.defDepartId);
+            loadDoctorOfDepartId(pagedata.defDepartId, function () {$('#DoctorId').val(pagedata.defDoctorId); });           
+        }
+
+        //根据当前时间判断班次
+        if (new XDate()[0].getHours() >= 12) {
+            $("#ReservationSlot").val(2);
+        } else {
+            $("#ReservationSlot").val(1);
+        }
+        //更新layui
+        $.updataLayui();
+        $.revalidate($('#regist_cus_form'));/*动态添加重新整理验证*/
+
+
+    })
+
+    function loadDoctorOfDepartId(departId,callback) {
+        $.get("/openapi/Common/JetDoctorsInDepart", { departId: departId }, function (jn) {
+            $("select[ah-select='DoctorItems']").html($.addSelectOption("请选择医生", jn.items));
+            if (callback) callback();
+            $.updataLayui();
+        });
+    }
+
+    function sendRegistSuccess(jn) {
+        if (jn.rlt) {
+            $.ok("约诊成功！");
+            //清理旧数据
+            $('#search_customer_input').val('');
+            $('#add_regist').html("");
+            //刷新列表
+            SEARCH.search(1);
+        } else $.err(jn.msg);
+    }
+    function sendRegistFailed() {
+        $.err("传输失败了！");
+    }
+
+
+</script>

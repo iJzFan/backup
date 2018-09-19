@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ah.Models.CHIS_Code_Customer>
+@{
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<div class="container">
+    <table class="table table-responsive">
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.CustomerName</td>
+                <td>@item.IDcard</td>
+            </tr>
+
+        }
+    </table>
+</div>

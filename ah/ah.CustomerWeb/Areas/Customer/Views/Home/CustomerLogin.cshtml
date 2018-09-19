@@ -1,0 +1,169 @@
+﻿@model ah.Models.ViewModel.AccountLoginViewModel
+@{ Layout = null;
+    var qrtnUrl = Context.Request.Query != null ? Ass.P.PStr(Context.Request.Query["ReturnUrl"]) : "";
+    var mrtnUrl = Model != null ? Model.ReturnUrl : "";
+    var returnUrl = qrtnUrl.IsEmpty() ? mrtnUrl :qrtnUrl;
+    }
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>用户登录-个人中心</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="description" content="天使健康个人中心">
+    <meta name="author" content="">
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/customer/css/pages/home-customer-login.css" />
+    <link href="~/lib/iCheck/skins/all.css" rel="stylesheet" /> 
+    <link rel="stylesheet" href="~/customer/css/home-layer.css" />
+    <script type="text/javascript">
+        if (top != self) top.location = "/Home/Login"; //如果需要登录，就必须刷新到整个最外层框架去
+    </script>
+    <style>
+
+        body {
+            min-width:inherit;
+            background: none;
+        }
+        .bottom-Appointment {
+            position: fixed;
+            top: 85%;
+            right: 0;
+            background: #e66616;
+            padding: 10px;
+            box-shadow: 3px 2px 5px #505050;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #7b7b7b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-sm-6 col-md-4 center" style="overflow:visible!important;">
+                <form role="form" asp-action="CustomerLogin" asp-controller="Home" class="registration-form" method="post">
+                    <input type="hidden" name="ReturnUrl" value="@(returnUrl)" />
+                    <div class="form-bottom">
+                        <div class="form-title text-center">
+                            <img class="" src="~/images/logo1.png">
+                            <p>天使健康会员中心</p>
+                        </div>
+                        <div class="form-group">
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            <label class="sr-only" for="form-first-name">登录账号</label>
+                            <input type="text" asp-for="CustomerName" placeholder="手机号码/邮箱" class="form-first-name form-control" id="UserName" style="font-family:'微软雅黑'; padding-left:35px;">
+                        </div>
+                        <div class="form-group">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            <label class="sr-only" for="form-last-name">密码</label>
+                            <input type="password" placeholder="密码" asp-for="CustomerPassword"
+                                   class="form-last-name form-control" id="password" style="font-family:'微软雅黑';padding-left:35px;">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="pull-left col-md-6">
+                                <input type="checkbox" />
+                                记住密码
+                            </div>
+                            <div class="pull-right col-md-4" style="text-align:right;">
+                                <a asp-action="RetrievePassword">找回密码</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        @* 登录错误信息验证显示 *@
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn_primary_dap" style="width:100%; font-size:15px; font-weight:700; color:#fff;">
+                                <h5 class="fontStyle">登&emsp;录</h5>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            @Html.ValidationSummary()
+                        </div>
+                        <div class="form-group">
+                            <a href="CustomerRegistPhone">还没有账号，注册新用户</a> | 
+                            <a asp-controller="Appointment" asp-action="Index" asp-area="Customer" class="app-iconbtn"><i class="glyphicon glyphicon-time"></i>预约医生</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="Mobile-Client">
+        <form role="form" asp-action="CustomerLogin" asp-controller="Home" class="registration-form" method="post" autocomplete="off">
+            <input type="hidden" name="ReturnUrl" value="@(returnUrl)" />
+            <div class="logo-wrap">
+                <img class="" src="~/images/logo1.png">
+                <p>天使健康会员中心</p>
+            </div>
+            <div class="Mobile-Client-width-90">
+                <i class="glyphicon glyphicon-user Mobile-Client-icon"></i>
+                <input class="Mobile-Client-input" asp-for="CustomerName" type="text" placeholder="手机号码/邮箱" />
+            </div>
+            <div class="Mobile-Client-width-90">
+                <i class="glyphicon glyphicon-lock Mobile-Client-icon"></i>
+                <input class="Mobile-Client-input" asp-for="CustomerPassword" type="password" placeholder="密码" />
+            </div>
+            <div class="Mobile-Client-width-90">
+                <label class="pull-left" style="display: flex;line-height: 31px;margin:0">
+                    <input type="checkbox" id="RPassword" checked/>
+                    记住密码
+                </label>
+                <div class="pull-right" style="text-align:right;line-height: 31px;">
+                    <a asp-action="RetrievePassword">找回密码</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="Mobile-Client-width-90">
+                <div class="form-group">
+                    <button type="submit" class="btn btn_primary_dap" style="margin-top:20px;width:100%; font-size:15px; font-weight:700; color:#fff;">
+                        <h5 class="fontStyle">登&emsp;录</h5>
+                    </button>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                </div>
+                <div class="form-group">
+                    <a href="CustomerRegistPhone">还没有账号，注册新用户</a><br />
+                </div>
+            </div>
+            <a class="bottom-Appointment" asp-controller="Appointment" asp-action="Index" asp-area="Customer"><i class="glyphicon glyphicon-arrow-right"></i>预约医生</a>
+        </form>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/third-part-library/jquery.backstretch.js"></script>
+    <script src="~/lib/iCheck/icheck.js"></script>
+    <script>
+        $(function () {
+            //设置全屏背景
+            $.backstretch("/images/web_bg.jpg");
+            $('#RPassword').iCheck({
+                checkboxClass: 'icheckbox_polaris',
+                radioClass: 'iradio_polaris',
+                increaseArea: '-10%' // optional
+            });
+
+            $('#byValDispaly').hide();//默认的情况下隐藏input
+            $('#top-navbar-1').on('shown.bs.collapse', function () {
+                $.backstretch("resize");
+            });
+            $('#top-navbar-1').on('hidden.bs.collapse', function () {
+                $.backstretch("resize");
+            });
+
+
+  
+        })
+
+
+
+  
+    </script>
+</body>
+
+</html>

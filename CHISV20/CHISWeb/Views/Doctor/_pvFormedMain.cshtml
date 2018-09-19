@@ -1,0 +1,75 @@
+﻿@model CHIS.Models.ViewModels.FormedMainViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var mTakeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+    int? groupnum = null;
+    bool needPresCheck = this.GetUserSelf().MyRoleNames.Contains("drugstore_treat_ext");
+}
+<section role="DRUGS">
+    @Html.HiddenFor(m => m.Main.TreatId)
+    <div class="ah-flex ah-flex-column" data-type="medicine" rolename="boxitem" drugType="FORMED">
+        <div class="ah-flex ah-center-between ah-pvdrug-title">
+            <div class="ah-flex ah-flex-auto" style="display:none;">
+                处方编号:
+                <input type="text" d-name="prescriptionNo" readonly placeholder="<新增>" class="ah-flex-auto" asp-for="Main.PrescriptionNo" />
+            </div>
+            <div class="ah-flex ah-center-between ah-flex-auto">
+                <div class="ah-charge-@(Model.Main.ChargeStatus)"></div>
+                @if (Model.IsNeedRxSign)
+                {
+                    <div class="ah-flex ah-rx-sign-@(Model.IsRxSigned?1:0)"></div>
+                }
+                @if (Model.Main.ChargeStatus == 0)
+                {
+                    <i onclick="FORMED.DeleteFormedPrescription(this);" title="删除此处方" class="glyphicon glyphicon-remove"></i>
+                }
+            </div>
+        </div>
+        <ul class="ah-formed-main ah-flex ah-flex-column" rolename="boxitem-drugs">
+            @foreach (var item in Model.Details)
+            {
+                if (item.GroupNum != groupnum || groupnum == null)
+                {
+                    groupnum = item.GroupNum;
+                    <li class='ah-li-device-space'></li>
+                }
+                await Html.RenderPartialAsync("_pvFormedDetail", item);
+            }
+        </ul>
+        <div class="ah-formed-amount">
+            @if (needPresCheck)
+            {
+                @*<div class="ah-pres-checkman">
+                    <select>
+                        <option>--处方审核人--</option>
+                    </select>
+                </div>*@
+            }
+            <div class="ah-pres-amount">
+                处方合计：
+                @Html.HiddenFor(m => m.Main.Amount)
+                <span class="ah-price">
+                    @(Model.Main.Amount)
+                </span>
+            </div>
+        </div>
+        <div class="ah-formed-active ah-flex ah-center-between">
+            <div class="ah-flex">
+                @if (Model.Main.ChargeStatus == 0)
+                {
+                    <a href="javascript:void(0)" onclick="FORMED.SaveFormedPrescription(this)" ah-roleid="SaveFormedCF" title="保存此处方"><i class="fa fa-save"></i> 保存</a>
+                    @*<a href="javascript:void(0)" onclick="FORMED.AddOneFormedDrug(this)">新增药品或材料</a>*@
+                    <a href="javascript:void(0)" onclick="ADDMULTIPLE.AddFormedDrug(this)">开药或材料</a>
+                }
+            </div>
+            <div class="ah-flex">
+
+                <a href="javascript:void(0)" class="ah-margin-0 no-border" onclick="FORMED.SetFormedDrugSameGroup(this);"><i class="fa fa-list-ol"></i> 设为同组药</a>
+                <a href="javascript:void(0)" class="no-border" onclick="Print(SaveTreatData,'PrintFormedPrescription', 'prescriptNo=@(Model.Main.PrescriptionNo)');" title="打印此处方"><i class="fa fa-print"></i> 打印</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

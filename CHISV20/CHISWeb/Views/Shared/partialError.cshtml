@@ -1,0 +1,22 @@
+﻿@model Exception
+@{
+    Layout = null;
+}
+@using Microsoft.Extensions.Logging
+@inject ILogger<Exception> logger
+@{
+    logger.LogError(Model, Model.Message);
+}
+<div class="container">
+    <div style="font-size:60px;color:#ff6a00;float:left;margin-right:20px;"><i class="fa fa-remove"></i></div>
+    <div style="float:left;">
+        <h1 class="text-danger">后台出现错误</h1>
+        <h2 class="text-danger">处理您的请求的时候出现错误</h2>
+
+        <p class="text-danger">
+            <span>错误内容 : </span>  @Model.Message
+        </p>
+    </div>
+
+</div>
+

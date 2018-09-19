@@ -1,0 +1,183 @@
+﻿@model Ass.Mvc.PageListInfo<ah.Models.vwAHMS_QAFlow_Main>
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        img.upic {
+            border-radius: 100px;
+            width: 48px;
+            height: 48px;
+        }
+
+        .u-card {
+            margin: 3px;
+            padding: 3px;
+            border: 0px solid #eee;
+            border-radius: 3px;
+            display: flex;
+            width: 240px;
+            color: #666;
+            font-size: 0.85em;
+        }
+
+            .u-card > .upic {
+                float: left;
+            }
+
+            .u-card > .u-card-wd {
+                float: left;
+                margin-left: 5px;
+                text-align: left;
+            }
+
+                .u-card > .u-card-wd .fa {
+                    width: 16px;
+                    text-align: center;
+                    color: #009688;
+                }
+        .u-name {font-size:12px;            color: #009688;}
+        .fa-mobile {
+            font-size: 1.4em;
+        }
+
+        .rlt-ok {
+            color: #28b140;
+        }
+
+        .rlt-unok {
+            color: #ff6a00;
+        }
+ 
+    </style>
+}
+
+<div class="main-title">
+    <i class="fa fa-file"></i>问卷信息明细表
+</div>
+<div class="main-content">
+    <div class="search-wrap">
+        <form>
+            <input type="text" name="searchText" placeholder="手机/邮箱/身份证" />
+            @*<input type="text" name="pageIndex" placeholder="页码" />*@
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                @*<th>Id</th>*@
+                <th>会员信息</th>
+                <th>问卷</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>婚况</th>
+                <th>创建时间</th>
+                <th>问卷使用中</th>
+                <th>是否需要管理</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    @*<td>@item.QAFlowMainId</td>*@
+
+                    <td style="width:180px;">
+                        @if (item.CustomerId > 0)
+                        {
+                            <div class="u-card">
+                                <img class="upic" src="@(myRazor.GetCustomerDefImagePath(item.CustomerPhoto,item.CustomerGender))" />
+                                <div class="u-card-wd">
+                                    <div class="u-name"><b>@item.CustomerName</b>&nbsp;(@item.CustomerGender?.ToGenderString())</div>
+                                    @if (item.CustomerMobile.IsNotEmpty())
+                                    {
+                                    <div><i class="fa fa-mobile"></i> @item.CustomerMobile</div>
+                                    }
+                                    @if (item.CustomerEmail.IsNotEmpty())
+                                    {
+                                    <div><i class="fa fa-envelope-o"></i> @item.CustomerEmail</div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </td>
+                    <td style="text-align:left;padding-left:10px;">@(item.QAName)（@item.QAVer）</td>
+                    <td>@item.Name</td>
+                    <td>@item.Gender?.ToGenderString()</td>
+                    <td>@item.Birthday?.ToAgeString()</td>
+                    <td><span title="@item.Mobile"> @item.Mobile.ToMarkString(Ass.Models.MaskType.MobileCode)</span></td>
+                    <td><span title="@item.Email">@item.Email.ToMarkString(Ass.Models.MaskType.EmailCode)</span></td>
+                    <td>@item.MaritialStatus</td>
+                    <td>@item.QATime</td>
+
+
+                    <td>@(item.IsManaging > 0 ? "是" : "")</td>
+                    <td>
+                        @if (item.QARlt_IsNeedMgr == true)
+                        {
+                            <span class="rlt-unok">需要管理</span>
+                        }
+                        else if (item.QARlt_IsNeedMgr == false)
+                        {
+                            <span class="rlt-ok">正常</span>
+                        }
+                        else
+                        {
+                            <a href="javascript:void(0)" onclick="QuestionAnalist('@item.QAFlowMainId',this)">问卷分析</a>
+                        }
+
+                    </td>
+                    <td>
+                        @if (item.IsManaging == 0 && item.CustomerId > 0 && item.QARlt_IsNeedMgr == true)
+                        {
+                            <a asp-action="AddQuestionToMgr" asp-controller="BackPanel" asp-route-qid="@item.QAFlowMainId">加入管理</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var page = $("#page").XPage({
+                pageIndex:@(Model.PageIndex),//当前页
+                pageTotal:@(Model.PageTotal),//总页数
+                pageSize:@(Model.PageSize),//页条数
+                recordTotal:@(Model.RecordTotal),//总条数
+                showPageCount: 4,//用于显示分页显示的量
+                onPageClick: function (pageIndex) {
+                    if (pageIndex) {
+                        window.location.href = "/HealthMgr/BackPanel/QuestionList?pageIndex=" + pageIndex;
+                    }
+                }
+            });
+        });
+        function QuestionAnalist(qid,that) {         
+            console.log("分析问卷：" + qid);
+            $.getJSON("/api/BreastApi/QuestionAnalist", { qid: qid }, function (jn) {
+                if (jn.rlt) {
+                    var h = '<span class="rlt-ok">正常</span>';
+                    if (jn.isNeedMgr) h = '<span class="rlt-unok">需要管理</span>';
+                    console.log(that);
+                    console.log($(that).parent());
+                    $(that).parent().html(h);
+                }
+            });
+
+        }
+    </script>
+}

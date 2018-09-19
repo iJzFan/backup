@@ -1,0 +1,102 @@
+﻿@model CHIS.Models.ViewModel.PaginatedItemsViewModel<GiftOrderViewModel>
+<style>
+    .coverImg {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border-radius: 36px;
+        margin: 3px;
+    }
+</style>
+@if (Model.Rows.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th>
+                    订单号
+                </th>
+                <th>
+                    礼品名
+                </th>
+                <th>
+                    数量
+                </th>
+                <th>
+                    状态
+                </th>
+                <th>
+                    封面
+                </th>
+                <th>
+                    收货人
+                </th>
+                <th>
+                    手机号
+                </th>
+                <th>
+                    收货地址
+                </th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiftOrderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiftName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.State)
+                    </td>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.CoverImg)" class="coverImg" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @if (!item.DeadLine.HasValue)
+                        {
+                            if (ViewBag.orderStatus != "Shipped")
+                            {
+                                <a href="javascript:void(0)" onclick="GIFTORDER.Ship(@item.GiftOrderId)">发货</a>
+                            }
+                            else { 
+                                <span>/</span>
+                            }
+                        }
+                        else {
+                            <span>/</span>
+                            //<a href="javascript:void(0)" onclick="">使用</a>
+                        }
+                        @*<a href="javascript:void(0)" onclick="">删除</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<script>
+    $("#pager").ahPages(@Model.FindTotal,@Model.Page, @Model.Total);
+    function loadDetail(e, id) {
+        SEARCH.loadRowDetail(e, '/Dispensing/LoadDispensingDetail?treatId=' + id);
+    }
+</script>

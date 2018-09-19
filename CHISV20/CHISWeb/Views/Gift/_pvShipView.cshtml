@@ -1,0 +1,78 @@
+﻿@model CHIS.Models.CHIS_Gift_Order
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+
+        .ah-doc-sets-upic-edit {
+            margin-right: 10px;
+        }
+    </style>
+}
+<div class="container layui-form" style="margin-bottom:40px;">
+    <input type="hidden" asp-for="GiftOrderId"/>
+    <div class="ah-flex-required ah-align-self">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-required">快递公司</div>
+            @{ var express = myRazor.GetSelectListItemsByDictKey("Express");}
+            <select class="form-control" asp-items="express" asp-for="Shipper">
+                <option value="null">未选择</option>
+            </select>
+        </div>
+        <div class="ah-col-md2 ah-flex-data">
+        </div>
+
+    </div>
+    <div class="ah-flex-required ah-align-self">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-required">快递单号</div>
+            <input class="ah-data-input" placeholder="快递单号" asp-for="LogisticCode" type="text" />
+        </div>
+        <div class="ah-col-md2 ah-flex-data">
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        //标准日历
+        layui.use(['laydate'], function () {
+            var laydate = layui.laydate;
+
+        });
+        //提交
+        function ShipSub() {
+            var opt = {
+                giftOrderId: $("#GiftOrderId").val()
+            };
+            var Shipper = $("#Shipper").val();
+            var LogisticCode = $("#LogisticCode").val();
+            if (Shipper == null && Shipper == "null") {
+                $.err("请选择快递公司！");
+                return false;
+            }
+            if (LogisticCode.length <= 0) {
+                $.err("请输入快递单号！");
+                return false;
+            }
+            opt.shipper = Shipper;
+            opt.logisticCode = LogisticCode;
+
+            $.get("/Gift/Ship", opt, function (jn) {
+                if (jn.rlt) {
+                    $.ok("发货成功！");
+                    parent.SEARCH.search(1);
+                    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                    parent.layer.close(index);
+                } else {
+                    $.err(jn.msg);
+                }
+            });
+        }
+    </script>
+}

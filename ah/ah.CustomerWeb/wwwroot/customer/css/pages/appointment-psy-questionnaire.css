@@ -1,0 +1,223 @@
+﻿html{
+    height:100%;
+}
+body{
+    height:100%;
+}
+.portrait{
+    height:100%;
+}
+.wrap{
+    height:100%;
+}
+.psy-wrap {
+    overflow: auto;
+    height: 100%;
+    padding: 90px 56px 0;
+    background-image: url('../../image/psy.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: #e1e2e5;
+}
+.psy-title {
+    text-align: center;
+    color: #22a88f;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 10px;
+}
+.flex-label {
+    margin: 0;
+    margin-right: 10px;
+    display: flex;
+    color: #909090;
+    font-weight: normal;
+}
+.flex-label .iradio_flat-green {
+    margin-right:3px;
+}
+
+.psy-info-sub {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.psy-info-sub .return-btn {
+    background: #74b6aa;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    padding: 0 10px;
+    height: 40px;
+    line-height: 40px;
+}
+.psy-info-sub .sub-btn {
+    background: #22a88f;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    margin-left: 0px;
+    height: 40px;
+    width: 50%;
+    text-align: center;
+    line-height: 40px;
+    margin: 0 auto;
+    margin-top: 23px;
+}
+.psy-text-wrap {
+    padding: 10px 34px;
+    background: #fff;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 2px;
+    padding-bottom: 27px;
+}
+.psy-text-title {
+    display: flex;
+    align-items: center;
+    color: #22a88f;
+    font-size: 14px;
+}
+.psy-text-title i{
+    margin-right:8px;
+}
+.psy-textarea {
+    resize: none;
+    height: 100px;
+    border: 1px solid #22a88f;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.psy-info-wrap {
+    margin-top: 20px;
+    border-radius: 3px;
+    padding: 10px 34px;
+    background: #fff;
+    color: #666;
+    display: none;
+    flex-direction: column;
+    position: relative;
+}
+.psy-icon {
+    width: 26px;
+    margin-right:5px;
+}
+.psy-title {
+    margin-bottom: 10px;
+    color: #22a88f;
+    font-weight: bold;
+}
+.psy-select {
+    padding-left: 7px;
+    display: flex;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.psy-main-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+.psy-input-wrap {
+    display: flex;
+    margin-top: 13px;
+    width: 48%;
+    margin-right: 11px;
+    align-items: center;
+}
+.input-wrap {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+.input-wrap select {
+    border: 1px solid #22a88f;
+    height: 28px;
+}
+.psy-input-wrap .title-label {
+    width: 72px;
+    color: #909090;
+    margin: 0;
+    font-weight: normal;
+}
+.psy-input-wrap .psy-input {
+    width:100%;
+    border: 1px solid #22a88f;
+    border-radius: 3px;
+    height: 28px;
+    padding: 0 5px;
+}
+.psy-children {
+    width: 100%;
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
+.psy-children span {
+    flex: 1;
+    margin: 0 5px;
+}
+.psy-children input{
+    width: 90%;
+    height: 28px;
+    border:none;
+    text-align:center;
+    border-bottom: 1px solid #22a88f;
+}
+.psy-input-autoW{
+    width:100%;
+}
+.psy-cty-wrap{
+    display:flex;
+}
+.psy-cty-wrap select {
+    
+}
+
+.ah-back-link{cursor:pointer;color:#1b9b60;position:absolute;top:6px;left:20px;}
+
+
+@media screen and (max-width:800px) {
+    .ah-back-link{top:3px;left:6px;}
+    .psy-wrap {
+        padding: 90px 10px 20px;
+    }
+    .psy-input-wrap{
+        margin-right:0;
+    }
+    .psy-input-wrap {
+        width: 100%;
+        text-align:center;
+    }
+    .icheckbox_line-green, .iradio_line-green {
+        background: #d7dad8;
+    }
+    .psy-text-wrap {
+        margin-bottom: 20px;
+        padding: 10px 10px 20px;
+        box-shadow: 1px 2px 5px #ababab;
+    }
+    .psy-info-wrap {
+        padding:10px;
+        box-shadow: 1px 2px 5px #ababab;
+    }
+    .psy-info-sub .sub-btn {
+        margin-top: 0px;
+        flex: 1;
+        background: #22a88f;
+        color: #fff;
+        border-radius: 4px;
+        border: none;
+        margin-left: 8px;
+        height: 40px;
+        width: 100px;
+        text-align: center;
+        line-height: 40px;
+    }
+}

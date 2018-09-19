@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null; // 不使用模板页面
+    ViewData["Title"] = "首页";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alvaro Trigo Lopez" />
+    <meta name="description" content="pagePiling.js plugin by Alvaro Trigo." />
+    <meta name="keywords" content="pile,piling,piling.js,stack,pages,scrolling,stacking,touch,fullpile,scroll,plugin,jquery" />
+    <meta name="Resource-type" content="Document" />
+
+    <title>@ViewData["Title"] - 天使健康</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <link href="~/css/home.css" rel="stylesheet" />
+    <link href="~/lib/pagepiling/jquery.pagepiling.css" rel="stylesheet" />
+    <style>
+        #section1 {
+            background-image: url('../../images/home(3).jpg');
+            background-size: 100% 100%;
+        }
+        #section2 {
+            background-image: url('../../images/home(1).jpg');
+            background-size: 100% 100%;
+        }
+        #section3 {
+            background-image: url('../../images/home(2).jpg');
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body scroll=no>
+    <div id="pagepiling">
+        <div class="section" id="section1">
+            <a class="breast-goto" asp-controller="Breast" asp-action="Index" asp-area="HealthMgr">乳腺癌健康管理</a>
+        </div>
+        <div class="section" id="section2">
+            <div class="intro">
+                <p class="In-development">网站开发中!</p>
+            </div>
+        </div>
+        <div class="section" id="section3">
+            <div class="intro">
+                <p class="In-development">网站开发中!</p>
+            </div>
+        </div>
+    </div>
+    <div class="home-nav">
+        <div class="home-logo">
+            <img src="~/HealthMgr/img/logo_03.png" height="60"/>
+        </div>
+        <div class="phone-nav">
+            <i class="glyphicon glyphicon-th-large"></i>
+            <ul class="home-nav-item" id="menu">
+                <li class="home-nav-active" data-tooltip="Page1"><a href="#page1">乳腺癌</a></li>
+                <li data-tooltip="Page2"><a href="#page2">高血压</a></li>
+                <li data-tooltip="Page3"><a href="#page3">糖尿病</a></li>
+            </ul>
+        </div>
+        <a class="href-goto" href="@(Global.ConfigSettings.CustomerLoginPath)">
+            <i class="glyphicon glyphicon-user"></i>进入个人中心
+        </a>
+    </div>
+    <a href="/HealthMgr/BackPanel/Login" class="home-admin">后台</a>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+    </environment>
+
+    <script src="~/lib/pagepiling/jquery.pagepiling.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var state = false;
+            $(window).resize(function () {
+                if ($(window).width() > 500) {
+                    $("#menu").css("display", "flex");
+                } else {
+                    $("#menu").css("display", "none");
+                    state = false;
+                }
+            });
+            $(".phone-nav i").click(function () { 
+                if (!state) {
+                    $("#menu").show("fast");
+                } else { 
+                    $("#menu").hide("fast");
+                }
+                state = !state;
+            });
+            $('#pagepiling').pagepiling({
+                menu: '#menu',
+                anchors: ['page1', 'page2', 'page3'],
+                sectionsColor: ['#bfda00', '#2ebe21', '#2C3E50', '#51bec4'],
+                loopTop: true,
+                loopBottom: true,
+                onLeave: function (index, nextIndex, direction) {
+                    $("#menu li").each(function () { 
+                        $(this).removeClass("home-nav-active");
+                    });
+                    $("#menu li").eq(nextIndex-1).addClass("home-nav-active");
+                    console.log(index + "," + nextIndex + "," + direction)
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

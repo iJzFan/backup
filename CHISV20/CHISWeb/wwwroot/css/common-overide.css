@@ -1,0 +1,97 @@
+/*
+    此css文件是对第三方控件样式的覆盖
+    bootstrap 样式覆盖
+*/
+
+a:focus{
+    outline:none;
+}
+select:focus{outline:none;}
+.breadcrumb {
+    background: #eee;
+    border-radius: 5px;
+}
+
+.disabled .input-group>input.form-control+.input-group-addon{border-top:none;border-left:none;border-right:none;border-bottom:1px dashed #ccc;background-color:transparent;}
+
+ 
+/*jquery*/
+.ajax-info{
+    background:#717171;padding:20px 40px;color:#fff;position:absolute;left:calc(50% - 60px);top:calc(50% - 30px);border-radius:3px;z-index:99999;
+}
+.ajax-info>.fa{font-size:1.5em;margin-right:10px;}
+
+/*bootstrap*/
+.form-control{border-radius:1px;}
+.table-hover>tbody>tr:hover{background:#f3f3f3;}
+.input-group-addon {border-radius:1px;}
+
+.input-group>input.form-control[readonly] + .input-group-addon {border:none;}
+
+input[type=number][readonly]::-webkit-outer-spin-button,
+input[type=number][readonly]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+input[type="number"][readonly] {    -moz-appearance: textfield;}
+
+
+
+
+input[type=text],input[type=number],input[type=email],input[type=tel],input[type=datetime],
+input.input-datetime,textarea
+{font-size:12px;}
+
+.select-addon{padding:0;background-color:transparent;position:relative;} 
+.select-addon .select2-container--default{min-width:100px;text-align:left;font-size:12px;}
+.select-addon .select2-container--default .select2-selection--single{border:none;}
+.input-group[readonly] .input-group-addon{border:none;}
+.panel {     margin-bottom: 0px;}
+
+.glyphicon-ok{color:#209843;}
+.glyphicon-remove{color:#ff6a00;}
+
+/*bootstrap 布局*/
+.col-lg-2 .col-lg-6,
+.col-lg-2 .col-md-6,
+.col-md-2 .col-lg-6,
+.col-md-2 .col-md-6{
+   padding-left:0;padding-right:0;
+}
+
+
+
+
+
+/*datetimepickeer*/
+.datetimepicker{font-size:12px;font-family:Arial;}
+.datetimepicker .datetimepicker-days .table-condensed td{padding:2px 4px;border-radius:2px;}
+
+/*--- select2 -----*/
+.select2-container--default .select2-selection--single {
+    border-radius: 1px;
+    border: 1px solid #ccc;
+}
+.select2-container .select2-selection--single .select2-selection__rendered { padding-left: 5px;}
+select[readonly]+span.select2 .select2-selection--single { border: none;background-color:transparent;padding-left:0; }
+select[readonly] + span.select2 .select2-selection--single .select2-selection__arrow{display:none;}
+select[readonly] + span.select2 .select2-selection--single .select2-selection__rendered{padding-left:0;}
+select[readonly]+span.select2 .select2-selection--single{cursor:default!important;}
+select[disabled]+span.select2 .select2-selection--single{cursor:not-allowed;}
+
+/*input*/
+input[type=text][readonly], input[type=number][readonly], input[type=tel][readonly], input[type=password][readonly],
+input[type=email][readonly], textarea, .form-control[readonly] {
+    border: none;
+    background: none;
+    box-shadow: none;
+    cursor: default;
+    padding-left: 0;
+}
+input.input-datetime[readonly]+span.input-group-addon{display:none;}
+input.input-datetime[disabled]+span.input-group-addon{cursor:not-allowed;}
+textarea[disabled]{cursor:not-allowed;}
+
+/*jqgrid*/
+.ui-jqgrid .ui-jqgrid-btable {     table-layout:fixed;}
+.jqgrow td small{display:block;line-height:11px;}

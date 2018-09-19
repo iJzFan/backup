@@ -1,0 +1,76 @@
+﻿@model PaginatedItemsViewModel<CHIS.Services.ChisLog>
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table-hover">
+        <tbody>
+            <tr>
+                <th>
+                    <b>Message</b>
+                </th>
+                <th style="width:80px">
+                    <b>Level</b>
+                </th>
+                <th>
+                    <b>Date</b>
+                </th>
+                <th>
+                    <b>Logger</b>
+                </th>
+                <th style="width:100px">
+                    <b>RequstIP</b>
+                </th>
+                <th>
+                    <b>RequstUrl</b>
+                </th>
+                <th style="width:100px">
+                    <b>User</b>
+                </th>
+                <th style="width:80px"></th>
+            </tr>
+        </tbody>
+        <tbody>
+            @foreach (var item in Model.Rows)
+            {
+            <tr>
+                <td class="ah-td-showall">
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td>
+                    @item.Date.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logger)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequstIP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequstUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User)
+                </td>
+                <td class="ah-td-left">
+                    <span class="ah-linkbg"><a onclick="loadDetail(event,'@item.Id')">详情</a></span>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $("#pager").ahPages(@Model.FindTotal,@Model.Page, @Model.Total);
+    })
+
+    function toShowAll(id) {
+        $(id).addClass('ah-td-showall');
+    }
+</script>

@@ -1,0 +1,63 @@
+﻿@model ah.Models.ViewModel.JsonListViewModel<ah.Models.ViewModel.StationInfo>
+
+<div class="title">
+    搜索结果
+</div>
+<div class="item">
+    @foreach (var item in Model.Items)
+    {
+        <div class="main" ah-sid="@item.StationId" ah-sname="@item.StationName">
+            <div class="border"></div>
+            <div class="pic" style="background-image:url('@item.StationPicHUrl')"></div>
+            <div class="text">
+                <div class="station-name ah-flex">
+                    <div class="ah-flex-auto ah-flex">
+                        <span class="ah-flex-auto">@item.StationName</span>
+                        <span style="font-size: 12px;font-weight: 400;color: #999;">
+                            @item.DiffOfMe
+                        </span>
+                    </div>
+                </div>
+                
+                <div style="font-size: 12px;color: #999;">@item.StationAddress</div>
+                <div class="active ah-flex">
+                    <div class="ah-flex-auto ah-flex ah-active-icon">
+                        @if (item.Lat != null)
+                        {
+                            <img class="toMap" add="@item.StationAddress" name="@item.StationName" lo="@item.Lat" la="@item.Lng" src="../../images/location-icon.png" />
+                        }
+                        @if (item.IsFollow != null)
+                        {
+                            <i ah-data="@item.StationId" ah-state="false" class="fa fa-star toFollow"></i>
+                        }
+                        else
+                        {
+                            <i ah-data="@item.StationId" ah-state="true" class="fa fa-star-o toFollow"></i>
+                        }
+                    </div>
+                    <span>去约诊</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!--分页-->
+<div id="pager"></div>
+<script>
+    $(function () {
+        var dataCount = @Model.Items.Count();
+        if (dataCount > 0) {
+            $("#pager").pager({
+                pagenumber: @Model.PageIndex,
+                pagecount: @Model.TotalPages,
+                buttonClickCallback: function (pageclickednumber) {
+                    if (op.oldWidth >= 800) {
+                        op.GetSearchMore(pageclickednumber, '@ViewBag.searchText')
+                    } else {
+                        op.GetSearchMore(pageclickednumber, '@ViewBag.searchText')
+                    }
+                }
+            });
+        }
+    })
+</script>

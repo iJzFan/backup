@@ -1,0 +1,80 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_Code_Drug_Main_Apply>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+ 
+}
+<style>
+    .drug-big-pic {
+        position: absolute;
+        width: 135px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        left: 56px;
+        display: none;
+        top: -37px;
+    }
+</style>
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="gray-table table-hover">
+        <thead>
+            <tr>
+                <th width="60px">序号</th>
+                <th width="60px"></th>
+                <th width="60px">药品ID</th>
+                <th>药品名称</th>
+                <th>规格</th>
+                <th>厂商/产地</th>
+                <th>单位</th>
+                <th>申请时间</th>
+                <th>状态</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.DrugApplyId</td>
+                    <td style="position:relative;">
+                        <img src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode, true))" width="32" onmouseover="showBigImg(this);" onmouseout="hideBigImg(this)" />
+                        <img class="drug-big-pic" src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode,false))" />
+                    </td>
+                    <td>@item.DrugId</td>
+                    <td>
+                        <b>@item.DrugName</b>
+                        <small>@item.Alias</small>
+                    </td>
+                    <td>@item.DrugModel</td>
+                    <td>
+                        <span>@item.ManufacturerOrigin</span>
+                        <span>@item.OriginPlace</span>
+                    </td>
+                    <td>@item.OutUnitSmallName</td>
+                    <td>@item.ApplyTime</td>
+                    <td>
+                        @(item.Status.ToCaseString("APPLYING,ALLOWED,REJECT", "审核中,通过,未通过"))
+                    </td>
+                    <td>
+                        @((item.Status == "REJECT").ToString(item.RejectReson, ""))
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@ViewBag.DebugText
+<script>
+    var pager = {
+        pagenumber: @Model.PageIndex,
+        pagecount: @Model.PageTotal,
+        ver:1
+    };
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+</script>

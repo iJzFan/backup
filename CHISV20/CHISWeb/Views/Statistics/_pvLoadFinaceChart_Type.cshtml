@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CHIS.Models.StatisticsModels.ChargeType>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    
+}
+<div class="ah-statement-data ah-flex">
+    <div class="ah-statement-total ah-flex ah-flex-column">
+        <span>@ViewBag.TotalAmount</span>
+        <span>合计收益</span>
+    </div>
+    <div class="ah-statement-survey ah-flex-auto ah-flex">
+        <div class="ah-statement-survey-title">
+            收入概况
+        </div>
+        @if (Model != null)
+        {
+            foreach (var i in Model)
+            {
+                <div class="ah-statement-survey-data ah-flex">
+                    <span>@(i.Amount)</span>
+                    <span>@(i.FeeProp)</span>
+                </div>
+            }
+            <div class="ah-flex-auto ah-flex ah-justify-end">
+                <a class="ah-statement-view" onclick="PUBLIC_FINANCE.views_Switching('ah-piechart','ah-pietable',this)">列表视图</a>
+            </div>
+        }
+    </div>
+</div>
+<div class="ah-statement-wrap" id="ah-piechart" style="width:100%;height:500px"></div>
+<div class="ah-statement-table ah-table-wrap" id="ah-pietable">
+    <table>
+        <tbody>
+            <tr>
+                <th>类型</th>
+                <th>价格</th>
+            </tr>
+            @if (Model != null)
+            {
+                foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@(i.FeeProp)收益</td>
+                        <td>@(i.Amount)</td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td>合计收益</td>
+                <td><b class="ah-price">@ViewBag.TotalAmount</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var pagedata_type = {}
+    $(function () {
+        $(window).resize(function () {
+            TJ_FinaceType.initPie();
+        });
+    });
+</script>

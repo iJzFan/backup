@@ -1,0 +1,108 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+@section links{
+    <style>
+        .me-tabs{
+            padding:10px 0;
+        }
+        .me-tabs ul {
+            margin:0;
+            padding:0;
+        }
+        .me-tabs ul li{
+            color:#333;
+            list-style:none;
+            display:block;
+            background:#eee;
+            float:left;
+            margin-left:2px;
+        }
+       .me-tabs ul li a {
+                display: block;
+                font-size: 13px;
+                font-weight:400;
+                color: #333;
+                padding: 10px;
+                background: #eee;
+                text-decoration: none;
+            }
+        .me-tabs ul li a:hover {
+             text-decoration:none;
+             display: block;
+             font-size: 13px;
+             color: #fff;
+             background:#ff6a00;
+             padding: 10px;
+            }
+        .me-leist{
+            margin:10px 0px;
+            line-height:30px;
+        }
+        .table{
+            font-weight:400;
+            font-size:13px;
+            color:#666;
+        }
+        .edit a{
+            line-height:30px;
+            color:#333;
+            font-size:12px;
+            font-weight:400;
+
+        }
+            .edit a:hover {
+                text-decoration: none
+            }
+    </style>
+
+}
+<ol class="breadcrumb">
+    <li><a href="#">个人中心</a></li>
+    <li><a href="#">消息中心</a></li>
+</ol>
+<div class="me-wrapper">
+      <div class="me-tabs">
+          <ul>
+              <li style="padding:8px 8px;"><input type="checkbox" /></li>
+              <li><a href="#">系统消息</a></li>
+              <li><a href="#">咨询消息</a></li>
+              <li><a href="#">其他消息</a></li>
+          </ul>
+      </div>
+    <div class="clearfix"></div>
+      <div class="me-leist">
+          <table class="table table-hover ui-table">
+              <tbody>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>尊敬的用户您预约的2017年03月21日的天使健康门诊就诊，已就诊结束，祝您身体健康</td>
+                  </tr>
+                  <tr>
+                      <td width="20"><input type="checkbox" /></td>
+                      <td>尊敬的用户您预约的2017年03月21日的天使健康门诊就诊，已就诊结束，祝您身体健康</td>
+                  </tr>
+                  <tr>
+                      <td width="20"><input type="checkbox" /></td>
+                      <td>尊敬的用户您预约的2017年03月21日的天使健康门诊就诊，已就诊结束，祝您身体健康</td>
+                  </tr>
+                  <tr>
+                      <td width="20"><input type="checkbox" /></td>
+                      <td class="edit"> <a href="#" style="margin-top:5px;">全选</a> <a href="#"><span class="label label-warning" style="font-size:12px; font-weight:400;text-decoration:none;">删除 </span></a>
+                      
+                          <a> <span class="label label-warning" href="#" style="font-size:12px; font-weight:400; margin-left:10px; text-decoration:none;">设为已读 </span></a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+
+      </div>
+</div>
+
+@section scripts{
+
+}

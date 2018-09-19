@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "功能管理";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+
+@section links{
+ 
+  
+}
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()" title="刷新"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" title="新建菜单" onclick="btn_Add()"><i class="fa fa-plus"></i>新增功能管理</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first" style="display:none;">已选中<span>1</span>项</li>
+                <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit();"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete();"><i class="fa fa-trash-o"></i>删除</a></li>
+                <li><a id="btn_Details" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看</a></li>
+                @*<li class="split"></li>
+                <li><a id="btn_modulebutton" authorize="yes" onclick="btn_modulebutton();"><i class="fa fa-gavel"></i>按钮管理</a></li>*@
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group search-group">
+                        <input id="txt_Search" type="text" class="form-control" placeholder="请输入要查询关键字">
+                        <span class="input-group-btn">
+                            <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+            <div class="ah-tree-bg">
+                <ul id="ztree-Functions" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+<script>
+    var CE, tree;
+    $(function () {
+        //控件初始           
+        tree = zTreeObj({
+            id: 'ztree-Functions',
+            url: '/api/syshis/AllFunctions',
+            onLoaded: gridInit,
+            onClickNode: function (node) { Search(); }
+        });
+
+        //回车快捷查询
+        $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+        //查询记录
+        $('#btn_Search').click(Search);
+
+
+
+
+        //载入过程内函数
+        function Search() {
+            CE.reload({
+                keyword: $('#txt_Search').val(),
+                FunctionId: tree.getSelectOneNode().id
+            });
+        }
+    })
+
+    //jqgrid表格函数。
+    function gridInit() {
+        CE = new CommonEdit({
+            title: "业务功能设置",
+            url: "/Function/GetGridJson_FuncDetails_Edit",  //编辑记录地址funcDetailId
+            jqurl: "/Function/GetGridJson_FuncDetails",  //网格查询地址
+            width: "70%", height: "650px",
+            btn: ['确认', '关闭'],
+            btnclass: ['btn btn-primary', 'btn btn-warning'],
+            jqGridId: "gridList",
+            jqGridPager: "pager"
+        });
+
+        CE.InitialJqGrid({         
+            colModel: [
+                { label: "主键", name: "funcDetailId", hidden: true, key: true },
+                { label: '组', name: 'groupKey' },
+                { Label: '键名',name:'keyName'},
+                { label: '功能名称', name: 'funcDetailName' },
+                { label: '类型', name: 'typeName' },
+                { label: '默认值', name: 'defValue' },
+                { label: '多值平准法', name:'multiMethod'}
+                
+            ],
+            height: $(window).height() - 184,//高度，表格高度。可为数值、百分比或'auto'
+
+            //网格双击事件
+            ondblClickRow: function (rowId) {
+                if (rowId > 0) btn_View();
+            }
+        }),
+
+        //实现行拖拽
+        $('#gridList').jqGrid('sortableRows', {
+            items: '.jqgrow:not(.unsortable)'
+        });
+
+        //查询记录
+        $("#btn_Search").click(function () {
+            var postData = {
+                keyword: $("#txt_Search").val().trim()
+            };
+            CE.$jqGridReload(postData);
+        });
+    }
+
+    //新增记录
+    function btn_Add() {
+        var selNode = tree.getSelectOneNode();  
+        if (!selNode||!selNode.id){ $.alertMsg("清先选择一个所属板块节点"); return;    }
+        CE.Add(function (index, win) { win.submitForm(); },
+            "BelongFunctionId=" + selNode.id);
+    };
+
+    //修改记录
+    function btn_Edit() {
+        var keyValue = CE.$jqGrid.jqGridRowValue().funcDetailId;
+        CE.Modify("recID=" + keyValue,
+            function (index,win) {
+                win.submitForm();
+            });
+    }
+
+    //删除记录
+    function btn_Delete() {
+        var keyValue = CE.$jqGrid.jqGridRowValue().funcDetailId;
+        CE.Delete("recID=" + keyValue);
+    }
+
+    //查看记录
+    function btn_View() {
+        var keyValue = CE.$jqGrid.jqGridRowValue().funcDetailId;
+        CE.View("recID=" + keyValue);
+    }
+
+  
+
+</script>
+    }

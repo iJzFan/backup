@@ -1,0 +1,33 @@
+﻿@model RxDrugViewModel
+@{
+    Layout = null;
+}
+<li class="ah-postion-relative" ah-drugId="@Model.DrugId"  ah-rxdrugId="@Model.RxSaveDrugsId">
+    <input type="hidden" asp-for="@Model.RxSaveDrugsId" />
+    <i class="ah-public-updata-error" ah-id="delete-drug"></i>
+    <div class="ah-flex ah-max-height ah-RxDrugSaveBase_Drug">
+        <div class="ah-flex">
+            <div class="drugName">@Model.DrugName</div>
+            <div class="drugNum">@Model.DrugQty</div>
+        </div>
+        <div class="ah-flex ah-mt-10">
+            <div class="drugLabel">规&emsp;格</div>
+            <div class="drugValue">@Model.DrugModel</div>
+        </div>
+        <div class="ah-flex ah-mt-10">
+            <div class="drugLabel">厂&emsp;商</div>
+            <div class="drugValue">@Model.DrugManufacture</div>
+        </div>
+        <div class="ah-flex ah-mt-10">
+            <div class="drugLabel">批&emsp;号</div>
+            <div class="drugValue">@Model.DrugPiNo</div>
+        </div>
+        <div class="ah-flex ah-mt-10">
+            <div class="drugLabel">有效期</div>
+            <div class="drugValue">@Model.DrugDeadTime?.ToString("yyyy.MM")</div>
+        </div>
+    </div>
+</li>
+<script>
+
+</script>

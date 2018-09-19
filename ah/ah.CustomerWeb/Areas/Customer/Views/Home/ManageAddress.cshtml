@@ -1,0 +1,123 @@
+﻿@model CHIS_Code_Customer_AddressInfos
+@{
+    ViewBag.Title = "地址管理";
+}
+@section links{
+    <style>
+        input.error {
+            border-color: red;
+        }
+
+        label.error {
+            display: block;
+        }
+
+        #address_edit .form-group > input[type=text] {
+            width: 380px;
+        }
+
+        #cty {
+            display: flex;
+        }
+
+        .icheckbox_square-blue {
+            margin-right: 5px;
+        }
+
+        .labelFlex {
+            display: flex;
+            align-items: center;
+        }
+
+        @@media (max-width:800px) {
+        }
+    </style>
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/ManageAddress">地址管理</a></li>
+    </ol>
+</div>
+<div class="ah-public-main">
+    <div id="Address_List">
+        @await Html.PartialAsync("_ManageAddress_AddressList", (object)ViewBag.AddressList)
+    </div>
+    <form id="address_edit" class="form-inline form-group-margin " method="post" asp-action="UpsertMyAddress">
+        <h5><i class="fa fa-address-book"></i> 添加地址 <small>（请正确输入地址和电话号码！）</small></h5>
+        <hr />
+        <div class="form-group form-group-margin col-md-12">
+            <label><span style="color:#ff0000">*</span>所在地区</label>
+            <div id="cty">
+                <select class="prov form-control" style="margin-right:10px;"></select>
+                <select class="city form-control" style="margin-right:10px;"></select>
+                <select class="dist form-control"></select>
+                <input type="hidden" name="AreaId" id="AreaId" data-rule-required="true" data-msg-required="必须选择收货地区信息" />
+                @Html.ValidationMessageFor(m => m.AreaId)
+            </div>
+        </div>
+        <input type="hidden" name="AddressId" id="AddressId" value="0" />
+
+        <div class="clearfix"></div>
+        <div class="form-group form-group-margin col-md-12">
+            <label><span style="color:red">*</span>详细地址</label><br>
+            <input class="form-control required" asp-for="AddressDetail"
+                   data-rule-required="true" data-msg-required="必须填写收货的详细地址" placeholder="请填写收货详细地址" />
+            @Html.ValidationMessageFor(m => m.AddressDetail)
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="form-group form-group-margin col-md-12">
+            <label><span style="color:red">*</span>联系人&nbsp;&nbsp;&nbsp;</label><br>
+            <input class="form-control" type="text" asp-for="ContactName" data-rule-required="true" data-msg-required="请填写联系人" placeholder="收货联系人" />
+            @Html.ValidationMessageFor(m => m.ContactName)
+        </div>
+        <div class="form-group form-group-margin col-md-12">
+            <label><span style="color:red">*</span>联系手机</label><br>
+            <input class="form-control" type="text" name="Mobile" id="Mobile"
+                   data-rule-required="true" data-msg-required="请填写联系人的联系手机"
+                   data-rule-mobile="true" data-msg-mobile="请填写正确的手机号码"
+                   placeholder="收货联系人的手机" />
+            @Html.ValidationMessageFor(m => m.Mobile)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group form-group-margin col-md-12">
+            <label class="labelFlex"><input type="checkbox" name="IsDefault" id="IsDefault" value="True" />选择为默认地址</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group form-group-margin col-md-12">
+            <label>备注</label><br><input class="form-control" type="text" asp-for="Remark" />
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group ahc-btn-group-submit">
+            <button type="reset" class="btn btn-default">重置</button>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+@section scripts{
+    <script src="~/lib/citySelect.js"></script>
+    <script>
+        $(function () {
+            $('#IsDefault').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+            $.set3LevelAddress({
+                $province: $('#cty .prov'),
+                $city: $('#cty .city'),
+                $county: $('#cty .dist'),
+                $val: $('#cty #AreaId')
+            });
+            $('#address_edit').validate({ ignore: ""/*允许隐藏区域的验证*/ });
+        })
+
+
+    </script>
+}

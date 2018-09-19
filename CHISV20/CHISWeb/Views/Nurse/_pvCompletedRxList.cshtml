@@ -1,0 +1,62 @@
+﻿@model PaginatedItemsViewModel<RxUserViewModel>
+@{
+    Layout = null;
+}
+
+<div>
+    <table>
+        <tbody>
+            <tr>
+                <th>
+                    <b>顾客</b>
+                </th>
+                <th>
+                    <b>发药人</b>
+                </th>
+                <th>
+                    <b>发药时间</b>
+                </th>
+                <th>
+                    <b>审核人</b>
+                </th>
+                <th>
+                    <b>审核时间</b>
+                </th>
+                <th></th>
+            </tr>
+        </tbody>
+        <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SendDrugMan)
+                    </td>
+                    <td>
+                        @item.SendTime.ToString("yyyy-MM-dd")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckDrugMan)
+                    </td>
+                    <td>
+                        @item.CheckTime.ToString("yyyy-MM-dd")
+                    </td>
+                    <td class="ah-td-left">
+                        <span class="ah-linkbg"><a onclick="loadDetail(event,'@item.RxSaveId')">详情</a></span>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    $(function () {
+        $("#pager").ahPages(@Model.FindTotal,@Model.Page, @Model.Total);
+    })
+</script>

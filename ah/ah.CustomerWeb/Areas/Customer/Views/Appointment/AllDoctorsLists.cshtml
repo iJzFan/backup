@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "预约";
+    Layout = "../Shared/_LayoutAppointment.cshtml";
+    var cus = (ah.Models.ViewModel.CUSTOMER_INFO)(ViewBag.CUSTOMER_INFO);
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link rel="stylesheet" href="~/customer/css/pages/ah-layout.css" />
+    <link rel="stylesheet" href="~/customer/css/pages/appointment-index.css" />
+    <style>
+        .wrap-main {
+            width: 100% !important;
+            height: 100% !important;
+            padding: 0 !important;
+        }
+
+        .appointment-nav-app {
+            display: flex;
+        }
+    </style>
+}
+
+<div class="wrap-main">
+    <div class="AllDoctor-wrap">
+        <div class="AllDoctor-search">
+            <form autocomplete="off" onkeydown="if(event.keyCode==13)return false;">
+                <input ah-id="search-input" value="@ViewBag.searchText" type="search" placeholder="请输入姓名" />
+            </form>
+            <a onclick="ALLDOCTOR.GetAllDoctors(1)">搜索</a>
+        </div>
+        <div class="AllDoctor-items"></div>
+        <div class="appointment-nav-app">
+            <a href="/Customer/Appointment">
+                <i class="glyphicon glyphicon-th-list"></i>
+                健康预约
+            </a>
+            <a href="/doctor/AllDoctorsLists" style="color: #22a88f;">
+                <i class="glyphicon glyphicon-heart"></i>
+                医生团队
+            </a>
+            <a href="/Customer/home">
+                <i class="glyphicon glyphicon-user"></i>
+                个人中心
+            </a>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/customer/js/pages/appointment-all-doctor-lists.js"></script>
+    <script>
+        var pagedata = {
+            stationImgRoot: '@(Global.ConfigSettings.StationImagePathRoot)',
+            doctorImgRoot: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+            ver:1
+        };
+        ALLDOCTOR.GetAllDoctors(1);
+        $(function () {
+            $(".AllDoctor-wrap").on("click", ".rmk span", function () {
+                window.location.href = "/Customer/Appointment/SelectDoctorInfo?doctorId=" + $(this).attr("ah-doctorId");
+            })
+        })
+    </script>
+}

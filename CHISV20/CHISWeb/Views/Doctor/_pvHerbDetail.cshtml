@@ -1,0 +1,52 @@
+﻿@model CHIS.Models.vwCHIS_DoctorAdvice_Herbs_Detail
+@inject CHIS.Code.Managers.IMyRazor myRazor
+<div class="ah-herb-wrap" rolename="ZDRUG">
+    <div class="herb-wrap ah-herb-item ah-flex"  drugRole="drug" ah-rolename="boxitem-herb-item">
+        <input type="hidden" name="details[].Id" asp-for="Id" />
+        <input type="hidden" name="details[].CnHerbId" value="@Model.CnHerbId" />
+        <input type="hidden" name="details[].StockFromId" value="@Model.StockFromId" />        
+        <img class="ah-herb-pic" src="@(Model.DrugPicUrl.ahDtUtil().GetDrugImg("ZYM"))" />
+        <div class="ah-flex-auto ah-flex ah-flex-column">
+            <div class="ah-flex ah-herb-top">
+                <span class="ah-herb-name">@Model.DrugName</span>
+                <div class="ah-herb-num">
+                    @if (Model.ChargeStatus == null || Model.ChargeStatus == 0)
+                    {
+                        <input type="text" tag="Herb_Num" name="details[].Qty" asp-for="Qty" onkeyup="return sendNewHerbInput(event);" onkeydown="return $.f.onlyNumbersEvt(event);" onafterpaste="HERB.onlyNumOnafterpaste(this)" title="药剂" onfocus="this.select();" onblur="HERB.SingelHerbalSubtotalBlur(this)">
+                    }
+                    else
+                    {
+                        <span class="herb-num">@Model.Qty</span>
+                    }
+                    <span>@Model.UnitName</span>
+                    <input type="hidden" name="details[].UnitId" asp-for="UnitId" />
+                </div>
+                <div class="ah-drug-usetype">
+                    @{
+                        var herbusetypes = myRazor.GetSelectListItemsByDictKey("HerbUseType");
+                    }
+                    <select asp-items="herbusetypes" name="details[].HerbUseTypeId" asp-for="HerbUseTypeId">
+                        <option value="">-用法-</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ah-flex ah-herb-bottom">
+                <div class="ah-formed-label">
+                    <input type="hidden" id="SinglePrice" value="@Model.Price" />
+                    <span>单价:</span>
+                    <i>@Model.Price/@Model.UnitName</i>
+                </div>
+                <div>
+                    小计<span class="ah-price">@Model.Amount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.ChargeStatus == null || Model.ChargeStatus == 0)
+    {
+        <a class="ah-herb-close" onclick="HERB.deleteSingleZDrug(this)">
+            <img src="~/images/colseCorner.png" />
+        </a>
+    }
+</div>
+<script>updataLayui();</script>

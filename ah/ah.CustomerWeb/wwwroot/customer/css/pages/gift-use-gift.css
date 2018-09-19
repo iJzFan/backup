@@ -1,0 +1,37 @@
+﻿.customer-wrap{
+    height:100%;
+}
+.customer-main {
+    padding: 0;
+    background: rgb(45,49,50);
+    display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex; /* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.code{
+
+}
+.code canvas {
+    border: 7px solid #fff;
+}
+.ah-gift-info {
+    background: #2d3132;
+    padding: 0px 8px;
+    border-radius: 4px;
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 14px;
+    text-align:center;
+}
+.ah-gift-info div {
+    padding:5px 5px;
+    border-radius:4px;
+    margin-bottom:5px;
+    border: 1px solid #ccc;
+}

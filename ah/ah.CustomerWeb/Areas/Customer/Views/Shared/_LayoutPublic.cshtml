@@ -1,0 +1,123 @@
+﻿@using Ass
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@inject ah.Code.Managers.IMyRazor myRazor
+@{
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerId").Value));
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+}
+
+<!DOCTYPE html>
+<html lang="=en">
+<head>
+    <meta charset="utf-8" />
+    <title>天使健康个人中心 - @ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="author" content="" />
+    @* bootstrap css 等第三方样式应用 及lib文件夹下的css样式引用 *@
+    @* <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/third-part-library/my-widget/my-widget.css" />
+    <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+
+    <!--引入less-->
+    <link rel="stylesheet/less" type="text/css" href="~/less/ui-frame.less" />
+    @* 项目公共样式引用 *@
+    <link rel="stylesheet" href="~/css/ui-frame.css" />
+    <link rel="stylesheet" href="~/css/common-overide.css" />
+    <link rel="stylesheet" href="~/css/common-self.css" />
+    <link rel="stylesheet" href="~/css/lrtk.css" />
+    <link href="~/lib/iCheck/skins/all.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/customer/css/pages/ah-layout.css" />
+    <link rel="stylesheet" href="~/customer/css/home-layer.css" />
+
+    @* 自写样式饮用 *@
+    <link rel="stylesheet" href="~/@(ViewContext.RouteData.Values["area"].ToString().ToStyleString())/css/pages/@(ViewContext.RouteData.Values["controller"].ToString().ToStyleString())-@(ViewContext.RouteData.Values["Action"].ToString().ToStyleString()).css" />
+
+    @RenderSection("links", required: false)
+    <style>
+        .landscape {
+            height: 100%;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+    </style>
+    <script src="~/js/ah-config.js"></script>
+    <script src="~/lib/less/dist/less.min.js" type="text/javascript"></script>
+</head>
+<body>
+    @* 页面内容占位 *@
+    <div class="portrait">
+        <div class="customer-wrap">
+            <div class="customer-main">
+                @RenderBody()
+            </div>
+        </div>
+        @Html.Partial("_PartialFooter")
+    </div>
+    <div class="landscape">
+        <img src="~/customer/image/land-tips.png" width="250" style="margin-top:55px" />
+    </div>
+    @* js部分的载入 *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/vue.min.js"></script>
+    <script src="~/lib/template.js"></script>
+    <script src="~/lib/select2/dist/js/select2.min.js"></script>
+    <script src="~/lib/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/lib/third-part-library/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/lib/third-part-library/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="~/lib/layer/build/layer.js"></script>
+    <script src="~/lib/third-part-library/template.js"></script>
+    <script src="~/lib/third-part-library/my-widget/my-widget.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/iCheck/icheck.js"></script>
+    <script src="~/lib/layui/layui.js"></script>
+    @* 公用js *@
+    <script src="~/js/common-project.js"></script>
+    <script src="~/js/common-function.js"></script>
+
+
+    @*载入属于页面的JS*@
+
+    <script src="~/@(ViewContext.RouteData.Values["area"].ToString().ToStyleString())/js/pages/@(ViewContext.RouteData.Values["controller"].ToString().ToStyleString())-@(ViewContext.RouteData.Values["Action"].ToString().ToStyleString()).js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        //处理横屏
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+        function hengshuping() {
+            if (window.orientation == 90 || window.orientation == -90) {
+                //横屏
+                $(".landscape").css("display", "flex");
+                $(".portrait").hide();
+            } else {
+                //竖屏
+                $(".landscape").hide();
+                $(".portrait").show();
+            }
+        }
+        //移动端点击更多
+        var more = false;
+        $("#more-icon").click(function () {
+            if (!more) {
+                $("#more-item").show("normal");
+            } else {
+                $("#more-item").hide("normal");
+            }
+            more = !more;
+        });
+        //载入最后的复写样式
+        $(function () {
+            $("head").append('<link rel="stylesheet" href="/css/common-overide-last.css" />');
+            hengshuping();
+            console.log();
+        });
+    </script>
+</body>
+
+</html>

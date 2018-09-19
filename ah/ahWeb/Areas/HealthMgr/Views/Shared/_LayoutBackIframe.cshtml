@@ -1,0 +1,18 @@
+﻿@{   
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBase.cshtml";
+}
+
+@section links{
+    <link href="~/HealthMgr/css/publicIframe.css" rel="stylesheet" />
+    @RenderSection("links", required: false)
+}
+
+@RenderBody()
+
+
+
+ 
+@section scripts{
+    @RenderSection("scripts", required: false)
+}
+ 

@@ -1,0 +1,200 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "工作站科室管理";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+@section links{
+
+}
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()" title="刷新页面"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="btn-Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_Add()" title="新建科室"><i class="fa fa-plus"></i>新建科室</a>
+        </div>
+        @*<div class="btn-group">
+                <a id="btn_Export" class="btn btn-info" authorize="yes" href="/Code/Export_Department" title="导出记录"><i class="fa fa-file-excel-o"></i>导出</a>
+            </div>*@
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="btn_Eddit" authorize="yes" onclick="btn_Edit()"><i class="fa fa-pencil-square-o"></i>修改科室</a></li>
+                <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete()"><i class="fa fa-trash-o"></i>删除科室</a></li>
+                <li class="split"></li>
+                <li><a id="btn_View" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看科室</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input type="hidden" id="txt_Station" />
+                        <input id="txt_Search" type="text" class="form-control border3" placeholder="科室名称/科室代码" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="container-fluid-full">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <div class="ah-tree-bg">
+                <div id="ah-treetitle">
+                    <b style="font-size:14px;"><i class="fa fa-align-justify"></i> 工作站列表</b>
+                </div>
+                <ul id="ztree-WorkStation" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+
+        var tree = null;
+        var CE;
+
+        $(function () {
+            //控件初始
+            tree = zTreeObj({
+                id: 'ztree-WorkStation',
+                url: '/api/syshis/StationsOfMy',
+                onLoaded: gridInit,
+                onClickNode: function (node) { Search(); }
+            });
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+
+            //载入过程内函数
+            function Search() {
+                CE.reload({
+                    keyword: $('#txt_Search').val(),
+                    stationId: tree.getSelectOneNode().id
+                });
+            }
+        })
+
+
+
+
+
+
+        //网格初始化
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "工作站信息",
+                url: "/Code/CHIS_Code_Department_Edit",  //编辑记录地址
+                jqurl: "/Code/GetGridJson_Department",   //网格查询地址
+                width: "70%", height: "650px",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: "主键", name: "departmentID", hidden: true, key: true },
+                    { label: '工作站', name: 'stationName', width: 260, align: 'left' },                 
+                    { label: '科室名称', name: 'departmentName', width: 120, align: 'left' },
+                    { label: '上级部门', name: 'parentName', width: 100, align: 'left' },
+                    { label: '非接诊部门', name: 'isNotTreatDept', width: 100, align: 'left' },
+                    {
+                        label: '状态', name: 'isEnable', width: 40, align: 'center',
+                        formatter: function (cellvalue) {
+                            return cellvalue ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-circle-thin\"></i>";
+                        }
+                    },
+                    {
+                        label: '停用日期', name: 'stopDate', width: 100, align: 'left',
+                        formatter: 'date', formatoptions: { newformat: 'Y-m-d' }
+                    },
+                    { label: '显示顺序', name: 'showOrder', width: 60, align: 'left' },
+                    { label: '操作人', name: 'opMan', index: 'opMan', width: 100, align: "left" },
+                    {
+                        label: '操作时间', name: 'opTime', width: 150, align: "center", sorttype: "date",
+
+                        formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }
+                    },
+                    { label: '备注', name: 'remark', width: 120, align: "left", sortable: false }
+                ],
+                height: $(window).height() - 122,//高度，表格高度。可为数值、百分比或'auto'
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+        //新增记录
+        function btn_Add() {
+            var treenode = tree.getSelectOneNode();
+            if (!(treenode && treenode.id > 0)) $.alertMsg("请选择工作站");
+            else {
+                CE.Add(function (index, win) {
+                    win.submitForm();
+                }, "stationId=" + tree.getSelectOneNode().id);
+            }
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().departmentID;
+            CE.Modify("recID=" + keyValue,
+                function (index, win) {
+                    win.submitForm();
+                });
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().departmentID;
+            CE.Delete("recID=" + keyValue);
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().departmentID;
+            CE.View("recID=" + keyValue);
+        }
+
+        function btn_SetAccess() {
+            var layerIndex = layer.open({
+                type: 2,
+                icon: 1,
+                area: ['50%', '60%'],
+                title: '设置医生权限',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                content: "/code/setDoctorAccess?doctorId=" + CE.$jqGrid.jqGridRowValue().doctorId,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    $tagcontrol.val($pv2.val());
+                    var txt = $pv2.find("option:selected").data("areatxt");
+                    $tagtxtcontrol.text(initAddressName(txt));
+                    layer.close(layerIndex);
+                    $this.find('label.error').remove();//移除错误提示
+                },
+                cancel: function () {
+                    //右上角关闭回调
+                }
+            });
+        }
+
+    </script>
+
+}

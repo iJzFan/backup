@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "日志管理";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+
+}
+@section links{
+    <style>
+        .content-wrap {
+            position: absolute;
+            bottom: 0;
+            top: 72px;
+            left: 0;
+            right: 0;
+            display: flex;
+        }
+
+        .content-left-wrap {
+            width: 250px;
+            margin-right: 10px;
+            flex: none;
+            height: 100%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-right-wrap {
+            flex: 1;
+            height: 100%;
+        }
+    </style>
+}
+<div class="content-wrap">
+    <div class="content-right-wrap">
+        <div class="topPanel row">
+            <div class="search">
+                <div class="base-bg pull-left" style="width:200px;margin-right:15px;">
+                    <select class="form-control" id="logType">
+                        <option value="">全部</option>
+                        <option value="ERROR">错误</option>
+                        <option value="INFO">信息</option>
+                    </select>
+                </div>
+                <div class="input-group pull-left" style="margin-top:12px;width:200px;margin-right:15px;">
+                    <input type="text" class="input-datetime form-control" placeholder="请输入开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd hh:ii" id="startDate"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+                <div class="input-group pull-left" style="margin-top:12px;width:200px;margin-right:15px;">
+                    <input type="text" class="input-datetime form-control" placeholder="请输入结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd hh:ii" id="endDate" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+                <button type="button" class="btn btn-primary pull-left" style="margin-top: 12px;height: 28px;line-height: 13px;" onclick="Search()">搜索</button>
+                
+            </div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var CE;
+        $(function () {
+            gridInit();
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+        });
+        //搜索
+        function Search() {
+            CE.reload({
+                logType: $('#logType').val(),
+                startDate: $("#startDate").val(),
+                endDate: $("#endDate").val()
+            });
+        }
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "日志查阅",
+                jqurl: "/Logs/LogList",   //网格查询地址
+                width: "80%", height: "95%",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: '模块名称', name: 'modeName'},
+                    { label: '处理名称', name: 'procedureName'},
+                    { label: '内容', name: 'msg',width: 300},                  
+                    { label: '日志类型', name: 'logType'},
+                    { label: '日志时间', name: 'logTime', width: 200 },
+                    { label: '操作人ID', name: 'opId' },
+                    { label: '操作人名称', name: 'opFullName' },
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+            })
+        }
+    </script>
+}

@@ -1,0 +1,107 @@
+﻿@model CHIS_Code_Customer_AddressInfos
+@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "新增地址";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerId").Value));
+}
+@section links{
+    <style>
+    </style>
+}
+<form id="address_edit" class="form-inline form-group-margin " method="post" enctype="multipart/form-data" asp-area="Customer" asp-controller="Home" asp-action="UpsertMyAddress">
+    <input type="hidden" id="IsAjax" name="IsAjax" value="true" />
+    <input type="hidden" id="CustomerId" name="CustomerId" value="@cus.CustomerID" />
+    <h5 style="margin:10px 0 0 10px;"><i class="fa fa-address-book"></i> 添加地址 <small>（请正确输入地址和电话号码！）</small></h5>
+    <hr />
+    <div class="form-group form-group-margin col-md-12">
+        <label><span style="color:#ff0000">*</span>所在地区</label>
+        <div id="cty" class="ah-flex">
+            <select class="prov form-control" style="margin-right:10px;"></select>
+            <select class="city form-control" style="margin-right:10px;"></select>
+            <select class="dist form-control"></select>
+            <input type="hidden" name="AreaId" id="AreaId" data-rule-required="true" data-msg-required="必须选择收货地区信息" />
+            @Html.ValidationMessageFor(m => m.AreaId)
+        </div>
+    </div>
+    <input type="hidden" name="AddressId" id="AddressId" value="0" />
+
+    <div class="clearfix"></div>
+    <div class="form-group form-group-margin col-md-12">
+        <label><span style="color:red">*</span>详细地址</label><br>
+        <input class="form-control required" asp-for="AddressDetail"
+               data-rule-required="true" data-msg-required="必须填写收货的详细地址" placeholder="请填写收货详细地址" />
+        @Html.ValidationMessageFor(m => m.AddressDetail)
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="form-group form-group-margin col-md-12">
+        <label><span style="color:red">*</span>联系人&nbsp;&nbsp;&nbsp;</label><br>
+        <input class="form-control" type="text" asp-for="ContactName" data-rule-required="true" data-msg-required="请填写联系人" placeholder="收货联系人" />
+        @Html.ValidationMessageFor(m => m.ContactName)
+    </div>
+    <div class="form-group form-group-margin col-md-12">
+        <label><span style="color:red">*</span>联系手机</label><br>
+        <input class="form-control" type="text" name="Mobile" id="Mobile"
+               data-rule-required="true" data-msg-required="请填写联系人的联系手机"
+               data-rule-mobile="true" data-msg-mobile="请填写正确的手机号码"
+               placeholder="收货联系人的手机" />
+        @Html.ValidationMessageFor(m => m.Mobile)
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group form-group-margin col-md-12">
+        <label class="labelFlex"><input type="checkbox" name="IsDefault" id="IsDefault" value="True" />选择为默认地址</label>
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group form-group-margin col-md-12">
+        <label>备注</label><br><input class="form-control" type="text" asp-for="Remark" />
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group ahc-btn-group-submit">
+        <button type="button" class="btn btn-default" onclick="CloseAddRess()">取消</button>
+        <button type="button" class="btn btn-primary" id="sunAddRess">提交</button>
+    </div>
+</form>
+@section scripts{
+    <script src="~/lib/citySelect.js"></script>
+    <script src="~/lib/jquery.form.min.js"></script>
+    <script>
+        function CloseAddRess() {
+            var frameindex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(frameindex);
+        }
+        $('#IsDefault').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+        $.set3LevelAddress({
+            $province: $('#cty .prov'),
+            $city: $('#cty .city'),
+            $county: $('#cty .dist'),
+            $val: $('#cty #AreaId')
+        });
+        $("#sunAddRess").on("click", function () {
+            var _this = $('#address_edit');
+            var data = {
+                model: {
+                    AreaId: $("#AreaId").val(),
+                    AddressId: $("#AddressId").val(),
+                    AddressDetail: $("#AddressDetail").val(),
+                    ContactName: $("#ContactName").val(),
+                    IsDefault: $("#IsDefault").val(),
+                    Remark: $("#Remark").val(),
+                    AreaId: $("#AreaId").val(),
+                    Mobile: $("#Mobile").val()
+                },
+                isAjax: $("#IsAjax").val()
+            }
+            $.post("/Customer/Home/UpsertMyAddress", data, function (jn) {
+                if (jn.rlt == "success") {
+                    parent.GIFTINFO.UpdataAddressList($("#CustomerId").val());
+                    CloseAddRess();
+                }
+            })
+        });
+    </script>
+}

@@ -1,0 +1,61 @@
+﻿@using Ass
+@*@inject CHIS.Code.Managers.IUserFrameMgr CusHelper*@
+@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+ 
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+}
+
+@section link3part{
+    <link href="~/sys/wizard/wizard.css" rel="stylesheet" />
+    <link href="~/sys/framework-ui.css" rel="stylesheet" />
+    @RenderSection("link3part", required: false)
+}
+@section links{
+    <link href="~/css/layout-main.css" rel="stylesheet" />
+    <link href="~/css/ifrom-layer.css" rel="stylesheet" />
+    @RenderSection("links", required: false)
+}
+
+@section scriptsPart{
+    <script src="~/sys/wizard/wizard.js"></script>
+    @RenderSection("scriptsPart", required: false)
+}
+
+@section scripts{
+    <script src="~/sys/sysall.js"></script>
+    @RenderSection("scripts", required: false)
+ <script>
+     $(function () {
+
+
+
+         //  @*=============================切换停用日期==================================*@
+         $('input[ah-targ="ahchk-switch"]').each(function (index, item) {
+             var ischecked = $(item).is(":checked");
+             var ic = $(item).parent().find('[ah-targ="ahchk-switchshow"] i');
+             if (ischecked) ic.removeClass("fa-toggle-off").addClass("fa-toggle-on");
+             else ic.removeClass("fa-toggle-on").addClass("fa-toggle-off");
+         });
+         $('[ah-targ="ahchk-switchshow"]').on("click", function () {
+             var ic = $(this).find("i");
+             var ison = $(this).find("i").hasClass("fa-toggle-on");
+             if (ison) {
+                 ic.removeClass("fa-toggle-on").addClass("fa-toggle-off");//close
+                 $(this).parent().find('input[ah-targ="ahchk-switch"]').prop("checked", false);
+             } else {
+                 ic.removeClass("fa-toggle-off").addClass("fa-toggle-on");//open
+                 $(this).parent().find('input[ah-targ="ahchk-switch"]').prop("checked", true);
+             }
+         })
+     });
+    </script>
+
+}
+
+@* 内容 *@
+@RenderBody()
+
+
+
+

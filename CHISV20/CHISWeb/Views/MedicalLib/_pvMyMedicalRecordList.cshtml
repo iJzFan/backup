@@ -1,0 +1,33 @@
+﻿@using Ass;
+@model Ass.Mvc.PageListInfo<MyMedicalHistoryRecordItemModel>
+
+<div>
+    <ul class="ah-mr">
+        @foreach (var item in Model.DataList)
+        {
+            <li class="ah-mr-item">
+                <a class="ah-a-detail" onclick="LoadMedicalHistoryDetail(@item.TreatId);">
+                    <img class="ah-doctorPic" src="~/images/port.png" />
+                    <div class="ah-doctorInfo">
+                        <div class="ah-baseInfo">
+                            <span>@(item.DoctorName)(医生)</span>
+                            <span>
+                                @if (item.FirstTreatTime.Year == DateTime.Now.Year)
+                                {
+                                    @item.FirstTreatTime.ToString("M-d")
+                                }
+                                else
+                                {
+                                    @item.FirstTreatTime.ToString("yyyy-MM-dd")
+                                }
+                            </span>
+                        </div>
+                        <div class="ah-msg">@item.Diagnosis1Name</div>
+                    </div>
+                </a>
+
+            </li>
+        }
+
+    </ul>
+</div>

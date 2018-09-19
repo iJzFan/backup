@@ -1,0 +1,136 @@
+﻿@model ah.Models.ViewModel.CustomerRegistViewModel
+@{ Layout = null;}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>用户注册-注册成功</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="天使健康个人中心">
+    <meta name="author" content="">
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/customer/css/pages/home-customer-regist.css" />
+    <style>
+        .disabled {
+            background-color: #ccc !important;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+   
+    <div class="container">
+        <div style="padding-top:10%; text-align:center;">
+            <h3><i class="glyphicon glyphicon-check"></i>&emsp;注册成功</h3>
+            <a class="btn btn-primary" asp-controller="home" asp-action="CustomerLogin">登录</a>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/layer/build/layer.js"></script>
+    <script src="~/lib/third-part-library/jquery.backstretch.js"></script>
+    
+    <script>
+        $(function () {
+            //设置全屏背景
+            $.backstretch("/images/web_bg.jpg");
+            //提交注册
+            $("#regist_submit").on("click", function () {
+
+                //验证码验证
+                var VCode = $("#VCode").val();
+                if (!(VCode && /^[a-zA-Z0-9]{6,6}$/.test(VCode))) {
+                    error(true, "*请输入字母、数字组成的6位的验证码!");
+                    return false;
+                }
+
+                //密码验证
+                var RegPaswd = $("#RegPaswd").val();
+                if (!(RegPaswd && /^[0-9a-zA-Z_]{6,15}$/.test(RegPaswd))) {
+                    error(true, "*请输入字母、数字、下划线组成的6-15位的密码!");
+                    return false;
+                }
+                //确认密码
+                var RegPaswdConfirm = $("#RegPaswdConfirm").val();
+                if (!(RegPaswdConfirm && RegPaswdConfirm == RegPaswd)) {
+                    error(true, "*两次密码不一致!");
+                    return false;
+                }
+
+                $("#form1")[0].submit();
+            });
+        })
+        //获取手机验证码
+        function getPhoneCode() { 
+            var phone = $("#Mobile").val();
+            var e = $("#getVCode");
+            var state = false;
+            if (phone && /^1[3|4|5|8]\d{9}$/.test(phone)) {
+                $.ajax({
+                    async: false,
+                    type: "post",
+                    url: "/Api/Customer/IsCustomerRegisted",
+                    data: { regAccount: phone },
+                    dataType: "json",
+                    success: function (jn) {
+                        state = !jn;
+                        if (jn) {
+                            layer.msg("该手机/邮箱已经占用!");
+                        }
+                    }
+                });
+            } else {
+                layer.msg("请输入正确的手机号码!");
+            }
+            if (state) { 
+                //获取验证码
+                $.ajax({
+                    async: false,
+                    type: "post",
+                    url: "/Api/Customer/SendRegVCode",
+                    data: { regAccount: phone },
+                    dataType: "json",
+                    success: function (jn) {
+                        if (jn.rlt) {
+                            layer.msg("验证码发送成功！");
+                            $("#Mobile").attr("readonly", "readonly").addClass("disabled");
+                            $(".canHide").each(function () { 
+                                $(this).css("display","flex");
+                            });
+                            isGetVCode(false);
+                            //定时器
+                            var n = 60;
+                            var handle = setInterval(function () {
+                                e.html("(剩余" + (n--) + "秒重发)");
+                                if (n == -2) {
+                                    clearTimeout(handle);
+                                    isGetVCode(true);
+                                    e.html("重新发送");
+                                }
+                            }, 1000);
+                        } else { 
+                            layer.msg("验证码发送失败,请重试!");
+                        }
+                    }
+                });
+            }
+        }
+        //是否可以获取验证码
+        function isGetVCode(state) {
+            if (state) {
+                $("#getVCode").removeAttr('disabled').removeClass("disabled");
+            } else {
+                $("#getVCode").attr('disabled', 'disabled').addClass("disabled")
+            }
+        }
+    </script>
+</body>
+
+</html>

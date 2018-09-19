@@ -1,0 +1,65 @@
+﻿@inject ah.Code.Managers.IMyRazor myRazor
+@model ah.Models.ViewModel.JsonListViewModel<ah.Models.ViewModel.DoctorSimpleInfo>
+@{
+
+}
+
+<style>
+
+</style>
+@if (Model.Items.Any())
+{
+    <ul>
+        @foreach (var item in Model.Items)
+        {
+            @if (!item.DoctorName.IsEmpty())
+            {
+                <li class="doctor-li">
+                        <img src="@item.DoctorPhotoUrl" />
+
+                    <div>
+                        <span class="doctorName">
+                            @item.DoctorName <span>(@(item.PostTitleName))</span>
+                        </span>
+                        <div class="rmk">
+                            <div>
+                                @if (item.DoctorSkillRmk == null)
+                                {
+                                    <div>暂无数据</div>
+                                }
+                                else
+                                {
+                                    @item.DoctorSkillRmk
+                                }
+                            </div>
+                            <span ah-doctorId="@item.DoctorId">去约诊</span>
+                        </div>
+                    </div>
+                </li>
+            }
+
+        }
+    </ul>
+    <!--分页-->
+    <div id="pager"></div>
+}
+else
+{
+    <div class="not-data">
+        暂无数据
+    </div>
+}
+<script>
+    $(function () {
+        var dataCount = @Model.Items.Count();
+        if (dataCount > 0) {
+            $("#pager").pager({
+                pagenumber: @Model.PageIndex,
+                pagecount: @Model.TotalPages,
+                buttonClickCallback: function (pageclickednumber) {
+                    ALLDOCTOR.GetAllDoctors(pageclickednumber);
+                }
+            });
+        }
+    })
+</script>

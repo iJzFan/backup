@@ -1,0 +1,323 @@
+﻿   a {
+            cursor: pointer;
+        }
+*{
+    font-size:13px !important;
+}
+        .input_font {
+            font-family: "微软雅黑";
+        }
+
+        .help-block {
+            margin: 0px;
+        }
+
+        .form-control-feedback {
+            height: 50px;
+            line-height: 50px;
+        }
+
+        .form-bottom {
+            padding: 10px 45px;
+        }
+
+        .v-btn {
+            font-size: 12px;
+            color: #000000;
+            height: 50px;
+            margin-top: 0px;
+            border-top-right-radius: 4px !important;
+            border-bottom-right-radius: 4px !important;
+            border-left: none;
+        }
+
+        .topic-text {
+            padding-top: 8px;
+        }
+
+        .input-size {
+            width: 60%;
+        }
+
+        .title-button-left {
+            line-height: 32px;
+            float: left;
+            color: #000000;
+        }
+
+        .title-button-right {
+            line-height: 32px;
+            margin-right: 0;
+            float: right;
+        }
+
+        .label-control-left {
+            margin-left: -83px;
+            padding-right: 0px;
+        }
+
+        .input-control-left {
+            border: none;
+        }
+
+        #save-information {
+            display: none;
+        }
+
+        .table-striped {
+            text-align: center;
+        }
+
+            .table-striped > thead > tr > th {
+                text-align: center;
+            }
+
+        .order-address {
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+
+        .addr {
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 15px;
+            float: left;
+            margin-right: 15px;
+        }
+
+        .inner:hover {
+            background: url(/customer/images/addrBox1-237-106.png) no-repeat;
+        }
+
+        .inner {
+            z-index: 2;
+            position: relative;
+            padding: 13px 15px;
+            background: url(/Customer/images/addrBox0-237-106.png) no-repeat;
+            overflow: hidden;
+            width: 237px;
+            height: 106px;
+        }
+
+        .order-address .addr .addr-hd {
+            width: 100%;
+            border-bottom: 1px solid #f2f2f2;
+            padding: 0 0 5px;
+            margin-bottom: 5px;
+            line-height: 18px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .order-address .addr .addr-hd {
+            width: 100%;
+            border-bottom: 1px solid #f2f2f2;
+            padding: 0 0 5px;
+            margin-bottom: 5px;
+            line-height: 18px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .order-address .addr-cur .addr-bd {
+            height: 36px;
+        }
+
+        .order-address .addr .addr-bd span {
+            margin-right: 3px;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+
+        .order-address .addr .city {
+            font-weight: 700;
+            max-width: 64px;
+            margin-right: 10px;
+        }
+
+        .order-address .addr .name {
+            max-width: 64px;
+            margin-right: 3px;
+        }
+
+        .addr .addr-bd {
+            height: 36px;
+            overflow: hidden;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+
+        .addr-toolbar {
+            margin-right: 3px;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+
+        .page a {
+            color: #c97;
+            cursor: pointer;
+        }
+
+        .order-address .addr .curMarker {
+            z-index: 3;
+            position: absolute;
+            background-position: 0 -272px;
+            width: 28px;
+            height: 28px;
+            top: 77px;
+            right: 1px;
+            background: url(//img.alicdn.com/tps/i2/T1lAPdFOVXXXcb7s2x-30-600.png) no-repeat;
+        }
+
+        .setDefault {
+            color: #666;
+            background: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0 2px;
+            text-decoration: none;
+            display: none;
+            filter: alpha(opacity=70);
+            opacity: .7;
+            z-index: 3;
+        }
+
+        .defaultTip {
+            display: block;
+            background: #ccc;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0 2px;
+            text-decoration: none;
+            display: none;
+            filter: alpha(opacity=70);
+            opacity: .7;
+            z-index: 3;
+        }
+
+        .table > thead > tr > th {
+            border-bottom: 0px solid #dddddd;
+        }
+
+        .select-area > label.error {
+            position: absolute;
+            left: 0;
+            top: 43px;
+        }
+
+        .select-area ~ label.error {
+            position: absolute;
+            left: 40%;
+            top: 40px;
+        }
+
+        input.error {
+            border-color: red;
+        }
+
+        .drug-table {
+            border-top: 1px solid #bbbbbb;
+            border-bottom: 1px solid #bbbbbb;
+        }
+
+            .drug-table thead {
+                background: #e6e6e6;
+            }
+
+            .drug-table > tbody > tr:nth-child(even) {
+                background: #f0f0f0;
+            }
+
+            .drug-table tbody td, .drug-table > thead > tr > th {
+                text-align: left;
+            }
+
+            .drug-table .group {
+                width: 6px;
+                padding: 0;
+            }
+
+            .drug-table .group0 {
+                background: #1276c1;
+                border-bottom-color: #1276c1;
+                border-top-color: #1276c1;
+            }
+
+            .drug-table .price-col {
+                text-align: right;
+                width: 10%;
+                min-width: 80px;
+                max-width: 120px;
+            }
+
+        .addr-phone {
+            color: #ad5555;
+            float: right;
+        }
+
+        .addr-ctrlpanel {
+            position: absolute;
+            bottom: 8px;
+            height: 20px;
+            left: 14px;
+            display: none;
+        }
+
+        .inner:hover .addr-ctrlpanel {
+            display: block;
+        }
+
+        .addr-contact-name {
+            font-size: 1.01em;
+            font-weight: bold;
+            color: #305aae;
+        }
+
+            .addr-contact-name:before {
+                content: "(";
+                margin-right: 3px;
+                font-weight: normal;
+                font-size: 14px;
+                color: #888;
+            }
+
+            .addr-contact-name:after {
+                content: "收)";
+                margin-left: 3px;
+                margin-right: 6px;
+                font-weight: normal;
+                font-size: 14px;
+                color: #888;
+            }
+
+        .addr-address {
+            height: 40px;
+        }
+
+            .addr-address .zip-code {
+                color: #ad5555;
+            }
+
+        .title-order-time {
+            position: absolute;
+            bottom: -2px;
+            right: 2px;
+        }
+
+        .sec-prenumber {
+            border-left: none;
+            font-size: 14px;
+            margin: 0 0 0 1px;
+            padding: 20px 0 5px 0px;
+            color: #333;
+        }
+
+        .page-header {
+            margin: 20px 0 20px;
+            padding-bottom: 0px;
+        }

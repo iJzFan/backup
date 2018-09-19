@@ -1,0 +1,182 @@
+﻿body {
+    font-family: arial;
+}
+.form-bottom {
+    background: rgba(255,255,255,0.8) none repeat scroll 0 0;
+    border-radius: 4px;
+    padding: 25px 25px 30px;
+    position: relative;
+    text-align: left;
+    max-width: 480px;
+}
+
+.form-title {
+    margin: 30px 50px;
+}
+
+    .form-title p {
+        color: #1276c1;
+        font-size: 20px;
+        font-weight: 800;
+        margin-top: 15px;
+        vertical-align: middle;
+    }
+
+.form-group {
+    position: relative;
+}
+
+    .form-group input {
+        padding-left: 15px;
+    }
+
+.center {
+    float: none !important;
+    left: 50%;
+    margin: auto;
+    position: absolute;
+    top: 45%;
+    transform: translate(-50%, -50%);
+}
+
+.form-control {
+    height: 50px;
+    border: none;
+    background-color: rgba(255,255,255,0.4)
+}
+
+    .form-control:focus {
+        background-color: white;
+    }
+
+.container input {
+    padding: 0 2%;
+    background: #2d2d2d; /* browsers that don't support rgba */
+    background: rgba(45, 45, 45, .15);
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #3d3d3d; /* browsers that don't support rgba */
+    border: 1px solid rgba(255, 255, 255, .15);
+    -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    color: #666;
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+}
+
+.form-control-feedback {
+    left: 0;
+    top: 5px;
+    line-height: 42px;
+}
+
+button.btn, a.btn {
+    background: #1276c1 none repeat scroll 0 0;
+    border: 1px solid #2e6da4;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 300;
+    height: 50px;
+    line-height: 50px;
+    margin: 0;
+    padding: 0 20px;
+    text-shadow: none;
+    transition: all 0.3s ease 0s;
+    vertical-align: middle;
+}
+
+button.btn:hover, a.btn:hover {
+    background: #0f64a4 none repeat scroll 0 0;
+    box-shadow: none;
+}
+
+.validation-summary-errors ul li {
+    list-style: none;
+    font-size: 13px;
+    color: #be0c0c;
+}
+.Mobile-Client {
+    display: none;
+}
+@media screen and (max-width:800px) {
+    body {
+        font-size: 1.5em;
+    }
+    ul {
+        padding:0;
+    }
+    a{
+        color:#fff;
+    }
+    input::-webkit-input-placeholder { /* WebKit browsers*/
+        color: #fff;
+    }
+    input:-moz-placeholder { /* Mozilla Firefox 4 to 18*/
+        color: #fff;
+    }
+    input::-moz-placeholder { /* Mozilla Firefox 19+*/
+        color: #fff;
+    }
+    input:-ms-input-placeholder { /* Internet Explorer 10+*/
+        color: #fff;
+    }
+    input {
+        -webkit-appearance: none;
+    }
+    .container {
+        display:none;
+    }
+    .Mobile-Client {
+        display: flex;
+    }
+    .Mobile-Client form {
+        width: 100%;
+        align-content: center;
+        justify-content: center;
+    }
+    .Mobile-Client .logo-wrap {
+        text-align: center;
+        margin-top: 5em;
+        margin-bottom: 3em;
+    }
+    .Mobile-Client .logo-wrap p {
+        color: #f2f2f2;
+        font-size: 20px;
+        font-weight: 800;
+        margin-top: 15px;
+    }
+    .Mobile-Client-width-90 {
+        width: 90%;
+        margin: 0 auto;
+        position:relative;
+        color:#fff;
+    }
+    .Mobile-Client-icon {
+        position: absolute;
+        top: 15px;
+        color: #fff;
+        left: 4px;
+    }
+    .Mobile-Client-input {
+        width: 100%;
+        height: 45px;
+        color: #fff;
+        padding: 0 25px;
+        margin-bottom: 15px;
+        border-radius: 0px;
+        background: rgba(0,0,0,0);
+        border: none;
+        border-bottom: 1px solid #d8d8d8;
+        letter-spacing: 1px;
+    }
+    a.app-iconbtn{
+        width:30%;text-align:center;position:relative;
+    }
+    a.app-iconbtn>i{font-size:20px;line-height:20px;display:block;}
+}

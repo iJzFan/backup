@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "发药清单";
+    ViewBag.FuncId = 2123;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link href="~/css/pages/chis-pharmacy.css" rel="stylesheet" />
+    <link href="~/lib/XTree/css/XTree.css" rel="stylesheet" />
+    <style></style>
+}
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools-tree">
+        <div ah-ui="MyStationTree"><button type="button" id="ah-tree-event" class="ah-btn-blue">切换工作站</button></div>
+    </div>
+    <div class="layui-tab layui-tab-brief" lay-filter="statement">
+        <ul class="layui-tab-title">
+            <li class="layui-this">收费统计</li>
+            <li>收费类型统计</li>
+            <li>明细</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="ah-statement-tool ah-flex">
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceGainTimeRange('Last3Days')" class="ah-statement-active" >最近3日</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceGainTimeRange('Last7Days')">最近7日</a> 
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceGainTimeRange('ThisWeek')">本周收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceGainTimeRange('ThisMonth')">本月收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceGainTimeRange('ThisQuarter')">本季度收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceGainTimeRange('ThisYear')">本年度收益</a>
+                    <div class="ah-statement-tool-time ah-flex">
+                        <input name="dtrange" type="text" class="ah-input-date ah-date-range" placeholder="输入日期范围" ah-min-date="@(DateTime.Today.AddYears(-2).ToDateString())"  ah-max-date="@(DateTime.Today.ToDateString())"/>
+                        <button class="ah-btn-blue" type="button" onclick="PUBLIC_FINANCE.getTimeRange(this,'gain')">确定</button>                      
+                    </div>
+                </div>
+                <!--载入 收费统计-->
+                <div id="pv_gain">
+                    @await Html.PartialAsync("_pvLoadFinaceChart_Gain")
+                </div>             
+            </div>
+            <div class="layui-tab-item">
+                <!--载入 收费类型统计pv-->
+                <div class="ah-statement-tool ah-flex" ah-timeRange="Today">
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceTypeTimeRange('Yesterday')">昨日收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceTypeTimeRange('Today')" class="ah-statement-active">今日收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceTypeTimeRange('ThisWeek')">本周收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceTypeTimeRange('ThisMonth')">本月收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceTypeTimeRange('ThisQuarter')">本季度收益</a>
+                    <a href="javascript:void(0)" onclick="PUBLIC_FINANCE.setFinaceTypeTimeRange('ThisYear')">本年度收益</a>
+                    <div class="ah-statement-tool-time ah-flex">
+                        <input name="dtrange" type="text" class="ah-input-date ah-date-range" placeholder="输入日期范围" ah-min-date="@(DateTime.Today.AddYears(-2).ToDateString())" ah-max-date="@(DateTime.Today.ToDateString())" />
+                        <button class="ah-btn-blue" type="button" onclick="PUBLIC_FINANCE.getTimeRange(this,'type')">确定</button>
+                    </div>
+                </div>
+                <div ah-id="pvLoadFinaceChart_Type"></div>
+            </div>
+            <div class="layui-tab-item">
+                <!--明细部分-->
+                <div ah-tools="wrap" class="ah-max-width">
+                    <div class="ah-tools">
+                        <div class="ah-tool-wrap">
+                            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入医生姓名或手机号码" value="@(Context.Request.Query["searchText"])" />
+                            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+                        </div>
+                        <div class="ah-tool-wrap ah-flex-auto">
+                            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+                        </div>
+                        <a class="ah-btn-red" onclick="SEARCH.exportExcel();">导出</a>
+                    </div>
+                    <div id="J_selector" class="selector ah-tool-more">
+                        <div class="search-conditions" id="search_items">
+                            <div class="title">
+                                已选：
+                            </div>
+                            <div class="sel-items">
+
+                            </div>
+                        </div>
+                        <div class="J_selectorLine s-brand">
+                            <div class="sl-wrap">
+                                <div class="sl-key" title-key="TimeRange"><strong>接诊时间段：</strong></div>
+                                <div class="sl-value">
+                                    <div class="clr"></div>
+                                    <div class="sl-v-list">
+                                        <section class="section-inline">
+                                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span class="ah-def-active">当日</span></label>
+                                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                                        </section>
+
+                                        <section class="section-inline ah-search-input">
+                                            <div class="section-more-wrap">
+                                                <div class="ah-search-dtrange">
+                                                    <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" ah-min-date="@(DateTime.Today.AddYears(-2).ToDateString())" ah-max-date="@(DateTime.Today.ToDateString())" />
+                                                    <span class="mk">至</span>
+                                                    <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" ah-min-date="@(DateTime.Today.AddYears(-2).ToDateString())" ah-max-date="@(DateTime.Today.ToDateString())" />
+                                                </div>
+                                                <button class="ah-btn-blue" type="button">确定</button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="sl-ext">
+                                    <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                                </div>
+                            </div>
+                        </div>
+                         
+                    </div>
+                    <div class="ah-table-wrap" ah-id="TREAT-TABLE"></div>
+                    <div class="ah-page-wrap" id="pager"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/lib/xdate.js"></script>
+    <script src="~/js/ah-common-search.js"></script>
+    <script src="~/js/pages/ah-finance-statement.js"></script>
+    <script src="~/lib/echarts.common.min.js"></script>
+    <script src="~/lib/XTree/js/XTree.js"></script>
+    <script>
+
+        var pagedata = {
+            ahPieChart: null,
+        }
+        
+        
+
+        $(function () {       
+  
+         
+
+            SEARCH.searchMain = "TREAT-TABLE";//搜索结果存放区域
+            SEARCH.searchUrl = "/Statistics/LoadFinaceStatement"; //设置搜索的请求地址        
+            SEARCH.exportUrl = "/Statistics/ExportExcel_FinaceStatement";
+            //初始化vue
+            TJ_FinaceGain.loadVue();
+            //初始化线图
+            PUBLIC_FINANCE.setFinaceGainTimeRange();
+            //初始化饼图
+            PUBLIC_FINANCE.setFinaceTypeTimeRange();
+
+            //初始化树
+            var myTree = $('div[ah-ui="MyStationTree"]').XTree({
+                url: "/api/syshis/GetSonStations?bWithRoot=true&pStationId={0}",
+                moreUrl: "/api/syshis/GetSonStations?pStationId={0}",//查看子节点
+                id: '@u.StationId',
+                selectNode: selectNode,//点击节点回调
+                field: { value: "stationName", id: "stationId", pid: "pId", },//数据对应字段，确保通用性
+                jnArray: "SonStations",//接口返回数组字段名
+                float: "right",//靠右显示
+            });
+            function selectNode(op) {
+                TJ_FinaceType.StationId = op.id;
+                TJ_FinaceGain.StationId = op.id;
+                $("#ah-tree-event").html(op.value);
+                TJ_FinaceType.load();
+                TJ_FinaceGain.load();
+                SEARCH.addSearchQuery("StationId", op.id);//添加搜索工作站的条件
+                SEARCH.clearTable();//清空数据
+            }
+
+
+            layui.use('element', function () {
+                var element = layui.element;
+                //Tab点击事件监听
+                element.on('tab(statement)', function (data) {
+                    TJ_FinaceGain.initChart();
+                    TJ_FinaceType.initPie();
+                });
+            });
+            //日期状态切换
+            $(".layui-tab-item").on("click", ".ah-statement-tool a", function () {
+                var _this = $(this);
+                _this.parents(".ah-statement-tool").first().find("a").each(function () {
+                    $(this).removeClass("ah-statement-active");
+                });
+                _this.addClass("ah-statement-active");
+            })
+
+        })
+    </script>
+}

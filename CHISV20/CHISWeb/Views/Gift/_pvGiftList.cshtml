@@ -1,0 +1,82 @@
+﻿@model CHIS.Models.ViewModel.PaginatedItemsViewModel<GiftViewModel>
+
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+
+}
+<style>
+    .coverImg {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border-radius: 36px;
+        margin: 3px;
+    }
+</style>
+@if (Model.Rows.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th>礼品Id</th>
+                <th>礼品名称</th>
+                <th>礼品类型</th>
+                <th>兑换积分</th>
+                <th>库存</th>
+                <th>封面图</th>
+                <th>活动截止日期</th>
+                <th>有效期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+             @foreach (var item in Model.Rows)
+              {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiftId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiftName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NeedPoints)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.CoverImg)" class="coverImg"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AvailableDays)
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="GIFT.edit(@item.GiftId)">编辑</a>
+                        <a href="/Gift/@item.GiftId">详情</a>
+                        @Html.ActionLink("删除", "Delete", new { id = item.GiftId })
+                    </td>
+                </tr>
+               }
+        </tbody>
+
+    </table>
+}
+@ViewBag.DebugText
+
+<script>
+    $("#pager").ahPages(@Model.FindTotal,@Model.Page, @Model.Total);
+    function loadDetail(e, id) {
+        SEARCH.loadRowDetail(e, '/Dispensing/LoadDispensingDetail?treatId=' + id);
+    }
+</script>

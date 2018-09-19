@@ -1,0 +1,126 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_DoctorTreat>
+@{
+    ViewBag.Title = "我的接诊记录";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    //var u = ViewBag.User as CHIS.Code.Managers.UserAccessInfo;
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+    <link href="~/lib/XTree/css/XTree.css" rel="stylesheet" />
+    <link href="~/css/pages/doctor-patient-detail.css" rel="stylesheet" />
+    <link href="~/css/pages/chis-charge.css" rel="stylesheet" />
+    <link href="~/css/pages/doctor-my-treat-info.css" rel="stylesheet" />
+}
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入用姓名或手机号码" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="TimeRange"><strong>接诊时间段：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span class="ah-def-active">当日</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                        </section>
+
+                        <section class="section-inline ah-search-input">
+                            <div class="section-more-wrap">
+                                <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                至
+                                <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                <button class="ah-btn-blue" type="button">确定</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="sl-ext">
+                    <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                </div>
+            </div>      
+        </div>
+
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="StationId"><strong>接诊工作站：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">                    
+                        <section class="section-inline ah-search-input">
+                            <div class="section-more-wrap" ah-ui="MyStationTree" >
+                                <input class="ah-data-input" id="ah-tree-event" type="text" style="width:180px" placeholder="请点击选择工作站" />
+                                <button class="ah-btn-blue" type="button">确定</button>
+                            </div>
+                        </section>
+                    </div>                
+                </div>               
+            </div>
+
+        </div>
+
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="treatStatus"><strong>接诊状态：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="treatStatus" class="ah-search-radio" value="treating" /><span><i class="fa fa-pencil"></i>在诊</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="treatStatus" class="ah-search-radio" value="treated" /><span><i class="fa fa-check"></i>已诊</span></label>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ah-table-wrap" ah-id="TREAT-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+@section scripts{
+    <script src="~/js/ah-common-search.js"></script>
+    <script src="~/lib/XTree/js/XTree.js"></script>
+    <script src="~/js/pages/doctor-my-treat-list.js"></script>
+
+    <script>
+        var pagedata = { stationId:@(u.StationId)}
+        SEARCH.searchMain = "TREAT-TABLE";//搜索结果存放区域
+        SEARCH.searchUrl = "/Statistics/LoadTreatList"; //设置搜索的请求地址
+        SEARCH.search(1);
+        $(function () {
+            //初始化树
+            var myTree = $('div[ah-ui="MyStationTree"]').XTree({
+                url: "/api/syshis/GetSonStations?bWithRoot=true&pStationId={0}",
+                moreUrl: "/api/syshis/GetSonStations?pStationId={0}",//查看子节点
+                id: '@u.StationId',
+                selectNode: function (op) { 
+                    $("#ah-tree-event").val(op.value).attr("ah-tree",op.id);
+                },//点击节点回调
+                field: { value: "stationName", id: "stationId", pid: "pId", },//数据对应字段，确保通用性
+                jnArray: "SonStations",//接口返回数组字段名
+            });
+        });
+    </script>
+}

@@ -1,0 +1,28 @@
+﻿@model Ass.Mvc.PageListInfo<vwAHMS_QAFlow_Main>
+@{
+    ViewData["Title"] = "个人中心-我的问卷";
+}
+
+@section links{
+
+}
+
+
+<div>
+    <h5>健康问卷</h5>
+</div>
+
+<table class="table"> 
+    <tbody>
+        @foreach(var item in Model.DataList)
+        {
+            <tr>
+                @*<td>@item.QAFlowMainId</td>*@
+                <td>@item.QAName</td>
+                <td>@item.QAVer</td>
+                <td>@item.QATime?.ToString("yyyy年M月d日")</td>
+                <td>详情</td>
+            </tr>
+        }
+    </tbody>
+</table>

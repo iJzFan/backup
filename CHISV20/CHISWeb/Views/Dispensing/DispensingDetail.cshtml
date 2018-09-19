@@ -1,0 +1,114 @@
+﻿@model DispensingDetailViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "网络发药";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+    <style>
+        .ah-main-content {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .ah-details-address {
+            background: #fff;
+            margin: 0;
+            padding: 10px;
+            border: 1px solid #e4e4e4;
+            margin-bottom: 10px;
+        }
+    </style>
+}
+<input type="hidden" id="TreatId" value='@Model.Treat.TreatId' />
+<div ah-tools="wrap" class="ah-max-width ah-flex ah-flex-column">
+    <div class="ah-details-address ah-flex">
+        <img class="ah-address-upic" src="@(myRazor.GetCustomerDefImagePath(Model.Customer.PhotoUrlDef, Model.Customer.Gender))" />
+        <div class="ah-flex-auto">
+            <div class="ah-address-uname">@(Model.Customer.CustomerName) @(Model.Customer.Gender?.ToGenderString()) @(Model.Customer.Birthday?.ToAgeString())</div>
+            <div>联系电话:@Model.Customer.CustomerMobile</div>
+            <div ah-d-section="customer_address">
+                <input type="hidden" ah-d-name="AddressId" asp-for="SelectedAddress.AddressId" />
+                收货地址:
+                <span class="ah-address-bg" ah-d-name="AddressDetails">
+                    <span>@(Model.SelectedAddress?.FullAddress) @Model.SelectedAddress?.ZipCode</span>
+                    <span>（@(Model.SelectedAddress?.ContactName) 收）</span>
+                    <span>@Model.SelectedAddress?.Mobile</span>
+                </span>
+                <a style="color:#ff6a00;cursor:pointer;margin-left:8px;" onclick="CHARGE.ChangeAddress(this,@Model.Customer.CustomerID,@((Model.SelectedAddress?.AddressId) ?? 0),'dispensing');">修改</a>
+            </div>
+        </div>
+    </div>
+    <div class="ah-dispensing-main ah-flex ah-flex-auto">
+        <div class="ah-dispensing-left ah-flex ah-flex-column">
+            <div class="ah-public-title" style="flex:none;">
+                <span>
+                    药品清单
+                    <a onclick="refreshDispensingSummary()" title="刷新"><i class="fa fa-refresh" style="font-size:1.2em;"></i></a>
+                </span>
+                <ul class="ah-drugSumary-tab ah-flex">
+                    <li class="ah-flex" ah-type="all"><span></span>全部</li>
+                    <li class="ah-flex" ah-type="2"><span style="background:#e25757"></span>待退</li>
+                    <li class="ah-flex" ah-type="0"><span style="background:#969696"></span>待发</li>
+                    <li class="ah-flex" ah-type="1"><span style="background:#69bb73"></span>已发</li>
+                </ul>
+            </div>
+            <div class="ah-flex-auto ah-postion-relative">
+                <div class="ah-wrap scrollbar-dynamic" id="dispensing_summary">
+                    @await Html.PartialAsync("_pvDispensingDetailSumaryList", Model.DispensingDetailSumary)
+                </div>
+            </div>
+        </div>
+        <div class="ah-dispensing-right">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    @{
+                        var liTitle = 0;
+                        var liMain = 0;
+                    }
+                    @foreach (var item in Model.DrugStoreDetails.Keys)
+                    {
+                        <li class="@(liTitle==0? "layui-this":"")">
+                            @(item.Supplier == null ? "本地药房" : item.Supplier?.CompanyShortName)
+                        </li>
+                        liTitle++;
+                    }
+                </ul>
+                <div class="layui-tab-content">
+                    @foreach (var item in Model.DrugStoreDetails.Keys)
+                    {
+                        var pvName = "";
+                        switch (item.DrupSourceFrom)
+                        {
+                            case 0: pvName = "_pvDispensingLocal"; break;
+                            case 1: pvName = "_pvDispensingWeb"; break;
+                            case 2: pvName = "_pvDispensingThreePart"; break;
+                        }
+
+                        <div class="layui-tab-item @(liMain==0? "layui-show":"")" id="store_@(item.DrupSourceFrom)_@(item.Supplier?.SupplierID)">
+                            @await Html.PartialAsync(pvName, Model.DrugStoreDetails[item])
+                        </div>
+                        liMain++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <environment names="Development">
+        <script src="~/js/pages/dispensing-main-v2.js"></script>
+        <script src="~/js/pages/charge-main1.js"></script>
+        <script src="~/js/pages/dispensing-detail.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" src="~/js/pages/ahzp-dispensing-detail.min.js"></script>
+    </environment>
+    <script>
+        var pagedata = {
+            treatId:@(Model.Treat.TreatId),
+            ver:1
+        }
+    </script>
+}

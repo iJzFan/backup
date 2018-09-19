@@ -1,0 +1,136 @@
+﻿@model ah.Models.AHMS_Customer_AllergicHistory
+@{
+    ViewData["Title"] = "我的健康-过敏记录";
+}
+
+@section links{
+    <style>
+        .icheckbox_square-blue {
+            margin-right: 6px;
+        }
+        form input[type=text].error, form input[type=date].error {
+            border-color: red;
+        }
+        #allergy_form {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .record-title{border-bottom:1px solid #e5e5e5;height:30px;line-height:30px;}
+        form label.error{color:red;}
+        .body-partial>label{margin-right:12px;min-width: 90px;}
+        .body-partial > label>input{margin-right:5px;}
+        .my-allergics{font-size:1.2em;color:#666;display:block;margin:10px 0;}
+        .my-allergics-title{font-weight:bold;color:#ff6a00;display:none;}
+        .ah-input-group {margin-top:15px; width: 50%; padding-right:10px; display: flex;}
+        .con{flex:1;}
+        .title{width:72px;line-height: 28px;}
+        .tips {margin-top: 3px;width: 9px;height: 20px;background: #1d6fab;display: block;float: left; border-radius: 2px;margin-right: 8px;}
+      .btn-primary { 
+          background: rgba(0, 0, 0, 0) url("/images/bg.png")  ;
+          background-color: #13a183;     border-color:#13a183;    color: #fff;border-radius:3px;}
+      .btn-primary:hover{  
+                             background: rgba(255, 255,255, 0.5) url("/images/bg.png") repeat scroll 0 0 / 100% 100%;
+                          border-color:#13a183;  }
+        @@media screen and (max-width:500px) { 
+            .my-allergics-bg{border:1px solid #ff6a00;padding:0;position:relative;width:100%;margin-bottom:20px;}
+            .my-allergics-title{background-color:#ff6a00;color:#fff;width:100%;padding:3px;display:block;}
+            .my-allergics{font-size:1.2em;color:#ff6a00;display:block;margin:10px;}
+            .breadcrumb {    background-color:#f5f5f5;    border-radius: 0;margin-top:10px;}
+            .ah-input-group{margin:8px 0px;width:100%;padding-right:0;display: block;}
+            .ah-input-group .title{font-size:1.0em;font-weight:bold;}
+            #allergy_form{display:block;}
+            .record-title{display:none;}
+            .title{width:auto;}
+        }
+    </style>
+}
+
+
+@* 用户中心控制台 *@
+
+
+    <ol class="breadcrumb">
+        <li><a href="#">健康记事本</a></li>
+        <li><a href="#">过敏记录</a></li>
+    </ol>
+
+<div class="record-title">
+    <span class="tips"></span>我的过敏原
+</div>
+<div class="my-allergics-bg">
+    <span class="my-allergics-title">我的过敏原:</span> <span class="my-allergics"> @ViewBag.MyAllergics</span>
+</div>
+<div class="record-title">
+    <span class="tips"></span>新增过敏原
+</div>
+<div>
+    <form id="allergy_form" method="post" role="form" asp-action="UpsertAllergyRecord" autocomplete="off">
+        <input type="hidden" name="AllergicHistoryId" id="AllergicHistoryId" value="0" />
+        <input type="hidden" name="CustomerId" id="CustomerId" value="0" />
+        <input type="hidden" name="RecMan" id="RecMan" value="" />
+        <div class="ah-input-group">
+            <div class="title">过敏原</div>
+            <div class="con"><input type="text" class="form-control" asp-for="Allergens" placeholder="比如：海鲜、鸡蛋、花生、啤酒、青霉素" /></div>
+        </div>
+        <div class="ah-input-group">
+            <div class="title">过敏时间</div>
+            <div class="con">
+                <input type="date" class="form-control" asp-for="AllergicDate" data-rule-required="true" data-msg-required="请输入过敏时间" placeholder="格式:yyyy-MM-dd 比如:@(DateTime.Today.ToDateString())" />
+                @Html.ValidationMessageFor(m => m.AllergicDate)
+            </div>
+        </div>
+        <div class="ah-input-group" style="width:100%">
+            <div class="title">过敏症状</div>
+            <div class="con">
+                <input type="text" class="form-control" asp-for="AllergySymptoms" placeholder="风团、肿块、红斑、疹子、伴有奇痒" />
+            </div>
+        </div>
+        <div class="ah-input-group" style="width:100%">
+            <div class="title">过敏部位(可多选)</div>
+            <div class="body-partial" style="margin-left: 6px;">
+                <label><input type="checkbox" name="AllergicBodyPartList" value="全身" />全身</label>
+                <label><input type="checkbox" name="AllergicBodyPartList" value="脸" />脸</label>
+                <label><input type="checkbox" name="AllergicBodyPartList" value="四肢" />四肢</label>
+                <label><input type="checkbox" name="AllergicBodyPartList" value="胸" />胸</label><br />
+                <label><input type="checkbox" name="AllergicBodyPartList" value="背" />背</label>
+                <label><input type="checkbox" name="AllergicBodyPartList" value="手臂" />手臂</label>
+                <label><input type="checkbox" name="AllergicBodyPartList" value="双腿" />双腿</label>
+                <label><input type="checkbox" name="AllergicBodyPartList" value="喉咙" />喉咙</label><br />
+                <label><input type="checkbox" name="AllergicBodyPartList" value="" />其他<input type="text" style="margin-left: 10px;" name="AllergicBodyPartList" value="" placeholder="其他部位" /></label>
+            </div>
+        </div>
+   
+        <div class="ah-input-group">
+            <div class="title">&nbsp;</div>
+            <div class="con">
+                <button type="submit" class="btn btn-primary" style="width:100%">添加</button>
+            </div>
+        </div>
+        <div class="ah-input-group" style="width:100%">
+            @Html.ValidationSummary()
+        </div>
+    </form>
+</div>
+<div class="record-title">
+    <span class="tips"></span>过敏记录
+</div>
+<div id="allergy_list">
+    @await Html.PartialAsync("_AllergyRecord_History", (object)ViewBag.AlleryRecords)
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#allergy_form').validate();
+            $("input[name='AllergicBodyPartList']").each(function () { 
+                $(this).iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square',
+                    increaseArea: '-10' // optional
+                })
+            });
+         });
+    </script>
+
+}

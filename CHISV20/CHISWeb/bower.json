@@ -1,0 +1,23 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "jquery": "3.2.1",
+    "jquery-validation": "1.16.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "font-awesome": "Font-Awesome#v4.7.0",
+    "layer": "3.0",
+    "eonasdan-bootstrap-datetimepicker": "bootstrap-datetimepicker-3#v4.17.45",
+    "bootstrap": "v3.3.7",
+    "jqGrid": "jqgrid#v5.2.1",
+    "zTree": "v3.5.28",
+    "jquery-ui": "jquery.ui#1.12.1",
+    "Croppie": "croppie#v2.4.1"
+  },
+  "resolutions": {
+    "jquery-validation": "1.16.0",
+    "jquery": "3.2.1",
+    "bootstrap": "v4.0.0-alpha.6",
+    "vue": "v2.5.13"
+  }
+}

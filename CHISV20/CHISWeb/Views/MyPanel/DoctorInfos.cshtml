@@ -1,0 +1,245 @@
+﻿@using Ass;
+@model CHIS.Models.vwCHIS_Code_Doctor
+@{
+    ViewBag.Title = "完善医生信息";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+    var ulogin = umgr.GetMyLoginData();
+    var bDoctorVed = Model.DoctorIsAuthenticated == true;
+
+    var bShowDetail =!u.MyRoleNames.Contains("drugstore_nurse") && (u.StationTypeId != CHIS.DictValues.StationType.k_StationType_DrugStore);
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    @*<link href="~/css/pages/my-panel-doctor-infos.css" type="text/css" rel="stylesheet" />*@
+    <style>
+        .cert-pic {
+            width: 49%;
+            height: 140px;
+            position: relative;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-right: 1%;
+        }
+
+        .ah-formula {
+            width: 113px;
+            padding: 0
+        }
+
+        .ah-formula-span {
+            padding-top: 22px;
+            font-size: 20px;
+            color: #666;
+            margin: 0 10px
+        }
+
+        @@media (max-width:800px) {
+            .ah-col-md3 {
+                width: 33.33333333%;
+                padding-right: 10px
+            }
+
+            #EditDrugImg, #drugImg {
+                width: 174px;
+                text-align: center;
+                margin-left: 0
+            }
+
+            div[ah-id=pic] {
+                justify-content: initial
+            }
+        }
+    </style>
+}
+
+
+<div class="ah-max-width">
+    <form asp-action="SaveDoctorInfo">
+        <div class="container layui-form">
+            <!--该部分是导航部分-->
+            <ul class="ah-step-wrap ah-flex">
+                <li class="ah-strp-active"> <a>基本信息</a></li>
+                <li><a href="/MyPanel/DoctorOccupationInfos">职业信息</a></li>
+            </ul>
+            <div class="ah-flex-layout drug-msg-currency ah-doctor-baseInfo">
+                <div class="ah-col-md2-4">
+                    @Html.HiddenFor(m => m.CustomerId)
+                    @Html.HiddenFor(m => m.DoctorId)
+                    <div class="ah-flex-data ah-align-self ah-drug-input-wrap" style="border:none;">
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label">验证</div>
+                            <div class="ah-data-div">
+                                @if (Model.CustomerIsAuthenticated == true)
+                                {
+                                    <span>@Model.CustomerAuthenticatedTime?.ToDateString()</span><span class="authed">已验证</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label ah-required">姓名</div>
+                            @if (bDoctorVed)
+                            {
+                                <div class="ah-data-div">@Model.DoctorName</div>
+                            }
+                            else
+                            {
+                                <input type="text" class="ah-data-input" asp-for="DoctorName" />
+                                <span asp-validation-for="DoctorName"></span>
+                            }
+                        </div>
+                        @if (bShowDetail) { 
+
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label">学历</div>
+                            @{
+                                var eduLevels = myRazor.GetSelectListItemsByDictKey("EduLevel").ToList();
+                            }
+                            <select class="ah-data-select" role-initial="false" asp-items="eduLevels" asp-for="EduLevel">
+                                <option value="null">请选择</option>
+                            </select>
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label ah-flex ah-space-between">
+                                <span>
+                                    @if (ulogin.EmailIsAuthenticated == true)
+                                    {
+                                        <i class="ah-mk-char" title="于 @(ulogin.EmailAuthenticatedTime) 验证">绑</i>
+                                    }
+                                    邮箱
+                                </span>
+                                @if (ulogin.EmailIsAuthenticated != true)
+                                {
+                                    <span class="unauthed" title="未绑定"><a href="/mypanel/changelogininfo">绑定</a></span>
+                                }
+                            </div>
+                            <div class="ah-data-div">@Model.Email</div>
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label ah-flex ah-space-between">
+                                <span>
+                                    @if (ulogin.MobileIsAuthenticated == true)
+                                    {
+                                        <i class="ah-mk-char" title="于 @(ulogin.MobileAuthenticatedTime) 验证">绑</i>
+                                    }
+                                    手机
+                                </span>
+                                @if (ulogin.EmailIsAuthenticated != true)
+                                {
+                                    <span class="unauthed" title="未绑定"><a href="/mypanel/changelogininfo">绑定</a></span>
+                                }
+                            </div>
+                            <input class="ah-data-input" type="text" asp-for="@Model.CustomerMobile" />
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label ah-required">性别</div>
+
+                            @if (bDoctorVed)
+                            {
+                                <div class="ah-data-div">
+                                    @(Model.Gender?.ToGenderString())
+                                </div>
+                            }
+                            else
+                            {
+                                <select class="ah-data-select" role-initial="false" asp-for="Gender">
+                                    <option value="null">请选择</option>
+                                    <option value="1">男</option>
+                                    <option value="0">女</option>
+                                </select>
+                                <span asp-validation-for="Gender"></span>
+                            }
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label ah-required">出生日期</div>
+
+                            @if (bDoctorVed)
+                            {
+                                <div class="ah-data-div">
+                                    @(Model.Birthday?.ToDateString())
+                                </div>
+                            }
+                            else
+                            {
+                                <input class="ah-data-input ah-date" lay-key="1" type="text" asp-for="Birthday" />
+                                <span asp-validation-for="Birthday"></span>
+                            }
+                        </div>
+                         
+                            <div class="ah-col-md2 ah-flex-data">
+                                <div class="ah-data-label ah-required">
+                                    @if (ulogin.IdCardNumberIsAuthenticated == true)
+                                    {
+                                        <i class="ah-mk-char" title="于 @(ulogin.IdCardNumberAuthenticatedTime) 验证">验</i>
+                                    }
+                                    身份证号码
+                                </div>
+                                @if (ulogin.IdCardNumberIsAuthenticated == true)
+                                {
+                                    <div class="ah-data-div">
+                                        @Model.IDcard.ToMarkString(Ass.Models.MaskType.IDCode)
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input class="ah-data-input" type="text" asp-for="IDcard" />
+                                }
+                            </div>
+                            <div class="ah-col-md1 ah-flex-data" style="margin-top:20px">
+                                <div class="ah-cert-a" style="">
+                                    <input type="hidden" asp-for="IDCardAImg" />
+                                    <div class="ah-data-label">身份证正面</div>
+                                    <img class="ah-max-width ah-mb-10" id="certA" src="@(Global.ConfigSettings.CertificateImagePathRoot + Model.IDCardAImg)" />
+                                    @if (ulogin.IdCardNumberIsAuthenticated != true)
+                                    {
+                                        <div class="ah-flex ah-justify-end" ah-id="pic">
+                                            <a class="ah-btn-blue" id="EditCertAPic">上传正面</a>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="ah-cert-b">
+                                    <input type="hidden" asp-for="IDCardBImg" />
+                                    <div class="ah-data-label">身份证背面</div>
+                                    <img class="ah-max-width ah-mb-10" id="certB" src="@(Global.ConfigSettings.CertificateImagePathRoot + Model.IDCardBImg)" />
+
+                                    @if (ulogin.IdCardNumberIsAuthenticated != true)
+                                    {
+                                        <div class="ah-flex ah-justify-end" ah-id="pic">
+                                            <a class="ah-btn-blue" id="EditCertBPic">上传背面</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+
+                        }
+
+
+                    </div>
+                </div>
+                <div class="ah-col-md4 ah-flex-data ah-flex-column ah-align-self ah-mb-10" ah-id="doctor-pic">
+                    <input type="hidden" asp-for="DoctorPhotoUrl" />
+                    <img class="ah-max-width" id="cusImg" src="@(Global.ConfigSettings.DoctorImagePathRoot+Model.PhotoUrlDef)" />
+                    <div class="ah-flex ah-justify-end" ah-id="pic">
+                        <a class="ah-btn-blue" id="EditDoctorPic">上传头像</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="data-submit-wrap" style="text-align:center">
+            <button type="submit" class="ah-btn-blue">保存医生信息</button>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/pages/my-panel-doctor-infos.js"></script>
+    <script>
+         var pagedata = {
+             docRoot: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+             certRoot:'@(Global.ConfigSettings.CertificateImagePathRoot)'
+        };
+    </script>
+}

@@ -1,0 +1,67 @@
+﻿@model DispensingDetailOfStoreViewModel
+@{
+
+}
+
+<div class="ah-drug-table">
+    @if (Model.Formed.Count() > 0)
+    {
+        var n = 0;
+        var tread = (from t in Model.Formed orderby t.TreatId select t).First();
+        <table ah-id="formed-section"
+               ah-treatId="@(tread.TreatId)"
+               ah-supplierId="@(tread.SupplierId)">
+            <tbody>
+                <tr>
+                    <th>品名</th>
+                    <th class="ah-table-center">数量</th>
+                    <th>产地</th>
+                    <th class="ah-table-center">是否派发</th>
+                    <th class="ah-table-center">备注</th>
+                    @if (Model.Formed.Any(m => m.DispensingStatus == 0)) {
+                        <th class="ah-table-center active">操作</th>
+                    }
+                </tr>
+                @foreach (var item in Model.Formed)
+                {
+
+                    <tr ah-type="FORMED"
+                        ah-drugId="@item.DrugId"
+                        ah-dbid="@item.AdviceFormedId"
+                        class="ah-drug-despnesing-state-@(item.DispensingStatus)">
+                        <td  class="ah-td-left">
+                            <div class="drugName">@(item.DrugName)</div>
+                            <div class="drugModel">@(item.DrugModel)</div>
+                        </td>         
+                        <td class="ah-table-center"><span style="font-size:1.2em;">@(item.Qty)@(item.UnitName)</span></td>
+                        <td>@(item.ManufacturerOrigin)</td>
+                        <td ah-route="Status" class="ah-table-center @(item.DispensingStatus!=1?"ah-red-highlight":"")">@(MPS.ts_DispensingStatus(item.DispensingStatus))</td>
+                        <td class="ah-table-center" ah-route="Rmk">
+                            @if (Model.Formed.Any(m => m.DispensingStatus == 0))
+                            {
+                                <div>@(item.DispensingRmk)</div>
+                                <div><a onclick="DISPENSING.addDispensingRmk(this)">添加备注</a></div>
+                            }
+                            else
+                            {
+                                <span>/</span>
+                            }
+                        </td>
+                            
+                        @if (n == 0)
+                        {
+                            @if (Model.Formed.Any(m => m.DispensingStatus == 0))
+                            {
+                                <td class="ah-table-center" rowspan="@(Model.Formed.Count())">
+                                    <a class="dispensing-send" onclick="DISPENSING.SendDrugWebAll(this)">全部派发</a>
+                                    <input class="ah-data-input dispensing-send-input" type="text" ah-id="SendRmk" placeholder="发送备注" />
+                                </td>
+                            }
+                            n++;
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

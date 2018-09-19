@@ -1,0 +1,118 @@
+﻿/*通用插件*/
+
+
+/*选择三级地址*/
+.select-area{cursor:pointer;}
+.area-select-ul{list-style:none;margin:0;padding:0;}
+.area-select-ul>li{padding:10px;margin:0;}
+.area-select-ul>li select{width:100%;padding:8px;}
+.layui-layer-title{text-align:left;}
+.areaselect-bg{width:100%;height:100%;text-align:left;padding:10px;}
+.select-area label.error{margin-top:0;}
+
+
+/*EditLabel*/
+/*编辑区域*/
+.edit-label {
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid transparent;
+    display: inline-block;
+    position: relative;
+    height: 19px;
+    cursor: pointer;
+    line-height: 14px;
+}
+    .edit-label:hover{border-bottom:1px solid #ccc; background:#fff;border-radius:3px}
+    .edit-label-now{padding-left:1px!important;padding-right:1px!important;position:relative;}
+    .edit-label-now input[type=text]{width:100%;padding:1px 6px!important;height:calc(100% - 8px);}
+    .edit-label-now textarea{width:100%;padding:3px 9px!important;}
+
+
+.single-selector,
+.ckbox input[type="checkbox"]:checked + label::after,
+.ckbox input[type="checkbox"]:checked + input + label::after
+{font-size: 12px;}
+
+
+
+/*======================================================== singleSelector ==========================================================*/
+.single-selector-disabled{background-color:#eee;cursor:not-allowed;}
+.single-selector-readonly{border:none!important;padding-left:0!important;}
+.single-selector{   line-height: -moz-block-height; border:1px solid #ccc;position:relative;padding:3px 9px;width:100%;height:100%;}
+.single-selector a.select {position: absolute;right: 3px; top: 3px;cursor: pointer;bottom: 3px; background: #337ab7;line-height: -moz-block-height;padding: 0 4px; border-radius: 3px; color: #fff;}
+.single-selector:after {        clear: both;    }
+.search-panel { border: 1px solid #ccc;background: white;position: absolute;right: -1px;top: 34px; max-height: 300px;z-index: 20000;left: -1px;border-radius: 4px;}
+.search-bg {    width: 100%;    padding: 3px;    border-bottom: 1px solid #ccc;}
+.search-btn {    width: 50px;    float: left;}
+.search-content {    padding: 8px 0; overflow-y: scroll;}
+.search-content ul {        margin: 0;        padding: 0;        width: 100%;    }
+.search-content ul li {            width: 100%;            border-bottom: 1px dashed #ddd;        }
+.search-content ul li > a {display: block;width: 100%;padding: 6px;cursor: pointer;}
+.search-content ul li > a:hover {background-color: #eee;}
+
+
+.ckbox,.rdio{position: relative;display:block;padding-right:22px;line-height: initial;float:left;}
+.ckbox input[type="checkbox"],.rdio input[type="radio"]{opacity: 0;margin: 3px 0 0;}
+.ckbox label,.rdio label{padding-left: 10px;cursor: pointer;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;}
+.ckbox label:before{width: 18px;height: 18px;position: absolute;top: 1px;left: 0;content: '';display: inline-block;border: 1px solid #ccc;background: #fff;}
+
+.ckbox input[type="checkbox"]:disabled + label{color: #666;}
+.ckbox input[type="checkbox"]:disabled + label:before{background-color: #eee;}
+.ckbox input[type="checkbox"]:checked + label::after{font-family: 'FontAwesome';content: "\F00C";position: absolute;top: 4.5px;left: 3.5px;display: inline-block;width: 16px;height: 16px;color: #fff;}
+.ckbox input[type="checkbox"]:checked + label:before{border-color: #337ab7;background-color: #337ab7;border:1px solid #337ab7;}
+.ckbox input[type="checkbox"]:disabled:checked + label::before {        background-color: transparent;        border-color: none;           }
+.ckbox input[type="checkbox"]:disabled:checked + label::after {    color: #ccc; border:none;}
+/*mvc会在checkbox后面添加一个hidden的input，修正这个效果*/
+
+.ckbox input[type="checkbox"]:disabled + input + label:before{background-color: #eee;}
+.ckbox input[type="checkbox"]:checked + input + label::after{font-family: 'FontAwesome';content: "\F00C";position: absolute;top: 4.5px;left: 3.5px;display: inline-block;width: 16px;height: 16px;color: #fff;}
+.ckbox input[type="checkbox"]:checked + input + label:before{border-color: #337ab7;background-color: #337ab7;border:1px solid #337ab7;}
+
+.ckbox input[type="checkbox"]:disabled + input + label{color: #888;}
+.ckbox input[type="checkbox"]:disabled:checked + input + label::before {        background-color: transparent;        border-color: #ccc;           }
+.ckbox input[type="checkbox"]:disabled:checked + input + label::after {    color: #ccc; border:none;}
+.ckbox input[type=checkbox][readonly] + label,.ckbox input[type=checkbox][readonly] +input+ label{cursor:default;}
+.ckbox input[type=checkbox][disabled]+label,.ckbox input[type=checkbox][disabled]+input+label{cursor:not-allowed;}
+
+
+.ckbox-switch2 {position: relative;display:block;padding-right:12px;line-height: initial;float:left;}
+.ckbox-switch2 input[type="checkbox"]{opacity: 0;margin: 3px 0 0;}
+.ckbox-switch2 label{padding-left: 10px;cursor: pointer;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;width:0;overflow:hidden;word-break:keep-all;}
+.ckbox-switch2 input[type="checkbox"] + label::after,
+.ckbox-switch2 input[type="checkbox"] + input + label::after
+               {font-family: 'FontAwesome';content: "\F204";position: absolute;top: 2.5px;left: 0px;display: inline-block;font-size: 1.6em;width: 36px;height: 16px;color:#58b7c1;font-weight:normal} /*默认没有选择*/
+.ckbox-switch2 input[type="checkbox"]:checked + label::after,
+.ckbox-switch2 input[type="checkbox"]:checked + input + label::after{content: "\F205";color:#12981e;}  
+/*mvc会switch2-在checkbox后面添加一个hidden的input，修正这个效果*/ 
+.ckbox-switch2 input[type="checkbox"]:disabled + label,
+.ckbox-switch2 input[type="checkbox"]:disabled + label:after,
+.ckbox-switch2 input[type="checkbox"]:disabled + input + label,
+.ckbox-switch2 input[type="checkbox"]:disabled + input + label:after
+{ color: #ccc!important;  }
+.ckbox-switch2 input[type=checkbox][readonly] + label,.ckbox-switch2 input[type=checkbox][readonly] +input+ label{cursor:default;}
+.ckbox-switch2 input[type=checkbox][disabled]+label,.ckbox-switch2 input[type=checkbox][disabled]+input+label{cursor:not-allowed;}
+
+
+/*三态显示 status3 */
+.status3{position:relative;display:inline;line-height:initial;margin-right:18px;}
+.status3 select{opacity: 0;margin: 3px 0 0;}
+.status3 .status3-fm{width:1px;display:inline-block;cursor:pointer;}
+.status3 .status3-fm:after{content: "";position:absolute;left:0;top:0;width:18px;height:18px;border:1px solid #ddd;}     
+.status3 .status3-fm[value='']:before{font-family: 'FontAwesome';content:'\f04d';position:absolute;display:block;left:3.5px;top:2px;color:#ddd;}  
+.status3 .status3-fm[value=True]:before{font-family: 'FontAwesome';content:'\F00C';position:absolute;display:block;left:2.5px;top:2px;color:#fff;z-index:1;}    
+.status3 .status3-fm[value=True]:after{background-color:#337ab7;border-color:#337ab7;}
+.status3 .status3-fm[value=False]:before{font-family: 'FontAwesome';content:'';position:absolute;display:block;left:2.5px;top:2px;}      
+.status3 .status3-fm[value=False]:after{border-color:#337ab7;}
+.status3 .status3-fm[disabled][value=True]:after{border-color:#ccc;background-color:#ccc;}
+.status3 select[readonly]+.status3-fm,.status3 select[readonly]+div+label{cursor:default;}
+.status3 select+div+label{margin-left:18px;cursor:pointer;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;}
+.status3 select[disabled]+.status3-fm,.status3 select[disabled]+div+label{color:#ccc;cursor:not-allowed;}
+
+/*输入框组*/
+.select-input{}
+.select-input>input+select{opacity:0;height:0;}
+.select-input>.select2{ display:none;}
+.select-input button[disabled],.select-input button[disabled]:hover{background-color:#ddd;}
+.select-input button[readonly],.select-input button[readonly]:hover{background-color:transparent;border:none;}
+.select-input button[readonly]>span{visibility:hidden;}

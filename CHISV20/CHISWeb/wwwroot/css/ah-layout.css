@@ -1,0 +1,7205 @@
+﻿body {
+    font-family: "Microsoft YaHei" !important;
+    padding: 0;
+    margin: 0;
+    background: #f0f0f0;
+    font-size: 12px;
+    /* font-size: 1.2rem;  12÷10=1.2 */
+}
+
+input {
+    -webkit-appearance: none;
+}
+
+/*@media (max-width:1280px) {
+    body , .ah-nav-items li a {
+        font-size:12px;
+    }
+}*/
+a {
+    color: #4680ea;
+    cursor: pointer;
+}
+a:hover{color:#1038f5;}
+
+.ah-debug-version {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.customer-base s {
+    text-decoration: none;
+}
+
+sup.sup-more {
+    width: 16px;
+    display: inline-block;
+    text-align: left;
+    font-size: 1em;
+}
+
+.ah-flex, .ah-flex-data, .ah-tools, .ah-page-wrap, .ah-right-wrap, .ah-flex-column, .ah-main-content, .ah-login-wrap, .ah-login, .ah-regist, .ah-select-station,
+.ah-login-station, .ah-myskin-blue .layui-layer-btn, .ah-patient-u-active, .ah-patient-input-wrap, .patient_detail_nav .patient-detail-ul, .ah-data-error,
+.ah-public-title, .ah-public-border, .ah-doctorIndex-patient li, .xj_amout {
+    display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box; /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox; /* 混合版本语法: IE 10 */
+    display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+    display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+    position: relative;
+}
+
+.ah-linkbg {
+    position: relative;
+    display: inline-block;
+}
+
+.ah-logistics-content > ul {
+    position: absolute;
+}
+
+.ah-flex-none {
+    flex: none;
+}
+
+.ah-flex-column, .ah-main-content {
+    flex-direction: column;
+}
+
+.ah-ft-bigger {
+    font-size: 1.2em;
+}
+
+.ah-flex-row {
+    flex-direction: row !important;
+}
+
+.ah-left {
+    float: left;
+}
+
+.ah-right {
+    float: right;
+}
+
+.ah-clear:after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+.ah-over-hidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ah-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.ah-flex-auto, .ah-max-height, .ah-max-width {
+    flex: 1 1 auto;
+    position: relative;
+}
+
+.ah-postion-relative, .ah-max-width {
+    position: relative;
+}
+
+.ah-align-center, .ah-tools, .ah-page-wrap {
+    align-items: center;
+}
+
+.ah-justify-end, .ah-right-wrap {
+    justify-content: flex-end;
+}
+
+.ah-align-self {
+    align-self: flex-start;
+}
+
+.ah-rcd-a{cursor:pointer;padding:2px 5px;}
+.ah-rcd-a:hover{background-color:#4780eb;color:#fff!important;}
+ 
+
+.ah-mt-10 {
+    margin-top: 10px;
+}
+
+.ah-mb-10 {
+    margin-bottom: 10px;
+}
+
+.ah-justify-content, .ah-page-wrap {
+    justify-content: center;
+}
+
+.ah-space-between {
+    justify-content: space-between;
+}
+
+.ah-center-between {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ah-flex-wrap, .ah-flex-data {
+    flex-wrap: wrap;
+}
+.ah-max-width {
+    width: 100%;
+}
+
+.ah-max-height {
+    height: 100%;
+}
+
+.page-nav {
+    padding: 2px;
+    margin: 0;
+    font-size: 1.23rem;
+}
+
+.page-nav li {
+    display: inline-block;
+}
+
+.page-nav li::after {
+    content: "/";
+    padding: 0 5px;
+}
+
+.page-nav li:last-child::after {
+    content: none;
+}
+
+.ah-hidden-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ah-icon-vip {
+    background-image: url('../images/theme-def/his-wholeicon.png');
+    width: 25px;
+    height: 25px;
+    background-position-y: 36px;
+    background-position-x: -52px;
+}
+
+[class|=ah-icon] {
+    background-image: url('../images/theme-def/his-wholeicon.png');
+    width: 25px;
+    height: 25px;
+}
+
+i.ah-true:before {
+    display: inline-block;
+    font: normal normal normal 12px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ah-fm-loading {
+    text-align: center;
+    margin-top: 200px;
+}
+
+i.ah-true {
+    color: #3e9b45;
+}
+
+i.ah-true:before {
+    content: "\f058";
+    margin-right: 3px;
+    font-size: 1.2em;
+}
+
+a.ah-com-close, a.ah-com-close i.fa {
+    color: #888888;
+}
+
+a.ah-com-close, a.ah-com-close i.fa:hover {
+    color: red;
+}
+
+.ah-ft-gray {
+    color: #ddd;
+}
+
+.ah-icon-vip {
+    background-position: -52px 36px;
+}
+
+.ah-icon-vip-false {
+    background-position: -26px 36px;
+}
+
+.ah-hide {
+    display: none !important;
+}
+
+.ah-red-highlight {
+    color: #e64f4c;
+}
+
+.ah-red-highlightb {
+    color: #e64f4c;
+    font-weight: bold;
+}
+
+.ah-data-error span > span {
+    background: #ffebeb;
+    color: #e4393c;
+    border: 1px solid #faccc6;
+    padding: 7px 9px;
+    line-height: 15px;
+    height: 30px;
+    display: block;
+    margin-right: 10px;
+}
+
+.ah-margin-0 {
+    margin: 0 !important;
+}
+
+.ah-price {
+    min-width: 5pc;
+    color: #ff9800;
+    font-family: Arial;
+    font-size: 16.0px;
+    font-weight: bold;
+}
+
+.ah-price::before {
+    content: "￥";
+    font-family: Arial;
+}
+
+.ah-row-group {
+    width: 100%;
+    position: relative;
+}
+
+.ah-is-diag {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.ah-is-diag > input {
+    display: none !important;
+}
+
+.ah-is-diag > input + span {
+    color: #686868;
+    font-family: 'Times New Roman';
+    font-weight: bold;
+    font-size: 26px;
+    display: block;
+    width: 60px;
+    height: 32px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.ah-is-diag > input + span:hover {
+    background-color: #e4e4e4;
+}
+
+.ah-is-diag > input:checked + span {
+    color: #4680ea;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: default;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    max-height: 200px;
+    overflow: auto;
+    margin-top: -1px;
+}
+
+.ui-autocomplete li {
+    line-height: 36px;
+}
+
+.ui-autocomplete li:hover {
+    background: #f2f2f2
+}
+
+.ah-user-items {
+}
+
+.ah-user-items li {
+    height: 60px;
+    border-bottom: 1px dashed #cccccc;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: inherit;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ah-user-items .ah-user-item-pic {
+    width: 42px;
+    margin-right: 10px;
+    flex: none;border-radius: 100px;
+}
+
+.ah-user-items .ah-user-item-main {
+}
+
+.ah-single-select {
+    line-height: -moz-block-height;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    line-height: 30px;
+}
+
+.ah-single-select .select {
+    position: absolute;
+    right: 0px;
+    color: #4680ea;
+    padding: 0 10px;
+    height: 100%;
+    width: 100%;
+    text-align: right;
+}
+
+.ah-single-select .search-content {
+    max-height: 260px;
+}
+
+.ah-checkbox-wrap {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    min-width: 109px;
+}
+
+.ah-tools-tree {
+    position: absolute;
+    right: 0;
+    z-index: 99;
+    top: 1px;
+    color: #666;
+}
+
+.ah-tools-tree input {
+    margin-left: 10px;
+    width: 250px !important;
+}
+
+.ah-current-dep {
+    background: #4680ea;
+    color: #fff !important;
+}
+
+.select-dep-items {
+    display: none;
+    position: absolute;
+    background: #fff;
+    width: 145px;
+    left: -146px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    padding: 10px;
+    z-index: 999;
+    top: 1px;
+}
+
+.select-dep-items a {
+    padding-left: 10px;
+}
+.ah-sub-wrap {
+    justify-content: flex-end !important;
+}
+.ah_sourcefrom_{}
+.ah_sourcefrom_0{}
+.ah_sourcefrom_1:after,
+.ah_sourcefrom_2:after{display:inline-block;width:16px;height:14px;line-height:14px;text-align:center; background-color:#4680ea;color:#fff;border-radius:2px;}
+.ah_sourcefrom_1:after{content:"网";}
+.ah_sourcefrom_2:after{content:"店";}
+
+.ah-index-sname {
+    display: flex;
+    align-items: center;
+    color: #fff;font-weight:bold;
+}
+@media (max-width:800px) {
+    .ah-index-sname {
+        display:none;
+    }
+}
+/*------------------------------------------------------layer--------------------------------------------*/
+.ah-myskin-blue {
+}
+
+.ah-myskin-blue .layui-layer-title {
+    display: none;
+}
+
+.ah-myskin-blue .layui-layer-setwin {
+    display: none;
+}
+
+.ah-myskin-blue .layui-layer-content {
+    padding: 30px 10px !important;
+    text-align: center;
+    color: #666 !important;
+}
+
+.ah-myskin-blue .layui-layer-btn {
+    padding: 0 !important;
+}
+
+.ah-myskin-blue .layui-layer-btn a {
+    margin: 0;
+    border-radius: 0;
+    flex: 1 1 auto;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    display: flex;
+}
+
+.ah-myskin-blue .layui-layer-btn0 {
+    border-color: #4680eb !important;
+    background-color: #4680eb !important;
+    color: #fff;
+}
+
+.ah-myskin-blue .layui-layer-btn0:hover {
+    border-color: #3866bb !important;
+    background-color: #3866bb !important;
+    color: #fff;
+}
+
+.ah-layer-open .layui-layer-title {
+    background: #fff !important;
+}
+
+.ah-layer-open .layui-layer-btn0 {
+    border-color: #4780eb !important;
+    background-color: #4780eb !important;
+    color: #fff !important;
+}
+
+.ah-layer-open .layui-tab-title {
+    background: #f0f0f0 !important;
+    border-bottom: none !important;
+    padding: 0 10px;
+}
+
+.layui-layer-setwin {
+    top: 0 !important;
+}
+.ah-date-icon {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left:0;
+}
+.layui-layer-close1 {
+    background: url("/images/ah-layer-close.png") !important;
+    background-position: 35px 11px !important;
+    background-size: 16px !important;
+    width: 60px !important;
+    height: 37px !important;
+    padding: 7px;
+    background-repeat: no-repeat !important;
+}
+
+.layui-layer-close1:hover {
+    background: url("/images/ah-layer-close-blue.png") !important;
+    background-position: 35px 11px !important;
+    background-repeat: no-repeat !important;
+    background-size: 16px !important;
+}
+/*------------------------------------------------------layer.end----------------------------------------*/
+
+
+
+
+/*------------------------------------------------------tab----------------------------------------*/
+.layui-tab-item .layui-tab-title {
+    background: #f0f0f0;
+    height: 35px;
+    padding: 0 10px;
+    border-bottom: none;
+}
+
+.layui-tab-item .layui-tab-title li {
+    line-height: 35px;
+}
+
+.layui-tab-item .layui-tab-title .layui-this::after {
+    height: 35px;
+}
+
+.layui-tab-item .layui-tab-title .layui-this {
+    background: #fff;
+}
+
+.layui-tab-item .layui-tab-content {
+    padding: 0;
+}
+/*------------------------------------------------------tab.end----------------------------------------*/
+/*------------------------------------------------------登录--------------------------------------------*/
+.ah-login-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ah-login, .ah-regist, .ah-select-station {
+    background: #fff;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 0px 13px #ababab;
+    box-shadow: 0 0px 13px #ababab;
+    position: initial;
+    width: 1160px;
+}
+
+.ah-login-main {
+    width: 520px;
+    padding: 40px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.ah-logo-wrap {
+    text-align: right;
+    margin: 30px 0;
+    width: 80%;
+}
+
+.ah-logo-text {
+    color: #fff;
+    text-align: right;
+    width: 80%;
+}
+
+.ah-login-pic {
+    flex: 1 1 auto;
+    height: 600px;
+    background-image: url('../images/login/login-pic.jpg');
+    background-size: 100% 100%;
+}
+
+.ah-verification-hidden {
+    display: none !important;
+}
+
+.ah-login-btn {
+    display: flex;
+    width: 100%;
+}
+
+.ah-regist-btn {
+    display: flex;
+    width: 100%;
+}
+
+.ah-regist-btn button {
+    flex: 1;
+    margin-left: 0;
+    height: 40px;
+}
+
+.ah-login-btn button {
+    flex: 1;
+    margin-left: 0;
+    height: 40px;
+}
+
+.ah-login-btn button:last-child {
+    background: #fff;
+    border: 1px solid #4680ea;
+    color: #4680ea;
+}
+
+.ah-login-foot {
+    height: 44px;
+    line-height: 19px;
+    color: #ccc;
+    text-align: center;
+}
+
+.ah-agree {
+    float: right
+}
+.ah-store-bg {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin-right: 30px;
+}
+.ah-ExtInput-logo {
+    align-items: center;
+    padding-right: 15px;
+    border-right: 1px solid #d5d5d5;
+    margin-right: 30px;
+}
+.ah-ExtInput-stataionName {
+    font-size: 34px;
+}
+.ah-ExtInput-storeName {
+    font-size: 20px;
+    text-align: center;
+}
+.ah-ExtInput-wrap{
+    flex-wrap:wrap;
+}
+.ah-ExtInput-dataLayout {
+    align-items: center;
+    margin-bottom: 12px;
+}
+.ah-ExtInput-dataLayout .data-input {
+    width: 240px;
+}
+.ah-ExtInput-dataLayout .title {
+    width: 75px;
+    color: #666;
+}
+@media (max-width:1280px) {
+    .ah-ExtInput-wrap {
+        margin-top: 55px;
+        position: absolute;
+    }
+    .ah-agree {
+        display: none;
+    }
+
+    .ah-login-wrap {
+        position: initial;
+        justify-content: initial;
+        padding-top: 25px;
+    }
+
+    .ah-login {
+        width: 878px;
+        height: 450px;
+        margin-bottom: 10px;
+    }
+
+    .ah-regist {
+        width: 878px;
+        height: 500px;
+        margin-bottom: 10px;
+    }
+
+    .ah-login-main {
+        width: 360px;
+        padding-bottom: 10px;
+    }
+
+    .ah-login-pic {
+        height: 100%;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-ExtInput-wrap {
+        margin-top: 0;
+        flex-direction: column;
+        position: absolute;
+        width: 70%;
+    }
+
+    .ah-ExtInput-logo {
+        justify-content: center;
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .ah-ExtInput-dataLayout .data-input {
+        flex: 1 1 auto;
+    }
+
+    .ah-ExtInput-main {
+        padding: 26px;
+        border-top: 4px solid #4680ea;
+        background: #fff;
+        -webkit-box-shadow: 0 0 13px #ababab;
+        box-shadow: 2px 2px 5px #ababab;
+        margin-bottom: 10px;
+        margin-top: 28px;
+        border-radius: 2px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding-top: 43px;
+    }
+    .ah-agree {
+        display: initial;
+    }
+
+    .ah-logo-wrap {
+        display: none;
+    }
+
+    .ah-logo-text {
+        display: none;
+    }
+
+    .ah-login-wrap {
+        position: absolute;
+        justify-content: center;
+        margin-top: initial;
+    }
+
+    .ah-login, .ah-regist {
+        width: 80%;
+    }
+
+    .ah-login-main {
+        width: 100%;
+        padding-bottom: 47px;
+        padding-right: 20px;
+        padding-left: 20px;
+        min-height:470px;
+    }
+
+    .ah-login-pic {
+        height: initial;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+    }
+
+    .ah-login {
+        -webkit-box-shadow: 0 0px 13px #353535;
+        box-shadow: 0 0px 13px #353535;
+    }
+}
+@media (max-width:450px) {
+    .ah-ExtInput-wrap {
+        width: 90%;
+    }
+}
+/*------------------------------------------------------登录.end----------------------------------------*/
+/*------------------------------------------------------工作站选择--------------------------------------------*/
+.ah-select-station {
+}
+
+.ah-s-station-pic-wrap {
+    height: 100%;
+    width: 325px;
+    flex: none;
+}
+
+.ah-s-station-pic {
+    height: 600px;
+    width: 100%;
+    background-image: url('../images/login/login-pic.jpg');
+    background-size: 221% 100%;
+    padding: 10px;
+    overflow: auto;
+}
+
+.ah-admin-station a {
+    color: #fff !important;
+}
+
+.ah-s-station-main {
+    flex: 1 1 auto;
+    overflow: auto;
+    height: 600px;
+    padding: 10px 10px 20px;
+}
+
+.ah-s-station-move {
+    display: none;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.ah-s-move-wrap {
+    display: none;
+    width: 100%;
+    padding-top: 30px;
+}
+
+.ah-login-title, .ah-station-title {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #f1f1f1;
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 17px;
+}
+
+.ah-station-title {
+    color: #fff;
+}
+
+.ah-select-station-item {
+    flex: 1;
+}
+
+.ah-login-station, .ah-login-station-b {
+    position: relative;
+    width: 50%;
+    margin-top: 10px;
+    align-items: center;
+    height: 166px;
+    padding: 0 10px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.ah-login-station:hover > .ah-station-name {
+    top: 0;
+    transition: all .1s;
+    -webkit-transition: all .1s;
+    cursor: pointer;
+    height: 100%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ah-login-station .ah-station-pic {
+    width: 100%;
+    height: 100%;background-size:cover;
+}
+
+.ah-login-station .ah-station-name {
+    position: absolute;
+    bottom: 0;
+    background: rgba(75, 78, 89, 0.58);
+    left: 10px;
+    right: 10px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    color: #fff;
+}
+
+.ah-ztree_style ul {
+    text-align: left;
+    padding: 10px 0 0 10px;
+}
+
+@media (max-width:1280px) {
+    .ah-login-station {
+        width: 100%;
+    }
+
+    .ah-s-station-pic, .ah-s-station-main {
+        height: 100%;
+    }
+
+    .ah-select-station {
+        width: 878px;
+        height: 450px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-login-wrap {
+        /*background-image: url('../images/login/login-pic.jpg');*/
+        background-size: 100% 100%;
+    }
+
+    .ah-select-station {
+        width: 86%;
+    }
+
+    .ah-select-station {
+        -webkit-box-shadow: 0 0px 13px #353535;
+        box-shadow: 0 0px 13px #353535;
+    }
+
+    .ah-s-station-pic {
+        background-image: initial;
+    }
+
+    .ah-s-move-wrap {
+        display: initial;
+    }
+
+    .ah-s-station-move {
+        display: block;
+        background: #fff;
+        text-align: center;
+        height: 46px;
+        line-height: 46px;
+        border-radius: 3px;
+        color: #666;
+        width: 40%;
+        height: 100%;
+    }
+
+    .ah-station-hide {
+        display: none !important;
+    }
+
+    .ah-station-title {
+        color: #666;
+    }
+
+    .ah-admin-station a {
+        color: #666 !important;
+    }
+
+    .ah-s-station-pic-wrap {
+        width: 100%;
+    }
+
+    a[ah-type="none"] {
+        text-decoration: line-through
+    }
+}
+
+@media (max-width:450px) {
+    .ah-select-station {
+        width: 100%;
+    }
+}
+/*------------------------------------------------------工作站选择.end----------------------------------------*/
+/*------------------------------------------------------导航--------------------------------------------*/
+.ah-nav-wrap {
+    height: 48px;
+    flex: none;
+    background: #4780eb;
+    padding-left: 10px;
+    border-bottom: #e5e5e7;
+    position: relative;
+}
+
+.ah-nav-logo {
+    height: 100%;
+    padding: 6px 0;
+    width: 185px;
+    margin-right: 10px;
+}
+
+.ah-nav-logo a, .ah-nav-wrap img {
+    height: 100%;
+}
+
+
+
+.ah-nav-def {
+    display: none;
+}
+
+.ah-nav-new {
+    flex: none;
+    overflow: hidden;
+}
+
+.ah-navtouch-more {
+    line-height: 48px;
+    color: #fff;
+    padding-left: 10px;
+}
+
+.ah-navtouch-more span {
+    height: 100%;
+    display: block;
+    width: 66px;
+    cursor: pointer;
+}
+
+.ah-navmore-def {
+    flex: 1 0 auto;
+    display: flex;
+}
+
+.ah-navmore-new {
+    display: none;
+}
+
+.ah-navmore-show {
+    display: block;
+    position: fixed;
+    top: 48px;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    border-bottom: 1px solid #e4e4e4;
+    padding: 10px;
+    padding-top: 0;
+    background: #3e73d1;
+    border-top: 1px solid #3d67b4;
+    padding-left: 203px;
+}
+
+.ah-nav-items {
+    position: relative;
+    flex: 1 0 auto;
+    max-width: 954px;
+}
+
+.ah-nav-items li {
+    height: 100%;
+    line-height: 48px;
+    color: #666;
+    position: relative;
+    text-align: left;
+    flex: 1 1 100%;
+    overflow: hidden;
+    align-self: baseline;
+}
+
+.ah-nav-items li a {
+    height: 37px;
+    color: #fff;
+    padding: 0 10px;
+    display: block;
+    text-decoration: none;
+    font-size: 1.23rem;
+    text-align: left;
+    line-height: 37px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ah-nav-items > li a:hover {
+}
+
+.ah-nav-items .ah-nav-ul li a:hover {
+    color: #fff;
+    background-color: #4780eb;
+}
+
+.ah-nav-items .ah-nav-ul li {
+    text-align: left;
+}
+
+ul[ah-nav-level="2"] {
+    position: relative;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    font-size: inherit;
+    text-align: left;
+    list-style: none;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+ul[ah-nav-level="3"] {
+    position: relative;
+    top: 0px;
+    z-index: 1000;
+    float: left;
+    font-size: inherit;
+    text-align: left;
+    list-style: none;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    width: 100%;
+}
+
+.ah-nav-response ul {
+    position: inherit;
+    padding-left: 20px;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #fff;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.ah-nav-response .ah-open ul {
+    display: block !important;
+}
+
+.ah-nav-items .ah-open {
+    display: block !important;
+}
+
+.ah-nav-items .dropdown-submenu::before {
+    content: "";
+    clear: both;
+}
+
+
+.ah-nav-wrap .ah-station-info {
+    color: #7fcee8;
+    font-size: inherit;
+    height: 50px;
+    padding: 7px 10px 3px 9px;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.ah-nav-wrap .layou-select-wrap .select-dep-btn {
+    border: none;
+    background: #ff6a00;
+    color: #fff;
+    border-radius: 2px;
+    font-size: inherit;
+    line-height: 15px;
+    padding: 0 5px;
+}
+
+.ah-nav-wrap .layou-select-wrap .select-dep-items {
+    display: none;
+    background: #fff;
+    padding: 5px;
+    border-radius: 2px;
+    margin-top: 5px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    text-align: center;
+    width: 95px;
+    position: absolute;
+    right: 0;
+}
+
+.ah-nav-wrap .user-topbox > img {
+    height: 40px;
+    border-radius: 60px;
+}
+
+.ah-nav-user {
+    position: relative;
+    background: #3e73d1;
+    padding: 0 20px;
+}
+
+.ah-user-info {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    align-self: stretch;
+    cursor: pointer;
+    position: relative;
+}
+
+.ah-user-info .ah-nav-doctor-pic {
+    height: 39px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.ah-nav-user .ah-out-login, .ah-nav-user {
+    font-size: 20px;
+    border: none;
+    background: none;
+    color: #fff;
+    height: 48px;
+    margin-left: 20px;
+    background: #3e73d1;
+}
+
+
+.ah-nav-user-info {
+    position: absolute;
+    z-index: 999;
+    min-width: 244px;
+    right: 18px;
+    background: #fff;
+    padding: 5px 10px;
+    top: 48px;
+    border: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    display: none;
+    font-size: 1.23rem;
+}
+
+.ah-nav-user-info ul li {
+    min-height: 39px;
+    line-height: 39px;
+    border-bottom: 1px solid #F3EEEE;
+    position: relative;
+    color: #666;
+}
+
+.ah-nav-user-info ul li:last-child, .ah-nav-user-info ul li li {
+    border-bottom: none;
+}
+
+.ah-nav-user-info .binding-item {
+    color: #f66815;
+    margin: 0 3px;
+    font-size: inherit;
+}
+
+.ah-nav-user-info ul li i {
+    color: #696969;
+    font-size: 16px;
+    width: 30px;
+    text-align: center;
+    margin-right: 6px;
+}
+
+.ah-nav-user-info ul li a {
+    color: #666;
+    display: flex;
+    align-items: center;
+    font-size: inherit;
+    border-radius: 3px;
+}
+
+.ah-nav-user-info ul li a:hover {
+    background: #4780eb;
+    color: #fff;
+}
+
+.ah-nav-user-info ul li a:hover > i {
+    color: #fff;
+}
+
+.ah-touchNav-items {
+    line-height: 48px;
+    height: 48px;
+}
+
+.ah-touchNav-items li {
+    float: left;
+}
+
+.ah-touchNav-items li a {
+    color: #fff;
+    display: block;
+    padding: 0 10px;
+}
+
+.ah-touchNav-items li a:hover {
+    background: #3e73d1;
+}
+
+.ah-nav-doctorInfo {
+    font-size: 12px;
+    flex-direction: column;
+    min-width: 70px;
+}
+
+.ah-nav-new .owl-more {
+    display: none;
+}
+
+.owl-nav-more {
+    position: absolute;
+    right: 0;
+    display: initial;
+    cursor: pointer;
+    width: 50px;
+    text-align: center;
+    line-height: 49px;
+    z-index: 10;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    display: none;
+}
+
+.owl-nav-more i {
+    color: #666 !important;
+}
+
+.owl-nav-more:hover > i {
+    color: #4780eb !important;
+}
+
+.ah-nav-one {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ah-nav-ul a {
+    color: #dce8fe !important;
+}
+
+.ah-min-logo {
+    display: none;
+}
+
+@media (max-width:1280px) {
+    .ah-out-login {
+        display: none;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-nav-items li a {
+        padding: 0;
+    }
+
+    .ah-phone-nav {
+        flex: 1 auto !important;
+    }
+
+    .ah-nav-ul a {
+        color: #3e73d1 !important;
+    }
+
+    .owl-nav-more {
+        display: block
+    }
+
+    .ah-navmore-show {
+        background: #dbe7fe;
+        padding-left: 10px;
+    }
+
+    .ah-navmore-show a[ah-more="true"] {
+        border-bottom: 1px solid #eaeaea;
+        width: 100%;
+        display: block;
+    }
+
+    .ah-navmore-show a[ah-more="true"]:hover {
+        color: #666 !important;
+        background: #fff !important;
+    }
+
+    .ah-navmore-show a[ah-more="false"] {
+        background: #fff;
+        color: #3e73d1;
+        border: 1px solid #3e73d1;
+        padding: 5px 15px;
+        border-radius: 2px;
+        margin-right: 10px;
+    }
+
+    .ah-navmore-show a[ah-more="false"]:hover {
+        background: #3e73d1 !important;
+        color: #fff !important;
+    }
+
+    .ah-nav-items li {
+        text-align: left;
+        flex: none;
+    }
+
+    .ah-nav-items li a {
+        color: #000;
+        font-weight: normal;
+        display: unset;
+    }
+
+    .ah-nav-one {
+        font-size: 14px !important;
+        color: #4780eb;
+    }
+
+    ul[ah-nav-level="2"] {
+        background: #f0f0f0;
+        border-top: 1px solid #e4e4e4;
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+        flex-wrap: wrap;
+        padding-left: 10px;
+    }
+
+    .ah-navmore-show {
+        height: 80%;
+        overflow: auto;
+    }
+
+    .ah-navmore-show .ah-nav-items {
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+        flex-wrap: wrap;
+    }
+
+    .ah-nav-new {
+        position: absolute !important;
+        top: 48px;
+        left: 0;
+        right: 0;
+        height: 49px;
+        background: #fff;
+        width: 100%;
+        z-index: 1;
+        border-bottom: 1px solid #e4e4e4;
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+        position: relative;
+    }
+
+    .ah-nav-new .owl-item {
+    }
+
+    .ah-nav-new .owl-carousel {
+        text-align: center;
+        height: 48px;
+        line-height: 48px;
+        flex: 1 1 auto;
+        overflow: hidden;
+    }
+
+    .ah-nav-new .owl-more {
+        display: initial;
+        flex: none;
+        height: 100%;
+        cursor: pointer;
+        width: 50px;
+        text-align: center;
+        line-height: 49px;
+        color: #666;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+    }
+
+    .ah-nav-new .owl-more:hover {
+        color: #4780eb;
+    }
+
+    .ah-touchNav-items li a {
+        color: #666;
+    }
+
+    .ah-touchNav-items li a:hover {
+        color: #fff;
+        background: #4780eb;
+        display: initial;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+
+    .ah-main-content {
+        margin-top: 60px !important;
+    }
+
+    .ah-nav-items .ah-nav-ul li {
+    }
+
+    .ah-nav-items .ah-nav-ul li a:hover {
+        background: #3e73d1;
+    }
+
+    ul[ah-nav-level="3"] {
+        float: initial;
+        left: 0;
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+        flex-wrap: wrap;
+        padding-left: 0px;
+    }
+
+    .ah-out-login, .ah-nav-items {
+        display: none;
+    }
+
+    .ah-nav-wrap {
+        justify-content: space-between;
+    }
+
+    .ah-nav-response {
+        display: flex;
+        position: absolute;
+        top: 49px;
+        left: -20px;
+        right: 0;
+        z-index: 999;
+        background: #4780EB;
+        flex-direction: column;
+    }
+
+    .ah-nav-response li {
+        width: 100%;
+        margin-right: 0;
+        line-height: 40px;
+        height: auto !important;
+        min-height: 30px !important;
+    }
+
+    .ah-nav-response .open .dropdown-menu {
+        display: block;
+        position: initial;
+        width: 100%;
+        margin: 0;
+        background: #4780EB;
+        padding: 0;
+        padding-left: 20px;
+        border: none;
+        box-shadow: none;
+        padding-top: 7px;
+    }
+
+    .ah-nav-response .dropdown-menu a {
+        color: #fff;
+    }
+
+    .ah-nav-response .dropdown-menu > li > a:focus, .ah-nav-response .dropdown-menu > li > a:hover {
+        color: #fff;
+        background: #3e73d1;
+    }
+
+    .ah-nav-response li a {
+        height: auto;
+        text-align: left;
+        color: #fff !important;
+    }
+
+    .ah-navtouch-more, .ah-out-login, .ah-main-breadcrumbs {
+        display: none !important;
+    }
+}
+
+@media (max-width:450px) {
+    .ah-nav-new a {
+        text-decoration: none;
+        color: #666;
+    }
+
+    .ah-nav-new a:active {
+        color: #fff;
+        border-radius: 3px;
+        padding: 2px 5px;
+        background: #4780eb
+    }
+
+    .ah-navmore-show a[ah-more="false"] {
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+
+    .ah-big-logo {
+        display: none;
+    }
+
+    .ah-min-logo {
+        display: block;
+    }
+}
+/*------------------------------------------------------导航.end--------------------------------------------*/
+/*------------------------------------------------------Main--------------------------------------------*/
+.ah-main-wrap {
+    flex: 1 0 auto;
+}
+
+.ah-main-breadcrumbs {
+    height: 28px;
+    border-bottom: 1px solid #e6e6e6;
+    flex: none;
+    background: #fff;
+    padding: 0 10px;
+}
+
+.ah-main-content {
+    padding: 10px;
+    position: relative;
+    margin: 10px;
+    background: #fff;
+    border: 1px solid #e9e9e9;
+    overflow-x: hidden;
+}
+
+.ah-main-text {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    padding: 10px;
+}
+
+.ah-tools {
+    height: 50px;
+    flex: none;
+}
+
+.ah-tool-wrap {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.ah-tool-right {
+}
+
+.ah-table-input {
+    height: 32px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 8px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    border: none;
+    border-bottom-width: medium;
+    border-bottom-style: none;
+    border-bottom-color: currentcolor;
+    border-bottom: 1px solid #e4e4e4;
+    width: 90%;
+    text-align: center;
+}
+
+
+.ah-input-icondate input {
+    width: 150px;
+    height: 32px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 8px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    border: 1px solid #e4e4e4;
+}
+
+
+.ah-input-icondate .dateicon {
+    background-image: url('../images/date_bj.png');
+    display: block;
+    width: 30px;
+    flex: none;
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: 4px 3px;
+    cursor: pointer;
+}
+
+.ah-input-icondate > input {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ah-input-icondate > input:active + .dateicon,
+.ah-input-icondate > input:hover + .dateicon,
+.ah-input-icondate > input:focus + .dateicon {
+    border-color: #687db6;
+}
+
+.ah-input-icondate .dateicon {
+    border: 1px solid #e4e4e4;
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -webkit-transition: all .3s;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    padding-right: 6px;
+}
+
+.ah-input-icondate .dateicon:hover {
+    background-position: 4px -36px;
+}
+
+.ah-input-date {
+    width: 150px;
+    height: 32px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    border: 1px solid #e4e4e4;
+    border-top-color: rgb(228, 228, 228);
+    border-right-color: rgb(228, 228, 228);
+    border-bottom-color: rgb(228, 228, 228);
+    border-left-color: rgb(228, 228, 228);
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 8px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.ah-dateIcon {
+    position: absolute;
+    right: 0;
+    top:0;
+    width: 31px;
+    height: 31px;
+    background-image: url('../images/date_bj.png');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-x: 0px;
+    background-position-y: 6px;
+    cursor: pointer;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.ah-date-range, .ah-date, .ah-date-time {
+    background-image: url('../images/date_bj.png');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: 5px;
+    ime-mode: inactive;
+}
+
+.ah-date-range {
+    width: 250px;
+}
+
+.ah-dateIcon:hover, .ah-date-range:hover, .ah-date:hover, .ah-date-time:hover, .ah-date-range:focus, .ah-date:focus, .ah-date-time:focus, .ah-input-date:hover, .ah-input-date:focus {
+    background-position-y: -26px;
+}
+
+.ah-text-blut {
+    width: 180px;
+    height: 32px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    border: 1px solid #e4e4e4;
+    border-top-color: rgb(228, 228, 228);
+    border-right-color: rgb(228, 228, 228);
+    border-bottom-color: rgb(228, 228, 228);
+    border-left-color: rgb(228, 228, 228);
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 8px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.ah-right-wrap {
+    padding-top: 10px;
+}
+
+.ah-flex-fill {
+    flex: 1 1 auto;
+}
+
+.ah-drug-refresh {
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.ah-drug-refresh:hover {
+    border: 1px solid #4780eb;
+}
+
+[class|=ah-btn] {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    height: 30px;
+    border: none;
+    padding: 0px 20px;
+    color: #fff;
+    margin-left: 5px;
+    border-radius: 1px;
+    line-height: 28px;
+}
+
+[class|=ah-btn]:disabled {
+    background-color: #b4b4b4;
+    color: #fff;
+    cursor: not-allowed;
+}
+a.ah-btn-blue {
+    padding: 6px 20px;
+    line-height: initial;
+    font-size: 1.23rem;
+}
+
+.ah-btn-blue {
+    background: #4680ea;
+    font-size: 1.23rem;
+}
+
+.ah-btn-blue:hover {
+    background: #3866bb;
+    color: #fff;
+}
+
+.ah-btn-blue-rev {
+    font-size: 1.23rem;
+    background: #fff;
+    border:1px solid #4680ea;
+    color: #4680ea;
+}
+
+.ah-btn-blue-rev:hover {
+    background: #4680ea;
+    color:#fff;
+}
+
+a.ah-btn-gray {
+    padding: 6px 20px;
+    line-height: initial;
+}
+
+.ah-btn-gray {
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    color: #b9b2b2;
+}
+
+.ah-btn-gray:hover {
+    background: #d7d7d7;
+    color: #fff !important;
+}
+
+
+a.ah-btn-white {
+    padding: 6px 20px;
+    line-height: initial;
+}
+
+.ah-btn-white {
+    background: #fff;
+    border: 1px solid #4680ea;
+    color: #4680ea;
+}
+
+.ah-btn-white:hover {
+    background: #3866bb;
+    color: #fff !important;
+}
+
+.ah-btn-red {
+    background: #e74f4c;
+}
+
+.ah-btn-red:hover {
+    color: #fff;
+    background: #c34340;
+}
+
+.ah-code-btn {
+    position: absolute;
+    right: 0;
+    bottom: 1px;
+}
+
+.ah-sub-btn {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+}
+
+.ah-search-group {
+    position: relative;
+    width: 100%;
+}
+
+.ah-search-group .ah-btn-search {
+    background-color: #fff;
+}
+
+.ah-btn-search {
+    position: absolute;
+    bottom: 2px;
+    right: 1px;
+    top: 1px;
+    border-radius: 2px;
+    background: none;
+    color: #666;
+}
+
+.ah-btn-search:hover {
+    background: #ddd;
+}
+
+/*小的搜索按钮组*/
+.ah-search-grpmin>*{box-sizing:border-box;}
+.ah-search-grpmin {
+    height: 26px;
+    position: relative;line-height:26px;
+    border-left:none;border-right:none;border-top:none; 
+    border-bottom:1px dashed #aaa;
+}
+
+.ah-search-grpmin > input.ah-search-input 
+{    padding: 3px 3px 0px 8px;    min-width: 160px;height:100%;    border:none;float:left;background-color:transparent;}
+.ah-search-grpmin > input.ah-search-input:focus
+{background-color:#e0eafc;}
+.ah-search-grpmin > input.ah-search-input:focus+.ah-search-btn
+{background-color:#e0eafc;border:none;}
+.ah-search-grpmin > a.ah-search-btn 
+{width: 40px;text-align:center;padding:0;float:left;border:none;height:100%;}
+.ah-search-grpmin > a.ah-search-btn:hover
+{background-color:#4780eb!important;color:#fff;}
+
+
+
+
+.ah-tool-more-btn {
+    font-size: inherit;
+    color: #4780eb !important;
+    -moz-user-select: none; /*mozilar*/
+    -webkit-user-select: none; /*webkit*/
+    -ms-user-select: none; /*IE*/
+    user-select: none;
+}
+
+.ah-tool-more {
+    display: none;
+    margin-bottom: 10px;
+    flex: none;
+}
+
+.ah-sidebar {
+    width: 450px;
+    flex: none;
+    border-right: 1px solid #e4e4e4;
+    margin-right: 10px;
+    padding-right: 10px;
+}
+
+@media (max-width:1280px) {
+    .ah-sidebar {
+        width: 300px;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-index-left {
+        width: 100% !important;
+        margin-bottom: 10px;
+        flex: 1 0 auto;
+    }
+
+    .ah-public-main {
+    }
+
+    .ah-index-main {
+        height: 320px;
+        flex: none;
+    }
+
+    .ah-sidebar {
+        width: 100%;
+        border: none;
+        border-bottom-width: medium;
+        border-bottom-style: none;
+        border-bottom-color: currentcolor;
+        border-bottom: 1px solid #e4e4e4;
+    }
+}
+
+.ah-price-summary {
+    display: flex;
+}
+
+/*--------------------------------------------接诊手机响应设计-------------mobile----------------------*/
+@media(max-width:800px) {
+    .ah-m-fullwidth {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+@media(max-width:450px) {
+    /*手机适应的时候，总框架不设置边距，节约空间*/
+    .ah-main-content {
+        margin: 0;
+    }
+    /*下面的板块样式设置*/
+    .ah-m-fullwidth {
+        width: 100% !important;
+        display: block;
+        position: relative;
+        flex: none;
+        border-right: none;
+        min-height: 240px;
+    }
+
+    .ah-m-fullwidth > .ah-m-fullwidth {
+        margin-top: 30px;
+    }
+
+    .ah-m-fullwidth > .ah-m-fullwidth:before {
+        border-top: 1px solid #ccc;
+        content: " ";
+        display: block;
+        height: 10px;
+        background-color: #fff;
+        left: -9px;
+        position: absolute;
+        right: -9px;
+        margin-bottom: 10px;
+        top: -10px;
+    }
+
+    .ah-m-fullwidth > .ah-m-fullwidth:first-child {
+        margin-top: 0px;
+        border-top: none;
+    }
+
+    .ah-m-fullwidth > .ah-m-fullwidth:first-child:before {
+        display: none;
+    }
+
+    /*接诊台*/
+    .layui-tab .layui-tab-content {
+        padding: 10px 0;
+    }
+
+    .layui-tab .layui-tab-content .col-md-4 {
+        padding: 9px 0;
+    }
+
+    .layui-tab .layui-tab-content .col-md-4 .row {
+        margin: 0 !important;
+    }
+
+    .layui-tab .layui-tab-content .col-md-4 .row .customer_btn > a:hover {
+        background-color: #4780eb;
+        color: #fff;
+    }
+
+    .ah-m-sliderbar {
+        width: 100% !important;
+        background-color: #f0f0f0 !important;
+    }
+
+    .ah-m-sliderbar .layui-tab .layui-tab-content {
+        padding: 10px;
+    }
+
+
+    /*开药品*/
+    .ah-patient-drug > .ah-postion-relative > ul {
+        padding: 0px;
+    }
+
+    .ah-patient-drug > .ah-postion-relative .ah-add-prescription {
+        right: 0;
+    }
+
+    .ah-formed-name {
+        display: block;
+    }
+
+
+    /*表格*/
+    /*表格上的按钮*/
+    table td .ah-tb-btn {
+        padding: 3px 10px;
+    }
+
+
+}
+/*------------------------------------------------------Main.end--------------------------------------------*/
+/*---------------ahico start----------------*/
+.ahico16 {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("/images/ico16.png");
+}
+
+.ahico-doctor {
+    background-position: 0 -256px !important;
+}
+.ahico-rxdoctor{
+      background-position: -16px -256px !important;
+}
+/*---------------ahico end------------------*/
+/*------------------------------------------------------数据文本框--------------------------------------------*/
+.ah-mk-1:before {
+    content: "(";
+}
+
+.ah-mk-1:after {
+    content: ")";
+}
+
+.ah-flex-data {
+    padding-right: 10px;
+}
+
+.ah-crosswise .ah-data-label {
+}
+
+.ah-flex-layout > .ah-flex-data:last-child, .ah-flex-required > .ah-flex-data:last-child {
+    padding-right: 0;
+}
+
+.ah-data-label {
+    padding: 3px 0;
+    min-width: 100%;
+    font-weight: 400;
+    text-align: left;
+    color: #666;
+    align-items: center;
+}
+
+.ah-data-label-rmk {
+    font-size: 0.9em;
+    margin-left: 8px;
+    color: #6b9dfa;
+}
+
+.ah-data-label-rmk:before {
+    content: "(";
+}
+
+.ah-data-label-rmk:after {
+    content: ")";
+}
+
+.ah-kf-gray {
+    font-size: 1em;
+    color: #999;
+}
+
+.ah-kf-gray:before {
+    content: "(";
+}
+
+.ah-kf-gray:after {
+    content: ")";
+}
+
+.ah-right-clickfill {
+    float: right;
+    cursor: pointer;
+}
+
+.ah-data-label .ah-icheck-label {
+    margin-right: 0;
+    font-weight: inherit;
+}
+
+.ah-data-div {
+    flex: 1 0 auto;
+    min-height: 32px;
+    line-height: 32px;
+    line-height: 38px\9;
+    border: 1px solid #e4e4e4;
+    background-color: #ececec;
+    border-radius: 2px;
+    padding: 0 8px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    width: 100%;
+    cursor: not-allowed;
+}
+
+.ah-data-input {
+    flex: 1 0 auto;
+    height: 32px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    border: 1px solid #e4e4e4;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 8px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    width: 100%;
+}
+
+.ah-data-input-group .ah-data-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.ah-data-input-group .input-group-addon {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-color: #e4e4e4;
+    transition: all 0.3s ease 0s;
+}
+
+.ah-data-input-group .ah-data-input:hover + .input-group-addon,
+.ah-data-input-group .ah-data-input:focus + .input-group-addon {
+    border-right: 1px solid #e4e4e4;
+    border-top: 1px solid #687db6;
+    border-bottom: 1px solid #687db6;
+    border-right: 1px solid #687db6;
+}
+
+.ah-formed-wrap .ah-data-input-group .input-group-addon {
+    color: #4680ea;
+}
+
+.ah-formed-wrap .ah-data-input-group .input-group-addon > small {
+    color: #999;
+}
+
+.ah-formed-pic img {
+    cursor: pointer;
+}
+
+.ah-formed-pic .drugdetail {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    width: 280px;
+    height: 500px;
+    font-size: 12px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    top: -10px;
+    left: 103px;
+}
+
+.ah-drug-wsd {
+    display: block;
+    height: 20px;
+    background-color: #1041e2;
+    line-height: 20px;
+    font-size: 12px;
+    z-index: 10;
+    padding: 0 2px;
+    border-radius: 2px;
+    color: #fff;
+}
+
+.ah-wsd-0,
+.ah-wsd-1 {
+    background-color: red;
+}
+
+.ah-wsd-2 {
+    background-color: #de8921;
+}
+
+.ah-wsd-3 {
+    background-color: #dbb70d;
+}
+
+.ah-wsd-4 {
+    background-color: #30c8d4;
+}
+
+.ah-wsd-5,
+.ah-wsd-6,
+.ah-wsd-7,
+.ah-wsd-8,
+.ah-wsd-9 {
+    background-color: #3cac16;
+}
+
+.ah-wsd-10 {
+    background-color: #0a9a39;
+}
+
+.ah-formed-pic .drugdetail > iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.ah-title-v1 {
+    color: #999;
+}
+
+.ah-title-v1 {
+    color: #4680ea;
+}
+
+.ah-title-v2 {
+    color: #d611fc;
+}
+
+select.ah-data-onlyshow {
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin-left: -3px;
+}
+
+.layui-form select[readonly]{
+ 
+}
+.layui-form select[readonly] + .layui-form-select:before{
+    content:" ";display:block;width:100%;height:100%;background-color:rgba(255, 255, 255, 0.01);position:absolute;
+}
+.layui-form select[readonly] + .layui-form-select .layui-input{
+    border:none!important;
+}
+.layui-form select[readonly] + .layui-form-select .layui-select-title>i{display:none!important;}
+
+.layui-form-select, layui-textarea {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+.ah-data-input:focus, .ah-data-input:hover, .ah-text-blut:hover, .ah-text-blut:focus, .ah-input-date:hover, .ah-input-date:focus, .ah-input-icondate input:hover, .ah-input-icondate input:focus {
+    border-color: #687db6;
+}
+
+.ah-data-tips {
+    color: #e74f4c;
+}
+
+.ah-mk-char {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 20px;
+    background-color: #4780eb;
+    color: #fff;
+    font-size: inherit;
+}
+
+.ah-treat-mk-0, .ah-treat-mk-1, .ah-treat-mk-2 {
+    padding: 2px 4px;
+}
+
+.ah-treat-mk-0 {
+}
+
+.ah-treat-mk-1 {
+    color: #ee7b0d;
+}
+
+.ah-treat-mk-2 {
+    background-color: #2d8a32;
+    color: #fff;
+}
+
+.ah-sign-mk-0{
+    padding:2px 4px;background-color:red;color:#fff;
+}
+
+.ah-required {
+    color: #b14927;
+}
+
+.ah-require-one-group {
+    border: 1px solid #b14927;
+    margin-top: 40px;
+    padding: 3px;
+    position: relative;
+}
+
+.ah-require-one-group > h5 {
+    background-color: #b14927;
+    color: #fff;
+    font-size: inherit;
+    font-weight: normal;
+    left: -1px;
+    padding: 3px 5px;
+    position: absolute;
+    top: -30px;
+}
+
+.ah-td-station-name{font-weight:bold;color:#20a0a0;}
+.ah-td-depart-name{padding:1px 3px;background-color:#20a0a0;color:#fff;border-radius:2px;}
+
+@media (max-width:800px) {
+    .ah-flex-data {
+        padding-right: 0;
+    }
+}
+/*------------------------------------------------------数据文本框.end--------------------------------------------*/
+.ah-drug-usetype {
+}
+
+.ah-drug-usetype .layui-form-select {
+}
+
+.ah-drug-usetype .layui-form-select .layui-select-title {
+    border: none;
+}
+
+.ah-drug-usetype .layui-form-select .layui-select-title > input {
+    height: auto !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px dashed #ccc !important;
+    font-size: 12px;
+    margin: 0;
+    padding: 1px 3px !important;
+    text-align: left;
+}
+
+.ah-drug-usetype .layui-form-select .layui-select-title > .layui-edge {
+    right: 2px;
+}
+
+.ah-drug-usetype .layui-form-selected .layui-select-title > input {
+    border-bottom-color: #4680ea !important;
+    border-radius: 0;
+}
+
+.ah-drug-usetype .layui-form-selected .layui-select-title > .layui-edge {
+    border-top-color: #4680ea;
+}
+
+.ah-lable-dropdown {
+    position: absolute;
+    right: 10px;
+    top: 1px;
+}
+
+.ah-lable-dropdown .btn {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    font-size: 12px;
+    color:#4780eb;
+}
+
+.ah-herb-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.ah-rxtype-OTC_R:after,
+.ah-rxtype-OTC_G:after,
+.ah-rxtype-OTC:after{
+     border-radius: 22px / 10px; /*构建椭圆形*/
+    color: #fff;
+    font-family: verdana;text-decoration:none;
+    font-weight: bold;
+    padding: 0 5px;
+}
+.ah-rxtype-RX:after
+{
+    border-radius: 2px;
+    color: #fff;
+    font-family: verdana;text-decoration:none;
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+.ah-rxtype-RX:after{content:"Rx"; background-color: #c818af;   }
+.ah-rxtype-OTC:after{content:"OTC"; background-color: #3e73d1;   }
+.ah-rxtype-OTC_R:after{content:"OTC"; background-color: red;   }
+.ah-rxtype-OTC_G:after{content:"OTC"; background-color: forestgreen;   }
+.ah-drug-search-pms{float:right;}
+
+/*------------------------------------------------------表格--------------------------------------------*/
+table.ah-tb-left thead tr th,
+table.ah-tb-left tbody tr th,
+table.ah-tb-left tbody tr td {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.ah-td-wrap {
+    white-space: normal !important;
+}
+
+.ah-td-time {
+    width: 80px;
+    max-width: 80px;
+    white-space: normal !important;
+    text-align: left;
+}
+
+.ah-table-wrap {
+    overflow: auto;
+}
+
+.ah-table-wrap table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+}
+
+.ah-table-wrap tbody {
+    width: 100%;
+    text-align: center;
+}
+
+.ah-table-wrap th, .ah-table-wrap td {
+    text-align: center;
+    height: 40px;
+}
+
+.ah-table-wrap th {
+    background: #f0f0f0;
+    font-size: inherit;
+    font-weight: normal;
+}
+
+.ah-table-wrap td {
+    border-bottom: 1px solid #e6e6e6;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.ah-table-wrap td a {
+    color: #4680ea;
+}
+
+.ah-table-wrap td a:hover {
+    color: #3866bb
+}
+
+tbody.ah-p-detail>tr>td{background-color:#fff;}
+tbody.ah-p-detail>tr>td:first-child{padding-left:10px;}
+
+.ah-sign-1>td{background-color:#c8f6c8;}
+.ah-mk-needsign{ background-color:#e48217;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    line-height: 19px;
+    padding: 2px 3px 1px;}
+
+.ah-td-left, .ah-table-wrap .ah-td-left {
+    text-align: left !important;
+    padding-left: 10px;
+}
+
+.ah-tr-right,
+.ah-td-right,
+.ah-table-wrap .ah-tr-right,
+.ah-table-wrap .ah-td-right {
+    text-align: right !important;
+    padding-right: 10px;
+}
+
+.ah-table-wrap th.ah-th-price, th.ah-th-price {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.ah-table-wrap td.ah-td-price, td.ah-td-price {
+    text-align: right;
+    font-family: 'Courier New';
+    color: #ff6a00;
+    padding-right: 10px;
+}
+
+.ah-td-showall {
+    white-space: normal !important;
+}
+
+.ah-td-nowrap {
+    white-space: normal !important;
+    word-break: keep-all;
+    width: auto;
+}
+
+.ah-row-detail {
+    background: #f0f0f0;
+    padding: 10px;
+}
+
+.ah-row-left {
+    width: 122px;
+}
+
+.ah-row-left .ah-row-upic {
+    width: 122px;
+    height: 122px;
+}
+
+.ah-row-left .ah-row-uinfo {
+    justify-content: space-between;
+    padding-top: 4px;
+    color: #666;
+}
+
+.ah-row-title {
+    width: 61px;
+    text-align: right;
+    margin-right: 15px;
+    color: #666;
+}
+
+.ah-row-value {
+    flex: 1 0 auto;
+    text-align: left;
+    color: #666;
+    width: 1px;
+    white-space: initial;
+}
+
+.ah-row-value .ah-table-wrap th {
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.ah-row-value .ah-table-wrap td {
+    text-align: left;
+}
+
+.ah-row-border {
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+}
+
+@media (max-width:450px) {
+    .ah-login-wrap {
+        background-size: 100% 100%;
+    }
+
+    .ah-td-time {
+        width: 20%;
+        min-width: 80px !important;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-td-time {
+        width: 10%;
+    }
+}
+
+@media (max-width:1024px) {
+    .ah-td-time {
+        width: 10%;
+    }
+}
+/*------------------------------------------------------表格.end--------------------------------------------*/
+/*------------------------------------------------------分页--------------------------------------------*/
+.ah-page-wrap {
+    height: 50px;
+    flex: none;
+}
+
+/*------------------------------------------------------分页.end--------------------------------------------*/
+/*------------------------------------------------------栅格--------------------------------------------*/
+.ah-flex-layout {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+}
+
+.ah-flex-required {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.ah-flex-required .field-validation-error {
+    position: absolute;
+    bottom: -15px;
+}
+
+.ah-pd-0 {
+    padding: 0px !important;
+}
+
+.ah-pd-10 {
+    padding: 10px;
+}
+
+.ah-fixed-md1, .ah-col-md1 {
+    width: 100%;
+}
+
+.ah-fixed-md2-4, .ah-col-md2-4 {
+    width: 75%;
+}
+
+.ah-fixed-md2, .ah-col-md2 {
+    width: 50%;
+}
+
+.ah-fixed-md3-3, .ah-col-md3-3 {
+    width: 66.66666666%;
+}
+
+.ah-fixed-md3, .ah-col-md3 {
+    width: 33.33333333%;
+}
+
+.ah-fixed-md4, .ah-col-md4 {
+    width: 25%;
+}
+
+.ah-fixed-md5, .ah-col-md5 {
+    width: 20%;
+}
+
+.ah-fixed-md6, .ah-col-md6 {
+    width: 16.666666666666%;
+}
+
+.more {
+    display: none;
+}
+
+@media (max-width:800px) {
+    .ah-col-md1, .ah-col-md2, .ah-col-md2-4, .ah-col-md3-3, .ah-col-md3, .ah-col-md4, .ah-col-md5 {
+        width: 100%;
+    }
+}
+/*------------------------------------------------------栅格.end--------------------------------------------*/
+/*------------------------------------------------------layui重写--------------------------------------------*/
+.layui-tab {
+    margin: 0;
+}
+
+.layui-tab-brief > .layui-tab-title .layui-this::after {
+    border-bottom: 2px solid #4680e4;
+}
+
+.layui-tab-title li {
+    font-size: 1.23rem;
+}
+
+.layui-tab-brief > .layui-tab-title .layui-this {
+    color: #4680e4;
+}
+
+.layui-tab-title {
+    border-bottom: 1px solid #e7e7e7;
+}
+/*------------------------------------------------------layui重写.end--------------------------------------------*/
+
+
+/*------------------------------------------------------ 验证错误显示 ------------------------------------------------*/
+input.input-validation-error {
+    border-bottom-color: red;
+}
+
+input.input-validation-error:hover,
+input.input-validation-error:focus {
+    border-color: red;
+}
+
+input.input-validation-error:focus {
+}
+
+.field-validation-error {
+    color: red;
+}
+
+select.input-validation-error + .layui-form-select .layui-input {
+    border-bottom: 1px solid red !important;
+}
+
+select.input-validation-error + .layui-form-select .layui-input:hover,
+select.input-validation-error + .layui-form-select .layui-input:focus {
+    border-color: red !important;
+}
+
+/*------------------------------------------------------ 验证错误显示.end ------------------------------------------------*/
+.ah-tr-width200 {
+    width: 200px;
+    white-space: initial !important;
+}
+
+.ah-color-def {
+    color: #666;
+}
+
+.ah-td-bigger {
+    font-size: 1.2em;
+}
+
+.ah-td-biggerbold {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.ah-column-hidden {
+    display: none !important;
+}
+
+/*------------------------------------------------------表格显示优先级--------------------------------------------*/
+@media(max-width:1024px) {
+    .ah-tr-hide {
+        display: none;
+    }
+}
+
+@media (max-width:686px) {
+    .ah-tr-hide {
+        display: none;
+    }
+
+    .ah-tr-width200 {
+        width: 200px;
+        white-space: initial !important;
+    }
+}
+/*------------------------------------------------------表格显示优先级.end--------------------------------------------*/
+/*------------------------------------------------------约号--------------------------------------------*/
+.ah-register-customer {
+}
+
+
+.ah-register-customer li img {
+    margin-right: 25px;
+    border-radius: 50%;
+}
+
+.ah-register-customer li i {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+.ah-register-customer .ah-register-canActive {
+    border: 1px solid #687db6;
+    padding: 10px;
+    align-items: center;
+    width: 100%;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    border-radius: 2px;
+    cursor: pointer;
+    background: #687db6;
+}
+
+.ah-register-customer .ah-register-canActive:hover {
+    border-color: #4d5d8a !important;
+    background: #4d5d8a !important;
+}
+
+.ah-register-customer a {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    display: none;
+}
+
+.ah-register-customer li > div > div:first-child {
+    color: #fff;
+}
+
+.ah-register-customer li > div > div:last-child {
+    color: #fff;
+}
+
+.ah-register-active {
+    background: #687db6;
+    border-color: #687db6 !important;
+    padding: 10px;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.ah-register-active div {
+    color: #fff !important;
+}
+
+.ah-selectDoctor-register {
+    height: 50px;
+    border: 1px solid #e4e4e4;
+    border-radius: 2px;
+    display: block;
+}
+/*------------------------------------------------------约号.end--------------------------------------------*/
+/*------------------------------------------------------接诊列表.end--------------------------------------------*/
+.ah-pv-sidebar {
+    position: absolute;
+    top: 26px;
+    bottom: -10px;
+    width: 380px;
+    right: -380px;
+    border: 1px solid #e9e9e9;
+    background: #fff;
+    z-index: 10;
+    border-radius: 3px;
+    right: 0;
+    display: none;
+}
+
+@media (max-width:1280px) {
+}
+
+@media (max-width:800px) {
+}
+/*------------------------------------------------------接诊列表.end--------------------------------------------*/
+/*------------------------------------------------------接诊详情.end--------------------------------------------*/
+.ah-patient-isfstTreat {
+    flex: 1 1 0;
+    padding-top: 12px;
+    justify-content: flex-end;
+}
+
+.ah-patientDetail-canHide {
+    display: none;
+}
+
+.ah-patient-tofoot {
+    display: none;
+}
+
+@media (max-width:800px) {
+    .ah-patient-tofoot {
+        display: block;
+        position: fixed;
+        bottom: 100px;
+        z-index: 9;
+        background: url("/images/ah-foot.png");
+        height: 37px;
+        width: 37px;
+        background-size: 88%;
+        cursor: pointer;
+        background-color: #fff;
+        border: 1px solid #4780eb;
+        border-radius: 2px;
+        padding: 4px;
+        background-position-x: 2px;
+        background-position-y: 1px;
+        background-repeat: no-repeat;
+    }
+}
+
+.ah-area-gms_1 {
+    color: red !important;
+}
+
+.ah-patient-sidebar {
+    width: 260px;
+    flex: none;
+    padding-right: 10px;
+    background: #f0f0f0;
+    margin-bottom: 60px;
+}
+
+.ah-patient-pic {
+    width: 249px;
+    height: 249px;
+}
+
+.ah-patient-user {
+    position: absolute;
+    bottom: 0;
+    height: 34px;
+    font-size: inherit;
+    line-height: 34px;
+    text-align: center;
+    left: 0;
+    right: 1px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.21);
+}
+
+.ah-patient-u-active {
+    height: 30px;
+    margin-top: 10px;
+}
+
+.ah-patient-u-active a {
+    border: 1px solid #dcdcdc;
+    height: 28px;
+    display: block;
+    line-height: 26px;
+    text-align: center;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+}
+
+.ah-patient-u-active a:hover {
+    border: 1px solid #4780eb;
+    color: #fff;
+    background: #4780eb;
+}
+
+.ah-patient-u-active a:first-child {
+    margin-right: 4px;
+}
+
+.ah-patient-input-wrap {
+    height: 35px;
+    align-items: center;
+    border-bottom: 1px dotted #ccc;
+    padding: 6px;
+    color: #5f5f5f;
+    position: relative;
+}
+
+.ah-patient-input-wrap input {
+    height: 26px;
+    align-items: center;
+    border: none;
+    background: none;
+    flex: 1;
+    padding: 0 10px;
+    margin: 0 5px;
+    text-align: left;
+    color: #666;
+    position: relative;
+}
+
+.ah-patient-input-wrap input:focus {
+    background-color: #fff;
+}
+
+.ah-patient-input-wrap span {
+    flex: none;
+    width: 46px;
+}
+
+.ah-patient-input-wrap [class|=ah-bloodPress] {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    color: #333;
+    font-size: 11px;
+    line-height: 16px;
+    position: absolute;
+    right: 1px;
+    text-align: center;
+    top: -8px;
+    width: 16px;
+}
+
+.ah-patient-input-wrap .ah-patient-input-tips {
+    position: absolute;
+    top: -4px;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    background-color: #ddd;
+    color: #555;
+    font-size: 10px;
+    left: 21px;
+    width: initial;
+}
+
+.ah-patient-main {
+    padding: 0 10px;
+    border: 1px solid #dcdcdc;
+    position: relative;
+    margin-bottom: 70px;
+    background: #fff;
+}
+
+.ah-patient-submit {
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    align-items: center;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: #f0f0f0;
+    border: 1px solid #dcdcdc;
+    z-index: 9;
+}
+
+.ah-patient-submit .ah-patient-fee {
+}
+
+.ah-patient-submit .ah-patient-fee span {
+    margin-right: 5px;
+}
+
+.ah-patient-submit .ah-patient-active {
+    text-align: center;
+    line-height: 33px;
+    margin-right: -10px;
+}
+
+.ah-patient-submit .ah-patient-active a {
+    width: 100px;   
+    height: 58px;
+    line-height: 58px;
+    border-left: 1px solid #e9e9e9;
+}
+
+.ah-patient-submit .ah-patient-active a:hover {
+    background-color: #ccc !important;
+    color: #000 !important;
+}
+
+.ah-patient-submit .ah-patient-active .ah-patient-active-blue {
+    background: #4780eb;
+    color: #fff !important;
+}
+
+.patient_detail_nav {
+    clear: both;
+    position: relative;
+    padding-top: 26px;
+    display: none;
+}
+
+.patient_detail_nav .tab-content {
+    background: #fff;
+}
+
+.patient_detail_nav .nav {
+    margin: 0 15px;
+    margin-bottom: 20px;
+}
+
+.patient_detail_nav .nav .active {
+    background: #337ab7 !important;
+}
+
+.patient_detail_nav .nav .active a {
+    color: #fff !important;
+}
+
+.patient_detail_nav .nav a {
+    color: #666;
+}
+
+.patient_detail_nav .nav li {
+    border-radius: 3px;
+    margin-right: 13px;
+    color: #666;
+    background: #ededed;
+}
+
+.patient_detail_nav .nav a:hover, .patient_detail_nav .nav a:focus {
+    background-color: unset;
+}
+
+.patient_detail_nav .tab-pane {
+    clear: both;
+}
+
+.pvSt-Item {
+    border-left: 1px dotted #ccc;
+    margin-left: 12px;
+}
+
+.pvSt-Item li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 13px;
+}
+
+.pvSt-Item li::before {
+    content: "";
+    background-image: url('../../images/circular.png');
+    position: absolute;
+    left: -12px;
+    color: #3144d4;
+    background-size: 22px;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    top: 4px;
+}
+
+.pvSt-Item-Title {
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.pvSt-Item-Value {
+    font-size: inherit;
+    color: #666;
+    padding: 10px;
+    padding-left: 10px;
+    padding-left: 10px;
+    margin-top: 7px;
+    border-left: 2px solid #bcd0d8;
+    padding-left: 27px;
+}
+
+.patient_detail_nav .patient-detail-ul {
+    margin-bottom: 10px;
+}
+
+.patient_detail_nav .patient-detail-ul .active {
+    background: #3e73d1 !important;
+}
+
+.patient-detail-ul li {
+    border-radius: 3px;
+    margin-right: 13px;
+    color: #666;
+    background: #ededed;
+}
+
+.patient_detail_nav .patient-detail-ul .active a {
+    color: #fff !important;
+}
+
+.patient_detail_nav .patient-detail-ul a {
+    color: #666;
+}
+
+.patient-detail-ul > li > a {
+    position: relative;
+    display: block;
+    padding: 6px 15px;
+}
+
+.patient_detail_nav i {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.patient_detail_nav .tips {
+    display: none;
+    font-weight: normal;
+    color: #999;
+    width: 100%;
+    line-height: 24px;
+    margin-top: 5px;
+}
+
+.ah-charge-, .ah-charge-0, .ah-charge-1, .ah-charge-2, .ah-charge-3 {
+    display: inline-block
+}
+
+.ah-charge-0:after, .ah-charge-1:after, .ah-charge-2:after, .ah-charge-3:after, .ah-charge-:after {
+    display: inline-block;
+    padding: 2px 9px;
+    border: 1px solid transparent;
+    color: #fff
+}
+
+.ah-charge-:after {
+    background-color: #ccc;
+    content: "未知"
+}
+
+.ah-charge-0:after {
+    background-color: #ccc;
+    content: "待付款"
+}
+
+.ah-charge-1:after {
+    background-color: #39b77e;
+    content: "已支付"
+}
+
+.ah-charge-2:after {
+    background-color: #dba138;
+    content: "待退"
+}
+
+.ah-charge-3:after {
+    background-color: #a2b718;
+    content: "已退"
+}
+
+.ah-rx-sign-1:after,
+.ah-rx-sign-0:after,
+.ah-rx-sign-::after{  display: inline-block;
+    padding: 2px 9px;
+    border: 1px solid transparent;
+    color: #fff}
+
+.ah-rx-sign-1:after{   content: "医生已签"; background-color: #39b77e;}
+.ah-rx-sign-0:after{   content: "医生未签"; background-color: #ff6a00;}
+.ah-rx-sign-::after{   content: ""}
+
+.ah-myhis-ul li {
+    margin-left: 10px;
+    background: #4680ea;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+}
+@media (max-width:1280px) {
+    .patient_detail_nav i {
+        font-size: inherit;
+    }
+
+    .ah-patient-sidebar {
+        width: 190px;
+    }
+
+    .ah-patient-submit .ah-patient-active a {
+        width: 120px;
+        height: 79px;
+        line-height: 79px;
+    }
+
+    .ah-patient-u-active a {
+        width: 90px;
+    }
+
+    .ah-patient-pic {
+        width: 180px;
+        height: 180px;
+    }
+
+    .ah-patient-input-wrap input {
+        flex: none;
+        width: 80px;
+    }
+
+    .ah-patient-sidebar {
+        margin-bottom: 89px;
+    }
+
+    .ah-patient-main {
+        margin-bottom: 89px;
+    }
+
+    .ah-patient-submit {
+        height: 80px;
+    }
+
+    .ah-patient-healthInfo input {
+        flex: 1 1 auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-formed-edit-wrap {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .ah-patient-submit {
+        position: absolute;
+    }
+
+    .ah-patient-submit .ah-patient-active a {
+        width: 85px;
+    }
+
+    .ah-patient-wrap {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .ah-patient-main {
+        margin-bottom: 89px;
+    }
+
+    .ah-patient-sidebar {
+        margin: 0;
+        width: 100%;
+        padding-bottom: 10px;
+        padding-right: 0;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+
+    .ah-patient-pic {
+        width: 136px;
+        height: 136px;
+    }
+
+    .ah-patient-u-active a {
+        width: 66px;
+    }
+
+    .ah-patient-user {
+        width: 136px;
+    }
+
+    .ah-patient-input-wrap {
+        /*width: 47%;*/
+        margin-right: 14px;
+    }
+
+    .ah-patient-input-wrap input, .ah-patient-healthInfo {
+        flex: 1 1 auto;
+        /*width: inherit;*/
+    }
+
+    .ah-patient-user-wrap {
+        flex: none;
+    }
+
+    .ah-patient-info {
+        flex: 1 1 auto;
+        display: flex;
+        flex-wrap: wrap;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        padding: 0px 10px;
+        justify-content: initial;
+    }
+}
+
+@media (max-width:450px) {
+    .ah-patient-main {
+        margin-bottom: 89px;
+    }
+
+    .ah-patient-submit .ah-patient-active a {
+        height: 44px;
+        line-height: 44px;
+    }
+}
+/*------------------------------------------------------接诊详情.end--------------------------------------------*/
+/*------------------------------------------------------申请新药--------------------------------------------*/
+.ah-num-mk-1 {
+    display: inline-block;
+    height: 14px;
+    min-width: 14px;
+    line-height: 14px;
+    text-align: center;
+    color: #fff;
+    background-color: #3144d4;
+    padding: 0 3px;
+    font-size: 10px;
+    border-radius: 3px;
+}
+
+.ah-num-mk-0 {
+    display: none;
+}
+
+.ah-drug-input-wrap {
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.ah-pvdrug-title {
+    height: 50px;
+    border-bottom: 1px dotted #d9d9d9;
+    color: #666;
+}
+
+div[rolename="boxitem"] {
+    margin-bottom: 80px;
+}
+
+.ah-formed-active {
+    flex-direction: row-reverse;
+    padding: 10px 0;
+}
+
+.ah-formed-active a {
+    min-width: 72px;
+    height: 32px;
+    background: #fff;
+    text-align: center;
+    line-height: 31px;
+    margin-left: 10px;
+    border: 1px solid #d9d9d9;
+    color: #4780eb;
+    border-radius: 3px;
+    padding: 0 10px;
+}
+
+.ah-formed-active a.no-border {
+    border: 1px solid transparent;
+}
+
+
+.ah-link-only {
+    color: #4680ea;
+    padding: initial;
+    border-color: transparent !important;
+}
+
+.ah-link:hover, .ah-link:active {
+    color: #4780eb;
+}
+
+.ah-formed-active a:hover, .ah-formed-active a:active {
+    background-color: #4780eb;
+    border: 1px solid #4780eb;
+    color: #fff;
+}
+
+.ah-add-prescription {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    color: #4780eb;
+    background: #fff;
+    padding: 3px 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.ah-add-prescription:hover{
+    background:#4780eb;
+    border-color:#4780eb;
+    color:#fff!important;
+}
+
+button.ah-btn-noborder[disabled]{color:#aaa!important;cursor:not-allowed;}
+button.ah-btn-noborder{border:none;background-color:transparent;color:#4780eb;
+                       display:inline;cursor:pointer;
+}
+button.ah-btn-noborder:hover{color:#f89c1c;}
+button.ah-btn-noborder>i{margin-right:6px;}
+
+.ah-online-off{    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);    
+    filter: grayscale(100%);	
+    filter: gray; cursor:not-allowed;
+    border:2px solid transparent;}
+.ah-online-off>i.fa{
+   border: 0 none;
+    bottom: 0;
+    color: #aaa;
+    content: " ";
+    display: block;
+    font-size: 1.6em;
+    position: absolute;
+    right: -2px;
+    transform: rotate(90deg);
+}
+.ah-online-free{   
+ 
+}
+.ah-online-busy{   
+    position:relative;
+    border:2px solid #b73131!important;
+    -webkit-animation: spin 1s linear infinite;animation: spin 1s linear infinite;  
+}
+.ah-online-busy .fa{
+    /*border: 2px solid #b73131;*/
+    /*border-radius: 3px;*/
+    bottom: -5px;
+    color: #b73131;
+    height: 18px;
+    line-height: 16px;
+    position: absolute;
+    right: -7px;
+    width: 18px;
+    -webkit-animation: spin 1s linear infinite;/*鼠标hover时，i图标旋转,infinite表示动画无限循环*/
+    animation: spin 1s linear infinite;  
+}
+@-webkit-keyframes spin { /*兼容性写法。spin是关键帧的动画名称*/
+    0% { opacity:0.25;}
+    20% {opacity:0.5;}
+    40% {opacity:0.85;}
+    60% {opacity:1;}
+    80% {opacity:0.85;}
+    100%{opacity:0.5;}
+  }
+  @keyframes spin {
+    0% { opacity:0.25;}
+    20% {opacity:0.5;}
+    40% {opacity:0.85;}
+    60% {opacity:1;}
+    80% {opacity:0.85;}
+    100%{opacity:0.5;}
+  }
+
+.ah-formed-amount {
+    color: #101010;
+    display: flex;
+    font-size: inherit;
+    justify-content: flex-end;   
+    padding-top: 10px;
+    text-align: right;
+    margin-left:20px;
+}
+.ah-pres-amount{padding-left:20px;}
+.ah-pres-checkman{width:120px;}
+.ah-formed-name {
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+
+
+.ah-formed-label:first-child {
+    margin-left: 0;
+}
+
+.ah-formed-label {
+    border: 1px solid #aaa;
+    margin: 0 5px;
+    font-size: 85%;
+}
+
+.ah-formed-label span {
+    background: #aaa;
+    color: #fff;
+    padding: 1px 4px;
+}
+
+.ah-formed-label i {
+    padding: 0 4px;
+}
+
+.ah-formed-wrap {
+    padding-top: 10px;
+    border-bottom: 1px dotted #d9d9d9;
+    padding-bottom: 10px;
+}
+
+.ah-formed-pic img {
+    width: 78px;
+    height: 78px;
+}
+
+.ah-formed-main-info {
+    flex: 1 1 auto;
+    padding-left: 10px;
+    padding-top: 13px;
+}
+
+.ah-formed-main-info > div {
+    height: 31%;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.ah-formed-more {
+    color: #878787;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.ah-formed-more i {
+    padding-left: 5px;
+    font-size: 11px;
+}
+
+.ah-formed-edit-wrap {
+    align-items: center;
+}
+
+.ah-formed-edit-wrap a {
+    font-size: 16px;
+    color: #666;
+    margin-right: 10px;
+}
+
+.ah-formed-num {
+    text-align: center;
+    height: 30px;
+    width: 61px;
+    z-index: 5;
+    color: #888888;
+    border: 1px solid #bbbbbb;
+}
+
+.ah-formed-unit {
+    margin: 0 15px 0 8px;
+}
+
+.ah-formed-unit .layui-form-radio {
+    display: block;
+    line-height: 20px;
+    padding: 0;
+    margin: 2px;
+    padding-bottom: 2px;
+}
+
+.ah-formed-unit .layui-form-radio > span {
+    font-size: 11px;
+}
+
+.ah-formed-unit .layui-form-radioed > span {
+    color: #4780eb;
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 0;
+}
+
+.ah-formed-more-info {
+    display: none;
+    background: #efefef;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.ah-formed-more-info .ah-flex-data, .ah-herb-info .ah-flex-data {
+    padding-right: 10px !important;
+}
+
+.ah-formed-more-info .ah-data-label {
+    color: #9d9d9d;
+}
+
+ul.ah-formed-main > li:first-child {
+    border: none;
+}
+
+.ah-li-device-space {
+    height: 10px;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 1px dotted #ccc;
+    width: 100%;
+}
+
+.grp- {
+    border-left: 3px solid #888
+}
+
+.grp-1, .grp-10, .grp-2, .grp-3, .grp-4, .grp-5, .grp-6, .grp-7, .grp-8, .grp-9 {
+    margin-bottom: 0 !important;
+    border-left-width: 3px;
+    border-left-style: solid
+}
+
+.grp-1:last-child:after, .grp-2:last-child:after {
+    display: block;
+    height: 10px;
+    content: " "
+}
+
+.grp-1 {
+    border-left-color: #37b1e6
+}
+
+.grp-2 {
+    border-left-color: #ff6a00
+}
+
+.grp-3 {
+    border-left-color: #552365
+}
+
+.grp-4 {
+    border-left-color: #cc2a2a
+}
+
+.grp-5 {
+    border-left-color: #dba138
+}
+
+.grp-6 {
+    border-left-color: #1d62dd
+}
+
+.grp-7 {
+    border-left-color: #6fc739
+}
+
+.grp-8 {
+    border-left-color: #f22ab7
+}
+
+.grp-9 {
+    border-left-color: #40a517
+}
+
+.grp-10 {
+    border-left-color: #a2b718
+}
+
+.grp-11 {
+    border-left-color: #e437c6
+}
+
+.grp-12 {
+    border-left-color: #ff6a00
+}
+
+.grp-13 {
+    border-left-color: #552365
+}
+
+.grp-14 {
+    border-left-color: #cc2a2a
+}
+
+.grp-15 {
+    border-left-color: #dba138
+}
+
+.grp-16 {
+    border-left-color: #1d62dd
+}
+
+.grp-17 {
+    border-left-color: #6fc739
+}
+
+.grp-18 {
+    border-left-color: #f22ab7
+}
+
+.grp-19 {
+    border-left-color: #40a517
+}
+
+.grp-20 {
+    border-left-color: #a2b718
+}
+
+.ah-herb-main {
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+}
+
+.ah-herb-wrap {
+    width: 33.33333333333%;
+    padding-right: 10px;
+    position: relative;
+}
+
+.ah-herb-item {
+    background: #fff;
+    height: 91px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    align-items: center;
+    padding: 0 10px 0 5px;
+    border-radius: 3px;
+}
+
+.ah-herb-add input {
+    width: 80%;
+    height: 38%;
+    border: 1px solid #ddd;
+    padding: 0 8px;
+}
+
+.ah-herb-pic {
+    width: 78px;
+    height: 78px;
+    margin-right: 10px;
+}
+
+.ah-herb-top {
+    margin-bottom: 5px;
+}
+
+.ah-herb-top input {
+    text-align: center;
+    width: 81px;
+    border: none;
+    border-bottom: 1px dashed #ddd;
+    font-size: 1.2em;
+    font-family: Arial;
+}
+
+.ah-herb-top input:focus {
+    border-bottom: 1px dashed #4680ea;
+    background-color: #ddd;
+}
+
+.ah-herb-top .ah-herb-num input {
+    width: 50px;
+}
+
+
+.ah-herb-bottom, .ah-herb-top {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ah-herb-close {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+
+.ah-herb-amount {
+    text-align: right;
+    color: #101010;
+    font-size: inherit;
+    padding-top: 10px;
+    border-top: 1px dotted #d9d9d9;
+}
+
+.ah-herb-add {
+    background-color: #ddd;
+}
+
+.ah-forme-multiple {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0,0.3);
+    z-index: 999;
+}
+
+.ah-fMultiple-main {
+    position: absolute;
+    top: 56px;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    left: 56px;
+    right: 56px;
+    bottom: 56px;
+    border-radius: 2px;
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+}
+
+.ah-fMultiple-title {
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: inherit;
+    color: #333;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 0 0px 0 20px;
+    flex: none;
+}
+
+.ah-fMultiple-title .glyphicon-remove {
+    font-size: inherit;
+    height: 43px;
+    line-height: 43px;
+    width: 100px;
+    text-align: right;
+    margin: 0;
+    padding-right: 15px;
+}
+
+.ah-fMultiple-content {
+    flex: 1 1 auto;
+    background: #fff;
+    overflow: hidden;
+    flex-direction: row-reverse;
+}
+
+.ah-fMultiple-content .ah-fMultiple-left {
+    width: 270px;
+    border-left: 1px solid #e9e9e9;
+    flex: none;
+}
+
+.ah-fMultiple-content .ah-fMultiple-right {
+    flex: 1 1 auto;
+    overflow: hidden;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.ah-fMultiple-selected {
+    border: 1px solid #4780eb;
+    border-radius: 2px;
+    padding: 10px;
+    flex-direction: column;
+    cursor: pointer;
+    margin: 10px 10px 0 10px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.ah-fMultiple-selected:hover {
+    box-shadow: 0px 1px 5px #a8a8a8;
+}
+
+.ah-fMultiple-selected .drugName {
+    margin-bottom: 3px;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ah-fMultiple-selected .newTips {
+    position: absolute;
+    width: 34px;
+    top: -1px;
+    right: -1px;
+}
+
+.ah-fMultiple-selected .manufacturerOrigin {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.ah-fMultiple-selected .drugModel {
+    flex: none;
+    margin-left: 10px;
+    background: #4780eb;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-right: 10px;
+}
+
+.ah-fMultiple-selected .glyphicon-remove {
+    margin-right: 0px;
+}
+
+.ah-fMultiple-item {
+    height: 80px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.ah-fMultiple-detail {
+    height: 100%;
+    width: 100%;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 10px;
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
+}
+
+.ah-fMultiple-detail:hover {
+    border-color: #4780eb;
+}
+
+.ah-fMultiple-search-wrap {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.ah-mcdrug-gp {
+    background: #f5f5f5;
+}
+
+.ah-mcdrug-gp i {
+    padding-left: 10px;
+    display: block;
+    border-bottom: 1px solid #4780eb;
+    margin: 10px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #4780eb;
+}
+
+.ah-mcdrug-gp ul {
+    flex-wrap: wrap;
+    padding-left: 10px;
+    clear: both;
+    align-items: center;
+}
+
+.ah-mcdrug-gp ul:after {
+    clear: both;
+}
+
+.ah-mcdrug-gp ul > li {
+    width: 25%;
+    display: inline-block;
+    color: #666;
+    float: left;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    user-select: none;
+    position: relative;
+}
+
+.ah-mcdrug-gp ul > li img {
+    position: absolute;
+    top: 10px;
+    left: 4px;
+    border-radius: 50%;
+}
+
+.ah-mcdrug-gp ul .ah-mcdrug-items {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ececec;
+    border-radius: 2px;
+    cursor: pointer;
+    padding-left: 45px;
+}
+
+.ah-mcdrug-gp ul .ah-mcdrug-items:hover {
+    background-color: #4680ea;
+    color: #fff;
+}
+
+.ah-mcdrug-gp ul .ah-mcdrug-items .drugName {
+    color: #333;
+    font-size: 14px;
+}
+
+.ah-mcdrug-gp ul .ah-mcdrug-items .drugModel {
+    color: #999;
+}
+
+.ah-mcdrug-gp ul .ah-mcdrug-items:hover > .drugName, .ah-mcdrug-gp ul .ah-mcdrug-items:hover > .drugModel {
+    background-color: #4680ea;
+    color: #fff;
+}
+
+.ah-select-source, .ah-select-model {
+    align-items: center;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.ah-select-source {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.ah-select-model {
+    justify-content: space-between;
+}
+
+.ah-select-source .ah-select-items-ul {
+}
+
+.ah-select-source .ah-select-items-ul li {
+    margin: 5px;
+    padding: 4px 16px;
+    cursor: pointer;
+    color: #666;
+    border-radius: 1px;
+}
+
+.ah-select-source .select-active {
+    background: #4780eb;
+    color: #fff !important;
+}
+
+.ah-fMultiple-search-letter {
+    margin: 0 10px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.ah-fMultiple-search-letter li {
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+.ah-fMultiple-search-letter ul li a {
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    padding: 2px 9px;
+    border-radius: 2px;
+    color: #666;
+    cursor: pointer;
+    display: block;
+}
+
+.ah-fMultiple-search-letter ul li a:hover {
+    border-color: #4680ea;
+    background: #4680ea;
+    color: #fff;
+}
+
+.ah-fMultiple-submit {
+    height: 50px;
+    margin-top: 10px;
+    border-top: 1px solid #e9e9e9;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.ah-fMultiple-select {
+    cursor: pointer;
+    color: #4780eb;
+    font-size:1.2em;
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
+}
+
+.ah-fMultiple-select:hover {
+    color: #4680ea;
+}
+
+.ah-fMultiple-hide {
+    display: none;
+}
+
+.ah-fMultiple-left-title {
+    padding: 0 10px;
+    padding-top: 10px;
+    justify-content: space-between;
+    color: #666;
+}
+
+.ah-formed-more-info .layui-input, .ah-formed-more-info .layui-select, .ah-formed-more-info .layui-textarea {
+    background: #fff !important;
+}
+
+.ah-fMultiple-phoneTitle {
+    display: none;
+}
+
+@media (max-width:1280px) {
+    .ah-herb-wrap {
+        width: 50%;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-fMultiple-main {
+        top: 56px;
+        right: 20px;
+        left: 20px;
+        bottom: -1px;
+        width: initial;
+    }
+
+    .ah-mcdrug-gp ul > li {
+        width: 33.3333%;
+    }
+
+    div[rolename="boxitem"] {
+        margin-bottom: 0px;
+    }
+}
+
+@media (max-width:450px) {
+    .ah-fMultiple-ul {
+        padding-bottom: 20px;
+    }
+
+    .ah-fMultiple-submit {
+        display: none;
+    }
+
+    .ah-fMultiple-title {
+        display: none;
+    }
+
+    .ah-fMultiple-search-wrap {
+        margin-left: 0px;
+    }
+
+    .ah-fMultiple-phoneTitle {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid #e9e9e9;
+        margin-left: 10px;
+    }
+
+    .ah-phone-selectModel, .ah-phone-selectCart {
+        display: block;
+        height: 40px;
+        background: #4780eb;
+        width: 40px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 42px;
+        color: #fff;
+        font-size: 20px;
+        margin-right: 10px;
+        position: relative;
+    }
+
+    .ah-phone-selectCart .layui-badge {
+        position: absolute;
+    }
+
+    .ah-phone-selectModel:hover, .ah-phone-selectCart:hover {
+        color: #fff !important;
+        background: #3866bb;
+    }
+
+    .ah-fMultiple-right .ah-select-model {
+        display: none;
+    }
+
+    .ah-fMultiple-left {
+        display: none;
+        width: 100% !important;
+        border: none;
+    }
+
+    .ah-mcdrug-gp ul > li {
+        width: 100%;
+    }
+
+    .ah-mcdrug-gp ul > li img {
+        left: 8px;
+    }
+
+    .ah-mcdrug-gp ul .ah-mcdrug-items {
+        padding-left: 58px;
+    }
+
+    .ah-pvFormed-tips {
+        display: none;
+    }
+
+    .ah-herb-wrap {
+        width: 100%;
+        padding: 0;
+    }
+
+    .ah-herb-close {
+        right: 0;
+    }
+
+    .ah-formed-edit-wrap {
+        width: 105px;
+        justify-content: flex-end;
+    }
+
+    .ah-formed-main-info .ah-formed-label {
+        display: none;
+    }
+
+    .ah-formed-active {
+        flex-wrap: wrap;
+    }
+
+    .ah-formed-active div {
+        width: 100%;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .ah-phone-hide {
+        display: none;
+    }
+
+    .ah-patient-input-wrap {
+        width: 100%;
+    }
+
+    .ah-patient-submit .ah-patient-fee {
+        position: absolute;
+        top: -34px;
+        right: 0;
+        background: #fff;
+        padding: 5px 10px;
+        border: 1px solid #dcdcdc;
+        z-index: 14;
+        left: 0;
+        text-align: right;
+        border-right: none;
+        border-left: none;
+    }
+
+    .ah-patient-submit {
+        height: 44px;
+    }
+
+    .ah-patient-main {
+        padding: 0 10px;
+    }
+
+    .ah-formed-num {
+        width: 37px;
+    }
+
+    .ah-formed-main-info {
+        flex: 1 1 auto;
+        padding-left: 10px;
+        padding-top: 13px;
+        width: 0;
+    }
+
+    .ah-formed-main-info > div {
+        height: 41%;
+        align-items: center;
+        margin-top: 4px;
+        flex: 1 1 auto;
+    }
+
+    .ah-formed-main-info .drugName {
+        width: 100%;
+        padding-bottom: 9px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+
+    .ah-formed-more-info {
+        flex-wrap: wrap;
+    }
+
+    .ah-formed-more-info > div:nth-child(1), .ah-formed-more-info > div:nth-child(2), .ah-formed-more-info > div:nth-child(3), .ah-formed-more-info > div:nth-child(4) {
+        width: 50% !important;
+    }
+
+    .ah-formed-more-info > div:nth-child(5), .ah-formed-more-info > div:nth-child(6) {
+        width: 100% !important;
+    }
+        .ah-pres-checkman{width:100%;}
+}
+/*------------------------------------------------------申请新药.end--------------------------------------------*/
+/*------------------------------------------------------交费--------------------------------------------*/
+.ah-charge-details-wrap {
+    height: 100%;
+}
+
+.ah-details-address {
+    margin: 10px;
+    align-items: center;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 10px;
+}
+
+.ah-details-address .ah-address-upic {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    flex: none;
+}
+
+.ah-details-address > div > div {
+    margin-bottom: 5px;
+}
+
+.ah-details-address .ah-address-uname {
+    color: #2963ba;
+    font-size: 16.0px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.ah-charge-details-main {
+    padding: 10px;
+}
+
+.ah-charge-swrap {
+    width: 250px;
+    justify-content: flex-end;
+    flex: none;
+    flex-direction: row-reverse;
+}
+
+.ah-again-pay {
+    width: 166px;
+    height: 100%;
+    line-height: 35px;
+    padding-left: 20px;
+}
+
+.ah-charge-swrap a {
+    background: #fff;
+    border: 1px solid #4680ea;
+    color: #4680ea;
+    width: 87%;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.ah-charge-swrap a:hover {
+    background-color: #4780eb;
+    color: #fff;
+}
+
+.ah-charge-drug-info td {
+    border-bottom: none;
+}
+
+.ah-charge-drug-info + tr {
+    display: table-row !important;
+}
+
+.ah-charge-drug-info + tr > td {
+    text-align: right;
+    padding: 10px 20px;
+    color: #b14927;
+}
+/*------------------------------------------------------交费.end--------------------------------------------*/
+/*------------------------------------------------------发药------------------------------------------------*/
+.ah-table-center {
+    text-align: center !important;
+}
+
+.ah-drug-table table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.ah-drug-table table .active {
+    width: 150px;
+}
+
+.no-active {
+    background: #d1d1d1;
+    color: #fff !important;
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    padding: 7px;
+    line-height: 22px;
+    border-radius: 2px;
+    border: 1px solid #d1d1d1 !important;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    cursor: no-drop;
+}
+
+.ah-drug-table table .number {
+    text-align: left;
+    background: #ebebeb;
+}
+
+.ah-drug-table table .dispensing-send {
+    background: #4780eb;
+    color: #fff;
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0px;
+    padding: 7px;
+    line-height: 22px;
+    border-radius: 2px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+}
+
+.ah-drug-table table .dispensing-send-input {
+    width: 108px;
+}
+
+.ah-drug-table table .dispensing-send:hover {
+    background: #3e73d1;
+}
+
+.ah-drug-table table .print {
+    background: #fff;
+    color: #4780eb;
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    padding: 7px;
+    line-height: 22px;
+    border-radius: 2px;
+    border: 1px solid #4780eb !important;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+}
+
+.ah-drug-table table .print:hover {
+    background: #4780eb;
+    color: #fff;
+}
+
+.ah-drug-table table th {
+    height: 30px;
+    font-weight: normal;
+    font-size: 14px;
+    color: #666;
+}
+
+.ah-drug-table table td {
+    height: 30px;
+    font-weight: normal;
+    font-size: 13px;
+    color: #666;
+    border-bottom: 1px solid #f1f1f1;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-top: 4px;
+}
+
+.ah-drug-table table td .drugName {
+    color: #555;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ah-drug-table table td .drugModel {
+    font-size: 12px;
+    color: #999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ah-drug-table table .number td {
+    padding: 10px;
+    color: #666;
+    border: none;
+}
+
+.ah-dispensing-main {
+    align-content: flex-start;
+}
+
+.ah-dispensing-left {
+    width: 645px;
+    flex: none;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #e4e4e4;
+    margin-right: 10px;
+    padding-top: 4px;
+}
+
+.ah-dispensing-right {
+    flex: 1 1 auto;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #e4e4e4;
+}
+
+.ah-drugList-border-0 {
+    border-color: #969696 !important;
+}
+
+.ah-drugList-border-1 {
+    border-color: #69bb73 !important;
+     background-color: #c7f7cc;
+}
+
+.ah-drugList-border-2 {
+    border-color: #e25757 !important;
+}
+
+.ah-dispensing-sumary-ul {
+    flex-wrap: wrap;
+}
+
+.ah-dispensing-sumary-ul li {
+    margin-top: 1px;
+    padding: 10px;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    width: 50%;
+    border-left: 4px solid #ccc;
+    height: 60px;
+}
+
+.ah-drugList-title {
+    width: 100% !important;
+    margin-right: 0 !important;
+    background: #ebebeb !important;
+    color: #333 !important;
+    border: none !important;
+    height: 40px !important;
+    margin-top:20px!important;
+ 
+    height:28px!important;
+}
+.ah-drugList-title:first-child{margin-top:1px!important;}
+
+.ah-dispensing-sumary-ul li:hover {
+    background: #f3f3f3;
+}
+
+.ah-drugList-title:hover {
+    background: #ebebeb !important;
+}
+
+.ah-dispensing-sumary-ul li .base-info {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ah-dispensing-sumary-ul li .drugName {
+    font-weight: bold;
+    font-size: 1.1em;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ah-dispensing-sumary-ul li .drugModel {
+    color: #666;
+}
+
+.ah-dispensing-sumary-ul li .status {
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    background: #4780eb;
+    padding: 0px 2px;
+    border-radius: 2px;
+    color: #fff;
+}
+
+.ah-dispensing-sumary-ul li .number {
+    text-align: right;
+    font-size: 14px;
+}
+
+.ah-dispensing-sumary-ul li .number span {
+    display: block;
+}
+
+.ah-dispensing-sumary-ul li .rmk {
+    position: absolute;
+    right: 5px;
+    left: 5px;
+    bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+    color: #aeadad;
+}
+
+.ah-dispensing-sumary-ul li img {
+    border-radius: 50%;
+    margin-right: 15px;
+    flex: none;
+}
+
+.ah-drugSumary-tab {
+}
+
+.ah-drugSumary-tab li {
+    width: 68px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: flex-end;
+    color: #666;
+}
+
+.ah-drugList-title .print {
+    padding: 10px 15px;
+}
+
+.ah-drugSumary-tab li span {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+@media (max-width:1280px) {
+    .ah-dispensing-left {
+        width: 415px;
+    }
+
+    .ah-dispensing-sumary-ul li {
+        height: 75px;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-dispensing-sumary-ul li {
+        height: 69px;
+    }
+
+    .ah-dispensing-main {
+        flex-wrap: wrap;
+    }
+
+    .ah-dispensing-left {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        height: 450px;
+    }
+}
+/*------------------------------------------------------发药.end--------------------------------------------*/
+/*------------------------------------------------------步骤条------------------------------------------------*/
+.ah-step-wrap {
+    color: #fff;
+    background: #f0f0f0;
+    height: 42px;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.ah-step-wrap li {
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    min-width: 100px;
+    height: 42px;
+    flex: 1 0 auto;
+}
+
+.ah-step-wrap li a {
+    cursor: pointer;
+    padding: 0 15px;
+    border-radius: 0;
+    color: #fff;
+    background-color: #f6f6f6;
+    height: 100%;
+    display: block;
+    line-height: 42px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    background-color: #bdd4fe;
+    font-size: inherit;
+    font-weight: bold;
+}
+
+.ah-step-wrap li.ah-strp-active a, .ah-step-wrap li.ah-strp-active a[href]:hover {
+    background-color: #4680ea;
+    color: #ffffff;
+    padding-right: 20px;
+}
+
+.ah-step-wrap li:nth-child(n+2) a {
+    margin-left: -20px;
+    border-radius: 0;
+}
+
+.ah-step-wrap li.ah-strp-active a:after, .ah-step-wrap li.ah-strp-active a[href]:hover:after {
+    background-color: #4680ea !important;
+}
+
+.ah-step-wrap li.ah-strp-active a:after {
+    background-color: #4680ea;
+}
+
+.ah-step-wrap li:not(:last-child) a:after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -3px;
+    width: 42px;
+    height: 42px;
+    transform: scale(0.707) rotate(45deg);
+    z-index: 1;
+    background-color: #bdd4fe;
+    border-top: 3px solid #ffffff;
+    border-right: 3px solid #ffffff;
+    box-sizing: content-box;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+}
+
+.ah-step-wrap li.ah-strp-active a:after {
+    background-color: #4680ea;
+}
+
+.ah-step-wrap li a[href]:hover {
+    background-color: #4680ea;
+    color: #ffffff;
+}
+
+.ah-step-wrap li:not(:last-child) a[href]:hover:after {
+    background-color: #4680ea;
+}
+/*------------------------------------------------------步骤条.end--------------------------------------------*/
+/*------------------------------------------------------医生档案------------------------------------------------*/
+.ah-selcus-item > a {
+}
+
+.ah-selcus-item > a > img {
+    width: 40px;
+    border-radius: 40px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ah-selcus-item > a > .ah-selcus-txt {
+    display: inline-block;
+}
+
+.ah-doc-sets-btns {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 60px;
+    padding: 15px;
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.ah-doc-sets-btns button {
+    margin-left: 20px;
+}
+
+.ah-doc-sets-upic-edit {
+    width: 150px;
+    height: 150px;
+    margin-top: 30px;
+    background: url(/images/def/u256_.png) no-repeat;
+    background-size: auto auto;
+    background-size: 100% 100%;
+    margin-bottom: 10px;
+    position: relative
+}
+
+.ah-doc-sets-upic-edit a {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.41);
+    color: #fff;
+}
+
+.ah-doc-sets-upic {
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+}
+
+.ah-role-dep-th {
+    background: #f0f0f0;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #e6e6e6;
+}
+
+.ah-role-dep-wrap {
+    border-left: 1px solid #e6e6e6;
+    text-align: center;
+}
+
+.ah-role-dep-row {
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.ah-role-dep-row div {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    text-align: center;
+    height: 40px;
+    border-bottom: 1px solid #e6e6e6;
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ah-role-dep-row div:last-child {
+    border-bottom: none;
+}
+
+.ah-role-dep-row a {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    justify-content: center;
+}
+
+.ah-role-dep-row a span {
+    color: #4680ea !important;
+    font-size: 16px;
+}
+/*------------------------------------------------------医生档案.end--------------------------------------------*/
+/*------------------------------------------------------报表统计--------------------------------------------*/
+.ah-statement-tool {
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+}
+
+.ah-statement-tool-time {
+    margin-bottom: 20px;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+.ah-statement-tool a {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    height: 30px;
+    border: none;
+    padding: 7px 20px;
+    color: #666;
+    margin-right: 8px;
+    border-radius: 1px;
+    margin-bottom: 20px;
+}
+
+.ah-statement-tool a:hover,
+.ah-statement-tool .ah-statement-active {
+    background: #3e84f2;
+    color: #fff;
+    text-decoration: none;
+}
+
+.ah-statement-data {
+    height: 85px;
+    margin-bottom: 20px;
+}
+
+.ah-statement-data .ah-statement-total {
+    background: #f9b550;
+    margin-right: 15px;
+    padding: 10px;
+    color: #fff;
+    width: 170px;
+    font-size: inherit;
+}
+
+.ah-statement-data .ah-statement-total span:first-child {
+    border-bottom: 1px solid #fff;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+    font-size: 20px;
+}
+
+.ah-statement-data .ah-statement-survey {
+    padding: 10px;
+    color: #fff;
+    background: #749de7;
+}
+
+.ah-statement-data .ah-statement-survey .ah-statement-survey-title {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px;
+    flex: none;
+}
+
+.ah-statement-data .ah-statement-survey .ah-statement-survey-data {
+    flex-direction: column;
+    padding: 0 20px;
+    font-size: inherit;
+    width: 140px;
+}
+
+.ah-statement-data .ah-statement-survey .ah-statement-survey-data span:first-child {
+    border-bottom: 1px solid #fff;
+    padding-bottom: 3px;
+    margin-bottom: 6px;
+    font-size: 24px;
+}
+
+.ah-statement-data .ah-statement-survey .ah-statement-view {
+    padding: 23px 20px;
+    border-left: 1px solid #fff;
+    color: #fff;
+}
+
+.ah-statement-table {
+    display: none;
+    width: 100%;
+}
+
+@media (max-width:1280px) {
+    .ah-statement-data .ah-statement-survey .ah-statement-survey-title {
+        display: none;
+    }
+
+    .ah-statement-data .ah-statement-survey .ah-statement-survey-data {
+        width: initial;
+        padding: 0 0 0 20px
+    }
+
+    .ah-statement-data .ah-statement-survey .ah-statement-survey-data span:first-child {
+        margin-top: 14px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-statement-tool-time {
+        margin-bottom: 20px;
+    }
+
+    .ah-statement-tool-time {
+        justify-content: initial;
+    }
+
+    .ah-statement-data .ah-statement-total {
+        width: 110px;
+        margin-right: 0;
+    }
+
+    .ah-statement-data .ah-statement-total span:first-child {
+        padding-bottom: 4px;
+    }
+
+    .ah-statement-data .ah-statement-survey .ah-statement-survey-data {
+        width: initial;
+        padding: 0 10px;
+    }
+
+    .ah-statement-data .ah-statement-survey .ah-statement-survey-data span:first-child {
+        margin-top: 11px;
+    }
+}
+/*------------------------------------------------------报表统计.end--------------------------------------------*/
+/*------------------------------------------------------基本信息--------------------------------------------*/
+.ah-doctor-baseInfo {
+    flex-direction: initial;
+}
+
+.ah-doctor-baseInfo .ah-cert-a {
+    width: 200px;
+    margin-right: 60px
+}
+
+.ah-doctor-baseInfo .ah-cert-b {
+    width: 200px;
+}
+
+.ah-doctor-baseInfo div[ah-id='pic'] {
+    margin-top: 10px;
+}
+
+@media (max-width:800px) {
+    .ah-doctor-baseInfo {
+        flex-direction: column-reverse;
+    }
+
+    .ah-doctor-baseInfo div[ah-id="doctor-pic"] {
+        flex-direction: row;
+    }
+
+    .ah-doctor-baseInfo img[id='cusImg'] {
+        width: 288px;
+        flex: none;
+        height: 288px;
+    }
+
+    .ah-doctor-baseInfo div[ah-id='pic'] {
+        align-self: flex-end;
+        margin-top: 0;
+    }
+
+    .ah-doctor-baseInfo .ah-cert-a {
+        flex: 1;
+    }
+
+    .ah-doctor-baseInfo .ah-cert-b {
+        flex: 1;
+    }
+}
+/*------------------------------------------------------基本信息.end--------------------------------------------*/
+/*------------------------------------------------------修改密码--------------------------------------------*/
+.ah-changepas-wrap {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.ah-changepas-title {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9e9e9;
+    color: #4780eb;
+    font-size: 2.2ex;
+    margin-bottom: 20px;
+}
+
+.ah-adop-mobile {
+    width: 520px;
+    margin: 0 auto;
+}
+
+.ah-changepas-type {
+    flex-wrap: wrap;
+}
+
+.ah-changepas-type .ah-changepas-items {
+    text-align: center;
+    padding: 20px;
+}
+
+.ah-changepas-phone, .ah-changepas-email, .ah-changepas-iDcard {
+    background: #4680ea;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 2.2ex;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.ah-changepas-phone:hover, .ah-changepas-email:hover, .ah-changepas-iDcard:hover {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    background: #b14927;
+}
+
+.ah-changepas-phone img {
+    width: 125px;
+    margin-top: 25px;
+    margin-bottom: 16px;
+}
+
+.ah-changepas-email img {
+    width: 125px;
+    margin-top: 25px;
+    margin-bottom: 16px;
+}
+
+.ah-changepas-iDcard img {
+    width: 173px;
+    margin-top: 25px;
+    margin-bottom: 16px;
+}
+
+.ah-changepas-state- .ah-changepas-iDcard, .ah-changepas-state- .ah-changepas-email, .ah-changepas-state- .ah-changepas-phone {
+    background: #ccc;
+}
+
+.ah-login-info {
+    padding: 20px;
+}
+
+.ah-logInfo-item {
+    margin-bottom: 20px;
+    align-items: center;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 20px;
+    flex: 1;
+    text-align: center;
+    color: #666;
+}
+
+.ah-logInfo-user, .ah-logInfo-phone, .ah-logInfo-email, .ah-logInfo-IDcard {
+    width: 130px;
+    height: 130px;
+    background-image: url('../images/password/blue-icon.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    margin-bottom: 29px;
+    position: relative;
+}
+
+.ah-logInfo-user a, .ah-logInfo-phone a, .ah-logInfo-email a, .ah-logInfo-IDcard a {
+    bottom: -28px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 135px;
+    border-bottom: 2px solid #4780eb;
+    line-height: 22px;
+    color: #4780eb;
+}
+
+.ah-logInfo-IDcard {
+    background-position-y: -447px;
+}
+
+.ah-logInfo-phone {
+    background-position-y: -146px;
+}
+
+.ah-logInfo-email {
+}
+
+.ah-logInfo-user {
+    background-position-y: -290px;
+}
+
+@media (max-width:800px) {
+    .ah-adop-mobile {
+        width: 100%;
+    }
+
+    .ah-changepas-wrap {
+        width: 90%;
+    }
+
+    .ah-changepas-title {
+        font-size: 1.8ex;
+    }
+
+    .ah-changepas-phone, .ah-changepas-email, .ah-changepas-iDcard {
+        font-size: 1.8ex;
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+        position: relative;
+        padding-left: 20px;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+/*------------------------------------------------------修改密码.end--------------------------------------------*/
+/*------------------------------------------------------职业信息--------------------------------------------*/
+.ah-myPanel-depWrap {
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.ah-myPanel-dep, .ah-myPanel-cert {
+    align-items: center;
+    flex: 1 0 auto;
+    height: 32px;
+    line-height: 1.3;
+    border: 1px solid #4680ea;
+    background-color: #fff;
+    border-radius: 2px;
+    color: #666;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.ah-myPanel-dep div, .ah-myPanel-cert div {
+    height: 100%;
+    color: #4680ea;
+    line-height: 30px;
+    flex: 1 0 auto;
+    padding: 0 10px;
+    justify-content: space-between;
+}
+
+.ah-myPanel-dep i[name='dep-remove'], .ah-myPanel-cert i[name='cert-remove'] {
+    width: 30px;
+    height: 31px;
+    line-height: 32px;
+    background: #4680ea;
+    top: 0;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.dep-isverified-False, .cert-isverified-False {
+    border: 1px solid #b14927;
+}
+
+.dep-isverified-False div, .cert-isverified-False div {
+    color: #b14927;
+}
+
+.dep-isverified-False i[name="dep-remove"], .cert-isverified-False i[name="cert-remove"] {
+    background: #b14927;
+}
+
+.ah-myPanel-cert-wrap {
+    margin-bottom: 10px;
+    width: 100%;
+    flex-direction: column;
+}
+
+.ah-myPanel-cert {
+    margin-right: 0;
+}
+
+.ah-myPanel-cert a {
+    position: relative;
+    color: #4680ea;
+}
+
+.ah-myPanel-cert img {
+    position: absolute;
+    width: 200px;
+    right: -67px;
+    height: 180px;
+    top: -80px;
+    padding: 4px;
+    border: 1px solid #4680ea;
+    background: #fff;
+    border-radius: 2px;
+    z-index: 99;
+}
+
+.ah-myPanel-cert div[name="cert-name"] {
+}
+
+.ah-range {
+    position: relative;
+}
+
+.ah-range i {
+    background-color: #1268d0;
+    border-radius: 2px;
+    color: #fff;
+    padding: 0 4px;
+    position: absolute;
+    top: -20px;
+}
+/*------------------------------------------------------职业信息.end--------------------------------------------*/
+.ah-pay-type {
+    text-align: center;
+    border-right: 1px solid #e4e4e4;
+    margin-top: 26px;
+    padding-top: 21px;
+    margin-bottom: 21px;
+}
+
+.ah-pay-type:last-child {
+    border-right: none;
+}
+
+.ah-pay-xj {
+    width: 100%;
+    background: #f0f0f0;
+    padding: 0 20px;
+}
+
+.ah-pay-xj-select {
+    border-color: red;
+    border-radius: 8px;
+}
+
+.wx_pay {
+    margin-top: 20px;
+    width: 160px;
+    cursor: pointer;
+}
+
+.zfb_pay {
+    cursor: pointer;
+    margin-top: 20px;
+    width: 165px;
+}
+
+.xj_pay {
+    width: 150px;
+}
+
+.xj_icon {
+    font-size: inherit;
+    color: #333;
+    height: 58px;
+    line-height: 58px;
+    background-size: 58px;
+    background-repeat: no-repeat;
+}
+
+.xj_icon .layui-form-checkbox span {
+    color: #565656;
+    font-size: 17px;
+    line-height: 26px;
+}
+
+.xj_icon .layui-form-checkbox[lay-skin="primary"] i {
+    font-size: inherit;
+    font-weight: bold;
+    font-size: 20px;
+    height: 22px;
+    line-height: 22px;
+    top: 2px;
+    margin-right: 3px;
+    width: 22px;
+}
+
+.xj_icon .layui-form-checked[lay-skin="primary"] i {
+    border-color: #56B157;
+    background-color: #56B157;
+    color: #fff;
+}
+
+.layui-form-checkbox[lay-skin="primary"]:hover i {
+    border-color: #4780EB;
+    color: #fff;
+}
+
+.pay-amount > .ah-pay-input {
+    font-size: 22px !important;
+}
+
+.xj_amout {
+    font-size: 20px;
+    color: #ff0000;
+    flex: 1 0 auto;
+    background: #fff;
+    line-height: 35px;
+    border: 1px solid #e4e4e4;
+    justify-content: space-between;
+    padding-right: 20px;
+    border-radius: 3px;
+    margin-left: 20px;
+}
+
+.xj_amout::before {
+    content: "￥";
+    font-family: Arial;
+    display: block;
+    height: 35px;
+    border-right: 1px solid #e4e4e4;
+    color: #666;
+    font-size: 16px;
+    width: 35px;
+    text-align: center;
+    line-height: 35px;
+    flex: none;
+}
+
+.ah-pay-submit {
+    border-top: 1px solid #e9e9e9;
+    height: 66px;
+    text-align: right;
+    padding-top: 11px;
+    padding-right: 11px;
+}
+
+.xj-pay-tips {
+    color: #5c5c5c;
+    width: 183px;
+    letter-spacing: 1px;
+    line-height: 19px;
+}
+
+.xj-pay-main {
+    flex: 1 0 auto;
+    padding-right: 20px;
+    font-size: inherit;
+    color: #666;
+}
+
+.xj-pay-amout {
+}
+
+@media (max-width:450px) {
+    .ah-pay-info {
+        flex-direction: column;
+    }
+
+    .xj-pay-tips {
+        width: 100%;
+    }
+}
+
+@-webkit-keyframes wdflashing {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.wd-flashing {
+    -webkit-animation: wdflashing 1s infinite ease-in-out;
+}
+
+.pay-amount {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ah-pay-input {
+    width: 162px;
+    text-align: right;
+    height: 32px;
+    line-height: 1.3;
+    line-height: 38px\9;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0 2px;
+    color: #333;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    border: none;
+    font-size: 20px !important;
+    flex: 1 0 auto;
+    overflow: hidden;
+}
+
+.pay-change {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 22px;
+    color: forestgreen;
+}
+
+.ah-pay-q {
+    color: #fff;
+    background-color: red;
+    padding: 3px 6px;
+    font-weight: normal;
+}
+
+.ah-pay-submit button {
+    font-size: 1.4em;
+    height: 42px;
+}
+
+.ah-pay-submit .ah-btn-pay-failed:hover {
+    background-color: red;
+    color: #fff;
+    border-color: red;
+}
+
+.ah-pay-submit .ah-btn-pay-success:hover {
+    background-color: forestgreen;
+    color: #fff;
+}
+
+.ah-set-payCode {
+    background-image: url('../images/set-pay-pic.png');
+    position: absolute;
+    z-index: 1;
+    right: 48px;
+    top: 7px;
+    display: none;
+    width: 685px;
+    height: 517px;
+    background-repeat: no-repeat;
+    -webkit-box-shadow: 1px 5px 15px rgba(3, 3, 3, 0.2);
+    box-shadow: 1px 5px 15px rgba(3, 3, 3, 0.2);
+    border-radius: 4px;
+    padding-top: 343px;
+    padding-left: 27px;
+    padding-bottom: 23px;
+    padding-right: 20px;
+    background-color: #fff;
+}
+
+.ah-set-payCode-wrap {
+    flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse;
+    -webkit-box-direction: row-reverse;
+    box-direction: row-reverse;
+}
+
+.ah-set-payCode canvas {
+    margin-right: 22px;
+}
+
+.ah-set-payCode p {
+    color: #666;
+    font-size: inherit;
+    line-height: 25px;
+}
+
+.ah-set-payCode .ah-set-payCode-title {
+    font-size: 16px;
+    color: #333;
+}
+
+.ah-open-titleTips {
+    font-size: inherit;
+    color: #666;
+    margin-left: 5px;
+}
+
+tr.ah-tr-pn-1 > td {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+tr.ah-tr-pn-0 > td {
+    color: #ccc;
+}
+/*------------------------------------------------------支付.end--------------------------------------------*/
+.ah-docr-status-grp > i {
+    color: #ccc;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.ah-docr-status-grp > i.fa-mobile {
+    font-size: 1.8em;
+}
+
+.ah-mk-hilight {
+    color: #4780eb !important;
+}
+
+.ah-docr-status-grp > i.ah-mk-char {
+    font-size: 1em;
+    color: #fff;
+    background-color: #ccc;
+}
+
+.ah-mk-char-hilight {
+    color: #fff !important;
+    background-color: #4780eb !important;
+}
+
+.ah-btn-rmk {
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+    line-height: 10px;
+    color: #ffc76d
+}
+/*------------------------------------------------------医生首页--------------------------------------------*/
+.ah-public-border {
+    border: 1px solid #e4e4e4;
+    background: #fff;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+.ah-public-title {
+    border-bottom: 1px solid #e4e4e4;
+    background: #fff;
+    height: 45px;
+    line-height: 46px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ah-public-title .ah-public-more {
+    color: #666 !important;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.ah-public-title .ah-public-more:hover {
+    color: #4780eb !important;
+}
+
+.ah-public-title .ah-public-more::after {
+    content: ">>";
+    font-family: Arial;
+}
+
+.ah-public-sec{
+     border-bottom: 1px solid #e4e4e4;
+    background: #fff;
+    height: 35px;
+    line-height: 36px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ah-public-main {
+    flex: 1 0 auto;
+    height: auto;
+}
+
+.ah-index-left {
+    margin-right: 10px;
+    width: 447px;
+}
+
+.ah-doctorIndex-patient {
+    height: 100%;
+}
+
+.ah-doctorIndex-patient li {
+    height: 70px;
+    align-items: center;
+    padding: 10px;
+    padding-right: 17px;
+    border-bottom: 1px dotted #e4e4e4;
+    color: #666;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.ah-doctorIndex-patient li a {
+    background: #4780eb;
+    padding: 8px 17px;
+    color: #fff;
+    border-radius: 2px;
+}
+
+.ah-doctorIndex-patient li i {
+    position: absolute;
+    left: 37px;
+    top: 40px;
+}
+
+.ah-doctorIndex-patient li .user-dep {
+    margin-right: 10px;
+    background: #666;
+    border-radius: 2px;
+    padding: 0 4px;
+    color: #fff !important;
+    margin-left: 0 !important;
+}
+
+.ah-doctorIndex-patient li .user-name {
+    color: #333;
+    flex: 1;
+    text-align: left;
+    padding-left: 16px;
+}
+
+.ah-doctorIndex-patient li .user-name span {
+    font-size: inherit;
+    color: #666;
+    margin-left: 10px;
+}
+
+.ah-doctorIndex-patient li .user-pic {
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-size: 100% 100% !important;
+    border-radius: 50%;
+}
+
+/*------------------------------------------------------医生首页.end----------------------------------------*/
+/*------------------------------------------------------药品入库--------------------------------------------*/
+.ah-income-opt {
+    width: 318px;
+    position: absolute;
+    top: 30px;
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    border: 1px solid rgb(228, 228, 228);
+    padding: 10px;
+    display: none;
+    color: #666;
+    z-index: 1;
+}
+/*------------------------------------------------------药品入库.end----------------------------------------*/
+/*------------------------------------------------------收费二维码检测--------------------------------------*/
+.ah-barcode-pay {
+    background-image: url('../images/pay-bj.png');
+    background-size: 100% 100%;
+    background-color: #fff;
+}
+
+.ah-borcode-wrap div {
+    justify-content: space-between;
+    font-size: inherit;
+}
+
+.ah-borcode-wrap div:first-child {
+    border-bottom: 1px solid #3e73d1;
+    height: 40px;
+    line-height: 40px;
+}
+
+.ah-borcode-wrap .ah-borcode-tips {
+    padding-top: 20px;
+    font-size: 16px;
+    border-top: 1px solid #588deb;
+}
+
+.ah-borcode-psy {
+    font-size: 30px !important;
+    padding-top: 5px;
+}
+
+.ah-borcode-wrap {
+    padding: 0 10px;
+    background: #4780eb;
+    color: #fff;
+    height: 148px;
+    flex: none;
+    flex-direction: column;
+}
+
+.ah-barcode-main {
+    text-align: center;
+}
+
+.ah-barcode-main canvas {
+    padding: 26px;
+    background-image: url('../images/code-border.png');
+    background-size: 100%;
+    margin-top: 1.2%;
+}
+
+.ah-barcode-main img {
+    background-size: 100%;
+    margin-top: 70px;
+}
+
+.ah-barcode-other {
+    padding-left: 62px;
+    align-self: center;
+    font-size: 16px;
+    margin-top: 35px;
+    color: #666;
+    background-image: url('../images/ah-pay-type.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.ah-pay-codetype {
+    display: none;
+}
+
+.ah-pay-codetype img {
+    padding: 0 10px;
+    cursor: pointer;
+    border: 1px solid #e1e1e1;
+    margin: 0 3px;
+    width: 40%;
+    height: 40px;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.ah-active-paytype {
+    border-radius: 3px;
+    border: 1px solid #4780eb !important;
+}
+
+.ah-pay-codetype div {
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 0 40px;
+}
+
+.ah-pay-socket-tips {
+    color: #4780eb;
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin-top: 20px;
+}
+
+.ah-pay-socket-tips-error {
+    color: #f95757;
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin-top: 20px;
+}
+
+.ah-socket-status-wrap {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.ah-socket-status0, .ah-socket-status1, .ah-socket-status2 {
+    background-image: url('../images/socket-status.png');
+    padding-left: 39px;
+    background-size: 36px 82px;
+    background-repeat: no-repeat;
+    color: #4780eb;
+    height: 29px;
+}
+
+.ah-socket-status0 {
+    background-position-y: -54px;
+}
+
+.ah-socket-status1 {
+    color: #fa5757;
+    background-position-y: -27px;
+}
+
+.ah-socket-status2 {
+    background-position-y: 0px;
+    background-size: 29px 82px;
+}
+
+.ah-pay-tips-wrap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(3, 3, 3, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.ah-pay-inquiry {
+    flex-direction: column;
+    height: 200px;
+    width: 90%;
+    background: #fff;
+    border-radius: 2px;
+}
+
+.ah-paytips-title {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+    color: #666;
+}
+
+.ah-paytips-main {
+    padding: 28px 10px;
+    flex: 1 0 auto;
+    font-size: 14px;
+    color: #333;
+}
+
+.ah-paytips-btn {
+    background: #4780eb;
+    border: none;
+    width: 140px;
+    align-self: flex-end;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 1px;
+    color: #fff;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.ah-paytips-btn:hover {
+    background: #2f57a4;
+}
+/*------------------------------------------------------收费二维码检测.end----------------------------------*/
+.ah-android-input {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+/*------------------------------------------------------医生首页--------------------------------------*/
+.ah-doctorIndex-wrap {
+    width: 100%;
+    justify-content: center;
+}
+
+.ah-doctor-index {
+    width: 100%;
+    max-width: 1278px;
+    height: 100%;
+}
+
+.ah-doctorIndex-left {
+    flex: 1 1 auto;
+    margin-right: 10px;
+    flex-direction: column;
+}
+
+.ah-doctorIndex-right {
+    width: 388px;
+    flex: none;
+}
+
+.ah-doctorIndex-data {
+    width: 100%;
+    flex: none;
+}
+
+.ah-doctorIndex-patientInfo, .ah-doctorIndex-profitInfo, .ah-doctorIndex-drugInfo {
+    height: 157px;
+    flex: 1 1 auto;
+    margin-right: 10px;
+    padding: 15px;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.ah-doctorIndex-patientInfo {
+    background: #7096d7;
+}
+
+.ah-doctorIndex-profitInfo {
+    background: #69bb73;
+}
+
+.ah-doctorIndex-drugInfo {
+    background: #e4956a;
+    margin-right: 0;
+}
+
+.ah-doctorIndex-data .ah-doctorIndex-dataTitle {
+    font-size: 16px;
+}
+
+.ah-doctorIndex-data .ah-doctorIndex-dataTitle span {
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.ah-doctorIndex-dataMain {
+    flex: 1 1 auto;
+}
+
+.ah-doctorIndex-dataMain div {
+    font-size: 30px;
+    margin-top: 34px;
+}
+
+.ah-doctorIndex-dataMain span {
+    font-size: 11px;
+    display: block;
+}
+
+.ah-doctorIndex-patientWrap {
+    width: 100%;
+    flex: 1 1 auto;
+    margin-top: 10px;
+}
+
+.ah-doctorIndex-patientItems {
+    flex: 1 1 auto;
+    border: 1px solid #e4e4e4;
+    background: #fff;
+    flex-direction: column;
+    margin-right: 10px;
+    padding: 10px;
+    padding-top: 0;
+    min-height: 300px;
+    flex-basis: 0%;
+}
+
+.ah-doctorIndex-patientItems:last-child {
+    margin-right: 0;
+}
+
+.ah-doctorIndex-title {
+    height: 40px;
+    border-bottom: 1px solid #e4e4e4;
+    align-items: center;
+    justify-content: space-between;
+    color: #666;
+    font-size: 14px;
+}
+.ah-link{color:#4680ea;}
+.ah-link:hover{ color: #4780eb;text-decoration:underline;}
+.ah-doctorIndex-title a {
+    color: #4680ea;
+    font-size: 12px;
+}
+
+.ah-doctorIndex-title a:hover {
+    color: #4680ea;text-decoration:underline;
+}
+
+.ah-doctorIndex-register {
+    border: 1px solid #e4e4e4;
+    background: #fff;
+    flex-direction: column;
+    padding: 10px;
+    min-height: 300px;
+    padding-top: 0;
+    padding-right: 30px;
+}
+
+.ah-doctorIndex-register-main {
+    line-height: 32px;
+    color: #666;
+}
+
+.ah-doctorIndex-register-main .layui-form-radio {
+    margin-top: 0;
+}
+
+.ah-doctorIndex-register-main .register-data {
+    margin-top: 10px;
+}
+
+.ah-doctorIndex-register-main .title {
+    width: 72px;
+    text-align: right;
+    padding-right: 15px;
+    flex: none;
+}
+
+.ah-doctorIndex-register-main .ah-range-wrap {
+    position: relative;
+}
+
+.ah-doctorIndex-register-main .ah-range-wrap i {
+    background-color: #1268d0;
+    border-radius: 2px;
+    color: #fff;
+    padding: 0 4px;
+    position: absolute;
+    top: -28px;
+    line-height: 20px;
+}
+
+.ah-doctorIndex-register-main .ah-range-wrap span {
+    position: absolute;
+    font-size: 10px;
+}
+
+.ah-doctorIndex-register-main .ah-range-wrap .ah-rangeAge-99 {
+    right: 0;
+}
+
+.ah-date-show .layui-laydate {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+}
+
+.ah-date-show .layui-laydate-main {
+    width: 100%;
+}
+
+.ah-date-show .layui-laydate-content table {
+    width: 100%;
+}
+
+.ah-doctorIndex-scheduling {
+    border: 1px solid #e4e4e4;
+    background: #fff;
+    flex-direction: column;
+    padding: 10px;
+    min-height: 300px;
+    margin-top: 10px;
+}
+
+.ah-doctorIndex-register-user {
+    flex: 1 1 auto;
+    padding: 10px;
+    align-items: center;
+    width: 100%;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    border-radius: 2px;
+    cursor: pointer;
+    line-height: 19px;
+}
+
+.ah-my-relationships {
+    flex: 1 1 auto;
+    width: 100%;
+    padding-left: 57px;
+    background: url("/images/tree-line.png");
+    background-repeat: no-repeat;
+    background-position-x: 38px;
+    background-position-y: -99px;
+    line-height: 32px;
+}
+
+.ah-last-line {
+    background-position-y: -19px;
+}
+.ah-fd-this{cursor:pointer;}
+.ah-fd-this:hover{text-decoration:underline;}
+.ah-td-mult-line{line-height:12px;}
+.ah-my-relationships div {
+    width: 100%;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    background: #687db6;
+    border-color: #687db6 !important;
+    margin-top: 1px;
+    border-radius: 2px;
+    color: #fff;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.ah-doctorIndex-register-user:hover, .ah-my-relationships div:hover {
+    background: #4d5d8a !important
+}
+
+.ah-doctorIndex-register-user img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.ah-register-source-wrap {
+    display: none;
+    position: absolute;
+    background: #fff;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 36px;
+    border: 1px solid #d2d2d2;
+    border-radius: 2px;
+    padding: 8px;
+    color: #666;
+    font-size: 12px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.ah-register-source-wrap dl {
+    z-index: 999;
+    min-width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 2px;
+    margin-bottom: 0;
+}
+
+.ah-register-source-wrap dl dd {
+    padding-left: 8px;
+    padding: 0 10px;
+    line-height: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.ah-register-source-wrap dd.layui-this {
+    background-color: #3E73D1 !important;
+    color: #fff;
+}
+
+.ah-register-source-wrap dl dd:hover {
+    background-color: #f2f2f2;
+}
+
+@media (max-width:800px) {
+    .ah-doctor-index {
+        flex-direction: column-reverse;
+    }
+
+    .ah-doctorIndex-left {
+        margin-right: 0;
+    }
+
+    .ah-doctorIndex-right {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width:450px) {
+    .ah-doctor-index {
+        padding: 0 10px;
+    }
+
+    .ah-doctorIndex-patientInfo, .ah-doctorIndex-profitInfo, .ah-doctorIndex-drugInfo {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        height: 100px;
+    }
+
+    .ah-doctorIndex-data {
+        flex-wrap: wrap;
+    }
+
+    .ah-doctorIndex-dataMain div {
+        font-size: 21px;
+        margin-top: 4px;
+    }
+
+    .ah-doctorIndex-patientWrap {
+        flex-direction: column;
+        margin-top: 0;
+        min-height: 300px;
+    }
+
+    .ah-doctorIndex-patientItems {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+/*------------------------------------------------------医生首页.end----------------------------------*/
+/*------------------------------------------------------选药------------------------------------------*/
+.ah-pvFormed-tips {
+    flex: 1 1 auto;
+    text-align: right;
+    color: #666;
+}
+
+.ah-select-drugTr {
+    position: relative;
+}
+
+.drugManufacturerOrigin {
+    width: 25%;
+}
+
+.ah-dg-completeWrap {
+    position: relative
+}
+
+@media (max-width:800px) {
+    .ah-drug-wsd {
+        opacity: 0.5;
+        height: 100%;
+        line-height: 10px;
+        position: absolute;
+        text-align: center;
+        left: 0;
+        border-radius: 6px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .ah-select-source {
+        flex-wrap: wrap;
+    }
+
+    .ah-pvFormed-tips {
+        text-align: left;
+    }
+
+    .ah-selectdrug-title {
+        display: none;
+    }
+
+    .ah-select-drugTr {
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+        height: 70px;
+        background: #fff;
+        color: #fff;
+        margin-bottom: 17px;
+        padding-left: 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        border: 1px solid #e6e6e6;
+    }
+
+    .ah-select-drugTr td {
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    .ah-select-drugTr #drugName {
+        width: 0 !important;
+        padding-top: 11px !important;
+        padding-left: 10px !important;
+        line-height: 19px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1 1 auto;
+        padding-right: 10px !important;
+        color: #333;
+    }
+
+    .ah-select-drugTr .ah-dg-model {
+        color: #666;
+    }
+
+    .ah-select-drugTr #drugManufacturerOrigin {
+        width: initial;
+        position: absolute;
+        right: 10px;
+        bottom: 2px;
+        left: 68px;
+        text-align: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #aeadad;
+    }
+
+    .ah-select-drugTr #salePrice {
+        position: absolute;
+        right: 10px;
+        top: 21px;
+        font-size: 19px;
+    }
+
+    .ah-select-drugTr #quantity {
+        flex: none;
+        background: #4680ea;
+        color: #fff;
+        padding: 0px 4px !important;
+        height: 18px;
+        margin-top: 5px;
+        margin-right: 10px;
+        border-radius: 2px;
+    }
+
+    .ah-select-drugTr #quantity:before {
+        content: "库存:"
+    }
+
+    .ah-select-drugTr #salePrice .ah-rmb {
+        color: #fff !important;
+    }
+
+    .ah-select-drugTr td img {
+        border-radius: 50%;
+        margin-top: 11px;
+        width: 50px;
+    }
+
+    .ah-select-drugTr td .ah-dg-model b {
+        position: absolute;
+        top: 5px;
+        background: #db8601;
+        color: #fff !important;
+        padding: 1px 2px;
+        border-radius: 2px;
+        left: 4px;
+    }
+
+    .ah-select-drugTr td .ah-dg-model .ah-dg-conameicon, .ah-select-drugTr .drugUnitBigId, .ah-select-drugTr .ah-ugp, .ah-select-drugTr .UnitSmallId {
+        display: none;
+    }
+
+    .ah-select-drugTr:hover {
+        background: #f3f3f3 !important;
+    }
+
+    .ah-select-drugTr td .ah-dg-unit {
+        display: initial !important;
+    }
+
+    .ah-dg-completeWrap {
+        position: absolute;
+        bottom: -9px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        background: #ececec;
+        height: 11px;
+        border-radius: 6px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0;
+    }
+}
+/*------------------------------------------------------选药.end--------------------------------------*/
+/*-----------------------------------------------------找医生-----------------------------------------*/
+.ah-drugNurse-register-main {
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    flex-direction: column;
+    padding: 0 10px;
+    width: 0;
+}
+
+.ah-drugNurse-register-items {
+    padding: 10px 0;
+    flex-wrap: wrap;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items {
+    width: 33.333%;
+    height: 272px;
+    cursor: pointer;
+    padding: 0 5px 10px 5px;
+}
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-main {
+    height: 100%;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    position: relative;
+    flex-direction: column;
+    border: 1px solid #ebebeb;
+    padding: 10px;
+    padding-bottom: 2px;
+}
+.ah-drugNurse-register-items .ah-doctor-items .ah-rxdoctor-def:after{
+    content:"默认";position:absolute;top:0;left:0;padding:2px 5px;background-color:#ccc;display:block;
+}
+.ah-drugNurse-register-items .ah-doctor-items .ah-rxdoctor-def:hover:after{
+    background-color:#4780eb;color:#fff;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-main:hover {
+    border: 2px solid #4780eb;
+    padding: 9px;
+    padding-bottom: 1px;
+}
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-pic {
+    width: 80px;
+    height: 80px;
+    background-size: 100% 100% !important;
+    border-radius: 50%;
+    margin: 0 auto;
+    left: 10px;
+    border: 2px solid #fff;
+    position: relative;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-bj {
+    position: relative;
+    cursor: pointer;
+    height: 215px;
+    border-radius: 2px;
+    color: #666;
+    text-align: center;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .doctorName {
+    font-size: 18px;
+    margin-top: 19px;
+    color: #174498;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .postTitleName {
+    font-size: 14px;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .doctorRmk {
+    color: #999;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-active {
+    border-top: 1px solid #ebebeb;
+    height: 45px;
+    line-height: 39px;
+    color: #fff;
+    justify-content: space-around;
+    flex: none;
+}
+
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-active a {
+    color: #666 !important;
+    margin-right: 15px;
+    padding: 0 5px;
+    align-items: center;
+}
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-active a i{
+    margin-right: 5px;
+    font-size:16px;
+}
+.ah-drugNurse-register-items .ah-doctor-items .ah-doctor-active a:hover {
+    color: #333 !important;
+}
+
+.ah-drugNurse-register-right {
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    width: 450px;
+    flex: none;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-direction: column;
+}
+@media (max-width:1280px) {
+    .ah-drugNurse-register-items .ah-doctor-items {
+        width: 50%;
+    }
+}
+@media (max-width:1043px) {
+    .ah-drugNurse-register-items .ah-doctor-items .ah-doctor-bj {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        position: relative;
+    }
+
+    .ah-drugNurse-register-items .ah-doctor-items {
+        width: 100%;
+        height: 185px;
+    }
+
+    .ah-doctor-pic {
+        flex: none;
+        margin-right: 15px !important;
+        margin-top: 10px !important;
+    }
+
+    .ah-drugNurse-register-items .ah-doctor-items .doctorRmk {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+@media (max-width:800px) {
+    .ah-drugNurse-register-main {
+        width: 100%;
+    }
+
+    .ah-drugNurse-register-right {
+        margin: 0;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .ah-drugNurse-register-wrap {
+        flex-direction: column-reverse;
+    }
+
+    .ah-drugNurse-register-items {
+        padding-bottom: 0;
+    }
+
+    .ah-doctor-items {
+        padding: 0 0 10px 0px !important;
+    }
+}
+
+@media (max-width:800px) {
+    .ah-drugNurse-register-items .ah-doctor-items {
+        width: 50%;
+        height: 185px;
+        padding: 5px !important;
+    }
+}
+/*-----------------------------------------------------找医生.end-------------------------------------*/
+/*-----------------------------------------------------处方药备录-------------------------------------*/
+.ah-rxDrugSave-left {
+    width: 300px;
+    flex: none;
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    padding: 0 10px;
+    margin-right: 10px;
+}
+
+.ah-rxDrugSave-right {
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    flex-direction: column;
+    padding: 0 10px;
+    width: 0;
+    flex: 1 1 auto;
+}
+
+.ah-rxDrugSave-code {
+    padding: 10px;
+    padding-bottom: 0;
+    text-align: center;
+}
+
+.ah-rxDrugSave-code canvas {
+    width: 85%;
+}
+
+.ah-rxDrugSave-userWrap {
+    padding: 0 5px;
+}
+
+.ah-rxDrugSave-userItems {
+    border-bottom: 1px dashed #ccc;
+    padding: 5px 0;
+}
+
+.ah-rxDrugSave-userItems .ah-user-item-pic {
+    width: 55px;
+    height: 55px;
+    flex: 0;
+}
+
+.ah-rxDrugSave-userItems .info {
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 8px;
+    flex: 1 1 auto;
+    padding-right: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ah-rxDrugSave-userItems .info div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 3px;
+}
+
+.ah-rxDrugSave-userItems a {
+    width: 53px;
+    background: #fff;
+    color: #4780eb;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 14px;
+    border-radius: 2px;
+    flex: none;
+    border: 1px solid #4780eb;
+    align-items: center;
+    justify-content: center;
+}
+.ah-rxDrugSave-userItems .ah-data-div {
+    width: 39px;
+    height: 34px;
+    margin-top: 14px;
+    padding: 0;
+    text-align: center;
+}
+.ah-rxDrugSave-userItems a:hover {
+    background: #4780eb;
+    border: 1px solid #4780eb;
+    color: #fff !important;
+}
+
+.ah-rxMain-wrap {
+}
+
+.ah-rxMain-drugWrap {
+    flex: 1 1 auto;
+}
+
+.ah-rxMain-prescription {
+    width: 250px;
+    flex: none;
+    border-left: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+    padding: 10px;
+    padding-right: 0;
+}
+
+.ah-rxDrugSave-addDrugWrap {
+    padding: 5px 10px 10px;
+}
+
+.ah-rxBaseMain-Wrap {
+    padding: 10px;
+}
+
+.ah-rxBaseMain-Wrap .prescription {
+    margin-right: 10px;
+    border-right: 1px solid #e4e4e4;
+    padding-right: 10px;
+}
+
+.ah-rxBaseMain-Wrap .prescription img {
+    width: 140px;
+    height: 166px;
+    border: 1px solid #e0e0e0;
+    padding: 4px;
+}
+
+.ah-rxBaseMain-data {
+}
+
+.ah-rxDrugSave-base {
+    width: 100%;
+}
+.ah-rxDrugTitle-more {
+    width: auto;
+}
+.ah-rxDrugSave-baseLeft {
+    border-right: 1px solid #e4e4e4;
+    padding-right: 10px;
+    margin-right: 10px;
+    flex: 1 1 auto;
+}
+
+.ah-rxDrugSave-baseRight {
+    width: 118px;
+    flex: none;
+    height: 100%;
+}
+
+.ah-rxDrugSave-baseRight .ah-updataPic {
+    width: 189px;
+    height: 179px;
+    cursor: pointer;
+}
+/*-----------------------------------------------------处方药备录.end---------------------------------*/
+/*-----------------------------------------------------个人处方药购入-------------------------------*/
+.ah-rxCustomerInfo-wrap {
+    padding: 0 10px 10px 10px;
+    background-image: url(../images/login/login-pic.jpg);
+    background-size: 100% 100%;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ah-rxCustomerInfo-main {
+    width: 95%;
+    background: #fff;
+    border-radius: 2px;
+    padding: 20px;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding-bottom: 10px;
+    display: none;
+}
+
+.ah-rxCustomerInfo-data {
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.ah-rxCustomerInfo-data .ah-data-label {
+    width: 72px;
+    flex: none;
+    min-width: initial;
+}
+
+.ah-rxCustomerInfo-data .ah-data-input {
+    flex: 1 1;
+}
+
+.ah-public-updata {
+    background-image: url(../images/ah-public-updata.png);
+    border: none;
+    background-color: #fff;
+    background-size: 100% 100%;
+    margin-top: 10px;
+}
+
+.ah-rx-updataPic {
+    height: 65px;
+    width: 65px;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: relative;
+}
+
+.ah-rx-updataPic img {
+    width: 100%;
+    height: 100%;
+}
+
+.ah-rx-updataPic .layui-icon {
+    position: absolute;
+    top: -9px;
+    right: -8px;
+    z-index: 9;
+    background: #e44040;
+    border-radius: 18px;
+    width: 20px;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    height: 21px;
+    align-items: center;
+    justify-content: center;
+}
+
+.ah-rxCustomerInfo-title1 {
+    font-size: 24px;
+    color: #666;
+}
+
+.ah-rxCustomerInfo-title2 {
+    color: #999;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 17px;
+}
+
+ul[ah-id="RxDrugSaveBase_Drug"] li {
+    align-items: center;
+    width: 33.333%;
+    margin-bottom: 10px;
+    height: 172px;
+    line-height: initial;
+    padding-right: 10px;
+}
+
+ul[ah-id="RxDrugSaveBase_Drug"] li .ah-RxDrugSaveBase_Drug {
+    background: #fff;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #f0f0f0;
+}
+
+ul[ah-id="RxDrugSaveBase_Drug"] li .drugName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1 1 auto;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+ul[ah-id="RxDrugSaveBase_Drug"] li .drugNum {
+    flex: none;
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff5400;
+}
+
+ul[ah-id="RxDrugSaveBase_Drug"] li .drugLabel {
+    background: #4680ea;
+    padding: 3px;
+    border-radius: 2px;
+    color: #fff;
+    flex: none;
+}
+
+ul[ah-id="RxDrugSaveBase_Drug"] li .drugValue {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.rx-updataPic-wrap {
+    flex-direction: column;
+}
+
+.rx-updataPic-wrap img {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    margin: 10px auto 0;
+}
+
+.ah-public-updata-error {
+    position: absolute;
+    top: -7px;
+    color: #fff;
+    border-radius: 12px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    text-align: center;
+    right: -5px;
+    background-image: url(../images/error.png);
+    background-size: 100% 100%;
+    z-index: 9;
+}
+
+.rx-updataPic-wrap .ah-postion-relative {
+    margin: 10px auto 0;
+    width: 100px;
+}
+
+.ah-pvRxDrugDrugSaveBase_Drug {
+}
+.ah-rx-sendDrugMan {
+    background: #f0f0f0 !important;
+    padding: 7px;
+    width: 100%;
+    color: #666;
+}
+.ah-rx-selectDrug {
+    position: fixed;
+    right: -290px;
+    z-index: 90;
+    background: #fff;
+    top: 0;
+    bottom: 0;
+    width: 285px;
+    -webkit-box-shadow: 0 0px 13px #ababab;
+    box-shadow: 0 0px 13px rgba(0, 0, 0, 0.69);
+    border-left: 1px solid #ccc;
+    padding: 10px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    align-items: center;
+    padding-right: 0;
+}
+.ah-rx-selectPage {
+    justify-content: space-around;
+    background: #fff;
+    height: 32px;
+    flex: none;
+}
+
+.ah-rx-selectDrug ul {
+
+}
+.ah-rx-selectDrug li {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    margin-right: 10px;
+    height: 70px;
+    background: #fff;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #e6e6e6;
+    align-items: center;
+}
+.ah-rx-selectDrug li img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 50px;
+}
+.ah-rx-selectDrug li .manufacturerOrigin {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #aeadad;
+}
+.ah-rx-selectDrug li:hover {
+    background: #f3f3f3 !important;
+}
+@media (max-width:800px) {
+    .ah-rxDrugTitle-more {
+        width:100%;
+    }
+    .ah-rxDrugTitle {
+        padding-bottom: 10px;
+        line-height: 30px;
+    }
+    .ah-rxDrugTitle-more .ah-search-grpmin {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+    .ah-rxDrugTitle-more .ah-search-grpmin input {
+        flex: 1 1 auto;
+    }
+    .ah-rxDrugTitle-more .ah-search-grpmin a{
+        flex:none;
+    }
+    .rx-updataPic-wrap .ah-postion-relative {
+        margin: 10px 0;
+        width: 85px;
+        margin-left: 10px;
+    }
+
+    ul[ah-id="RxDrugSaveBase_Drug"] li {
+        width: 100%;
+    }
+
+    .ah-rxDrugSave-base {
+        flex-direction: column;
+    }
+
+    .ah-rxDrugSave-baseLeft {
+        border-right: none;
+        padding-right: 0;
+        margin-right: 0;
+        flex: 1 1 auto;
+    }
+
+    .ah-rxDrugSave-baseRight {
+        width: 100%;
+        height:auto;
+    }
+
+    .rx-updataPic-wrap img {
+        width: 85px !important;
+        height: 85px !important;
+        cursor: pointer;
+    }
+
+    .rx-updataPic-wrap {
+        flex-direction: initial;
+    }
+}
+/*-----------------------------------------------------个人处方药购入.end---------------------------------*/
+
+
+/*--------------------------------- 我的配置 start--------------------------------------------*/
+.ah-rx-li{position:relative;margin-bottom:5px;}
+.ah-rxdoc{padding:9px;}
+.ah-rxdoc-def{border:1px solid #4780eb;border-radius:3px;}
+.ah-rxdoc-def:after{content:"默认";color:#fff;background-color:#4780eb;display:block;padding:1px 5px;position:absolute;right:0;bottom:0;}
+/*--------------------------------- 我的配置 end--------------------------------------------*/
+
+
+

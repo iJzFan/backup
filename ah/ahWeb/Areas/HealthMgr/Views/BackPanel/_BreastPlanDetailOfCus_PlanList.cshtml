@@ -1,0 +1,99 @@
+﻿@model IEnumerable<vwAHMS_HMGR_BreastMgr_Detail>
+@{
+    Layout = null;
+}
+<style>
+    .li-plan{
+        display:flex;
+    }
+    .type-plan {
+        width: 90px;
+    }
+    .time-plan{
+        width: 160px;
+    }
+    .text-plan {
+        flex: 1;
+    }
+    .active-plan {
+        margin-left: 10px;
+        color: #666;
+        border: 1px solid #dcdcdc;
+        margin-bottom: 10px;
+        border-radius: 3px;
+        padding: 5px;
+        font-size: 0.9em;
+        line-height: 16px;
+    }
+    .active-plan i {
+        margin: 0 2px;
+        border-radius: 3px;
+        padding: 3px 3px 2px 2px;
+        color: #fff;
+        cursor:pointer;
+    }
+    .glyphicon-ok {
+        background: #56bf54;
+    }
+    .glyphicon-remove {
+        background: #f0515b;
+    }
+</style>
+<ul class="measures" id="plan">
+    @foreach (var item in Model)
+    {
+
+        <li class="li-plan">
+            <div class="@(item.BreastPlanIsDeal==true ? "complete":"no-complete")" title="处理时间:@item.BreastPlanDealTime">
+                <span class="type-plan">                
+                    <span>@item.BreastPlanMainType</span>
+                </span>
+                <span class="time-plan">@item.BreastPlanStartTime?.ToString("yyyy-MM-dd hh:mm:ss")</span>
+                <span class="text-plan">@item.BreastPlanContent</span>
+                @if (item.BreastPlanIsDeal == true)
+                {
+                    <span class="text-plan">@item.BreastPlanDealMan 于 @item.BreastPlanDealTime 标记执行</span>
+                }
+            </div>
+            @if (item.BreastPlanIsDeal != true)
+            {
+                <span data-role="activeItem" class="active-plan">
+                    标记已执行?
+                    <i title="执行" class="glyphicon glyphicon-ok" onclick="activePlan(@item.BreastMgrDetailId,@item.BreastMgrId)"></i>
+                    <i title="删除" class="glyphicon glyphicon-remove" onclick="removePlan(@item.BreastMgrDetailId,@item.BreastMgrId)"></i>
+                </span>
+            }
+           
+        </li>
+    }
+</ul>
+<script>
+    function activePlan(id,bid) {
+        $.ajax({
+            type: "post", url: "/HealthMgr/BackPanel/SetDealBreastPlanItem",
+            data: { planDetailId: id },
+            success: function (jn) {
+                if (jn) {
+                    layer.msg("执行成功！");
+                    getBreasPlanDetail(bid);
+                } else { 
+                    layer.msg("执行失败,请重试！")
+                }
+            }
+        });
+    }
+    function removePlan(id,bid) {
+        $.ajax({
+            type: "post", url: "/HealthMgr/BackPanel/DeleteBreastPlanItem",
+            data: { planDetailId: id },
+            success: function (jn) {
+                if (jn) {
+                    layer.msg("删除成功！");
+                    getBreasPlanDetail(bid);
+                } else {
+                    layer.msg("删除失败,请重试！")
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,31 @@
+﻿@using Ass
+@*@inject CHIS.Code.Managers.IUserFrameMgr CusHelper*@
+@{
+    Layout = "~/Views/Shared/_LayoutDoctor.cshtml";
+    
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+}
+
+@section link3part{
+    <link href="~/sys/framework-ui.css" rel="stylesheet" />
+    @RenderSection("link3part", required: false)
+}
+@section links{
+    <link href="~/css/layout-main.css" rel="stylesheet" />
+    @RenderSection("links", required: false)
+}
+
+@section scriptsPart{
+    @RenderSection("scriptsPart", required: false)
+}
+
+@section scripts{
+    <script src="~/sys/sysall.js"></script>
+    @RenderSection("scripts", required: false)
+
+}
+
+@* 内容 *@
+@RenderBody()
+
+

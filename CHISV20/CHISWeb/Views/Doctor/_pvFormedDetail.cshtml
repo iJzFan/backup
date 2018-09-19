@@ -1,0 +1,111 @@
+﻿@model vwCHIS_DoctorAdvice_Formed_Detail
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var mWhereList = myRazor.GetSelectListItemsByDictKey("DrugGivenWhereType");
+    var mTimeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTimeType");
+    var mTakeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+    var uid = Guid.NewGuid().ToString("N");
+}
+@*<li class='ah-li-device-space'></li>*@
+<li class="ah-flex  ah-flex-wrap" rolename="boxitem-drugs-item" chargestatus="@(Model.ChargeStatus)">
+    <input type="hidden" name="Details[].DrugId" asp-for="DrugId" />
+    <input type="hidden" name="Details[].StockFromId" asp-for="StockFromId" />
+    <input type="hidden" name="Details[].AdviceFormedId" asp-for="AdviceFormedId" />
+    <input type="hidden" name="Details[].GroupNum" asp-for="GroupNum" />
+    <input type="hidden" name="Details[].UnitID" asp-for="UnitId" /> @*选择出药的单位方式*@
+    <input type="hidden" asp-for="OutpatientConvertRate" />
+    <div ah-role="imghead" class="ah-formed-pic">
+        <input lay-skin="primary" value="@(Model.AdviceFormedId)" class="chkdrug-item" type="checkbox">
+        <img class="grp-@(Model.GroupNum)" src="@(Model.DrugPicUrl.ahDtUtil().GetDrugImg(Model.MedialMainKindCode))" onclick="FORMED.ShowDrugDetail(@Model.DrugId,this)" />
+    </div>
+    <div class="ah-formed-main-info">
+        <div class="ah-flex">
+            <div class="ah-formed-name drugName">
+                @(Model.DrugName)
+             <i class="ah-rxtype-@Model.DrugRxType"></i>
+                    </div>
+            <div class="ah-formed-label">
+                <span>包装</span>
+                <i>@(Model.DrugModel)</i>
+            </div>
+            <div class="ah-formed-label">
+                <span>单价</span>
+                <i>@(Model.Price)/@(Model.UnitName)</i>
+            </div>
+        </div>
+        <div class="ah-formed-more ah-flex" onclick="FORMED.formedShowMore(this)">
+            <span class="ah-link">详细使用说明<i class="glyphicon glyphicon-menu-right"></i></span>
+        </div>
+    </div>
+    <div class="ah-formed-edit-wrap ah-flex">
+        @if (Model.ChargeStatus > 0)
+        {
+            <span class="ah-formed-num" style="border:none;">@(Model.Qty)</span>
+        }
+        else
+        {
+            <input class="ah-formed-num" name="Details[].Qty" type="text" onkeydown="return $.f.onlyNumbersEvt(event);" placeholder="药品数量" asp-for="Qty" />
+        }
+        <span class="ah-formed-unit">
+            @if (Model.IsMultyUnit && Model.ChargeStatus == 0)
+            {
+                <input type="radio" ah-u="UNITB" onchange="selectUnitId(this)" name="du_@(uid)" @Html.Raw(Model.UnitBigId == Model.UnitId ? "checked" : "") value="@(Model.UnitBigId)" title="@(Model.OutUnitBigName)" />
+                <input type="radio" ah-u="UNITS" onchange="selectUnitId(this)" name="du_@(uid)" @Html.Raw(Model.UnitSmallId == Model.UnitId ? "checked" : "") value="@(Model.UnitSmallId)" title="@(Model.OutUnitSmallName)" />
+            }
+            else
+            {
+                @(Model.UnitName)
+            }
+        </span>
+        <span class="ah-price ah-phone-hide">
+            @*@(Model.Price)*@
+            @(Model.Amount)
+        </span>
+        @if (Model.ChargeStatus == null || Model.ChargeStatus == 0)
+        {
+            <a onclick="FORMED.DeleteFormedDrug(this);" class="glyphicon glyphicon-remove"></a>
+        }
+    </div>
+    <div class="ah-max-width ah-flex ah-formed-more-info">
+        <div class="ah-flex-data">
+            <div class="ah-data-label">用法</div>
+            <select name="Details[].GivenWhereTypeId" asp-for="GivenWhereTypeId" role-initial="false" class="select_prescribestyles" asp-items="mWhereList"><option value="">-用法-</option></select>
+        </div> 
+        <div class="ah-flex-data">
+            <div class="ah-data-label ah-title-v1">频次</div>
+            <select name="Details[].GivenTakeTypeId" asp-for="GivenTakeTypeId" role-initial="false" class="select_prescribestyles" asp-items="mTakeList" onchange="calcNum(this)"><option value="">-频次-</option></select>
+        </div>
+
+        @if (Model.IsMultyUnit && Model.DosageUnitId != Model.UnitBigId)
+        {
+            <div class="ah-flex-data" style="width: 317px;">
+                <div class="ah-data-label ah-title-v1">单次剂量(<span class="ah-title-v2">@(Model.DosageContent?.ToString("#0.####"))@(Model.DosageUnitName)/@(Model.OutUnitSmallName)</span>)</div>
+                <div class="input-group ah-data-input-group">
+                    <input type="hidden" id="DosageContent" asp-for="DosageContent" />
+                    <input type="text" name="Details[].GivenDosage" asp-for="GivenDosage" class="ah-data-input" placeholder="数字,单次剂量" title="填写剂量，比如 300 mg/次" onkeydown="return $.f.onlyNumbersEvt(event)" onafterpaste="$.f.onlyNumAfterPaste(this)" onkeyup="calcNum(this)" />
+                    <span class="input-group-addon">
+                        @(Model.DosageUnitName)<small>/次</small>
+                    </span>
+                </div>
+            </div>
+        }
+        else
+        {   
+            <div class="ah-flex-data" style="width: 317px;">
+                <div class="ah-data-label ah-title-v1">用法</div>
+                <input type="text" name="Details[].GivenRemark" asp-for="GivenRemark" class="ah-data-input" placeholder="手写用法" title="手写药品用法，比如 3次/日" />
+            </div>
+        }
+
+        <div class="ah-flex-data">
+            <div class="ah-data-label ah-title-v1">天数</div>
+            <input type="text" name="Details[].GivenDays" asp-for="GivenDays" class="ah-data-input" placeholder="数字,天数" title="用药天数" onkeydown="return $.f.onlyNumbersEvt(event);" onafterpaste="$.f.onlyNumAfterPaste(this)" onkeyup="calcNum(this)" />
+        </div>
+
+        <div class="ah-flex-data">
+            <div class="ah-data-label">其他医嘱</div>
+            <input type="text" name="Details[].Advice" asp-for="Advice" class="ah-data-input" placeholder="其他医嘱" title="有关药品的其他注意事项的遗嘱，比如“血压增高时服用.”" />
+        </div>
+
+    </div>
+</li>

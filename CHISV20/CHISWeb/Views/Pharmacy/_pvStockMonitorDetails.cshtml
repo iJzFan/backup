@@ -1,0 +1,267 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_DrugStock_Monitor>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService _accSvr
+@inject CHIS.Services.WorkStationService _staSvr
+@{
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+    var isedit = u.IsSelfDrugStore && _accSvr.GetFuncConfig(MyConfigNames.MyPharmacy_StockMonitor_MYSTOCK_IsSetPrice).ToBool();
+    var isdelete = u.IsSelfDrugStore && _accSvr.GetFuncConfig(MyConfigNames.MyPharmacy_StockMonitor_MYSTOCK_IsDel).ToBool();
+    var isEditDrug = u.IsSelfDrugStore && _accSvr.GetFuncConfig(MyConfigNames.MyPharmacy_StockMonitor_MYSTOCK_IsEditBaseDrugInfo).ToBool();
+    var sta = _staSvr.Find(u.StationId);
+}
+<style>
+    .drug-big-pic {
+        position: absolute;
+        width: 135px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        left: 56px;
+        display: none;
+        top: -37px;
+        z-index: 10;
+    }
+
+    .ah-p-bigprice {
+        color: #999;
+    }
+
+    .ah-p-bigprice:before {
+        content: "(";
+    }
+
+    .ah-p-bigprice:after {
+        content: ")";
+    }
+
+    [ah-id="StockSalePrice"] {
+        font-size: 1.2em;
+        color: #ff6a00;
+    }
+
+    [ah-id="StockSalePrice"]:before {
+        content: "￥";
+        font-size: 0.83em;
+        color: #333;
+    }
+    .ah-cds-p,
+    .ah-cds-p:before,
+    .ah-cds-p:after,
+    .ah-cds-p>.unit,
+    .ah-cds-p>.unit:before,
+    .ah-cds-p>.price
+    {color:#aaa;}
+
+    .ah-cds-p{font-size:1em;}
+     .ah-cds-p:before{content:"(";}
+    .ah-cds-p:after    {content:")";} 
+      .ah-cds-p>.price{font-size:1em;}
+      .ah-cds-p>.price:before{content:" ";}
+      .ah-cds-p>.unit{}
+      .ah-cds-p>.unit:before{}
+    .ah-cds-p-active{color:#333;}
+    .ah-cds-p-active:before
+    ,.ah-cds-p-active:after
+    {content:"";}    
+      .ah-cds-p-active>.price{font-size:1.2em;color:#ff6a00;}
+      .ah-cds-p-active>.price:before{content: "￥";        font-size: 0.83em;        color: #333;}
+      .ah-cds-p-active>.unit{color:#000;}
+
+
+      .ah-s{font-size:1em;color:#aaa;font-weight:normal;}
+      .ah-s>.ah-red-highlight{color:#aaa;}
+      .ah-s-active{font-size:1.2em;font-weight:bold;color:#e64f4c;}
+
+
+    @@media(max-width:450px) {
+        .ah-tb-mob * {
+            box-sizing: border-box;
+        }
+
+        .ah-tb-mob thead {
+            display: none;
+        }
+
+        .ah-tb-mob tr {
+            display: block;
+            height: 100px;
+            position: relative;
+        }
+
+        .ah-tb-mob tbody .ah-tr-hide {
+            display: none;
+        }
+
+        .ah-tb-mob tbody tr {
+            display: block;
+            height: 80px;
+            position: relative;
+        }
+
+        .ah-tb-mob tbody tr {
+            display: block;
+            position: relative;
+            border-bottom: 1px solid #ccc;
+            padding: 9px;
+        }
+
+        .ah-tb-mob tbody tr td {
+            display: inline-block;
+            border: none;
+            float: left;
+        }
+
+        .ah-tb-mob tbody tr td.ah-m-newlineleft {
+            float: left;
+            display: inline;
+        }
+
+        .ah-tb-mob tbody tr td.ah-m-right {
+            float: right;
+        }
+
+        .ah-tb-mob tbody tr td.ah-m-tr-main {
+            width: 70% !important;
+            float: left;
+            margin-right: 20%;
+        }
+
+        .ah-tb-mob tbody td.ah-td-op {
+            width: 20% !important;
+            position: absolute;
+            right: 0;
+        }
+    }
+</style>
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover ah-tb-mob">
+        <thead>
+            <tr>
+                <th width="60px"></th>
+                <th class="ah-tr-width200 ah-td-left">药品名称</th>
+                <th class="ah-tr-hide ah-td-left">厂商/产地</th>
+                <th class="ah-tr-right">价格</th>
+                <th class="ah-tr-right">库存</th>
+                <th class="ah-tr-right" style="padding-right:30px;">合并</th>
+                <th cname="ssn" class="ah-tr-hide">安全库存数</th>
+                <th class="ah-tr-hide"></th>
+                @if (isedit || isdelete || isEditDrug)
+                {
+                    <th>操作</th>
+                }
+                else
+                {
+                    <th></th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr onclick="loadRowDetail(event,'@(item.DrugStockMonitorId)');">
+                    <td style="position:relative;overflow: initial; white-space: initial;text-overflow: initial;">
+                        <img src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode,true))" width="32" onmouseover="showBigImg(this);" onmouseout="hideBigImg(this)" />
+                        <img class="drug-big-pic" src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode,false))" />
+                    </td>
+                    <td class="ah-td-left ah-tr-width200 ah-m-tr-main">
+                        <span class="ah-red-highlightb">@item.DrugName</span>
+                        <small class="ah-red-highlight">@item.Alias</small>
+                        <div class="ah-color-def">@item.DrugModel</div>
+                    </td>
+
+                    <td class="ah-tr-hide ah-td-left">
+                        <span>@item.ManufacturerOrigin</span>
+                        <span>@item.OriginPlace</span>
+                    </td>
+                    <td class="ah-tr-right ah-m-right">
+                        @{
+                            var smalcls = sta.IsCenterDrugStore ? "ah-cds-p" : "";
+                            var sbigcls = sta.IsCenterDrugStore ? "ah-cds-p-active" : "";
+                        }
+
+                        @if (item.IsMultyUnit)
+                        {
+                            <span class="@smalcls">
+                                <span ah-id="StockSalePrice" class="price">@item.StockSalePrice.ToString("#0.00##")</span>
+                                / <span class="unit">@item.StockUnitName</span>
+                            </span>
+                            <br />
+                            <span class="ah-p-bigprice @(sbigcls)">
+                                <span class="price">@((item.StockSalePrice * item.OutpatientConvertRate.Value).ToString("#0.00"))</span>
+                                / <span class="unit">@item.OutUnitBigName</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                <span ah-id="StockSalePrice">@item.StockSalePrice.ToString("#0.00##")</span>
+                                / <span>@item.StockUnitName</span>
+
+                            </span>
+
+                        }
+
+                    </td>
+                    
+                    @{ 
+                        //========= 设置库存数量==============
+                        var clshbshowact = item.IsMultyUnit && sta.IsCenterDrugStore ? "ah-s-active" : "ah-s";
+                        var clskcshowact = item.IsMultyUnit && sta.IsCenterDrugStore ? "ah-s" : "ah-s-active";
+                    }
+                    <td class="ah-td-biggerbold ah-m-newlineleft @clskcshowact" style="text-align:right;">
+                        <span class="ah-red-highlight" style="text-align:right;" ah-id="DrugStockNum">@(item.DrugStockNum)&nbsp;@(item.StockUnitName)</span>
+                    </td>
+                    <td class="ah-tr-right ah-m-right @clshbshowact" style="padding-right:20px;">
+                        @if (item.IsMultyUnit)
+                        {
+                            <span>@((int)item.BigStockNumber)&nbsp;@(item.OutUnitBigName)</span>
+                            <sup class="sup-more">@Html.Raw(item.HasBigStockNumberMore ? "<i class='fa fa-plus-circle'></i>" : "")</sup>
+                        }
+                    </td>
+                    <td ah-id="StockLineNum" cname="ssn" class="ah-tr-hide">@item.StockLineNum</td>
+
+                    <td class="ah-tr-hide ah-td-left" cname="did">
+                        编号:@item.DrugStockMonitorId<br />
+                        药品Id: @item.DrugId
+                    </td>
+
+                    <td class="ah-td-op">
+                        @if (isedit)
+                        {
+                            <a onclick="STOCK.EditStockMonitorDetail(this,'@(item.DrugStockMonitorId)',@item.StockSalePrice,@item.DrugStockNum,@(item.StockLineNum??0))">调整</a>
+                        }
+                        @if (isdelete)
+                        {
+                            <a onclick="STOCK.DeleteItem(this,'@(item.DrugStockMonitorId)')">删除</a>
+                        }
+                        @if (isEditDrug)
+                        {
+                            <a asp-controller="Code" asp-action="DrugNormalEdit" asp-route-DrugId="@item.DrugId" target="_blank">编辑</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@ViewBag.DebugText
+<script>
+    var pager = {
+        pagenumber: @Model.PageIndex,
+        pagecount: @Model.PageTotal,
+        ver:1
+    };
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+    function loadRowDetail(e, id) {
+
+    }
+</script>

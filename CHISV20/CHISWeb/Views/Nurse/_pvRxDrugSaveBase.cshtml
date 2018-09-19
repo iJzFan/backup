@@ -1,0 +1,270 @@
+﻿@model RxUserViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.LoginService loginSvr
+@{
+    var u = this.GetUserSelf();
+
+    var checkers = loginSvr.GetLoginExtCanCheckOfStore(u.StationId, u.LoginId).Select(m => new SelectListItem
+    {
+        Text = m.LoginExtName,
+        Value = m.LoginExtName
+    });
+
+}
+<style>
+    .ah-rxDrugTitle {
+        background: #f0f0f0;
+        border: none;
+        padding-left: 10px;
+        color: #666;
+        height: initial;
+        padding-right: 10px;
+    }
+
+        .ah-rxDrugTitle .ah-btn-blue {
+            margin-right: 10px;
+        }
+</style>
+<div class="ah-rx-selectDrug ah-flex">
+    <div class="scrollbar-dynamic ah-max-height ah-flex ah-flex-column" ah-id="selectDrug-wrap">
+
+    </div>
+</div>
+<form method="post" onkeydown="if(event.keyCode==13)return false;" class="ah-flex ah-max-width" onsubmit="return RXDRUGSAVE.RxOnsubmit()">
+    <div class="ah-flex ah-rxDrugSave-base" id="rx_edit">
+        <div class="ah-rxDrugSave-baseLeft">
+            <input type="hidden" asp-for="RxSaveId" />
+            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for=@Model.RxPicUrl1 />
+            <input type="hidden" asp-for=@Model.RxPicUrl2 />
+            <input type="hidden" asp-for=@Model.RxPicUrl3 />
+            <div class="ah-public-title  ah-rxDrugTitle ah-flex-wrap">
+                <span class="ah-rxDrugTitle-text">顾客与药品</span>
+                @if (Model.RxSaveId == 0)
+                {
+                    <div class="ah-rxDrugTitle-more">
+                        <div class="ah-search-grpmin">
+                            <input type="text" id="search_cus" class="ah-search-input" placeholder="输入顾客手机或身份证" />
+                            <a class="ah-search-btn" onclick="RXDRUGSAVE.GetCustomersAndRelations($('#search_cus').val())">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="ah-rxBaseMain-Wrap">
+                <div class="ah-flex-auto ah-rxBaseMain-data">
+                    <div class="ah-flex-required ah-align-self">
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">姓名</div>
+                            <input class="ah-data-input" type="text" asp-for="CustomerName">
+                            <span asp-validation-for="CustomerName" class="text-danger field-validation-error"></span>
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">手机</div>
+                            <input class="ah-data-input" type="text" asp-for="CustomerMobile">
+                            <span asp-validation-for="CustomerMobile" class="text-danger field-validation-error"></span>
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">身份证</div>
+                            <input class="ah-data-input" type="text" asp-for="CustomerIdCode">
+                            <span asp-validation-for="CustomerIdCode" class="text-danger field-validation-error"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ah-public-title  ah-rxDrugTitle ah-flex-wrap">
+                <span>处方药记录</span>
+                <div class="ah-rxDrugTitle-more">
+                    <div class="ah-search-grpmin">
+                        <input type="text" id="search_drug" class="ah-search-input" placeholder="搜索药品 按空格分割[品名 商标/厂商]" />
+                        <a class="ah-search-btn" onclick="RXDRUGSAVE.GetDrugsBasic($('#search_drug').val())">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="ah-rxMain-wrap ah-flex">
+                <div class="ah-rxMain-drugWrap">
+                    <div class="ah-rxDrugSave-addDrugWrap">
+                        <input id="drugId" type="hidden" />
+                        <input id="dosageUnitName" type="hidden" />
+                        <div class="ah-flex-layout">
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ">品名</div>
+                                <input class="ah-data-input" id="drugName" type="text" readonly>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ">规格</div>
+                                <input class="ah-data-input" id="drugMolde" type="text" readonly>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ">生产厂家</div>
+                                <input class="ah-data-input" id="drugManufacturerOrigin" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="ah-flex-layout">
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ">批号</div>
+                                <input class="ah-data-input" id="drugBatNo" type="text">
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ">有效期</div>
+                                <div class="ah-postion-relative ah-flex-auto">
+                                    <input class="ah-data-input" id="drugDeadlineTime" type="text" placeholder="yyyy-MM-dd">
+                                    <input class="ah-data-input ah-date-icon" for-event="drugDeadlineTime" type="text">
+                                </div>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ">数量</div>
+                                <input class="ah-data-input" id="drugNum" value="1" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ah-rxBaseMain-Wrap">
+                <div class="ah-flex ah-sub-wrap">
+                    <button type="button" class="ah-btn-blue-rev" onclick="RXDRUGSAVE.addRxDrugSaveDrug()">新增药品</button>
+                </div>
+            </div>
+            <div class="ah-flex-auto ah-max-width ah-pvRxDrugDrugSaveBase_Drug">
+                @*  处方记录药品_PV  *@
+                <ul class="ah-flex ah-flex-wrap" ah-id="RxDrugSaveBase_Drug">
+                    @if (Model.DrugList != null)
+                    {
+                        foreach (var item in Model.DrugList)
+                        {
+                            @await Html.PartialAsync("_pvRxDrugSaveBase_Drug", item)
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="ah-public-title">发药与审核</div>
+            <div class="ah-rxBaseMain-Wrap">
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md3 ah-flex-data">
+                        <div class="ah-data-label">发药人</div>
+                        <input class="ah-rx-sendDrugMan" type="text" asp-for="SendDrugMan" readonly />
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data">
+                        <div class="ah-data-label">审核人</div>
+                        <select role-initial="false" class="ah-data-select" asp-items="checkers" asp-for="CheckDrugMan">
+                            <option value="">--请选择--</option>
+                        </select>
+                        <span asp-validation-for="CheckDrugMan" class="text-danger"></span>
+                    </div>
+                    <div class="ah-col-md3"></div>
+                    <div class="ah-col-md3 ah-flex-data">
+                        <div class="ah-data-label">发药日期</div>
+                        <input class="ah-data-input" type="date" asp-for="SendTime">
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data">
+                        <div class="ah-data-label">审核日期</div>
+                        <input class="ah-data-input" type="date" asp-for="CheckTime">
+                        <span asp-validation-for="CheckTime" class="text-danger"></span>
+                    </div>
+
+                    <div class="ah-col-md3"></div>
+                </div>
+            </div>
+            <p></p>
+            <div class="ah-rxBaseMain-Wrap">
+                <div class="ah-sub-wrap ah-flex">
+                   <button class="ah-btn-red" type="button" style="float:left" onclick="deleteRxUser()">删除</button>
+                   <button class="ah-btn-blue" type="submit" style="float:right" @*onclick="RXDRUGSAVE.SubRxDrugSave()*@">添加记录</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="ah-rxDrugSave-baseRight">
+            <div class="ah-public-title">
+                上传处方图
+            </div>
+            <div class="rx-updataPic-wrap ah-flex ">
+                <div id="rxPic" class="ah-flex ah-flex-wrap">
+                    <input type="file" id="upload" value="选择图片文件" style="display:none;" accept="image/*" />
+                    <div class="ah-postion-relative" id="file_btn">
+                        <img src="~/images/ah-public-updata.png" />
+                    </div>
+                    @{
+                        if (Model.RxPicUrl1 != null)
+                        {
+                            <div class="ah-postion-relative ah-RxPic">
+                                <i class="ah-public-updata-error"></i>
+                                <a href="@Model.RxPicUrl1" target="_blank" title="点击查看大图"><img src="@Model.RxPicUrl1" /></a>
+                            </div>
+                        }
+                        if (Model.RxPicUrl2 != null)
+                        {
+                            <div class="ah-postion-relative ah-RxPic">
+                                <i class="ah-public-updata-error"></i>
+                                <a href="@Model.RxPicUrl2" target="_blank" title="点击查看大图"><img src="@Model.RxPicUrl2" /></a>
+                            </div>
+                        }
+                        if (Model.RxPicUrl3 != null)
+                        {
+                            <div class="ah-postion-relative ah-RxPic">
+                                <i class="ah-public-updata-error"></i>
+                                <a href="@Model.RxPicUrl3" target="_blank" title="点击查看大图"><img src="@Model.RxPicUrl3" /></a>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        updataLayui();
+        $.revalidate($('#editLoginExt'));/*动态添加重新整理验证*/
+
+        //预约来源 鼠标监听
+        $(document).on("click touchstart", function (e) {
+            e = window.event || e; // 兼容IE7
+            obj = $(e.srcElement || e.target);
+            //用户信息点击其他位置
+            if ($(obj).parents(".ah-rx-selectDrug").first().length <= 0) {
+                if (!$(obj).hasClass("ah-rx-selectDrug")) {
+                    $(".ah-rx-selectDrug").css("right", "-290px");
+                }
+            }
+        });   
+        $("#drugNum").keyup(function () {
+            var tmptxt = $(this).val();
+            $(this).val(tmptxt.replace(/\D|^0/g, ''));
+        }).bind("paste", function () {
+            var tmptxt = $(this).val();
+            $(this).val(tmptxt.replace(/\D|^0/g, ''));
+        });  
+        //点击上传
+        $('#file_btn').click(function () {
+            if ($("#rxPic .ah-RxPic").length < 3) {
+                $('#upload').click();
+            } else {
+                $.err("最多只能上传3张处方图！");
+            }
+        });
+        //初始化上传
+        $.localUpdataPic(document.getElementById("upload"), function (jn) {
+            //上传成功
+            var html = '<div class="ah-postion-relative ah-RxPic">' +
+                '<i class="ah-public-updata-error"></i>' +
+                '<a href="' + jn.url + '" target="_blank" title="点击查看大图"><img src="' + jn.url + '" /></a>' +
+                '</div>';
+            $("#rxPic").append(html)
+        });
+        //删除处方图
+        $("#rxPic").on("click", ".ah-public-updata-error", function () {
+            var _this = $(this);
+            $.confirm("确认", "是否删除该处方图？", function () {
+                _this.parents(".ah-RxPic").first().remove();
+            })
+        })
+    });
+
+</script>

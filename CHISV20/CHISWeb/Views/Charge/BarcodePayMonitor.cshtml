@@ -1,0 +1,95 @@
+﻿@using Ass;
+@model PayMonitorModel
+@{
+    ViewBag.Title = "收费二维码检测";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CHIS</title>
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/lib/layui/css/layui.css" />
+</head>
+<body class="ah-barcode-body">
+    @*收到订单*@
+    <audio controls="controls" ah-id="ah-order-tips" class="ah-hide">
+        <source src="~/audio/order-tips.mp3" type="audio/mpeg" />
+    </audio>
+    @*连接失败*@
+    <audio controls="controls" ah-id="ah-pay-error" class="ah-hide">
+        <source src="~/audio/pay-error.mp3" type="audio/mpeg" />
+    </audio>
+    @*支付成功*@
+    <audio controls="controls" ah-id="ah-pay-success" class="ah-hide">
+        <source src="~/audio/pay-tips.mp3" type="audio/mpeg" />
+    </audio>
+    <div class="ah-wrap ah-flex ah-barcode-pay">
+        <div class="ah-borcode-wrap ah-flex">
+            <div class="ah-flex ah-barcode-station">
+                <span>@Model.Station.StationName</span>
+                <span>@Model.Doctor.DoctorName</span>
+            </div>
+            <div class="ah-flex ah-borcode-tips">
+                <span>患者</span>
+                <span>应付金额</span>
+            </div>
+            <div class="ah-flex ah-flex-auto ah-borcode-psy">
+                <span ah-id="cname"></span>
+                <span ah-id="amout"></span>
+            </div>
+        </div>
+        <div class="ah-barcode-main">
+            <div id="ah-barcode"></div>
+        </div>
+        <span class="ah-barcode-other">
+            扫描支付更方便
+        </span> 
+        <div class="ah-pay-codetype">
+            <div class="ah-flex">
+                <input type="hidden" id="pay_type" value="wechat"/>
+                <img class="ah-active-paytype" src="~/images/wx_pay.png" onclick="activePayType(this,'wechat')"/>
+                <img src="~/images/zfb_pay.png" onclick="activePayType(this,'alipay')" />
+            </div>
+        </div>
+        <div class="ah-socket-status-wrap ah-flex">
+            <div class="ah-socket-status0">连接中..</div>
+        </div>
+    </div>
+    <div class="ah-pay-tips-wrap ah-flex" >
+        <div class="ah-pay-inquiry ah-flex layui-anim layui-anim-up" data-anim="layui-anim-up">
+            <div class="ah-paytips-title">
+                提示
+            </div>
+            <div class="ah-paytips-main">
+                欢迎使用手机口二维码监控，可以让客户扫描此处的二维码付款。
+            </div>
+            <button class="ah-paytips-btn" onclick="initAudioAndSocket()">开始使用</button>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/lib/jquery-1.12.0.min.js"></script> 
+<script src="~/lib/qrcode/jquery.qrcode.min.js"></script>
+<script src="~/js/pages/ah-pay-socket.js"></script>
+<script>
+    var pagedata = {
+        cname: $("span[ah-id='cname']"),
+        amout: $("span[ah-id='amout']"),
+        barcode: $("#ah-barcode"),
+        status: $(".ah-socket-status-wrap"),
+        tips: $(".ah-barcode-other"),
+        codetype: $(".ah-pay-codetype"),
+        handle:null,//统一使用同一个定时器 避免多次定时
+    }
+    setPayType_TIMEOUT();
+
+    var socket, qrSocket;
+    @*var uri = "ws://ws.jk213.com/ws-pay-station-monitor?stationId=@Model.Station.StationID&doctorId=@Model.Doctor.DoctorId";
+    var qruri = "ws://ws.jk213.com/ws-pay-qr-monitor?stationId=@Model.Station.StationID&doctorId=@Model.Doctor.DoctorId";*@
+    var uri = "ws://@(Global.ConfigSettings.WSServerRoot)/ws-pay-station-monitor?stationId=@Model.Station.StationID&doctorId=@Model.Doctor.DoctorId";
+    var qruri = "ws://@(Global.ConfigSettings.WSServerRoot)/ws-pay-qr-monitor?stationId=@Model.Station.StationID&doctorId=@Model.Doctor.DoctorId";
+</script>

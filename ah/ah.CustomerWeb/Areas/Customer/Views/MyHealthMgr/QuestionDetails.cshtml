@@ -1,0 +1,72 @@
+﻿@model ah.Models.ViewModel.vwQuestionaireModel
+@{
+    ViewData["Title"] = "个人中心-问卷详情";
+}
+
+@section links{
+<style>
+   .judge-content-wrap{display:flex;flex-wrap:wrap;line-height:22px}
+    .QAItem-wrap{width:50%;display:flex}
+    .QAItem-title{width:155px;text-align:right;margin-right:25px}
+    .QAItem-value{color:#ff9800;display:flex;flex-direction:column;flex:1}
+    .qicon{display:none;width:30px;float:left}
+    @@media screen and (max-width:500px) {
+        .QAItem-wrap{width:100%;display:flex;flex-wrap:wrap}
+        .QAItem-title{width:100%;text-align:left;margin-right:25px;line-height:30px;margin-top:10px}
+        .QAItem-value{padding-left:30px}
+        .qicon{display:block}
+        .breadcrumb{margin-top:10px;margin-bottom:0}
+    }
+</style>
+}
+<ol class="breadcrumb">
+    <li><a href="javascript:void;" onclick="history.go(-1);">乳腺癌管理</a></li>
+    <li><a>问卷详情</a></li>
+</ol>
+<div class="judge-content-wrap">
+    @{
+        var nulllist = @Model.QADetails.Where(m => m.MainItemId == null);
+        var list = @Model.QADetails.Where(m => m.MainItemId > 0).OrderBy(m => m.MainItemId);
+    }
+    @foreach (var item in nulllist)
+    {
+        <div class="QAItem-wrap">
+            <span class="QAItem-title">
+                <img class="qicon" src="~/customer/image/q.png" />@item.QName 
+            </span>
+            <span class="QAItem-value">@item.QAItemValue</span>
+        </div>
+    }
+
+    @{
+        int? nowMainItemId = null;
+        foreach (var item in list)
+        {
+
+            @if (nowMainItemId != item.MainItemId)
+            {
+                nowMainItemId = item.MainItemId;
+                <div class="QAItem-wrap">
+
+                    <span class="QAItem-title">
+                        <img class="qicon" src="~/customer/image/q.png" />
+                        @item.MainTitle
+                    </span>
+                    <span class="QAItem-value">
+                        @{
+                            foreach (var i in list)
+                            {
+                                @if (i.MainItemId == item.MainItemId)
+                                {
+                                    <span>@i.QName - <span style="color:#666;">@i.QAItemValue</span></span>
+                                }
+                            }
+                        }
+                    </span>
+                </div>
+            }
+        }
+    }
+
+</div>
+

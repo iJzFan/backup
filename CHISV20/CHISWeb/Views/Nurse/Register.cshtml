@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "挂号";
+    ViewBag.FuncId = 2124;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+    var departs = ViewBag.Departs as List<KeyValueItem>;
+    var doctors = ViewBag.Doctors as List<KeyValueItem>;
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+
+}
+
+<div class="ah-flex ah-m-fullwidth">
+    <div class="ah-sidebar">
+        <div class="layui-tab layui-tab-brief" lay-filter="Register">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="addRegister">新增约号</li>
+                <li lay-id="addCustomers"><i class="fa fa-user-plus ah-ft-bigger"></i>&nbsp;新增会员</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">               
+                    <div class="ah-flex-layout">
+                        <div class="ah-col-md1 ah-flex-data" style="padding-right:0;">
+                            <div class="ah-data-label">手机/邮箱/身份证/登录码</div>
+                            <div class="ah-search-group">
+                                <input id="search_customer_input" class="ah-data-input" placeholder="请输入手机/邮箱/身份证/登录码 【可输入后回车】" type="text" onkeydown="$.keydownEnter(event,searchCustomers)">
+                                <button class="ah-btn-search" type="button" onclick="searchCustomers();"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul id="search_customers" class="ah-max-width ah-register-customer ah-flex-layout"></ul>
+                    <div id="add_regist" class="ah-max-width"></div>
+                </div>
+                <div class="layui-tab-item">
+                    @await Html.PartialAsync("_pvRegisterAddCustomer.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ah-flex-auto">
+        <div class="ah-flex ah-flex-column">
+            <div class="ah-tools">
+                <div class="ah-tool-wrap">
+                    <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="会员用户名/手机/身份证/Email" value="@(Context.Request.Query["searchText"])" />
+                    <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+                </div>
+                <div class="ah-tool-wrap">
+                    <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+                </div>
+            </div>
+            <div id="J_selector" class="selector ah-tool-more">
+                <div class="search-conditions" id="search_items">
+                    <div class="title">
+                        已选：
+                    </div>
+                    <div class="sel-items">
+
+                    </div>
+                </div>
+                <div class="J_selectorLine s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key" title-key="TimeRange"><strong>时间段：</strong></div>
+                        <div class="sl-value">
+                            <div class="clr"></div>
+                            <div class="sl-v-list">
+                                <section class="section-inline">
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span class="ah-def-active">当日</span></label>
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Tomorrow" /><span>明天</span></label>
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Next7Days" /><span>未来7天内</span></label>
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                                    <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                                </section>
+                                <section class="section-inline ah-search-input">
+                                    <div class="section-more-wrap">
+                                        <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                        至
+                                        <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                        <button class="ah-btn-blue" type="button">确定</button>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="sl-ext">
+                            <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="J_selectorLine s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key" title-key="departId"><strong>科室：</strong></div>
+                        <div class="sl-value">
+                            <div class="clr"></div>
+                            <div class="sl-v-list">
+                                <section class="section-inline">
+                                    @foreach (var depart in departs)
+                                    {
+                                        <label class="radio-inline"><input type="radio" ah-radio="false" name="DepartId" class="ah-search-radio" value="@(depart.Value)" /><span>@(depart.Text)</span></label>
+                                    }
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="J_selectorLine s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key" title-key="doctorId"><strong>医生：</strong></div>
+                        <div class="sl-value">
+                            <div class="clr"></div>
+                            <div class="sl-v-list">
+                                <section class="section-inline">
+                                    @foreach (var doctor in doctors)
+                                    {
+                                        <label class="radio-inline"><input type="radio" ah-radio="false" name="doctorId" class="ah-search-radio" value="@(doctor.Value)" /><span>@(doctor.Text)</span></label>
+                                    }
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ah-table-wrap" ah-id="OUT-TABLE"></div>
+            <div class="ah-page-wrap" id="pager"></div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/ah-common-search.js"></script>
+    <script>
+        var pagedata = {
+            customerPicPath: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+            doctorPicPath: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+            stationId:@(u.StationId),
+            defDepartId:@(u.SelectedDepartmentId??0),
+            defDoctorId:@(u.DoctorId),
+            ver:1
+        }
+
+        $(function () {
+            $('#search_customers').on("click", "li", function () {
+                $('#search_customers').html("");//清空数据
+                var cusId = $(this).attr("ah-cid");
+                loadCustomer(pagedata.stationId,cusId);
+            });
+         });
+
+
+        SEARCH.searchUrl = "/Nurse/SearchRegistList";
+        SEARCH.searchMain = "OUT-TABLE";
+        function searchCustomers() {
+            $('#search_customers').html(""); $('#add_regist').html("");//清空数据
+
+            var sText = $('#search_customer_input').val()
+            //载入清单
+            sText && $.getJSON("/api/Customer/GetCustomersAndRelations", { searchText: sText }, function (jn) {
+                if (jn.length > 0) {
+                    for (var i = 0; i < jn.length; i++){
+                        var c = jn[i];
+                        var html = '<li class="ah-flex ah-register-canActive" ';
+                        if (i != 0) {
+                            html += 'style="margin-top:10px"';
+                        }
+                        html +=
+                            'ah-cid="' + c.customer.customerID + '">'
+                            + '<img src="' + $.getImgPath(pagedata.customerPicPath, c.customer.customerPhoto) + '" width="48" />'
+                            +'<div class="ah-flex ah-flex-column ah-hidden-text">'
+                            + '   <div>' + c.customer.customerName + '(' + $.peopleGender(c.customer.gender) + ') - ' + c.customer.age+'</div>'
+                            + '   <div class="ah-hidden-text">' + c.customer.iDcard +'</div>'
+                            +'</div>';
+                        if(jn[i].isVIP){
+                            html += '<i class="ah-icon-vip"></i>';
+                        }
+                        html += '</li>';
+                        for (var j = 0; j < jn[i].myRelationships.length; j++) {
+                            html += "<li ah-cid='" + jn[i].myRelationships[j].customerID+"' class='ah-my-relationships";
+                            if (jn[i].myRelationships.length == j+1) {
+                                html += " ah-last-line";
+                            }
+                            html += "'><div>" + jn[i].myRelationships[j].customerName+"</div></li>"
+                        }
+
+                        $html = $(html);
+                        $('#search_customers').append($html);
+                        if (jn.length == 1 && jn[0].myRelationships.length==0)   $html.click();//直接点击进入
+                    }
+                    $('#search_customer_input').val('');
+                } else {
+                    $.msg("暂无信息，请新增用户!");
+                    $.layuiTabSelect('Register', 'addCustomers');
+                }
+            });
+        }
+
+        function loadCustomer(stationId, customerId) {
+            $.layuiTabSelect("Register", "addRegister");
+            $('#add_regist').load("/Nurse/LoadPvNewRegist", { stationId:stationId,customerId:customerId});
+        }
+        SEARCH.search(1);
+    </script>
+}

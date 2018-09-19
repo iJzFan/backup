@@ -1,0 +1,59 @@
+﻿.padding25 {
+		padding:25px;
+        
+	}
+.minheight{
+    min-height:700px;
+}
+.brown_color {
+    font-size:13px;
+}
+.customer_info {
+	background:#26a69a;
+	color:#fff;
+	padding:5px;
+    border-radius:6px 6px 0 0;
+}
+#patientWatingList .customer_info {background:#017cc2;border-top-left-radius:5px;border-top-right-radius:5px;}
+#patientWatingList .table-bordered{border-color:#017cc2;}
+#patientTreatingList .customer_info{background:#ff6a00;border-top-left-radius:5px;border-top-right-radius:5px;}
+#patientTreatingList .table-bordered{border-color:#ff6a00;}
+#patientTreatedList .customer_info{background:#26a69a;border-top-left-radius:5px;border-top-right-radius:5px;}
+#patientTreatedList .table-bordered{border-color:#26a69a;}
+
+     
+.patientvisit-records{padding: 0 20px;}
+.patientvisit-btn{display:flex;justify-content:center;flex: 1;border-left: 1px solid #dcdcdc;}
+.customer_info>img{margin: 5px 15px 5px 10px}
+.customer_info dl {
+	margin-bottom:5px;
+    min-width:160px;
+    overflow:hidden;
+}
+.customer_info dl dd {
+	font-size:12px;
+	line-height:20px;
+}
+.customer_btn {
+    line-height: 38px;
+    cursor: pointer;
+    display: flex
+}
+.li-patient {
+    height: 60px;
+    border-bottom: 1px dashed #cccccc;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+.li-patient .imagebox{margin-right:9px;}
+.li-patient .uname{color:#222;font-weight:bold;}
+.li-patient strong span{
+    margin-left:10px;
+    line-height:20px;
+}
+
+.kf:before{content:"(";}
+.kf:after{content:")";}
+
+.item-treattime{color: #67d0c6;    font-size: 10px;    position: absolute;    right: 23px;    top: 3px;}

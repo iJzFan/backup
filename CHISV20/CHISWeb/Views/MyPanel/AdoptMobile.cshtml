@@ -1,0 +1,97 @@
+﻿
+@model CHIS.Models.ViewModel.ChangeLoginInfo
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Titel = "通过手机验证码修改";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section links {
+    <style>
+        .adop-code {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 24px;
+            z-index: 999;
+        }
+        .title {
+            margin-top: 25px;
+            color: #666;
+        }
+        .error {
+            color: #b14927;
+        }
+    </style>
+}
+<form id="form" asp-controller="MyPanel" asp-action="ChangePassword" method="post" autocomplete="off" class="ah-max-width">
+    <div class="ah-changepas-wrap">
+        <div class="ah-changepas-title">通过短信验证修改</div>
+        <div class="ah-adop-mobile">
+            <div class="ah-flex-layout ah-fixed-md1 ">
+
+                <input type="hidden" id="MobileNumber" name="MobileNumber" value="@(ViewBag.Mobile)" />
+                <input type="hidden" id="VarifyType" name="VarifyType" value="mobile" />
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">手机号码</div>
+                    <div class="ah-data-div"> @(Ass.Expands.ToMarkString(Ass.P.PStr(ViewBag.Mobile),Ass.Models.MaskType.MobileCode))</div>
+                    
+                </div>
+                <div class="ah-col-md1 ah-postion-relative">
+                    <div class="ah-data-label ah-required">验证码</div>
+                    <input class="ah-data-input ah-flex-auto" type="text" asp-for="MobileNumberVCode" placeholder="输入验证码" tabindex="1"
+                           autocomplete="off" data-rule-required="true" data-msg-required="请输入验证码"
+                           data-rule-minlength="6" data-msg-minlength="请最低输入6个字符"
+                           data-rule-maxlength="6" data-msg-maxlength="请最多输入6个字符" />
+                    <button class="ah-btn-blue adop-code" type="button" onclick="SendVCode(this)">获取验证码</button>
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">新密码</div>
+                    <input type="password" class="ah-data-input" id="MyPswd" name="MyPswd" placeholder="输入新密码" tabindex="2"
+                           data-rule-required="true" data-msg-required="请输入新密码"
+                           data-rule-minlength="6" data-msg-minlength="请最低输入6个字符" />
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">确认新密码</div>
+                    <input type="password" class="ah-data-input" id="MyPswdConfirm" name="MyPswdConfirm" placeholder="请确认新密码"
+                           data-rule-required="true" data-msg-required="请输入确认密码" tabindex="3"
+                           data-rule-equalTo="#MyPswd" />
+                </div>
+                <div class="ah-col-md1 ah-mt-10 ah-flex ah-justify-end">
+                    <button type="button" class="ah-btn-white" onclick="history.go(-1);" tabindex="5">返回</button>
+
+                    <button type="submit" class="ah-btn-blue" tabindex="4">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(function () {
+            $('#form').validate();//验证
+        });
+        function SendVCode(c) {
+            //首先调用后台接口，发送手机验证码
+            var mobile = $('#MobileNumber').val();
+            $.loadJSON("/mypanel/SendMobileVerifyCode?type=mobile", { mobile: mobile }, function (jn) {
+                if (jn.rlt) {
+                    $.ok("已向"+'@(Ass.Expands.ToMarkString(Ass.P.PStr(ViewBag.Mobile),Ass.Models.MaskType.MobileCode))'+"发送验证码，请注意查收");
+                    //成功了开始计时
+                    var e = $(c);
+                    e.attr('disabled', true).addClass("disabled");
+                    var n = 60;
+                    var handle = setInterval(function () {
+                        e.html("剩" + (n--) + "秒重发");
+                        if (n == 0) {
+                            clearTimeout(handle);
+                            e.removeClass("disabled").removeAttr('disabled').html("重新发送");
+                        }
+                    }, 1000);
+                } else {
+                    $.alertError("发现错误" + jn.msg);
+                }
+            });
+        }
+    </script>
+}

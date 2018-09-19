@@ -1,0 +1,27 @@
+﻿@model DispensingDetailViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+  
+<div ah-tools="wrap" class="container ah-max-width ah-flex ah-flex-column" style="margin:40px 0;">
+    <div class="ah-details-address ah-flex">
+        <img class="ah-address-upic" src="@(myRazor.GetCustomerDefImagePath(Model.Customer.PhotoUrlDef,Model.Customer.Gender))" />
+        <div class="ah-flex-auto" style="text-align:left;">
+            <div class="ah-address-uname">@(Model.Customer.CustomerName) @(Model.Customer.Gender?.ToGenderString()) @(Model.Customer.Birthday?.ToAgeString())</div>
+            <div>联系电话:@Model.Customer.CustomerMobile</div>
+            <div ah-d-section="customer_address">
+                <input type="hidden" ah-d-name="AddressId" asp-for="SelectedAddress.AddressId" />
+                收货地址:
+                <span class="ah-address-bg" ah-d-name="AddressDetails">
+                    <span>@(Model.SelectedAddress?.FullAddress) @Model.SelectedAddress?.ZipCode</span>
+                    <span>（@(Model.SelectedAddress?.ContactName) 收）</span>
+                    <span>@Model.SelectedAddress?.Mobile</span>
+                   
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="ah-dispensing-main ah-flex-auto">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            @await Html.PartialAsync("_pvDispensingDetailSumary", Model.DispensingDetailSumary)
+        </div> 
+    </div>
+</div>

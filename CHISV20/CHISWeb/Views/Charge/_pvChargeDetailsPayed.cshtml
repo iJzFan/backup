@@ -1,0 +1,123 @@
+﻿@model PayedModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+
+}
+<input type="hidden" asp-for="TreatId" />
+<div class="ah-charge-details-wrap ah-flex ah-flex-column">
+    <div class="ah-details-address ah-flex">
+        <div class="ah-flex ah-flex-auto ah-align-center ah-max-width">
+            <img class="ah-address-upic" src="@(myRazor.GetCustomerDefImagePath(Model.Customer.PhotoUrlDef,Model.Customer.Gender ))" />
+            <div class="ah-flex-auto">
+                <div class="ah-address-uname">@(Model.Customer.CustomerName) @(Model.Customer.Gender?.ToGenderString()) @(Model.Customer.Birthday?.ToAgeString())</div>
+                <div>联系电话:@Model.Customer.CustomerMobile</div>
+                <div ah-d-section="customer_address">
+                    <input type="hidden" ah-d-name="AddressId" asp-for="SelectAddress.AddressId" />
+                    收货地址:
+                    <span class="ah-address-bg" ah-d-name="AddressDetails">
+                        <span>@(Model.SelectAddress?.FullAddress) @Model.SelectAddress?.ZipCode</span>
+                        <span>（@(Model.SelectAddress?.ContactName) 收）</span>
+                        <span>@Model.SelectAddress?.Mobile</span>
+                    </span>
+                    @if (Model.Pay == null)
+                    {
+                        <span>
+                            <a style="color:#ff6a00;cursor:pointer;margin-left:8px;" onclick="CHARGE.ChangeAddress(this,@Model.Customer.CustomerID,@((Model.SelectAddress?.AddressId)??0),'dispensing');">修改</a>
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="ah-charge-swrap ah-flex">
+            @if (Model.Pay == null)
+            {
+                <a onclick="PAYMENT.Payment(@(Model.TreatId))">去支付@(Model.TreatInfo.NeedPayAmount)</a>
+            }
+        </div>
+    </div>
+    <div class="ah-charge-details-main ah-flex-auto">
+        <table>
+            <thead>
+                <tr class="charge-table-title">
+                    <th>品名</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>小计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pre in Model.FormedPrescriptions.Keys)
+                {
+                    @foreach (var item in Model.FormedPrescriptions[pre])
+                    {
+                        bool isNowPay = item.PayId == Model.Pay.PayId;
+                        <tr class="ah-tr-pn-@(isNowPay?1:0)">
+                            <td>@item.DrugName</td>
+                            <td align="right">@item.Qty/@item.UnitName</td>
+                            <td align="right">@item.Price</td>
+                            <td align="right">@item.Amount</td>
+                            <td onclick="CHARGE.getChargeDrugInfo(this)"><a>详情</a></td>
+                        </tr>
+                        <tr class="ah-hide">
+                            <td colspan="5">
+                                <div>
+                                    厂商: @item.Trademark @item.ManufacturerOrigin
+                                </div>
+                                <div>
+                                    规格: @item.DrugModel
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                @{ var n = 1;}
+                @foreach (var pre in Model.HerbPrescriptions.Keys)
+                {
+                    <tr class="charge-table-text">
+                        <td>
+                            @if (pre.HerbTitle == null)
+                            {
+                                <i class="fa fa-leaf" style="color: #4db70e;"></i>
+                                <span>中药处方@(n++)</span>
+                            }
+                            else
+                            {
+                                @(pre.HerbTitle)
+                            }
+                        </td>
+                        <td>@pre.Qty/付</td>
+                        <td>@pre.Price</td>
+                        <td>@pre.Amount</td>
+                        <td onclick="CHARGE.getChargeDrugInfo(this)"><a>详情</a></td>
+                    </tr>
+                    <tr class="ah-hide">
+                        <td colspan="5">
+                            @foreach (var item2 in Model.HerbPrescriptions[pre])
+                            {
+                                <div>
+                                    @item2.DrugName X @item2.Qty @item2.UnitName = @item2.Amount
+                                </div>
+                            }
+
+                        </td>
+                    </tr>
+                }
+                @{ decimal em = 0m, em1 = 0m; }
+                @foreach (var item in Model.ExtraFees)
+                {
+                    var isthispay = item.PayId == Model.Pay.PayId;
+                    if (isthispay) { em1 += item.Amount.Value; }
+                    em += item.Amount.Value;
+                    <tr class="charge-table-text">
+                        <td>@item.FeeName</td>
+                        <td>@item.Qty</td>
+                        <td>@item.TreatFeePrice</td>
+                        <td>@item.Amount</td>
+                        <td>/</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+﻿body{font-size:14px}
+.wrap-body{position:absolute;top:0;bottom:0;left:0;right:0;display:flex;background-size:100% 100%;align-items:center;justify-content:center}
+.wrap-main{width:90%;max-width:1200px;max-height:1000px; height:90%;display:flex}
+.main-left{width:280px;background:#2e3238;border-top-left-radius:3px;border-bottom-left-radius:3px;color:#fff;display:flex;flex-direction:column}
+.main-right{flex:1;background-color:#eee;padding:10px 25px;border-top-right-radius:3px;border-bottom-right-radius:3px}
+ul.ah-mr{margin:0;padding:0 10px}
+li.ah-mr-item{margin:0;list-style:none;border-radius:2px;padding:5px 10px 5px 5px;margin-top:7px;border-bottom:1px solid #292c33}
+li.ah-item-active{background:rgba(255,255,255,.15)}
+li.ah-item-active .ah-msg{color:#fff}
+li.ah-mr-item:hover{background:rgba(255,255,255,.15)}
+.ah-customerInfo{padding:18px 14px;font-size:16px;vertical-align:top;line-height:31px;border-bottom:1px solid #24272c}
+a.ah-a-detail{cursor:pointer;text-decoration:none;border-radius:4px;color:#fff;display:flex;align-items:center}
+.ah-doctorPic{width:48px;border-radius:3px;margin-right:10px}
+.ah-doctorInfo{flex:1}
+.ah-doctorInfo .ah-baseInfo{display:flex;justify-content:space-between;margin:4px 0}
+.ah-doctorInfo .ah-msg{width:190px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#989898}
+.ah-upic{width:45px;border-radius:3px}
+ul.ah-herb-lst{margin:0;padding:0;list-style:none;margin-bottom:20px}
+ul.ah-herb-lst li{margin:0;padding:5px;list-style:none;width:33%;display:inline-block}
+.ah-medical{display:flex;flex-direction:column;height:100%}
+.ah-medical-title{font-size:16px;padding:10px;text-align:center;border-bottom:2px solid #c8c8c8;background-color:#eee}
+.ah-medical-main{flex:1}
+.ah-medical-main .ah-qty{font-size:16px;font-weight:700;color:#899954}
+.ah-medical-head{border-bottom:1px solid #d6d6d6;padding:10px}
+.ah-medical-customer{width:100%;table-layout:fixed}
+.ah-medical-customer td{height:30px;font-size:12px}
+.ah-medical-customer .ah-table-label{font-weight:700;margin-right:10px}
+.ah-medical-content{padding:10px}
+.ah-medical-content .ah-data-wrap{display:flex;margin-bottom:10px;line-height:25px;border-bottom:1px solid #e8e8e8}
+.ah-medical-content .ah-data-label{width:105px;font-weight:700}
+.ah-medical-content .ah-data-text{flex:1}
+.ah-medical-main-title {
+    padding: 10px;
+    color: #ba4506;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ah-toggle-show{display:none;cursor:pointer;}
+@media (max-width:450px) {
+.ah-bl-show-0{display:none!important;}
+.ah-medical-content{font-size:12px;}
+.ah-toggle-show{display:block;position:absolute;z-index:2;background-color:rgba(0, 0, 0, 0.59);color:#fff;font-size:12px;padding:2px 5px;border-bottom-right-radius:5px;}
+.ah-toggle-show:hover{background-color:#086ec4;}
+.wrap-main{width:100%;height:100%;}
+.main-left{display:none;float:left;position:absolute;top:0px;left:0px;z-index:1;}
+.main-right{padding:10px 2px;}
+.ah-medical-customer td{display:block;}
+.ah-bl-formed table tr{display:block; border-top: 1px dashed #ccc;}
+.ah-bl-formed table td{display:block;border:none!important;padding:2px 10px !important;}
+.ah-bl-formed table td.right{float:right;}
+
+.ah-bl-herb .ah-bl-pre{background-color: #fffde0;    border-radius: 3px;    font-size: 12px;    margin: 10px;    padding: 10px;}
+.ah-bl-herb .ah-medical-main-title{padding-top:4px;padding-bottom:3px; font-size :14px!important;}
+.ah-bl-herb table caption{padding:8px!important;}
+.ah-bl-herb table caption .ah-qty{float:right;}
+.ah-bl-herb table thead{display:none;}
+.ah-bl-herb table tr:nth-child(2n){border-right:none!important;}
+.ah-bl-herb table tr{display:block;width:50%;border-right:1px dashed #ccc;float:left;min-height:45px; }
+.ah-bl-herb table tr td{border:none!important;float:left;display:inline-block;padding-top:2px;padding-bottom:2px;}
+.ah-bl-herb table tr td.right{float:right;}
+.ah-bl-herb table tr td.herb-rmk{  color: #888;    line-height: 13px;    min-width: 50%;    padding-top: 0;}
+
+.ah-bl-pre{   background-color: #fff;    border-radius: 3px;    font-size: 12px;    margin: 10px;    padding: 10px;}
+.ah-bl-pre .ah-medical-main-title{padding-top:4px;font-size:14px!important;}
+}

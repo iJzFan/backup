@@ -1,0 +1,39 @@
+﻿@using Ass;
+@{ 
+ 
+}
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor 
+
+<div class="container">
+     <h1>Doctor Index</h1>
+   
+
+    
+    <h4>采用前端Razor工具获取下拉菜单</h4>
+    <div>
+        @{
+        var items = myRazor.GetSelectListItemsByDictKey("FormType");
+        var units=myRazor.GetSelectListItemsByDictKey("GoodsUnit");
+        }
+        <select asp-items="items">
+            <option value="">未选择剂型</option>
+        </select>
+
+        <select asp-items="units">
+            <option value="">未选择单位</option>
+        </select>
+    </div>
+
+    <h4>根据是否是测试数据选择不同的显示内容</h4>
+    <div>
+        @if(Global.IsDebug){
+        <span>这是测试的部分</span>
+        }else{
+            <span>这是正式发行的部分</span>
+        }
+
+    </div>
+
+
+</div>

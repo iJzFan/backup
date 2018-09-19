@@ -1,0 +1,87 @@
+﻿@using Ass
+@model string
+@{
+    Layout = null;
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+    var ua = umgr.GetUserAccessInfo();
+    bool? loadMenu = Ass.P.PBoolN(TempData["IsMenuLoad"]);
+    string menuuse = "new";// "new";//"def"
+                           // menuuse = "new";
+}
+
+<div class="ah-nav-@(menuuse)">
+    @*基础导航项目*@
+    <ul class="ah-touchNav-items">
+        @foreach (var item in ua.MyNavFuncs)
+        {
+            <li>
+                <a href="@(item.UrlAddress + "?pagefn=" + item.FunctionID)">
+                    @(item.FunctionName)
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="owl-carousel">
+        @foreach (var item in ua.MyNavFuncs)
+        {
+            var w = item.FunctionName.Count();
+            <div class="article" style="width:@(w*15+20)px"><a href="@(item.UrlAddress + "?pagefn=" + item.FunctionID)">@(item.FunctionName)</a></div>
+        }
+    </div>
+    <div class="owl-more">更多</div>
+</div>
+@*更多的内容*@
+<div class="ah-navmore-@(menuuse)">
+    <div class="owl-nav-more" onclick="ahNavMore(this)"><i class="glyphicon glyphicon-remove"></i></div>
+    <ul class="ah-nav-items ah-flex " ah-nav-level="1" ah-nav="items">
+        @foreach (var item in ua.AllMenuTree.SubItems)
+        {
+            var b1 = item.SubItems.Any(m => m.ThisItem.UrlAddress.IsNotEmpty());
+            var b2 = item.SubItems.Any(m => m.SubItems.Any(t => t.ThisItem.UrlAddress.IsNotEmpty()));
+            if (item.HasSubs && (b1 || b2))
+            {
+                //一级菜单
+                <li class="ah-phone-nav">
+                    <a href="javascript:void(0);" class="ah-nav-one">
+                        @(item.ThisItem.FunctionName)
+                    </a>
+
+                    @*二级菜单*@
+                    <ul ah-nav-level="2" class="ah-nav-ul">
+                        @foreach (var item2 in item.SubItems)
+                        {
+                            if (item2.HasSubs || (!string.IsNullOrEmpty(item2.ThisItem.UrlAddress)))
+                            {
+                                <li class="@(item2.HasSubs ? ("dropdown-submenu") : "")">
+                                    @if (item2.HasSubs)
+                                    {
+                                        //三级菜单
+                                        <ul ah-nav-level="3">
+                                            @foreach (var item3 in item2.SubItems)
+                                            {
+                                                <li>
+                                                    <a ah-more=@(item3.HasSubs ? "true" : "false") href="@(item3.HasSubs ? "javascript:void(0);" : item3.ThisItem.UrlAddress + "?pagefn=" + item3.ThisItem.FunctionID)">@(item3.ThisItem.FunctionName)</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <a href="@(item2.HasSubs ? "javascript:void(0);" : item2.ThisItem.UrlAddress + "?pagefn=" + item2.ThisItem.FunctionID)" ah-more=@(item2.HasSubs ? "true" : "false")>
+                                            @(item2.ThisItem.FunctionName)
+                                        </a>
+                                    }
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    </ul>
+
+</div>
+
+
+

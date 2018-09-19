@@ -1,0 +1,41 @@
+﻿#pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#pager ul.pages {
+	display: block;
+	border: none;
+	text-transform: uppercase;
+	font-size: 12px;
+	margin: 10px;
+	padding: 0;
+}
+#pager ul.pages li {
+    float: left;
+    padding: 0px 10px;
+    text-decoration: none; 
+    border-left-width: 0;
+    list-style: none;
+    background-color: #eee;
+    color: #888;
+    margin: 0 3px 0 0;
+    height: 26px;
+    line-height: 26px;
+}
+#pager ul.pages li:hover {
+	color: #fff;
+	background-color: #96a1ab;
+}
+#pager ul.pages li.pgNext {
+}
+#pager ul.pages li.pgEmpty {
+	display: none /*border:1px solid #eee;
+color:#eee;
+*/;
+}
+#pager ul.pages li.pgCurrent {
+    color: #fff;
+    font-weight: 700;
+    background-color: #4680ea;
+}

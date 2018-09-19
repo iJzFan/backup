@@ -1,0 +1,85 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.vwCHIS_Code_Doctor
+@{
+    ViewBag.Title = "登录设置";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    var umgr = this.GetUserMgr();
+    bool bAc = umgr.IsMenuAllowed("DoctorPending");
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+    </style>
+}
+<div class="container">
+    <!--该部分是导航部分-->
+    <ul class="ah-step-wrap ah-flex">
+        @if (ViewBag.op == "NEWF")
+        {
+            <li class="ah-strp-active"><a>1.用户选择</a></li>
+            <li class="ah-strp-active"><a>2.医生基础信息</a></li>
+            <li class="ah-strp-active"><a>3.诊所/角色/科室/</a></li>
+            <li class="ah-strp-active"><a>4.登录设置</a></li>
+            <li class="ah-strp-active"><a>5.提交审核</a></li>
+        }
+        else
+        {
+            <li class="ah-strp-active"><a asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">用户信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_DoctorBase" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">医生基础信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_StationRoleDepart" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">诊所/角色/科室</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_Login" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">登录设置</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_ForCheck" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">完成</a></li>
+        }
+    </ul>
+    @*--------------------------显示医生基本信息---------------------*@
+    <section class="ah-require-one-group">
+        <h5>用户基本信息</h5>
+        <div>
+            <span>@Model.DoctorId</span>
+            <span>@Model.DoctorName</span>
+            <span>@Model.Gender?.ToGenderString()</span>
+            <span>@Model.Birthday?.ToAgeString()</span>
+            <span>@myRazor.GetDictDetailNameById(Model.PostTitle)</span>
+        </div>
+    </section>
+
+    <div>
+        <h4>医生档案已经设置完毕！</h4>
+        <p>该档案已经提交审核</p>
+        @if (bAc)
+        {               <span>如果您有审核权限，请审核:</span>
+            <a class="ah-btn-blue" href="/Doctor/DoctorPendingDetail?op=MODIFYF&doctorId=@(Model.DoctorId)">审核</a>
+        }
+
+        
+
+    </div>
+
+</div>
+<div class="ah-doc-sets-btns ah-flex">
+    <button class="ah-btn-blue" onclick="closeWin()">关闭</button>
+</div>  
+
+@section scripts{
+    <script src="~/js/pages/code-doctor.js"></script>
+    <script>
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        docImgRoot:'@Global.ConfigSettings.DoctorImagePathRoot',
+        ver:1
+    };
+        $(function () { initialLoad(); });
+
+        function closeWin() {
+            //关闭，弹出的窗口，并刷新父级
+            parent.refresh();
+            $.closeThisLayer(window);
+        }
+    </script>
+}

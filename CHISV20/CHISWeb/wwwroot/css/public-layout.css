@@ -1,0 +1,381 @@
+﻿.public-layout-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.public-layout-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f5f5f5;
+    padding: 10px 0;
+    overflow: hidden;
+}
+.public-layout-navigation {
+    padding: 0 10px;
+    height: 40px;
+    line-height: 33px;
+    background: #fff;
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 10px;
+}
+.public-layout-body {
+    position: relative;
+    flex: 1;
+    background: #fff;
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    padding: 10px;
+    overflow-x: hidden;
+}
+.public-layout-auto-sidebar {
+    position: absolute;
+    top: 0;
+    right: -345px;
+    width: 350px;
+    background: #fff;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px 10px 0px;
+    
+    transition: right 1s;
+    -moz-transition: right 1s; /* Firefox 4 */
+    -webkit-transition: right 1s; /* Safari 和 Chrome */
+    -o-transition: right 1s; /* Opera */
+}
+.public-layout-auto-sidebar-icon {
+    width: 30px;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    position: absolute;
+    top: 50%;
+    z-index: 999;
+    left: -22px;
+    margin-top: -15px;
+}
+
+/**
+    表格布局
+*/
+.public-table-layout {
+    height: 100%;
+    display: flex ;
+    flex-direction: column; 
+}
+.public-table-layout .public-tool-wrap {
+    height: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.public-table-layout .public-layout-two-date {
+    display: flex;
+    align-items: center;
+}
+.public-table-layout .public-layout-two-date .date-line {
+    font-size: 17px;
+    color: #666;
+}
+.public-table-layout .public-layout-two-date .input-datetime {
+    margin: 0 3px;
+    width: 170px;
+}
+.public-table-layout .public-tool-wrap .tool-wrap .select2-container--default .select2-selection--single {
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.public-table-layout .public-tool-wrap .public-import-btn {
+    cursor: pointer;
+    background: #337ab7;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    width: 100px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.public-table-layout .public-tool-wrap .public-export-btn {
+    cursor: pointer;
+    background: #cc5648;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    width: 100px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.public-table-layout .public-tool-wrap .public-import-btn i , .public-table-layout .public-tool-wrap .public-export-btn i{
+    margin-right:7px;
+}
+.public-table-layout .public-tool-wrap .tool-wrap {
+    margin-right: 10px;
+}
+.public-table-layout .public-tool-wrap .tool-wrap .input-group {
+    width: 200px;
+}
+.public-table-layout .public-tool-wrap .tool-wrap .tool-radio-wrap {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+.public-table-layout .public-tool-wrap .tool-wrap .tool-radio-wrap label{
+    margin:0;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.public-table-layout .public-table-wrap {
+    flex:1;
+}
+.gray-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    margin-bottom:16px;
+}
+.gray-table th {
+    vertical-align: bottom;
+    background: #ddd;
+}
+.gray-table th, .gray-table td {
+    padding: 0.75rem;
+    border-top: 1px solid #e9e9e9;
+}
+.public-table-layout .public-page-wrap {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.public-table-layout .public-page-wrap a {
+    background: #fff;
+    border: 1px solid #d2d2d2;
+    padding: 3px 8px;
+    color: #818181;
+    border-radius: 3px;
+    margin: 0 2px;
+    cursor:pointer;
+}
+.public-table-layout .public-page-wrap .page-active, .public-table-layout .public-page-wrap a:hover {
+    color: #fff;
+    background: #337ab7;
+    border: 1px solid #337ab7;
+}
+/**
+    Tab布局
+*/
+.public-tab-layout{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+.public-tab-layout .tab-content {
+    flex:1;
+    padding:10px;
+}
+.public-tab-layout .tab-pane {
+    height: 100%;
+}
+.public-tab-layout .public-tab-content {
+    height: 100%;
+}
+.public-tab-content .public-tab-title {
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 20px;
+    line-height: 30px;
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2e62a7;
+}
+.public-tab-content .public-tab-title i{
+    margin-right:10px;
+}
+/**
+    药品罗列
+*/
+.public-drug-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+.public-drug-item {
+    width:20%;
+    height:80px;
+    padding:0 5px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+.public-drug-data {
+    border: 1px solid #e0e0e0;
+    height: 100%;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px #dedede;
+    text-align:right;
+    color:#666;
+    position:relative;
+}
+.public-drug-data:hover {
+    box-shadow: 0px 1px 8px #c5b7b7;
+}
+.public-formed-bj {
+    background-image: url('../images/bg/formed.png');
+    background-repeat: no-repeat;
+    background-size: 56% 105%;
+}
+.public-herb-bj {
+    background-image: url('../images/bg/herbbg.png');
+    background-repeat: no-repeat;
+    background-size: 46% 105%;
+}
+.public-drug-data .drug-name {
+    font-size: 16px;
+    color: #23527c;
+}
+.public-drug-data .drug-qty {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    color: #ff6a00;
+    font-size: 11px; 
+    left: 4px;
+    top: 4px;
+    padding: 1px 7px;
+}
+.herb-state-false {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    padding: 1px 7px;
+}
+.herb-state-true {
+    background: transparent;
+    border-color: transparent;
+}
+.herd {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    margin-bottom:10px;
+}
+.herd:hover {
+    box-shadow: 0px 1px 8px #c5b7b7;
+}
+.public-drug-herb-wrap {
+    padding: 5px;
+    width: 10%;
+    border-radius:3px;
+    height: 150px;
+}
+.public-drug-herb-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    position: relative;
+    color: #666;
+}
+.public-drug-herb-item .drug-qty {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    color: #ff6a00;
+    font-size: 11px; 
+    right: 3px;
+    top: 3px;
+    padding: 3px 7px;
+}
+.public-drug-herb-item .herd-pic{    
+    height:100px;
+}
+.ah-herb-img{width:100%;text-align:center;}
+.public-herb-data {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    
+}
+.public-herb-data span.name{color: #23527c;
+    font-size: 16px;}
+.ah-num-lg{font-size:16px;font-family:Arial;color:#ff6a00;font-weight:bold;font-style:italic;margin-left:3px;margin-right:3px;}
+tr.herb-title{padding:3px 10px 2px 10px;}
+tr.herb-title th{padding:0;}
+
+
+
+/*发药*/
+.dispensing-send {
+    float: right;
+    background: #ff6a00;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    color: #fff !important;
+    cursor: pointer;
+}
+.dispensing-send-remark {
+    display: flex;
+}
+.dispensing-send-remark input {
+    border: 1px solid #ccc;
+    padding: 2px 7px;
+}
+.dispensing-send-remark button {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 0 4px;
+    color: #908e8e;
+    font-size: 10px;
+    margin-left: -1px;
+}
+ 
+
+[ah-send-val="1"] .public-drug-data{border-color:rgba(19, 128, 54, 0.05);color:#138936;}
+ 
+[ah-send-val="0"]{}
+[ah-send-val="1"] .public-drug-herb-item{border-color:rgba(19, 128, 54, 0.05);color:#138936;} 
+[ah-send-val="1"] .public-drug-herb-item span,
+[ah-send-val="1"] .public-drug-herb-item .drug-qty,
+[ah-send-val="1"] .public-drug-herb-item .ah-num-lg
+{color:#138936;}
+[ah-send-val="2"] .public-drug-herb-item{border-color:#eb1d1d;}
+[ah-send-val="3"] .public-drug-herb-item{border-color:#a407b0;}
+.ah-herb-dispensing-rmk{position:absolute;top:0;left:0;width:100%;background-color:rgba(235, 29, 29, 0.48);color:#fff;padding:2px;}
+.ah-herb-dispensing-rmk[title='待退:']{display:none;}
+tr.ah-drug-despnesing-state-0{}
+tr.ah-drug-despnesing-state-1 td{color:#138936;}
+tr.ah-drug-despnesing-state-2 td{color:#eb1d1d;}
+tr.ah-drug-despnesing-state-3 td{color:#a407b0;}
+
+/**
+    暂无数据
+*/
+.public-not-data {
+    width: 50%;
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 0px;
+    display: block;
+    margin-top: 32px;
+}

@@ -1,0 +1,186 @@
+﻿@model ah.Models.ViewModel.WechatBindingModel
+@{
+    ViewData["Title"] = "绑定会员";
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutBase.cshtml";
+
+    var wx = ViewBag.WXCookie as ah.Models.ViewModel.WechatBindingModel;
+}
+@section links{
+    <link href="~/lib/jquery-weui/jquery-weui.css" rel="stylesheet" />
+    <link href="~/lib/jquery-weui/weui.min.css" rel="stylesheet" />
+    <style>
+        .bg {
+            padding: 10px;
+            font-size: 12px;
+        }
+
+            .bg > h4 {
+                background: #ccc;
+                padding: 6px;
+                margin-top: 0;
+            }
+
+        .ah-app-readonly {
+            border: none;
+            background: transparent;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .ah-app-middle {
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+
+        img.upic {
+            border-radius: 100px;
+            width: 100px;
+            margin: 9px;
+        }
+
+        .uname {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #198e7c;
+        }
+        span.gdr{font-size:0.8em;font-weight:normal;color:#75aeab;}
+
+        .gd {
+            margin: 5px;
+        }
+
+        .ah-input-group {
+            width: 100%;
+            position: relative;
+            margin-bottom: 9px;
+        }
+
+        .input-validation-error {
+            border-color: #ee2222;
+        }
+
+        .field-validation-error {
+            color: #ee2222;
+        }
+        .validation-summary-errors{color:#ee2222;}
+
+        .identify-code {
+            margin-top: 15px;
+            display: flex;
+        }
+
+        input {
+            height: 40px !important;
+        }
+
+        .form-inline .form-group {
+            display: inline-block;
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+        .form-control {
+            -webkit-appearance: none;
+        }
+    </style>
+}
+
+<div class="bg">
+    <form method="post">
+        <input type="hidden" asp-for="openid" />
+        <div class="ah-app-middle">
+            <img class="upic" src="@Model.WxPicUrl" />
+            <input type="hidden" asp-for="WxPicUrl" />
+        </div>
+        <div class="ah-app-middle">
+            <span class="uname">@Model.NickName @if (Model.Gender == 1)
+            { <span class="gdr">男</span>}
+            else
+            {<span class="gdr">女</span>}</span>
+            <input type="hidden" asp-for="NickName" />
+        </div>
+        <div class="ah-app-middle" style="display:none;">
+            <label class="gd"> <input type="radio" asp-for="Gender" value="0" />&nbsp;女</label>
+            <label class="gd"> <input type="radio" asp-for="Gender" value="1" />&nbsp;男</label>
+            @Html.ValidationMessageFor(m => m.Gender)
+        </div>
+        <hr />
+
+    
+
+        <div class="ah-input-group">
+            <input type="text" class="form-control" asp-for="mobile" placeholder="请输入本机手机号" data-rule-required="true" data-msg-required="请填写您的手机号码" />
+            @Html.ValidationMessageFor(m => m.mobile)
+        </div>
+
+        <div class="ah-input-group identify-code">
+            <input style="margin-right:10px;" id="identifyCode" name="vcode" type="text" class="form-control" placeholder="请输入验证码" data-rule-required="true" data-msg-required="请填写您的手机获取到的验证码" />
+            <button style="min-width:100px;" type="button" id="btnSendCode" class="btn btn-primary" onclick="sendMessage()">获取验证码</button>
+        </div>
+
+        @Html.ValidationSummary(true)
+
+        <div class="ah-input-group" style="margin-top:20px;">
+            <button asp-controller="Home" asp-action="WechatFindCustomer" asp-area="Customer" type="submit" id="next_step" class="btn btn-primary" style="width:100%;">下一步</button>
+        </div>
+
+    </form>
+
+</div>
+
+
+
+@section scripts{
+    <script src="~/lib/jquery-weui/fastclick.js"></script>
+    <script src="~/lib/jquery-weui/jquery-weui.js"></script>
+    <script>
+        $(function () {
+            $("form").validate();
+            FastClick.attach(document.body);
+        });
+
+        $("#next_step").click(function () {
+            if ($("#identifyCode").val() == "") {
+                $.toptip('请输入获取到的手机验证码', 'warning');
+                return;
+            }
+        })
+        
+        var InterValObj; //timer变量，控制时间
+        var count = 60; //间隔函数，1秒执行
+        var curCount;//当前剩余秒数
+
+        //发送短信
+        function sendMessage() {
+            var sMobile = /^((13|15|17|18)+\d{9})$/;
+            var mobile = $("#mobile").val();
+            if (mobile == "" || !(sMobile.exec(mobile))) { 
+                $.toptip('请输入正确的手机号码', 'warning');
+                return;
+            }
+            //ajax 调用短信发送接口
+            $.getJSON("/api/customer/SendRegVCode", { regAccount: mobile }, function (jn) {
+                if (jn.rlt) { 
+                    $.toptip(jn.msg, 'success');
+                    curCount = count;
+                    $("#btnSendCode").attr("disabled", "true");
+                    $("#btnSendCode").html(curCount);
+                    InterValObj = window.setInterval(SetRemainTime, 1000); 
+                }
+            });            
+        }
+
+        //倒计时
+        function SetRemainTime() {
+            if (curCount == 0) {
+                window.clearInterval(InterValObj);
+                $("#btnSendCode").removeAttr("disabled");
+                $("#btnSendCode").html("重新发送");
+            }
+            else {
+                curCount--;
+                $("#btnSendCode").html(curCount);
+            }
+        }
+    </script>
+}

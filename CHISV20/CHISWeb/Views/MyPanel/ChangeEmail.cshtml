@@ -1,0 +1,197 @@
+﻿@model CHIS.Models.ViewModel.ChangeLoginInfo
+@{
+    ViewBag.Title = "验证个人信息";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var login = (CHIS.Models.vwCHIS_Sys_Login)ViewBag.Login;
+}
+
+
+@section links{
+    <style>
+        .ah-require-one-group {
+            padding: 10px 20px;
+        }
+
+        .ah-code-btn {
+            position: absolute;
+            right: 0;
+            bottom: 1px;
+        }
+
+        .ah-fixed-md1, .ah-col-md1 {
+            position: relative
+        }
+    </style>
+}
+<div class="container layui-form">
+    <ul class="ah-step-wrap ah-flex">
+        <li class="ah-strp-active"><a>1.验证身份</a></li>
+        <li><a>2.绑定新邮箱</a></li>
+        <li><a>3.完成修改</a></li>
+    </ul>
+    <form class="form-one" asp-controller="MyPanel" asp-action="ChangeEmail2" method="post">
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1">
+                <div class="ah-data-label">请按提示完成邮箱绑定操作</div>
+                <select id="verify_types" asp-for="VarifyType" class="form-control" onchange="varifyType(this)">
+                    <option value="False">请选择</option>
+                    @if (login.MobileIsAuthenticated == true)
+                    {
+                        <option value="Mobile">原绑定手机号</option>
+                    }
+                    @if (login.EmailIsAuthenticated == true)
+                    {
+                        <option value="Email">原绑定邮箱</option>
+                    }
+                    @if (login.IdCardNumberIsAuthenticated == true)
+                    {
+                        <option value="IDCard">原绑定身份证+密码</option>
+                    }
+                </select>
+            </div>
+            <div class="ah-col-md1" ah-id="ah-change-section">
+                <section class="ah-require-one-group">
+                    <h5>必填项</h5>
+                    <div class="ah-flex-layout sel-vermobile">
+                        <div class="ah-col-md1">
+                            <div class="ah-data-label">原手机号码</div>
+                            <input class="ah-data-input" type="text" placeholder="请输入原手机号码" asp-for="MobileNumber" />
+                        </div>
+                    </div>
+                    <div class="ah-flex-layout sel-vermobile verification-code">
+                        <div class="ah-col-md1">
+                            <div class="ah-data-label">验证码</div>
+                            <input class="ah-data-input" type="text" placeholder="请输入验证码" asp-for="MobileNumberVCode" />
+                            <button class="ah-btn-blue verification ah-code-btn" type="button" onclick="SendVCode(this)">获取验证码</button>
+                        </div>
+                    </div>
+
+                    <div class="ah-flex-layout sel-veremail">
+                        <div class="ah-col-md1">
+                            <div class="ah-data-label">邮箱</div>
+                            <input class="ah-data-input" type="text" placeholder="请输入邮箱" asp-for="Email" />
+                        </div>
+                    </div>
+                    <div class="ah-flex-layout sel-veremail verification-code">
+                        <div class="ah-col-md1">
+                            <div class="ah-data-label">验证码</div>
+                            <input class="ah-data-input" type="text" placeholder="请输入验证码" asp-for="EmailVCode" />
+                            <button class="ah-btn-blue verification ah-code-btn" type="button" onclick="SendEmailVCode(this)">获取验证码</button>
+                        </div>
+                    </div>
+
+
+                    <div class="ah-flex-layout sel-vercard">
+                        <div class="ah-col-md1">
+                            <div class="ah-data-label">身份证</div>
+                            <input class="ah-data-input" type="text" placeholder="请输入身份证号" asp-for="IDCard" />
+                        </div>
+                    </div>
+                    <div class="ah-flex-layout sel-vercard verification-code">
+                        <div class="ah-col-md1">
+                            <div class="ah-data-label">密码</div>
+                            <input class="ah-data-input" type="text" placeholder="请输入密码" asp-for="MyPswd" />
+                        </div>
+                    </div>
+
+                    <div class="ah-col-md1 ah-flex ah-justify-end" style="padding-top:13px">
+                        <a class="ah-btn-white" style="padding:6px 40px" href="/MyPanel/ChangeLoginInfo">返回</a>
+                        <button class="ah-btn-blue" style="padding:0px 40px" type="submit">提交</button>
+                    </div>
+                </section>
+                @Html.ValidationSummary()
+
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            f.initialUI();
+        });
+        var f = {
+            initialUI: function () {
+                $(".sel-vermobile").hide();
+                $(".sel-veremail").hide();
+                $(".sel-vercard").hide();
+                $("div[ ah-id='ah-change-section']").hide();
+            },
+            selectMobile: function () {
+                $(".sel-vermobile").show();
+                $(".sel-veremail").hide();
+                $(".sel-vercard").hide();
+                $("div[ ah-id='ah-change-section']").show();
+            },
+            selectEmail: function () {
+                $(".sel-vermobile").hide();
+                $(".sel-veremail").show();
+                $(".sel-vercard").hide();
+                $("div[ ah-id='ah-change-section']").show();
+            },
+            selectIdCard: function () {
+                $(".sel-vermobile").hide();
+                $(".sel-veremail").hide();
+                $(".sel-vercard").show();
+                $("div[ ah-id='ah-change-section']").show();
+            }
+        }
+        //切换验证
+        function varifyType(_this) {
+            switch ($(_this).val()) {
+                case "Mobile": f.selectMobile(); break;
+                case "Email": f.selectEmail(); break;
+                case "IDCard": f.selectIdCard(); break;
+                case "False": f.initialUI(); break;
+            }
+        }
+
+
+        //获取验证码，60后重新发送
+        function SendVCode(c) {
+            //首先调用后台接口，发送手机验证码
+            var mobile = $('#MobileNumber').val();
+            $.loadJSON("/mypanel/SendMobileVerifyCode?type=mobile", { mobile: mobile }, function (jn) {
+                if (jn.rlt) {
+                    //成功了开始计时
+                    var e = $(c);
+                    e.attr('disabled', true).addClass("disabled");
+                    var n = 60;
+                    var handle = setInterval(function () {
+                        e.html("(剩余" + (n--) + "秒重发)");
+                        if (n == 0) {
+                            clearTimeout(handle);
+                            e.removeClass("disabled").removeAttr('disabled').html("重新发送");
+                        }
+                    }, 1000);
+                } else {
+                    $.alertError("发现错误" + jn.msg);
+                }
+            });
+
+        }
+
+        function SendEmailVCode(c) {
+            //首先调用后台接口，发送邮件验证码
+            var email = $('#Email').val();
+            $.loadJSON("/mypanel/SendEmailVerifyCode", { email: email }, function (jn) {
+                if (jn.rlt) {
+                    //成功了开始计时
+                    var e = $(c);
+                    e.attr('disabled', true).addClass("disabled");
+                    var n = 60;
+                    var handle = setInterval(function () {
+                        e.html("(剩余" + (n--) + "秒重发)");
+                        if (n == 0) {
+                            clearTimeout(handle);
+                            e.removeClass("disabled").removeAttr('disabled').html("重新发送");
+                        }
+                    }, 1000);
+                } else {
+                    $.alertError("发现错误" + jn.msg);
+                }
+            });
+        }
+
+    </script>
+}

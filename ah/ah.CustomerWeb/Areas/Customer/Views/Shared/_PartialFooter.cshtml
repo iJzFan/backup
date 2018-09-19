@@ -1,0 +1,48 @@
+﻿<footer class="ui-footer" style="margin-top: 10px;">
+    <div class="container">
+        <div class="row">
+            <div class="footer_top">
+                <ul>
+                    <li>慈铭体检</li>
+                    <li>广州中科院</li>
+                    <li>松山湖华为</li>
+                    <li>天使健康</li>
+                    <li>天使科技</li>
+                    <li>中科院</li>
+                    <li>中美科技大</li>
+                    <li>天使科技</li>
+                    <li>中科院</li>
+                    <li>中美科技大</li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <p style="color:#fff;">版权©天使健康信息科技有限公司 备案号：ICA008  联系电话：0769-22898386 </p>
+        </div>
+    </div>
+</footer>
+
+<div class="izl-rmenu">
+    <a class="consult" target="_blank"><div class="phone" style="display:none;">0769-22898386</div></a>
+    <a class="cart"><div class="pic"></div></a>
+    <a href="javascript:void(0)" class="btn_top" style="display: block;"></a>
+</div>
+<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=734254879&site=qq&menu=yes" id="udesk-feedback-tab" class="udesk-feedback-tab-left" style="display: block; background-color: black;"></a>
+<!--客服代码-->
+@section script{
+    <script>
+   $(function() {
+	    $(".btn_top").hide();
+		$(".btn_top").live("click",function(){
+			$('html, body').animate({scrollTop: 0},300);return false;
+		})
+		$(window).bind('scroll resize',function(){
+			if($(window).scrollTop()<=300){
+				$(".btn_top").hide();
+			}else{
+				$(".btn_top").show();
+			}
+		})
+   })
+</script>
+}
+

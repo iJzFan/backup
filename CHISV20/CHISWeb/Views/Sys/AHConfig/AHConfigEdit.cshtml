@@ -1,0 +1,122 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.AH_Code_Config
+@{
+    ViewBag.Title = "编辑配置信息";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <style>
+        table.form tr td select {
+            height: 30px;
+        }
+
+        .panel-body .formValue .row .col-lg-4,
+        .panel-body .formValue .row .col-md-4,
+        .panel-body .formValue .row .col-ms-4 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+       
+        .mycol-4 {
+            width: 33.3%;
+            float: left;
+        }
+
+        .form > tbody > tr > th {
+            padding-left: 3%;
+            padding-right: 20px;
+            text-align: right;
+            width: 10%;
+            color: #337ab7;
+        }
+
+            .form > tbody > tr > th:first-child {
+                padding-left: 20%;
+                width: 30%;
+            }
+
+        .form > tbody > tr > td {
+            padding: 5px;
+        }
+
+            .form > tbody > tr > td:last-child {
+                padding-right: 50px;
+            }
+
+        .form .input-group {
+            width: 100%;
+        }
+    </style>
+}
+<form id="form1" asp-controller="Sys" asp-action="AH_Config_Edit" asp-route-op="@ViewBag.OP">
+    <div style="padding: 10px">
+        @*//隐藏文本框*@
+        <input type="hidden" asp-for="ConfigId" />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">基本配置</h3>
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">配置类型</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="CfgSec" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th  class="formTitle">配置键</th>
+                        <td colspan="6">
+                            <input type="text" class="form-control border3" asp-for="CfgKey" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">可用状态</th>
+                        <td class="formValue">
+                            <input type="hidden" asp-for="IsEnable" />
+                            <a id="chk_IsEnable" class="ah-switch" ah-targ="ahchk-switchshow"><i class="fa fa-toggle-off"  style="font-size:18px;"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">配置值</th>
+                        <td colspan="12">
+                            <textarea cols="5" class="form-control" asp-for="CfgVal"></textarea>     
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section scripts{
+    <script>
+
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        ver:1
+        };
+
+
+        //保存记录
+        function submitForm(opt) {
+            if (!$('#form1').formValid()) {
+                return false;
+            }
+
+            $.submitForm({
+                url: "/AHConfig/AH_Config_Edit?op=" + pagedata.op,
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    if (opt && opt.success) opt.success();
+                    else $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }  
+
+    </script>
+}

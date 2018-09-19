@@ -1,0 +1,136 @@
+﻿
+@model Ass.Mvc.PageListInfo<vwCHIS_DrugStock_Monitor>
+
+<input type="hidden" ah-term="term" value="@ViewBag.term" />
+<table class="table table-hover">
+    <thead class="ah-selectdrug-title">
+        <tr>
+            <th style="width:30px;"></th>
+            <th style="width:45px;"></th>
+            <th>药品名</th>
+            <th>原厂/原产地</th>
+            <th></th>
+            <th style="text-align:center;">单位</th>
+            <th></th>
+            <th style="text-align:right;">单价</th>
+            <th>库存(参考)</th>
+        </tr>
+    </thead>
+    <tbody id="drup_list">
+        @foreach (var item in Model.DataList)
+        {
+            <tr class="ah-select-drugTr"
+                ah-DrugId="@item.DrugId"
+                ah-SourceFrom="@item.SourceFrom"
+                ah-ThreePartDrugId="@item.ThreePartDrugId"
+                ah-StockFromId="@item.DrugStockMonitorId"
+                ah-DrugName="@item.DrugName"
+                ah-DrugModel="@item.DrugModel"
+                ah-ManufacturerOrigin="@item.ManufacturerOrigin">
+                <td class="ah-dg-completeWrap"  title="完善度:@(item.DrugCompleteScore)%;">
+                    <span class="ah-drug-wsd ah-wsd-@(item.DrugCompleteScore / 10)" style="right:@(100-item.DrugCompleteScore)%;">@(item.DrugCompleteScore)%</span>
+                </td>
+                <td style="position:relative;">
+                    <input type="hidden" name="drugId" value="@(item.DrugId)" />
+                    <img src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode))" width="40" class="ah-drug-refresh" title="点此刷新药品信息" onclick="refreshDrugInfo(@item.DrugId,this)" />     
+                </td>
+                <td id="drugName" width="30%">
+                    <b style="font-size:1.1em" title="搜索码:@item.CodeDock">@item.DrugName</b>
+                    <i class="ah-rxtype-@item.DrugRxType"></i>
+                    <div class="ah-dg-model">
+                        @if (item.SupplierCoName != null)
+                        {
+                            <b style="color:#db8601">@item.SupplierCoName </b> <span class="ah-dg-conameicon" >-</span>
+                        }
+                        @item.DrugModel
+                        <span class="ah-hide ah-dg-unit">
+                            <span>(</span>
+                            @if (item.DosageUnitId != item.UnitSmallId)
+                            {
+                                <span>@item.DosageContent?.ToString("#0.##")</span>
+                                <span>@item.DosageUnitName -</span>
+                            }
+                            <span style="color:#ff6a00;font-size:14px;font-weight:bold;">@item.OutUnitSmallName</span>
+                            @if (item.DosageUnitId != item.UnitSmallId)
+                            {
+                                <span>- @item.DosageContent?.ToString("#0.##")</span>
+                                <span>@item.DosageUnitName</span>
+                            }
+                            <span>)</span>
+                        </span>
+                    </div>
+                </td>
+                <td id="drugManufacturerOrigin">
+                    <span>@item.ManufacturerOrigin</span><span>@item.OriginPlace</span>
+                </td>
+                <td class="drugUnitBigId" style="padding-right:0;color:gray;text-align:right;">
+                    @if (item.UnitSmallId != item.UnitBigId)
+                    {
+                        <span>@item.OutUnitBigName</span>
+                        <span>@item.OutpatientConvertRate?.ToString("#0.##")</span>
+                    }
+                </td>
+                <td class="ah-ugp" style="text-align:center;">
+                    <b style="font-size:1.2em;">@item.OutUnitSmallName</b>
+                </td>
+                <td class="UnitSmallId" style="padding-left:0;color:grey;text-align:left">
+                    @if (item.DosageUnitId != item.UnitSmallId)
+                    {
+                        <span>@item.DosageContent?.ToString("#0.##")</span>
+                        <span>@item.DosageUnitName</span>
+                    }
+                </td>
+                <td id="salePrice" align="right">
+                    <span class="ah-rmb">@item.StockSalePrice</span>
+                </td>
+                <td id="quantity">@item.DrugStockNum</td>
+                <td style="display:none" name="outPatient_Unit_b">@item.UnitBigId</td>
+                <td style="display:none" name="outPatient_Unit_s">@item.UnitSmallId</td>
+                <td style="display:none" name="minUnit">@item.DosageUnitName</td>
+                <td style="display:none" name="JSONDATA">@(item.JsonString())</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!--分页-->
+<div id="pager"></div>
+<!--分页结束-->
+
+@ViewBag.DebugText
+<script>
+    $(function () {
+         $("#pager").pager({
+            pagenumber: @(Model.PageIndex),
+            pagecount: @(Model.PageTotal),
+            buttonClickCallback: function (pageclickednumber) {
+                $.post("/Doctor/Json_GetDrugInfos", {
+                    term: $('input[ah-term="term"]').val(),
+                    drugFrom: getDrugFroms(),
+                    pageIndex: pageclickednumber
+                }, function (html) {
+                    if ($('div[ah-id="selectDrugTable"]').length <= 0) {
+                        $('div[ah-id="selectMultipleDrugTable"]').html(html);
+                    } else {
+                        $('div[ah-id="selectDrugTable"]').html(html); 
+                    }
+                });
+            }
+        });
+
+        
+         function getDrugFroms() {//获取来源项目数组
+             try {
+                   return ADDMULTIPLE.getDrugFroms();
+             } catch (e) {
+                 var wrap = $(".select_source").first();
+                 var rtn = new Array();
+                 wrap.find('ul[ah-id="select-items-ul"] li.select-active').each(function (i, m) {
+                     rtn.push($(m).attr("ah-value"));
+                 });
+                 return rtn;
+
+             }           
+         }
+
+     })
+</script>

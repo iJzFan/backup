@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewBag.Title = "订单详情";
+}
+@section links{
+    <link href="~/customer/css/pages/home-my-order-list.css" rel="stylesheet" />
+}
+
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="#">个人中心</a></li>
+        <li class="active"><a href="#">我的订单</a></li>
+        <li class="active"><a href="#">订单详情</a></li>
+    </ol>
+</div>
+
+<div class="bg">
+    <div class="container">
+        <div class="row">
+            <!--用户收货信息-->
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="orderOfCustInfor">
+                    <h5 class="addrH5">收货人信息</h5>
+                    <div class="addrInfor">
+
+                        <div class="custAddrInfor pull-left">收货地址：广东省，东莞市，松山湖，创新科技园9栋406，收货人：冯吉祥，联系电话：177****2118</div>
+                        <div class="selectAddr pull-right">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-menu-right" style="color:#0094ff; font-size:24px;"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--订单搜索区域-->
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="serch_mune">
+                    <a href="#" class="active" style="line-height:35px; margin-left:15px; margin-right:15px;">全部订单</a>
+                    <a href="#" style="line-height:35px; margin-right:15px;">待付款</a>
+                    <a href="#" style="line-height:35px;">待收货</a>
+                </div>
+            </div>
+            <!--订单列表-->
+            <div class="col-sm-12 col-md-12 col-lg-12">
+
+                <!--订单内容列表-->
+                <div class="order_tbody_list">
+                    <table class="tableStyle table table-responsive ">
+                        <thead>
+                            <tr>
+                                <th>商品详情</th>
+                                <th rowspan="1">数量</th>
+                                <th rowspan="1">单价</th>
+                                <th rowspan="1">实付</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="sep-row"></tr>
+                            <tr class="order_infor">
+                                <td colspan="4">
+                                    <span class="orderDateTime" id="orderDateTime">2017-07-22 14:35</span>
+                                    <span class="orderNo" id="orderNo">订单编号：<small> TS-125876398822</small></span>
+                                    <span class="orderSource">东莞五株工作站</span>
+                                    <span class="orderOfDoctor">董主任（外科主任）</span>
+                                    <span class="orderOfState">订单状态：<b style="color:#ff0000;">待支付</b></span>
+                                </td>
+                            </tr>
+                            <tr class="order_shop_infor">
+                                <td>
+                                    <div class="shop_detail">
+                                        <div class="shop_img">
+                                            <img src="~/images/drug.png" width="64" title="云南白药阿莫西林999，36g*3s" />
+                                        </div>
+                                        <div class="shop_infor">
+                                            <h5 class="text-h5">云南白药阿莫西林999，36g*3s</h5>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <div class="textFlex">
+                                        <h5 class="text-h5">2 </h5>
+                                    </div>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>35.00</h5>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>70.00</h5>
+                                </td>
+                                
+                            </tr>
+                            <tr class="order_shop_infor">
+                                <td>
+                                    <div class="shop_detail">
+                                        <div class="shop_img">
+                                            <img src="~/images/drug.png" width="64" title="云南白药阿莫西林999，36g*3s" />
+                                        </div>
+                                        <div class="shop_infor">
+                                            <h5 class="text-h5">云南白药阿莫西林999，36g*3s</h5>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <div class="textFlex">
+                                        <h5 class="text-h5">2 </h5>
+                                    </div>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>35.00</h5>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>70.00</h5>
+                                </td>
+       
+                            </tr>
+                            <tr class="order_shop_infor">
+                                <td>
+                                    <div class="shop_detail">
+                                        <div class="shop_img">
+                                            <img src="~/images/drug.png" width="64" title="云南白药阿莫西林999，36g*3s" />
+                                        </div>
+                                        <div class="shop_infor">
+                                            <h5 class="text-h5">云南白药阿莫西林999，36g*3s</h5>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <div class="textFlex">
+                                        <h5 class="text-h5">2 </h5>
+                                    </div>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>35.00</h5>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>70.00</h5>
+                                </td>
+    
+                            </tr>
+                        </tbody>
+
+                        <tbody>
+                            <tr class="sep-row"></tr>
+                            <tr class="order_infor">
+                                <td colspan="4">
+                                    <span class="orderDateTime" id="orderDateTime">2017-07-22 14:35</span>
+                                    <span class="orderNo" id="orderNo">订单编号：<small> TS-125876398822</small></span>
+                                    <span class="orderSource">东莞五株工作站</span>
+                                    <span class="orderOfDoctor">董主任（外科主任）</span>
+                                    <span class="orderOfState">订单状态：<b style="color:#ff0000;">待支付</b></span>
+                                </td>
+                            </tr>
+                            <tr class="order_shop_infor">
+                                <td>
+                                    <div class="shop_detail">
+                                        <div class="shop_img">
+                                            <img src="~/images/drug.png" width="64" title="云南白药阿莫西林999，36g*3s" />
+                                        </div>
+                                        <div class="shop_infor">
+                                            <h5 class="text-h5">云南白药阿莫西林999，36g*3s</h5>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <div class="textFlex">
+                                        <h5 class="text-h5">2 </h5>
+                                    </div>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>35.00</h5>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>70.00</h5>
+                                </td>
+                              
+                            </tr>
+                            <tr class="order_shop_infor">
+                                <td>
+                                    <div class="shop_detail">
+                                        <div class="shop_img">
+                                            <img src="~/images/drug.png" width="64" title="云南白药阿莫西林999，36g*3s" />
+                                        </div>
+                                        <div class="shop_infor">
+                                            <h5 class="text-h5">云南白药阿莫西林999，36g*3s</h5>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <div class="textFlex">
+                                        <h5 class="text-h5">2 </h5>
+                                    </div>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>35.00</h5>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>70.00</h5>
+                                </td>
+                              
+                            </tr>
+                            <tr class="order_shop_infor">
+                                <td>
+                                    <div class="shop_detail">
+                                        <div class="shop_img">
+                                            <img src="~/images/drug.png" width="64" title="云南白药阿莫西林999，36g*3s" />
+                                        </div>
+                                        <div class="shop_infor">
+                                            <h5 class="text-h5">云南白药阿莫西林999，36g*3s</h5>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <div class="textFlex">
+                                        <h5 class="text-h5">2 </h5>
+                                    </div>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>35.00</h5>
+                                </td>
+                                <td rowspan="1" class="tdCenter">
+                                    <h5 class="text-h5"><span class="glyphicon glyphicon-yen glyphiconColor"></span>70.00</h5>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!--支付-->
+                    <div class="payTool">
+                        <div class="pull-left payInfor">
+                            <b>实际付款:<span class="glyphicon glyphicon-yen glyphiconColor"></span> 120元 </b>
+                            <button class="btn btn-primary payBtn">提交订单</button>
+                        </div>
+                    </div>
+                </div>
+                <!--结束-->
+            </div>
+
+
+        </div>
+    </div>
+</div>

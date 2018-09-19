@@ -1,0 +1,409 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section links{
+    <style>
+        .tab-content {
+            padding: 20px 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+        xmp {
+            overflow: hidden;
+            background: #f0ece6;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin: 0;
+        }
+        .margin-b {
+            margin-bottom: 10px
+        }
+        .test-div {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        .test-bj-color1{
+            background:#2bccaf;
+        }
+        .test-bj-color2 {
+            background: #ff6a00;
+        }
+    </style>
+}
+<div class="ah-main-text">
+
+    <h1>页面布局(上下)</h1>
+    <span>test-div为模拟屏幕宽高 , test-bj-color* 为显示效果添加的背景颜色</span>
+    <div class="test-div ah-flex-column">
+        <div style="height:30px" class="test-bj-color1">
+            固定高度30px
+        </div>
+        <div class="ah-flex-auto test-bj-color2">
+            .ah-flex-auto{
+            flex:1
+            }
+        </div>
+    </div>
+
+    <h1>页面布局(左右)</h1>
+    <span>test-div为模拟屏幕宽高 , test-bj-color* 为显示效果添加的背景颜色</span>
+    <div class="test-div ah-flex">
+        <div style="width:100px" class="test-bj-color1">
+            固定宽度100px
+        </div>
+        <div class="ah-flex-auto test-bj-color2">
+            .ah-flex-auto{
+            flex:1
+            }
+        </div>
+    </div>
+
+
+    <h1>页面布局(工具栏)</h1>
+    <span>test-div为模拟屏幕宽高 , test-bj-color* 为显示效果添加的背景颜色</span>
+    <div class="test-div ah-flex-column" ah-tools="wrap">
+        <div class="test-bj-color1 ah-tools">
+            <div class="ah-tool-wrap">工具1</div>
+            <div class="ah-tool-wrap">工具2</div>
+            <div class="ah-tool-wrap">工具3</div>
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">更多</a>
+        </div>
+        <div class="ah-tool-more" style="top:50px;background:#ccc;">
+            更多条件
+        </div>
+        <div class="ah-flex-auto test-bj-color2">
+            显示更多条件 外层需要ah-tools="wrap"
+        </div>
+    </div>
+
+    <h1>表格+分页</h1>
+    <span>test-div为模拟屏幕宽高 , test-bj-color* 为显示效果添加的背景颜色</span>
+    <div>
+        <div class="ah-main-absolute ah-flex-column" ah-tools="wrap">
+            <div class="test-bj-color1 ah-tools">
+                <div class="ah-tool-wrap">工具1</div>
+                <div class="ah-tool-wrap">工具2</div>
+                <div class="ah-tool-wrap">工具3</div>
+                <a class="ah-tool-more-btn" onclick="ahTools(this)">更多</a>
+            </div>
+            <div class="ah-tool-more">
+                更多条件
+            </div>
+            <div class="ah-table-wrap scrollbar-dynamic">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>栏目1</th>
+                            <th>栏目1</th>
+                            <th>栏目1</th>
+                            <th>栏目1</th>
+                            <th>栏目1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < 20; i++)
+                        {
+                            <tr>
+                                <td>数据@(i)</td>
+                                <td>数据@(i)</td>
+                                <td>数据@(i)</td>
+                                <td>数据@(i)</td>
+                                <td>数据@(i)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="ah-page-wrap" id="pager">
+                分页
+            </div>
+        </div>
+    </div>
+
+    <h1>栅格</h1>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-pd-10 test-bj-color1">
+            100%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-pd-10 test-bj-color1">
+            50%
+        </div>
+        <div class="ah-col-md2 ah-pd-10 test-bj-color2">
+            50%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-pd-10 test-bj-color1">
+            33.333333%
+        </div>
+        <div class="ah-col-md3 ah-pd-10 test-bj-color2">
+            33.333333%
+        </div>
+        <div class="ah-col-md3 ah-pd-10 test-bj-color1">
+            33.333333%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md4 ah-pd-10 test-bj-color1">
+            25%
+        </div>
+        <div class="ah-col-md4 ah-pd-10 test-bj-color2">
+            25%
+        </div>
+        <div class="ah-col-md4 ah-pd-10 test-bj-color1">
+            25%
+        </div>
+        <div class="ah-col-md4 ah-pd-10 test-bj-color2">
+            25%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2-4 ah-pd-10 test-bj-color1">
+            25%
+        </div>
+        <div class="ah-col-md4 ah-pd-10 test-bj-color2">
+            75%
+        </div>
+    </div>
+    <h1>栅格(固定，没有响应式)</h1>
+    <div class="ah-flex-layout">
+        <div class="ah-fixed-md1 ah-pd-10 test-bj-color1">
+            100%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-fixed-md2 ah-pd-10 test-bj-color1">
+            50%
+        </div>
+        <div class="ah-fixed-md2 ah-pd-10 test-bj-color2">
+            50%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-fixed-md3 ah-pd-10 test-bj-color1">
+            33.333333%
+        </div>
+        <div class="ah-fixed-md3 ah-pd-10 test-bj-color2">
+            33.333333%
+        </div>
+        <div class="ah-fixed-md3 ah-pd-10 test-bj-color1">
+            33.333333%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-fixed-md4 ah-pd-10 test-bj-color1">
+            25%
+        </div>
+        <div class="ah-fixed-md4 ah-pd-10 test-bj-color2">
+            25%
+        </div>
+        <div class="ah-fixed-md4 ah-pd-10 test-bj-color1">
+            25%
+        </div>
+        <div class="ah-fixed-md4 ah-pd-10 test-bj-color2">
+            25%
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-fixed-md2-4 ah-pd-10 test-bj-color1">
+            25%
+        </div>
+        <div class="ah-fixed-md4 ah-pd-10 test-bj-color2">
+            75%
+        </div>
+    </div>
+    <h1>栅格+输入框</h1>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">标题</div>
+            <input class="ah-data-input" type="text"/>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-flex ah-space-between">
+                <span>带checkbox的标题</span>
+                <input name="like11" lay-skin="primary" title="选项" type="checkbox">
+            </div>
+            <input class="ah-data-input" type="text" />
+        </div>
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label">标题</div>
+            <input class="ah-data-input" type="text" />
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">时间范围</div>
+            <input class="ah-data-input ah-date-range" type="text" />
+        </div>
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">年月日</div>
+            <input class="ah-data-input ah-date" type="text" />
+        </div>
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">时分秒</div>
+            <input class="ah-data-input ah-date-time" type="text" />
+        </div>
+    </div>
+    
+    <div class="ah-flex-layout">
+        <div class="ah-col-md4 ah-flex-data">
+            <div class="ah-data-label">下拉框</div>
+            <select role-initial="false" class="ah-data-select">
+                <option value="">请选择</option>
+                <option value="1">测试1</option>
+                <option value="2">测试2</option>
+                <option value="3">测试3</option>
+            </select>
+        </div>
+        <div class="ah-col-md4 ah-flex-data">
+            <div class="ah-data-label">下拉框（带搜索现有项）</div>
+            <select role-initial="false" lay-verify="required" lay-search="">
+                <option value="">直接选择或搜索选择</option>
+                <option value="1">layer</option>
+                <option value="2">form</option>
+                <option value="3">layim</option>
+                <option value="4">中文测试</option>
+                <option value="5">laytpl</option>
+                <option value="6">upload</option>
+                <option value="7">laydate</option>
+                <option value="8">laypage</option>
+                <option value="9">flow</option>
+                <option value="10">util</option>
+                <option value="11">code</option>
+                <option value="12">tree</option>
+                <option value="13">layedit</option>
+                <option value="14">nav</option>
+                <option value="15">tab</option>
+                <option value="16">table</option>
+                <option value="17">select</option>
+                <option value="18">checkbox</option>
+                <option value="19">switch</option>
+                <option value="20">radio</option>
+            </select>
+        </div>
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label">下拉框（分组）</div>
+            <select role-initial="false">
+                <option value="">请选择问题</option>
+                <optgroup label="城市记忆">
+                    <option value="你工作的第一个城市">你工作的第一个城市</option>
+                </optgroup>
+                <optgroup label="学生时代">
+                    <option value="你的工号">你的工号</option>
+                    <option value="你最喜欢的老师">你最喜欢的老师</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-flex ah-space-between">
+                长文本
+            </div>
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-flex ah-space-between">
+                长文本
+            </div>
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <h1>地址联动</h1>
+    <div class="ah-flex-required ah-align-self">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">地区</div>
+            <select id="province" name="province" class="ah-data-select" role-initial="false" lay-filter="province"></select>
+        </div>
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">城市</div>
+            <select id="citys" name="city" class="ah-data-select" role-initial="false" lay-filter="city"></select>
+        </div>
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">区县</div>
+            <select id="county" name="areaId" class="ah-data-select" role-initial="false" lay-filter="county"></select>
+            <input type="hidden" id="areaId"  />
+        </div>
+    </div>
+    <script>
+        $(function () { 
+            //地址
+            $.layui3LevelAddress({
+                $province: $('#province'),
+                $city: $('#citys'),
+                $county: $('#county'),
+                $val: $('#areaId')
+            });
+        })
+    </script>
+    <h1>错误提示</h1>
+    <div class="ah-flex-required ah-align-self">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-required" title="必选其一">手机号码</div>
+            <input class="ah-data-input input-validation-error" onblur="checkTheSameCustomer(this,'mobile');" data-val="true" data-val-mobile="请输入正确的手机号" data-val-remote="该手机已经使用了或者输入错误" data-val-remote-additionalfields="*.CustomerMobile,*.CustomerID" data-val-remote-url="/Customer/MobileRegistIsAllowed" id="Customer_CustomerMobile" name="Customer.CustomerMobile" value="" type="text">
+            <span class="field-validation-error" data-valmsg-for="Customer.CustomerMobile" data-valmsg-replace="true"><span for="Customer_CustomerMobile" class="">该手机已经使用了或者输入错误</span></span>
+        </div>
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-required" title="必选其一">电子信箱</div>
+            <input class="ah-data-input" onblur="checkTheSameCustomer(this,'email');" data-val="true" data-val-email="请输入正确的Email地址" data-val-remote="该邮箱已经使用了或者输入错误" data-val-remote-additionalfields="*.Email,*.CustomerID" data-val-remote-url="/Customer/EmailRegistIsAllowed" id="Customer_Email" name="Customer.Email" value="" type="text">
+            <span class="field-validation-valid" data-valmsg-for="Customer.Email" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <h1>通用 按钮</h1>
+    <div class="ah-flex-layout">
+        <div>
+            蓝色按钮:<button class="ah-btn-blue">蓝色</button>
+        </div>
+    </div>
+    <h1>Tab 选择框</h1>
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">网站设置</li>
+            <li>用户管理<span class="layui-badge">99+</span></li>
+            <li>权限分配<span class="layui-badge-dot"></span></li>
+            <li>商品管理</li>
+            <li>订单管理</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">内容不一样是要有，因为你可以监听tab事件（阅读下文档就是了）</div>
+            <div class="layui-tab-item">加了一个<span class="layui-badge">99+</span></div>
+            <div class="layui-tab-item">加了一个<span class="layui-badge-dot"></span></div>
+            <div class="layui-tab-item">内容4</div>
+            <div class="layui-tab-item">内容5</div>
+        </div>
+    </div> 
+
+    <h1>Checkbox  Radio</h1>
+    <div>
+        <div>
+            <input name="like1[write]" lay-skin="primary" title="选项1" checked="" type="checkbox">
+            <input name="like1[read]" lay-skin="primary" title="选项2" type="checkbox">
+            <input name="like1[game]" lay-skin="primary" title="选项3" disabled="" type="checkbox">
+        </div>
+        <div>
+            <input name="sex" value="男" title="男" checked="" type="radio">
+            <input name="sex" value="女" title="女" type="radio">
+            <input name="sex" value="禁" title="禁用" disabled="" type="radio">
+            <input name="sex" value="不设置插件" type="radio" ah-radio="false"> ah-radio="false" 可以使layui不编译radio
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $("#pager").pager({
+            pagenumber: 1,
+            pagecount: 20,
+            buttonClickCallback: function (pageclickednumber) { 
+                alert(pageclickednumber);
+            }
+        });
+
+    </script>
+}

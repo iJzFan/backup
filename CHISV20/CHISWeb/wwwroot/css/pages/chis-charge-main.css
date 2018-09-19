@@ -1,0 +1,67 @@
+﻿     .ah-sidebar {
+            width: 300px;
+            border: 1px solid #e4e4e4;
+            background: #fff;
+        }
+        .charge-main-wrap {
+            border: 1px solid #e4e4e4;
+            background: #fff;
+        }
+        .ah-main-content{
+            padding:0;
+            background:none;
+            border:none;
+        }
+        .charge-set-code {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            z-index: 10;
+            width: 28px;
+        }
+        .charge-set-wrap {
+            position: absolute;
+            text-align: right;
+            padding-right: 49px;
+            right: 0;
+            height: 40px;
+            line-height: 40px;
+            color: #4780eb;
+            cursor: pointer;
+            z-index: 1;
+            -moz-user-select: none; /*火狐*/
+            -webkit-user-select: none; /*webkit浏览器*/
+            -ms-user-select: none; /*IE10*/
+            -khtml-user-select: none; /*早期浏览器*/
+            user-select: none;
+        }
+
+
+
+        @media (max-width:800px) {
+             .charge-set-wrap{display:none;}
+        .ah-pay-hidelist{display:none!important}
+            .ah-charge-sidebar {
+                width: 100% !important;
+                margin-bottom: 10px;
+            }
+            .ah-details-address {
+                flex-direction: column;
+            }
+            .ah-charge-swrap {
+                width: 100%;
+                margin-top: 20px;
+                flex-direction: initial;
+            }
+            .ah-charge-swrap a{
+                width: 100%;
+            }
+        }
+        @media (max-width:450px) {
+              .charge-set-wrap{display:none;}
+                    .ah-pay-hidelist{display:none!important}
+            .ah-charge-sidebar {
+                width: 100% !important;
+                margin-bottom: 10px;
+            }
+        }

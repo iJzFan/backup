@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "我的药房-库存";
+    ViewBag.FuncId = 1119;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link href="~/css/pages/chis-pharmacy.css" rel="stylesheet" />
+    <style></style>
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入药品ID/药品名称" value="@(Context.Request.Query["searchText"])" onkeydown="keyEnter(event);" />
+            <button class="ah-btn-blue" id="search_btn" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap ah-flex-auto">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+        @if (!u.IsSelfDrugStore)
+        {
+            <div class="text-warning"><i class="fa fa-warning"></i>&nbsp;使用的药房数据非本店药房 </div>
+        }
+
+        <div class="ah-tool-wrap">
+            @if (u.IsSelfDrugStore)
+            {
+            <a asp-action="MyPharmacy_Income">药品入库</a>
+            }
+            <button class="ah-btn-red" onclick="STOCK.ExportStockMonitorList()">导出</button>
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="drugStockTypeId"><strong>药品库：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            @{
+                                var items = myRazor.GetSelectListItemsByDictKey("DrugStockType");
+                                items = items.Where(m => m.Text != "健客药");
+                            }
+                            @foreach (var i in items)
+                            {
+                                <label class="radio-inline"><input type="radio" ah-radio="false" name="drugStockTypeId" class="ah-search-radio" value="@(i.Value)" /><span>@(i.Text)</span></label>
+                            }
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="stockNumStatus"><strong>库存类型：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockNumStatus" class="ah-search-radio" value="0" /><span>全部</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockNumStatus" class="ah-search-radio" value="1" /><span>库存不足</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockNumStatus" class="ah-search-radio" value="2" /><span>库存正常</span></label>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="stockPriceStatus"><strong>价格区间：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockPriceStatus" class="ah-search-radio" value="a=0" /><span>无价格</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockPriceStatus" class="ah-search-radio" value="0<a<=50" /><span>0-50</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockPriceStatus" class="ah-search-radio" value="50<a<=100" /><span>50-100</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="stockPriceStatus" class="ah-search-radio" value="a>100" /><span>大于100</span></label>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ah-table-wrap" ah-id="INCOME-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/lib/xdate.js"></script>
+    <script src="~/js/pages/pharmacy-my-drug-store.js"></script>
+    <script src="~/js/ah-common-search.js"></script>
+    <script>
+        SEARCH.searchMain = "INCOME-TABLE";//搜索结果存放区域
+        SEARCH.searchUrl = "/Pharmacy/LoadStockMonitorLists"; //设置搜索的请求地址
+        SEARCH.search(1);
+        //鼠标移入移出
+        function showBigImg(_this) {
+            $(_this).next().show();
+        }
+        function hideBigImg(_this) {
+            $(_this).next().hide();
+        }
+
+        function keyEnter(event) {
+            if (event.keyCode == 13) { $('#search_btn').click(); $(event.target).select(); }
+        }
+    </script>
+}

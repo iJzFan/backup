@@ -1,0 +1,107 @@
+﻿@model CHIS.Models.ViewModel.HisLoginViewModel
+@inject CHIS.Services.LoginService loginSvr
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    var sta = ViewBag.loginStationStoreInfo as StationStoreInfo;
+}
+
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        body {
+            background: url('/images/store/ah-store-bg.jpg');
+            background-size: cover;
+        }
+        .ah-store-bg {
+            width: 130px;
+            height: 130px;
+        }
+        .layui-form-select input[type="text"][readonly], .ah-data-input {
+            background: #fff;
+            height: 36px !important;
+        }
+        button{
+            height:36px !important;
+        }
+        .validation-summary-errors li {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+    </style>
+}
+
+<div class="ah-login-wrap layui-form">
+    <div class="ah-flex ah-ExtInput-wrap">
+        <div class="ah-flex ah-ExtInput-logo">
+            <div class="ah-store-bg" style="background-image:url(@(sta.StationLogPicH));"></div>
+            <div>
+                <div class="ah-ExtInput-stataionName">@(sta.StationName)</div>
+                <div class="ah-ExtInput-storeName">(@(sta.StoreName))</div>
+            </div>
+        </div>
+        <div class="ah-ExtInput-main">
+            <div class="ah-flex ah-ExtInput-dataLayout">
+                <div class="title">店员选择</div>
+                <div class="data-input">
+                    @if (this.DEBUG())
+                    {
+                        <select asp-items="ViewBag.loginExtItems" role-initial="false" class="ah-data-select" onchange="Test()" id="usr" asp-for="LoginExtMobile">
+                            <option value="">--选择用户--</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <select asp-items="ViewBag.loginExtItems" role-initial="false" class="ah-data-select" id="usr" asp-for="LoginExtMobile">
+                            <option value="">--选择用户--</option>
+                        </select>
+                    }
+                </div>
+            </div>
+            <div class="ah-flex ah-ExtInput-dataLayout">
+                <div class="title">登录密码</div>
+                <div class="data-input">
+                    <input type="password" class="ah-data-input" id="pwd" />
+                </div>
+            </div>
+            @Html.ValidationSummary()
+            <div class="ah-flex ah-sub-wrap">
+                <button type="button" class="ah-btn-gray" onclick="window.location.href = '/Home/Login'">返回</button>
+                <button type="button" class="ah-btn-blue" onclick="login()">确定登录</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="myForm" asp-action="Login" asp-controller="Home" method="post"> 
+    <input type="hidden" name="LoginName" id="LoginName" value="@Model.LoginName" />
+    <input type="hidden" name="LoginPassword" id="LoginPassword" value="@Model.LoginPassword" />
+    <input type="hidden" name="BaseTimeTicks" id="BaseTimeTicks" value="@Model.BaseTimeTicks" />
+    @Html.HiddenFor(m => m.IsPasswordVCode)
+    @Html.HiddenFor(m => m.LoadEncipt) 
+    @Html.HiddenFor(m => m.StationId)
+    @Html.HiddenFor(m=>m.DepartId)
+    @Html.HiddenFor(m=>m.LoginExtMobile)
+    @Html.HiddenFor(m=>m.LoginExtPwd)
+    @Html.HiddenFor(m=>m.IsNeedLoginExt)
+</form>
+
+@section scripts{
+    <script>
+        $(document).keypress(function (e) {
+            // 回车键事件  
+            if (e.which == 13) {
+                login();
+            }
+        }); 
+        function login() {
+            $('input#LoginExtMobile').val($('#usr').val());
+            $('input#LoginExtPwd').val($('#pwd').val());
+            $('#myForm').submit();
+        }
+        function Test() { 
+            var val = $("#usr").val();
+            if (val == "13556021864") {
+                $("#pwd").val("123456");
+            }
+        }
+    </script>
+}

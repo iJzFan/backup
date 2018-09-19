@@ -1,0 +1,130 @@
+﻿@using Ass;
+@model CHIS.Models.vwCHIS_Sys_Login
+@{
+    ViewBag.Title = "修改我的登录信息";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section links{
+    <style>
+        .authenticted {
+            color: #4780eb;
+        }
+        .unauthenticate {
+            color: #b14927;
+        }
+    </style>
+}
+<div class="ah-max-width">
+    <div class="ah-changepas-wrap" id="container">
+        <div class="ah-changepas-title">修改登录信息</div>
+        <div class="ah-login-info ah-flex">
+            <div class="ah-logInfo-item">
+                <div class="ah-logInfo-user"></div>
+                <div class="ah-flex-auto">@Model.CustomerName</div>
+                <div>
+                    真实姓名：
+                    @if (Model.CustomerIsAuthenticated == true)
+                    {
+                        <span class="authenticted"><i class="fa fa-check-circle"></i>&nbsp;已认证</span>
+                    }
+                    else
+                    {
+                        <span class="unauthenticate"><i class="fa fa-exclamation-triangle"></i>&nbsp;未认证</span>
+                    }
+                </div>
+            </div>
+            <div class="ah-logInfo-item">
+                <div class="ah-logInfo-phone"><a class="blue-link" asp-controller="Mypanel" asp-action="ChangeMobile">去绑定</a></div>
+                <div class="ah-flex-auto">@(Model.Mobile.ToMarkString(Ass.Models.MaskType.MobileCode))</div>
+                <div>
+                    手机：
+                    @if (Model.MobileIsAuthenticated == true)
+                    {
+                        <span class="authenticted"><i class="fa fa-check-circle"></i>&nbsp;已验证</span>
+                    }
+                    else
+                    {
+                        <span class="unauthenticate"><i class="fa fa-exclamation-triangle"></i>&nbsp;未验证</span>
+                    }
+                    
+                </div>
+            </div>
+            <div class="ah-logInfo-item">
+                <div class="ah-logInfo-email"><a class="blue-link" asp-controller="Mypanel" asp-action="ChangeEmail">去绑定</a></div>
+                <div class="ah-flex-auto">@(Model.Email)</div>
+                <div>
+                    邮箱：
+                     @if (Model.EmailIsAuthenticated == true)
+                        {
+                            <span class="authenticted"><i class="fa fa-check-circle"></i>&nbsp;已验证</span>
+                        }
+                        else
+                        {
+                            <span class="unauthenticate"><i class="fa fa-exclamation-triangle"></i>&nbsp;未验证</span>
+                        }
+                   
+                </div>
+            </div>
+            <div class="ah-logInfo-item">
+                <div class="ah-logInfo-IDcard"></div>
+                <div class="ah-flex-auto">@(Model.IdCardNumber?.ToMarkString(Ass.Models.MaskType.IDCode))</div>
+                <div>
+                    身份证：
+                    @if (Model.IdCardNumberIsAuthenticated == true)
+                    {
+                        <span class="authenticted"><i class="fa fa-check-circle"></i>&nbsp;已认证</span>
+                    }
+                    else
+                    {
+                        <span class="unauthenticate"><i class="fa fa-exclamation-triangle"></i>&nbsp;未认证</span>
+                    }
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="">
+    <div class="change-info">
+        <div class="ui-block">
+            <table class="table-list">
+                <tr>
+                    <th>邮箱</th>
+                    <td>
+                        <span class="text-muted"></span>
+                    </td>
+                    <td>
+                       
+                    </td>
+                    <td class="last">
+                        <span>
+                            
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>手机</th>
+                    <td>
+                        <span class="text-muted"></span>
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td class="last">
+                        <span>
+                              "_blank"在新浏览器窗口打开文件,_self在同一窗体或框架打开连接的文档
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>*@
+
+
+@section scripts{
+<script>
+  
+</script>
+    }

@@ -1,0 +1,108 @@
+﻿@model CHIS.Services.ChisLog
+@{
+    Layout = null;
+}
+
+<div class="ah-row-detail ah-flex" id="@Model.Id">
+    <div class="ah-flex-auto">
+        <div class="ah-col-md1 ah-flex">
+            @if (Model.Exception != null)
+            {
+                <span class="ah-row-title">Exception:</span>
+                <span class="ah-row-value"><a onclick="$.moreToggle('#sa_@(Model.Id)',this)">展开</a></span>
+            }
+        </div>
+        <div class="ah-col-md1 ah-flex">
+            @if (Model.Properties != null)
+            {
+                <span class="ah-row-title">Properties:</span>
+                <span class="ah-row-value"><a onclick="$.moreToggle('#sb_@(Model.Id)',this)">展开</a></span>
+            }
+        </div>
+    </div>
+</div>
+@if (Model.Exception != null)
+{
+    <div class="ah-row-detail ah-flex" id="sa_@(Model.Id)" style="display:none;">
+        <div class="ah-row-value">
+            <table class="ah-table-wrap">
+                <tbody>
+                    <tr>
+                        <th style="width:100px">
+                            Item
+                        </th>
+                        <th>
+                            Detail
+                        </th>
+                        <th style="width:80px"></th>
+                    </tr>
+                </tbody>
+                <tbody>
+
+                    @foreach (var value in Model.Exception)
+                    {
+                        <tr>
+                            <td>
+                                @value.Key
+                            </td>
+                            <td id="sa_@(Model.Id)_@value.Key">
+                                @{
+                                    var str = value.Value.ToString();
+                                    @Html.DisplayFor(x => str)
+                                }
+                            </td>
+                            <td>
+                                @if (str.Length > 100)
+                                {
+                                    <a onclick="toShowAll('#sa_@(Model.Id)_@value.Key')">显示全部</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (Model.Properties != null)
+{
+    <div class="ah-row-detail ah-flex" id="sb_@(Model.Id)" style="display:none;">
+        <div class="ah-row-value">
+            <table class="ah-table-wrap">
+                <tbody>
+                    <tr>
+                        <th style="width:100px">
+                            Item
+                        </th>
+                        <th>
+                            Detail
+                        </th>
+                    </tr>
+                </tbody>
+                <tbody>
+
+                    @foreach (var value in Model.Properties)
+                    {
+                        <tr>
+                            <td>
+                                @value.Key
+                            </td>
+                            <td>
+                                @value.Value
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+    </div>
+
+}

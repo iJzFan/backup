@@ -1,0 +1,82 @@
+﻿
+
+@import "defined.less";
+
+a {
+    color: @baseColor;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover {
+    color: lighten(@baseColor,10%);
+    text-decoration: none;
+}
+
+a:active {
+    color: darken(@baseColor,10%);
+    text-decoration: none;
+}
+
+a:focus {
+    outline: none;
+    text-decoration: none;
+}
+
+
+/* ----------------- bootstrap ----------------------*/
+.btn-primary {
+    background-color: @baseColor;
+    border-color: @baseColor;
+}
+
+.btn-primary:hover {
+    background-color: lighten(@baseColor,10%);
+    border-color: lighten(@baseColor,10%);
+}
+
+.btn-primary:active {
+    background-color: darken(@baseColor,10%);
+    border-color: darken(@baseColor,10%);
+}
+
+.btn-primary:active:hover,
+.btn-primary:active:focus,
+.btn-primary:focus {
+    background-color: darken(@baseColor,10%);
+    border-color: darken(@baseColor,10%);
+}
+
+.breadcrumb {
+    list-style: outside none none;
+    margin-bottom: 20px;
+    padding: 8px 0px;
+    background-color: transparent;
+}
+
+
+
+/*==================页面 myorderlist =========================*/
+.order-price {
+    color: @priceColor;
+    font-family: Arial;
+    font-size: @sizeBig;
+    font-weight: bold;
+}
+
+.order-price:before {
+    content: "￥";
+    font-family: Arial
+}
+
+.order-info-price {
+    color: @priceColor;
+    font-size: @sizeBase;
+    font-weight: normal;
+    margin-left: 36px;
+}
+
+.order-info-price:before {
+    content: "￥";
+    font-family: Arial
+}

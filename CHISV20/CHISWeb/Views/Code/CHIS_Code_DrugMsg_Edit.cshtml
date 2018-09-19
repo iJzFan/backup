@@ -1,0 +1,495 @@
+﻿@using Ass;
+@model CHIS.Models.ViewModels.Code_DrugViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService _accSvr
+@{
+    /*
+     *   注意:
+     *        本部分前端代码一定要保证数据字段的完整性，否则后台数据可能因为前端传入的实体缺乏某些数值而更新清空
+     *        type=1 表示是用户申请新药，界面要做一定选择性显示
+     */
+    ViewBag.Title = "编辑药品档案";
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+    var type = Context.Request.Query["type"].ToString();
+    var mold = Context.Request.Query["mold"].ToString();
+    var umgr = this.GetUserMgr();
+    var bDrugAllow = _accSvr.GetFuncConfig(MyConfigNames.DrugArchives_CMD_IsDrugAllow).ToBool() == true && Model.DrugApply != null;
+
+    var useCls = "tt_" + mold;//使用控制样式
+    var uCls = "sp_" + mold;
+ 
+}
+@section links{
+    <style>
+        .ah-formula {
+            width: 113px;
+            padding: 0
+        }
+
+        .ah-formula-span {
+            padding-top: 22px;
+            font-size: 20px;
+            color: #666;
+            margin: 0 10px
+        }
+
+        .tt_1 {
+        }
+
+        .tt_3, .tt_4 {
+            display: none !important;
+        }
+
+        .sp_4 {
+            display: none;
+            visibility: hidden;
+            clear: both;
+        }
+        /*重写select 选择的字体样式*/
+        .layui-disabled, .layui-disabled:hover {
+            color: #666 !important;
+        }
+
+        #def_dosage{color:#ff6a00;}
+        #def_dosage:before{content:"(";}
+        #def_dosage:after{content:")";}
+
+        @@media (max-width:800px) {
+            .ah-col-md3 {
+                width: 33.33333333%;
+                padding-right: 10px
+            }
+
+            #EditDrugImg, #drugImg {
+                width: 174px;
+                text-align: center;
+                margin-left: 0
+            }
+
+            div[ah-id=pic] {
+                justify-content: initial
+            }
+        }
+    </style>
+}
+
+
+@if (Model.CHIS_Code_Drug_Main.IsEnable == false)
+{
+    <div class="not-enable"></div>
+}
+<form id="form1" method="post" asp-action="CHIS_Code_DrugMsg_Edit" asp-controller="Code" asp-area="" asp-route-op="@(ViewBag.op)"
+      ah-role-method="ajax" ah-success-callback="sendFormSuccess" ah-fail-callback="sendFormFailed">
+    <input type="hidden" asp-for="CHIS_Code_Drug_Main.DrugId" />
+    <input type="hidden" asp-for="CHIS_Code_Drug_Storage.ID" />
+    <input type="hidden" asp-for="CHIS_Code_Drug_Outpatient.ID" />
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">通用属性</li>
+            <li class="@(useCls)">@(ViewBag.TypeTitle)使用属性</li>
+            <li>@(ViewBag.TypeTitle)属性</li>
+            @if (type != "1")
+            {
+                <li>其他属性</li>
+            }
+            @if (bDrugAllow)
+            {
+                <li>药品审核</li>
+            }
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item container layui-show">
+                <div class="ah-flex-layout drug-msg-currency">
+                    <div class="ah-col-md2-4">
+                        <div class="ah-flex-data ah-align-self ah-drug-input-wrap">
+                            <div class="ah-col-md1 ah-data-error">
+                                @Html.ValidationSummary()
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ah-required">@(ViewBag.TypeTitle)编码</div>
+                                <input class="ah-data-input" type="text" asp-for="CHIS_Code_Drug_Main.DrugCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">@(ViewBag.TypeTitle)条码&nbsp;<i class="fa fa-barcode" style="font-size:1.2em"></i></div>
+                                <input class="ah-data-input" type="text" asp-for="CHIS_Code_Drug_Main.BarCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ah-required">@(ViewBag.TypeTitle)名称</div>
+                                <input class="ah-data-input" type="text" asp-for="CHIS_Code_Drug_Main.DrugName" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ah-required">型号规格
+                                <span class="ah-kf-gray pull-right">@Model.CHIS_Code_Drug_Outpatient.DrugModelStd</span>
+                                </div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.DrugModel" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ah-required">库管分类</div>
+                                @{
+                                    var items = myRazor.GetSelectListItemsByDictKey("DrugStockType");
+                                }
+                                <select asp-items="items" asp-for="CHIS_Code_Drug_Main.DrugStockTypeId" role-initial="false" class="ah-data-select" id="DrugStockTypeId">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label ah-required">@(ViewBag.TypeTitle)主类</div>
+                                <select asp-for="CHIS_Code_Drug_Main.MedialMainKindCode" role-initial="false" class="ah-data-select" id="MedialMainKindCode">
+                                    <option value="">请选择</option>
+                                    <option value="XY">西药</option>
+                                    <option value="ZYC">中成药</option>
+                                    <option value="ZYM">中草药</option>
+                                    <option value="ZHL">综合类</option>
+                                    <option value="MT">材料</option>
+                                    <option value="CZ">处置项</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ah-flex-data ah-align-self ah-drug-input-wrap  @(useCls)">
+                            <div class="ah-col-md3 ah-flex-data @(useCls)">
+                                <div class="ah-data-label">剂型分类</div>
+                                @{
+                                    var formType = myRazor.GetSelectListItemsByDictKey("FormType");
+                                }
+                                <select asp-items="formType" asp-for="CHIS_Code_Drug_Main.FormTypeId" role-initial="false" class="ah-data-select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data  @(useCls)">
+                                <div class="ah-data-label">药理分类</div>
+                                @{
+                                    var medicalType = myRazor.GetSelectListItemsByDictKey("MedicalType");
+                                }
+                                <select asp-items="medicalType" asp-for="CHIS_Code_Drug_Main.MediTypeId" role-initial="false" class="ah-data-select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ah-flex-data ah-align-self ah-drug-input-wrap">
+                            <div class="ah-col-md3 ah-flex-data  @(useCls)">
+                                <div class="ah-data-label">特殊药品</div>
+                                @{
+                                    var specialDrup = myRazor.GetSelectListItemsByDictKey("SpecialDrug");
+                                }
+                                <select asp-items="specialDrup" asp-for="CHIS_Code_Drug_Main.SpecialId" role-initial="false" class="ah-data-select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">生产性质</div>
+                                @{
+                                    var productArea = myRazor.GetSelectListItemsByDictKey("ProductArea");
+                                }
+                                <select asp-items="productArea" asp-for="CHIS_Code_Drug_Main.PropertyId" role-initial="false" class="ah-data-select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data @(uCls)">
+                                <div class="ah-data-label">商标®™</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.Trademark" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data @(uCls)">
+                                <div class="ah-data-label">批准文号</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.ApprovalCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">生产厂商</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.ManufacturerOrigin" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">产地</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.OriginPlace" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">默认安全库存数</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.SafetyQty_Center" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data  @(useCls)">
+                                <div class="ah-data-label">药品Rx类别</div>
+                                <select asp-for="CHIS_Code_Drug_Main.DrugRxType" role-initial="false" class="ah-data-select">
+                                    <option value="">-请选择-</option>
+                                    <option value="RX">Rx处方药</option>
+                                    <option value="OTC_R">OTC甲(红)</option>
+                                    <option value="OTC_G">OTC乙(绿)</option>
+                                    <option value="OTC">OTC</option>
+                                </select>
+                            </div>
+                            <div class="ah-col-md3-3 ah-flex-data  @(useCls)">
+                                <div class="ah-data-label">【成份】</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.MainIngredients" />
+                            </div>
+                        </div>
+                        <div class="ah-flex-data ah-align-self">
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">简拼码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.PyCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">全拼码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.QPCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">缩写码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.SCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">五笔码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.WBCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">别名</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.Alias" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">别名简拼码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.AliasPyCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">别名缩写码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.AliasPyCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">别名全拼码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.AliasQPCode" />
+                            </div>
+                            <div class="ah-col-md3 ah-flex-data">
+                                <div class="ah-data-label">别名五笔码</div>
+                                <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.AliasQPCode" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ah-col-md4 ah-flex-data ah-flex-column ah-align-self">
+                        <img id="drugImg" src="@(Model.CHIS_Code_Drug_Main.DrugPicUrl.ahDtUtil().GetDrugImg(Model.CHIS_Code_Drug_Main.MedialMainKindCode,false))" class="ah-max-width ah-mb-10" />
+                        <div class="ah-flex ah-justify-end" ah-id="pic">
+                            <a class="ah-btn-blue" id="EditDrugImg">修改</a>
+                        </div>
+                        <input type="hidden" asp-for="CHIS_Code_Drug_Main.DrugPicUrl" /> @*药品图片路径*@
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item container">
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md3 ah-flex-data  @(useCls)">
+                        <div class="ah-data-label">默认给药方式</div>
+                        @{
+                            var drugGivenWhereType = myRazor.GetSelectListItemsByDictKey("DrugGivenWhereType");
+                        }
+                        <select role-initial="false" class="ah-data-select " asp-items="drugGivenWhereType" asp-for="CHIS_Code_Drug_Main.DefDrugGivenWhereTypeId">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">默认给药频次</div>
+                        @{
+                            var drugGivenTakeType = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+                        }
+                        <select role-initial="false" class="ah-data-select" asp-items="drugGivenTakeType" asp-for="CHIS_Code_Drug_Main.DefDrugGivenTakeTypeId">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">默认建议剂量 <b id="def_dosage">@CHIS.DictValues.GoodsUnit.Ins().GetName(Model.CHIS_Code_Drug_Outpatient.DosageUnitId)</b></div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Outpatient.DefDosage" />
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">是否皮试</div>
+                        <select role-initial="false" class="ah-data-select" asp-for="CHIS_Code_Drug_Main.IsSkinTest">
+                            <option value="">请选择</option>
+                            <option value="True">是</option>
+                            <option value="False">否</option>
+                        </select>
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">皮试时间(分)</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.SkinTestMinutes" />
+                    </div>
+                    <div class="ah-col-md1 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">【适应症】</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.Indicate" />
+                    </div>
+                    <div class="ah-col-md1 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">【禁忌】</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.Taboo" />
+                    </div>
+                    <div class="ah-col-md1 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">【不良反应】</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.UntowardEffect" />
+                    </div>
+                    <div class="ah-col-md1 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">【用法用量】</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.UseRemark" />
+                    </div>
+                    <div class="ah-col-md1 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">【注意事项】</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.Notice" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item container">
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">型号规格</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Outpatient.DrugOutpatientModel" />
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">出药入整</div>
+                        <select role-initial="false" class="ah-data-select" asp-for="CHIS_Code_Drug_Outpatient.IsUpCeiling">
+                            <option value="">请选择</option>
+                            <option value="True">是</option>
+                            <option value="False">否</option>
+                        </select>
+                    </div>
+                    <div class="ah-col-md3 ah-flex-data @(useCls)">
+                        <div class="ah-data-label">库存警戒线</div>
+                        <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Outpatient.OutpatientDefStockLineNum" />
+                    </div>
+
+
+                    <div class="ah-col-md1 ah-flex-data">
+                        <div class="ah-data-label ah-required">转换公式</div>
+
+                        <div class="ah-flex-data ah-formula">
+                            <div class="ah-data-label ah-required">大单位</div>
+                            @{
+                                var goodsUnit = myRazor.GetSelectListItemsByDictKey("GoodsUnit");
+                                var goodsUnit_om = myRazor.GetSelectListItemsByDictKey("GoodsUnit", tagGroup: "drug");
+                            }
+                            <select asp-items="goodsUnit" asp-for="CHIS_Code_Drug_Outpatient.UnitBigId" class="ah-data-select">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <span class="ah-formula-span">=</span>
+                        <div class="ah-flex-data ah-formula">
+                            <div class="ah-data-label ah-required">转化率</div>
+                            <input type="text" class="ah-data-input" style="text-align:right;font-size:1.3em;" 
+                                   asp-for="CHIS_Code_Drug_Outpatient.OutpatientConvertRate"
+                                   asp-format="{0:#0.##}"/>
+                        </div>
+                        <div class="ah-flex-data ah-formula">
+                            <div class="ah-data-label ah-required">小单位</div>
+                            <select asp-items="goodsUnit" asp-for="CHIS_Code_Drug_Outpatient.UnitSmallId" class="ah-data-select" id="select_USId" @*onchange="selectSmUnit(this);*@">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <span class="ah-formula-span  @(useCls)">(含量</span>
+                        <div class="ah-flex-data ah-formula  @(useCls) ">
+                            <div class="ah-data-label">含量数</div>
+                            <input type="text" class="ah-data-input" style="text-align:right;font-size:1.3em;" 
+                                   asp-for="CHIS_Code_Drug_Outpatient.DosageContent" id="select_DosageContent"
+                                   asp-format="{0:#0.###}"/>
+                        </div>
+                        <div class="ah-flex-data ah-formula  @(useCls)">
+                            <div class="ah-data-label">含量单位</div>
+                            <select asp-items="goodsUnit" asp-for="CHIS_Code_Drug_Outpatient.DosageUnitId" class="ah-data-select" id="select_DosageUnitId" role-initial="false" onchange="dosageChange(this)">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <span class="ah-formula-span  @(useCls)">）</span>
+                        <div class="ah-col-md1" style="color:#999;">
+                            注:转化公式为重要必填数据，例:每盒=10支青霉素，每只10万单位含量
+                            <br />中药一般以克计算，则填写为每包=1000克(含量1克
+                            <br />如果以包装出药则三者相同，则填写每盒=1盒(含量1盒)
+                        </div>
+                        <div class="ah-col-md1 ah-flex-data">
+                            <div class="ah-data-label ah-flex ah-space-between">
+                                备注
+                            </div>
+                            <textarea cols="2" placeholder="请输入内容" class="layui-textarea" asp-for="CHIS_Code_Drug_Outpatient.DrugOutpatientExplain"></textarea>
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">过期天数(自动估算过期时间)</div>
+                            <input type="number" class="ah-data-input" min="1" max="3600" asp-for="CHIS_Code_Drug_Main.ValidDays" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (type != "1")
+            {
+
+                <div class="layui-tab-item">
+                    <div class="ah-flex-layout">
+                        @*其他属性*@
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">@(ViewBag.TypeTitle)来源</div>
+                            <select asp-for="CHIS_Code_Drug_Main.SourceFrom" role-initial="false" class="ah-data-select">
+                                <option value="">--选择--</option>
+                                <option value="0">本地</option>
+                                <option value="1">网上药店</option>
+                                <option value="2">第三方药店</option>
+                            </select>
+                        </div>
+
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">供应商Id</div>
+                            <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.SupplierId" />
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">第三方药品Id</div>
+                            <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.ThreePartDrugId" />
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">系统备注</div>
+                            <input type="text" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.sysRemark" />
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">是否可用</div>
+                            <select asp-for="CHIS_Code_Drug_Main.IsEnable" role-initial="false" class="ah-data-select">
+                                <option value="True">可用</option>
+                                <option value="False">禁用</option>
+                            </select>
+                        </div>
+                        <div class="ah-col-md3 ah-flex-data">
+                            <div class="ah-data-label">禁用日期</div>
+                            <input type="date" class="ah-data-input" asp-for="CHIS_Code_Drug_Main.StopDate" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+            @if (bDrugAllow)
+            {
+                <div class="layui-tab-item">
+                    <div class="ah-flex-layout">
+                        <div style="margin-left:40%;margin-top:8%;">
+                            <select ah-id="drugExamineStatus" asp-for="@Model.DrugApply.Status">
+                                <option value="APPLYING">审批中</option>
+                                <option value="ALLOWED">通过</option>
+                                <option value="REJECT">未通过</option>
+                            </select>
+                            <input type="text" ah-id="rejectReson" asp-for="@Model.DrugApply.RejectReson" class="form-control" placeholder="拒绝原因" />
+                            <button type="button" class="btn btn-default" onclick="PendingDrug()">确定</button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</form>
+@ViewBag.DebugText
+@section scripts{
+    <script>
+        $.validator.setDefaults({ ignore: [] });
+    </script>
+    <script src="~/js/pages/code-drugs.js"></script>
+    <script>
+    var pagedata = {
+        op: '@ViewBag.OP',
+        isView: '@ViewBag.OP' == 'VIEW',
+        drugRoot: '@(Global.ConfigSettings.DrugImagePathRoot)',
+        status: '@(Model.DrugApply?.Status)',
+        drugId:@(Model.CHIS_Code_Drug_Main.DrugId),
+        typeModel:'@(mold)',
+        ver: 1
+        };
+
+        $(function () {initialLoad();});
+
+
+
+    </script>
+} 

@@ -1,0 +1,104 @@
+﻿.stock-btn-wrap {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+.stock-btn {
+    cursor: pointer;
+    background: #34b08d;
+    color: #fff !important;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    width: 100px;
+    font-weight: bold;
+}
+.stock-btn i {
+    margin-right: 7px;
+}
+/**
+    库存列表
+*/
+.income-detail-input {
+    border: none;
+    border-bottom-width: medium;
+    border-bottom-style: none;
+    border-bottom-color: currentcolor;
+    width: 100%;
+    text-align: center;
+    color: #cc5648;
+    font-weight: bold;
+    border-bottom: 1px dashed;
+}
+.chang-drug-price {
+    border: 1px solid #ccc;
+    width: 100px;
+    font-weight: bold;
+    text-align: center;
+}
+/**
+    添加库存
+*/
+.income-wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.income-tool-wrap {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.income-tool-wrap a {
+    padding: 7px 10px;
+    border-radius: 3px;
+    margin-right: 10px;
+    cursor:pointer;
+}
+.income-btn-blue {
+    background: #337ab7;
+    color: #fff;
+}
+.income-btn-red {
+    background: #cc5648;
+    color: #fff;
+}
+.income-btn-ching {
+    background: #34b08d;
+    color: #fff;
+}
+.income-btn-blue:hover, .income-btn-ching:hover, .income-btn-red:hover {
+    color: #fff !important;
+}
+.income-tool-wrap a i{
+    margin-right:8px;
+}
+
+.income-tool-right {
+    flex: 1;
+    justify-content: flex-end;
+    display: flex;
+}
+.income-main-wrap{
+    flex:1;
+}
+.income-input {
+    border: none;
+    width: 100%;
+    text-align: center;
+    color: #cc5648;
+    font-weight: bold;
+    border-bottom: 1px dashed;
+}
+.income-input:focus{
+    border:1px dashed #cc5648;
+}
+.income-not-data{
+    display:block;
+    margin:0 auto;
+}
+
+td .stocknum{font-size:1.2em;}

@@ -1,0 +1,163 @@
+﻿@using Ass
+@model CHIS.Models.ViewModel.HisLoginViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    ViewData["Title"] = "登陆";
+}
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #ebecf1;
+        }
+
+        .ah-data-input {
+            height: 40px;
+        }
+
+        .ah-flex-layout {
+            margin-bottom: 20px;
+        }
+        .ah-preinput-item{position:absolute;font-weight:bold;font-size:2em;left:10px;top:9px;color:#2879e9;}
+        .ah-preinput-item + input{padding-left:36px;}
+    </style>
+}
+<div class="ah-login-wrap layui-form">
+    <div class="ah-login">
+        <div class="ah-login-pic">
+            <div class="ah-logo-wrap">
+                <img src="@(Global.Config.GetSection("SystemSettings:RdCoLogoRootPath").Value)" />
+            </div>
+            <div class="ah-logo-text">
+                <h3>欢迎您登陆！</h3>
+            </div>
+        </div>
+        <div class="ah-login-main">
+
+            @if (this.DEBUG())
+            {
+                <h3 style="color:#666;" onclick="test()">登陆&nbsp;/&nbsp;<span style="color:#999;">注册</span></h3>
+            }
+            else
+            {
+                <h3 style="color:#666;">登陆&nbsp;/&nbsp;<span style="color:#999;">注册</span></h3>
+            }
+            <form class="login-form clearfix login-form" method="post" asp-action="Login" asp-controller="Home" autocomplete="off">
+                <input type="hidden" id="IsPasswordVCode" name="IsPasswordVCode" value="False" />
+                <div class="layui-tab layui-tab-brief" lay-filter="loginTab" style="margin-bottom:20px">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">密码登陆</li>
+                        <li>动态密码登陆</li>
+                    </ul>
+                </div>
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md1 ah-flex-data">
+                        <i class="fa fa-user ah-preinput-item"></i>
+                        <input class="ah-data-input" asp-for="LoginName" placeholder="请输入手机号/邮箱号/身份证号" type="text">
+                    </div>
+                </div>
+                <div class="ah-flex-layout" id="password_text">
+                    <div class="ah-col-md1 ah-flex-data">
+                        <i class="fa fa-lock ah-preinput-item"></i>
+                        <input class="ah-data-input" asp-for="LoginPassword" id="txt_password" placeholder="请输入密码" type="password">
+                    </div>
+                </div>
+                <div class="ah-flex-layout ah-verification-hidden" id="verification_text">
+                    <div class="ah-col-md1 ah-flex-data">
+                        <i class="fa fa-tag ah-preinput-item"></i>
+                        <input class="ah-data-input" asp-for="LoginPassword" id="txt_verification" placeholder="请输入验证码" type="text" style="flex:1 0 !important">
+                        <button class="ah-btn-blue" type="button" id="sendvcode" style="height:40px;">发送验证码</button>
+                    </div>
+                </div>
+
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md1 ah-flex-data">
+                        @*<div class="ah-data-label">
+                                <a href="javacript:void(0)">忘记密码</a>
+                            </div>*@
+                        <div class="ah-login-btn">
+                            <button class="ah-btn-blue" type="submit">登录</button>
+                            <button class="ah-btn-blue" type="button" onclick="window.location.href='Regist';" style="margin-left:10px;">注册</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ah-flex-layout">
+                    <div class="ah-col-md1 ah-flex-data">
+                        @Html.ValidationSummary()
+                    </div>
+                </div>
+                <div class="ah-login-foot">@(Global.Config.GetSection("SystemSettings:RdCompanyFullName").Value) <br />备案号:粤ICP备16128948号 Copyright &copy; 2016 - @DateTime.Now.Year</div>
+            </form>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        if (top != self) top.location = "/Home/Login"; //如果需要登录，就必须刷新到整个最外层框架去
+        var pagedata = {
+            loginName:'@(Model==null?"":Model.LoginName)',
+            ver:1
+        }
+
+        $(function () {
+            $('#sendvcode').removeProp("disabled");
+            $('#sendvcode').click(function () {
+                var $this = $(this);
+                setVcodeButton(false);
+                $.getJSON("/home/SendLoginVCode", { loginName: $('#LoginName').val() }, function (jn) {
+                    if (jn.rlt == false) {
+                        alert(jn.msg);
+                        $('#sendvcode').removeProp("disabled");
+                        return false;
+                    } else {
+                        if (jn.rlt) {
+                            var n = 60;
+                            var handle = setInterval(function () {
+                                setVcodeButton(false, "(剩余" + (n--) + "秒重发)")
+                                if (n == -2) { clearTimeout(handle); setVcodeButton(true); }
+                            }, 1000);
+                        } else {
+                            setVcodeButton(true);
+                        }
+                    }
+
+                });
+                function setVcodeButton(enable, wds) {
+                    if (enable) $this.removeProp("disabled");
+                    else $this.prop("disabled", "disabled");
+                    if (enable) wds = "获取验证码";
+                    if (wds) $this.text(wds)
+                }
+            });
+            initialData();
+            function initialData() {
+                setTimeout(function () {
+                    if (!pagedata.loginName) $('#LoginName').val('');
+                    $('input[type=password]').val('');
+                }, 50);
+            }
+            //登录类型监听
+            $.onTab(function (data) {
+                if (data.index == 1) {
+                    $("#verification_text").removeClass("ah-verification-hidden");
+                    $("#password_text").addClass("ah-verification-hidden");
+                    $("#txt_password").attr("name", "LoginPassword1");
+                    $("#txt_verification").attr("name", "LoginPassword");
+                    $('#IsPasswordVCode').val("True");
+                } else if (data.index == 0) {
+                    $("#verification_text").addClass("ah-verification-hidden");
+                    $("#password_text").removeClass("ah-verification-hidden");
+                    $("#txt_verification").attr("name", "LoginPassword1");
+                    $("#txt_password").attr("name", "LoginPassword");
+                    $('#IsPasswordVCode').val("False");
+                }
+            }, "loginTab");
+        });
+        function test() {
+            $("#LoginName").val("df.dl001");
+            $("#txt_password").val("123456");
+        }
+    </script>
+}

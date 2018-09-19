@@ -1,0 +1,29 @@
+﻿@model CHIS.Models.ViewModel.PrescriptionCheckModel
+@{
+    
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+ 
+<div class="row-fluid">
+    <table class="table">
+        <tbody>
+            <tr><th>编号:</th><td>@(Model.PrescriptionNo)</td></tr>
+            <tr><th>患者姓名:</th><td>@(Model.Treat.CustomerName)</td></tr>
+            <tr><th>性别:</th><td>@(Model.Treat.Gender?.ToGenderString())</td></tr>
+            <tr><th>年龄:</th><td>@(Model.Treat.TreatCustomerAge?.ToString("#0.#"))岁</td></tr>
+            <tr><th>医生:</th><td>@(Model.Treat.DoctorName)</td></tr>
+            <tr><th>科室:</th><td>@(Model.Treat.DepartmentName)</td></tr>
+            <tr>
+                <th>诊断:</th>
+                <td>
+                    @(Model.Treat.Diagnosis1 + (Model.Treat.FstIsDiag ? "?" : ""))
+                    @(Model.Treat.Diagnosis2 + (Model.Treat.SecIsDiag ? "?" : ""))
+                    @(Model.Treat.Diagnosis3 + (Model.Treat.ThrIsDiag ? "?" : ""))
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+ 

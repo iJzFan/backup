@@ -1,0 +1,14 @@
+﻿@model FeeSumaryViewModel
+
+<span class="ah-phone-hide">
+    诊金:<span id="sm_TreatFee" class="ah-price">@(Model.TreatFee)</span>
+</span>
+<span class="ah-phone-hide">
+    邮费:<span id="sm_TransFee" class="ah-price">@(Model.TransFee)</span>
+</span>
+<span>
+    总计:<span id="sm_TreatAmount" class="ah-price">@(Model.TreatAmount)</span>
+</span>
+<span>
+    待缴:<span id="sm_NeedPayAmount" class="ah-price">@(Model.NeedPayAmount)</span>
+</span>

@@ -1,0 +1,371 @@
+﻿body {
+    /*background-color: #e6e6e6;*/
+}
+
+.ah-drug-wsd{background: rgba(37, 96, 200, 0.76) none repeat scroll 0 0;
+    border-radius: 2px;
+    bottom: 2px;
+    color: #fff;
+    padding: 1px 3px;
+    position: absolute;
+    right: 0;}
+.ah-drug-wsd:after{content:"%";}
+.padding15 {
+    padding: 6px 30px;
+}
+
+.brown_color {
+    background: #f0f0f0;
+}
+
+    .brown_color li {
+        width: 128px;
+        text-align: center;
+    }
+
+        .brown_color li a {
+            color: #000;
+        }
+
+.margin-b {
+    margin-bottom: 20px;
+}
+
+.ah-data-list li {
+    border-bottom: 1px dotted rgba(59, 141, 181, 0.45);
+    line-height: 26px;
+}
+
+    .ah-data-list li > b {
+        color: #333;
+        font-weight: normal;
+    }
+    .ah-ft-gray{color:#ddd;}
+.list-unstyled li textarea {
+    border: none;
+}
+
+.ah-data-list li > b {
+    display: inline-block;
+}
+
+.ah-data-list li > span.fst {
+    padding-left: 10px;
+}
+
+.select2-container {
+    z-index: 10000000000;
+}
+
+.ui-menu {
+    background: #fff;
+    border: 1px solid;
+    padding-left: 10px;
+}
+
+.tab_switch {
+    border: 0;
+}
+
+    .tab_switch li {
+        border: 1px solid #bbbbbb;
+        border-radius: 10px;
+        margin-right: 10px;
+    }
+
+    .tab_switch a {
+        cursor: pointer;
+        color: #000;
+    }
+
+.ah-gender {
+    margin-left: 20px;
+}
+
+.ah-icolink {
+    padding-left: 5px !important;
+}
+
+    .ah-icolink > i {
+        margin-right: 6px;
+    }
+/*链接按钮*/
+.btn-link {
+    padding: 5px;
+}
+
+    .btn-link:hover {
+        color: #37b1e6;
+    }
+
+    .btn-link:active {
+        box-shadow: none;
+    }
+
+.ah-data-list > li i {
+    font-style: normal;
+}
+
+.ah-data-list > li s {
+    text-decoration: none;
+    color: #156779;
+    margin-left: 3px;
+}
+
+.border-right {
+    border-right: 1px dotted #bbbbbb;
+    color: #000;
+}
+
+.price_brown {
+    height: 72px;
+    line-height: 72px;
+    font-size: 18px;
+    color: #ff0000;
+}
+
+.medicinal_info {
+    padding: 15px 0px;
+    background: #ebebeb;
+    color: #000;
+}
+
+    .medicinal_info h6 {
+        margin: 0px;
+        padding: 0px;
+        margin-left: 15px;
+    }
+
+.mart10 {
+    margin-top: 10px;
+}
+
+.marb10 {
+    margin-bottom: 20px;
+}
+
+.select-custom {
+    height: 38px;
+    border: 1px solid #cccccc;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.medicinal_info h6 {
+    font-size: 16px;
+}
+
+.medicinal_info a {
+    cursor: pointer;
+    color: #000;
+}
+
+.top-row {
+    background-color: #ffffff;
+}
+
+
+
+
+.mytabs {
+    background-color: #fff;
+    padding-left: 0;
+    padding-right: 0;
+    border: 1px solid #bbb;
+    padding-bottom: 10px;
+}
+
+    .mytabs > ul {
+        border-bottom: 1px solid #bbb !important;
+    }
+
+        .mytabs > ul > li:first-child.active > a {
+            border-left: none !important;
+        }
+
+        .mytabs > ul > li.active > a {
+            border-top-color: transparent !important;
+            border-radius: 0 !important;
+            border-left-color: #bbb !important;
+            border-right-color: #bbb !important;
+        }
+
+.cus-pic {
+    position: relative;
+}
+
+    .cus-pic .cus-tab {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        padding: 10px;
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+    }
+
+        .cus-pic .cus-tab > b {
+            color: #333;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: normal;
+        }
+
+.title_border {
+    border-bottom: 1px dotted #ccc;
+    margin-top: 8px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.padding5 {
+    padding-left: 0;
+    padding-right: 5px;
+}
+
+#drup_list tr:hover, .active_ass {
+    cursor: pointer;
+    color: #fff;
+    background-color: #4780eb;
+    border-color: #4780eb;
+}
+
+.padding5 input, .padding5 select {
+    height: 32px;
+    padding: 5px 5px;
+    font-size: 13px;
+}
+
+.form-control-feedback {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.select-linkage {
+    width: 32%;
+    display: 1;
+}
+
+.ah-sc-row{width:100%;position:relative;}
+.ah-sc-title{width:120px;float:left;}
+.ah-sc-content{width:calc(100% - 120px);float:left;}
+
+
+
+
+
+
+.toptab > div {
+    min-height: 500px;
+}
+
+
+div[ah-input-key="BloodPress_H"]:after, div[ah-input-key="BloodPress_L"]:after {
+    font-size: 10px;
+    position: absolute;
+    top: -2px;
+    width: 15px;
+    height: 15px;
+    color: #555;
+    line-height: 14px;
+    border-radius: 2px;
+    text-align: center;
+    border: 1px solid #aaa;
+    background-color: #ddd;
+    right: -4px;
+}
+
+div[ah-input-key="BloodPress_H"]:after {
+    content: "高";
+}
+
+div[ah-input-key="BloodPress_L"]::after {
+    content: "低";
+}
+
+.tab-img {
+    line-height: 23px;
+    font-size: 18px;
+}
+
+    .tab-img i {
+        cursor: pointer;
+    }
+
+
+.grp-1, .grp-2, .grp-3 {
+    border-left: 3px solid #888;
+    margin-bottom: 0 !important;
+    border-bottom: 1px dotted #ccc;
+}
+
+.grp-1 {
+    border-left-color: #37b1e6 !important;
+}
+
+ul > li.grp-1:last-child {
+    margin-bottom: 20px !important;
+}
+
+.grp- + li.device-space {
+    margin-bottom: 0 !important;
+}
+
+
+
+.yfinput select, .yfinput input[type=text] {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    height: 28px;
+    border-radius: 2px;
+    margin-right: 1px;
+}
+
+input.readonly-input {
+    border: none;
+    background-color: transparent;
+    padding: 1px;
+    margin: 1px;
+    ime-mode: disabled;
+}
+
+
+.pagination {
+    margin: 1px 0;
+}
+
+.select_source {
+    display: flex;
+    align-items: center;
+}
+.select_source ul{
+    display: flex;
+}
+.select_source ul li {
+    margin: 5px;
+    padding: 4px 16px;
+    cursor: pointer;
+    color: #666;
+    border-radius: 1px;
+}
+
+.select_source .select-active {
+    background: #4780eb;
+    color: #fff;
+}
+.ah-sunit{color:#b13cb6;font-size:1.2em;font-weight:bold;}
+.ah-dg-model{display:block;}
+#search_drupinfos{font-size:14px;}
+tr .ah-ugp:first-child{padding-left:4px!important;width:50px;}
+tr .ah-ugp:last-child{padding-right:4px!important;width:50px;}
+tr .ah-ugp{padding:4px 0!important;width:50px;}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    line-height: 1.2;
+    padding: 4px; 
+}
+.fa-search{ color: #bbb;
+    font-size: 2em;
+    position: absolute;
+    right: 13px;
+    top: 47px;
+    z-index: 10;}

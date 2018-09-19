@@ -1,0 +1,65 @@
+﻿@model CHIS.Models.ViewModel.SickNoteCheckModel
+@{
+    ViewBag.Title = "病假证明书查证"; 
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <style>
+        .navbar-inverse{background-color:#1e94ea;border:none;border-radius:0px;}
+        .navbar-inverse .ah-nav-logo{height:40px;margin-top:-11px;}
+    </style>
+}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+               <img src="~/images/ahlogo2.png" class="ah-nav-logo"   />     
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container">
+ 
+    <div class="row">
+        <div class="text-center">
+            <h3>请假证明查询系统</h3>
+        </div>
+    </div>
+    <div class="row"  >
+        <div class="col-lg-4 col-md-4"></div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+            <form asp-action="SickNoteCheck" role="search">
+                <div class="input-group">
+                    <input type="text" placeholder="请输入单据编号" name="sickNoteId" class="form-control" value="@(Model?.SickNote.SickNoteId)" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default">
+                            <i class="glyphicon glyphicon-search"></i>
+                            查询
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 col-md-4"></div>
+    </div>
+    <hr />
+    <div  >
+        查询结果:
+    </div>
+    <div  id="search_rlt">
+        @if (Model != null)
+        {
+        @await Html.PartialAsync("SickNoteCheck_pv_SearchResult", Model)
+        }
+    </div>
+</div>
+
+
+@section scripts{
+  <script></script>
+    
+}

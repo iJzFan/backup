@@ -1,0 +1,85 @@
+﻿@model DispensingDetailSumary
+
+@inject CHIS.Services.DrugService _drugSvr;
+@{
+    var drugids = Model.Formed.Where(m=>m.SupplierId>0).Select(m => m.SupplierId.Value).ToList().Distinct();
+    var suppliers = _drugSvr.GetDrugSuppliers(drugids);
+}
+@* 药品清单 *@
+<div class="ah-table-wrap ah-max-height">
+    <ul class="ah-dispensing-sumary-ul ah-flex">
+        @if (Model.FormedPrescription.Count() != 0)
+        {
+           
+            foreach (var pre in Model.FormedPrescription)
+            {
+                <li class="ah-drugList-title ah-flex">
+                    <span class="ah-flex-auto">成药处方</span>
+                    <a class="print" href="javascript:void(0)" onclick="Print(null,'PrintFormedPrescription', 'prescriptNo=@(pre.PrescriptionNo)');" title="打印此处方">打印处方</a>   
+                </li>
+                var forme = Model.GetFormedDetailByPreNo(pre.PrescriptionNo);
+                foreach(var item in forme)
+                {
+                    <li class="ah-flex ah-drugList-border-@item.DispensingStatus">
+                        <div class="base-info">
+                            <div class="drugName">
+                                @if (item.SourceFrom==(int)DrugSourceFrom.WebNet)
+                                {                                   
+                                    <span style="background: #0c97f9;color: #fff;padding:0 3px;border-radius: 3px;font-size: 12px;">@(suppliers.FirstOrDefault(m=>m.SupplierID==item.SupplierId).CompanyShortName)</span>
+                                }
+                                @item.DrugName
+                            </div>
+                            @if (item.ManufacturerOrigin.IsNotEmpty())
+                            {
+                            <div>@(item.ManufacturerOrigin)</div>
+                            }
+                            <div class="drugModel">@item.DrugModel</div>                            
+                        </div>
+                        <div class="number">
+                            <span style="font-size:1em;">@item.Qty @item.UnitName </span>
+                            @if (item.IsMultyUnit && item.UnitId == item.UnitSmallId && item.BigStockNumber >= 1)
+                            {
+                                <span class="ah-kf-gray">
+                                    @(item.PackageShow)
+                                </span>
+                            }
+                        </div>
+                        @*<div class="rmk">
+                            @item.DispensingRmk
+                        </div>*@
+                    </li>
+                }
+            }
+        }
+        @if (Model.HerbPrescription.Count() != 0)
+        {
+            foreach (var pre in Model.HerbPrescription)
+            {
+                <li class="ah-drugList-title ah-flex">
+                    <span class="ah-flex-auto">中药处方</span>
+                    <a class="print" href="javascript:void(0)" onclick="Print(null,'PrintHerbPrescription', 'prescriptNo=@(pre.PrescriptionNo)');" title="打印此处方">打印处方</a>
+                </li>
+                var sheet = Model.GetHerbDetailByPreNo(pre.PrescriptionNo);
+                
+                foreach (var item in sheet)
+                {
+                    <li class="ah-flex ah-drugList-border-@item.DispensingStatus">
+                        <div>
+                            <div class="drugName">@item.DrugName</div>
+                            <div class="drugModel">@item.OriginPlace</div>
+                        </div>
+                        <div class="number">
+                            <span style="color:#333;font-size:1em;">
+                                @item.Qty @item.UnitName
+                            </span>
+                        </div>
+                        @*<div class="rmk">
+                            @item.DispensingRmk
+                        </div>*@
+                    </li>
+                }
+            }
+        }
+
+    </ul>
+</div>

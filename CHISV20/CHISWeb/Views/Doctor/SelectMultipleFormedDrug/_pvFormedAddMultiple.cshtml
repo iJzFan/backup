@@ -1,0 +1,123 @@
+﻿@*//@model CHIS.Models.ViewModel.SelectDrugsViewModel*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService accSvr
+@{
+    Layout = null;
+    var mTakeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+    var selectedDrugs = ViewBag.SelectedDrugs as IEnumerable<CHIS_Code_Drug_Main>;
+    var u = this.GetUserSelf();
+    var isCanNewWeb= accSvr.GetMyConfig("SelectDrugStores").Split(',').Contains("NetWeb");
+    string aaa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+}
+<style>
+    #text {
+        width: 0;
+    }
+</style>
+<div class="ah-fMultiple-main ah-flex ah-flex-column">
+    <div class="ah-fMultiple-title ah-flex ah-center-between ah-flex-auto">
+        <span>添加药品</span>
+        <i class="glyphicon glyphicon-remove" onclick="ADDMULTIPLE.CloseFormedDrug()"></i>
+    </div>
+    <div class="ah-fMultiple-phoneTitle">
+        <span class="ah-flex ah-flex-auto">
+            <span class="ah-fMultiple-select ah-phone-selectModel" onclick="ADDMULTIPLE.selectFormedDrugModel(this,@(u.StationId))"><i class="glyphicon glyphicon-retweet"></i></span>
+            <span class="ah-fMultiple-select ah-phone-selectCart" onclick="ADDMULTIPLE.SelectViewModel(this)"><i class="glyphicon glyphicon-shopping-cart"></i><span class="layui-badge">@selectedDrugs.Count()</span></span>
+        </span>
+        <span class="ah-flex ah-flex-auto" style="justify-content: flex-end;">
+            <span class="ah-fMultiple-select ah-phone-selectCart" onclick="ADDMULTIPLE.SubmitFormeDrug($('.ah-fMultiple-submit .ah-btn-blue').first())"><i class="glyphicon glyphicon-floppy-saved"></i></span>
+            <span class="ah-fMultiple-select ah-phone-selectCart" onclick="ADDMULTIPLE.CloseFormedDrug()"><i class="glyphicon glyphicon-remove-circle"></i></span>
+        </span>
+    </div>
+    <div class="ah-fMultiple-content ah-flex">
+        @* 循环已选药品*@
+        <div class="ah-fMultiple-left ah-flex ah-flex-column">
+            <div class="ah-fMultiple-left-title">
+                已选药品:
+            </div>
+            <div class="ah-max-height scrollbar-dynamic">
+                <ul ah-id="FMultipleSelected" class="ah-fMultiple-ul" data-role="page" id="FMultipleSelected">
+                    @foreach (var item in selectedDrugs)
+                    {
+                        <li rolename="add-multiple-drugs" ah-DrugId="@item.DrugId" ah-stockfromid="@item.FormTypeId" class="ah-fMultiple-selected ah-flex">
+                            <div class="drugName">@item.DrugName</div>
+                            <div class="ah-flex ah-space-between">
+                                <span class="manufacturerOrigin">@item.ManufacturerOrigin</span>
+                                <span class="drugModel">@item.DrugModel</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="ah-fMultiple-submit ah-flex">
+                <button class="ah-btn-white ah-col-md2" type="button" onclick="ADDMULTIPLE.CloseFormedDrug()">返回</button>
+                <button class="ah-btn-blue ah-col-md2" type="button" onclick="ADDMULTIPLE.SubmitFormeDrug(this)">添加</button>
+            </div>
+        </div>
+        <div class="ah-fMultiple-right ah-flex">
+            <form id="searchForm" asp-action="" onkeydown="if(event.keyCode==13)return false;" method="post" role="form">
+                <div class="ah-select-model ah-flex">
+                    搜索药品:<span class="ah-fMultiple-select" onclick="ADDMULTIPLE.selectFormedDrugModel(this,@(u.StationId))"><i class="fa fa-exchange"></i> 切换搜索</span>
+                </div>
+                
+                <div class="ah-fMultiple-search-wrap ah-flex" ah-name="search">
+                    <input style="width: 0px;" type="text" name="multiple-search-drupinfos" class="ah-data-input" placeholder="输入药品名 拼音汉字简拼均可">
+                    <button class="ah-btn-blue" type="button" name="search_submit" id="btn_search_drug" onclick="ADDMULTIPLE.search(this)">搜索</button>
+                </div>
+                <div class="ah-select-source ah-flex" ah-name="search">
+                    来源：
+                    <ul ah-id="select-items-ul" class="ah-select-items-ul ah-flex">
+                        <li ah-value="0-0" class="select-active">我的药房</li>
+                        @*<li ah-value="1-1">天使</li>*@
+                        @if (!isCanNewWeb)
+                        {
+                        <li ah-value="1-3">健客</li>
+                        }
+                        @*<li ah-value="2-4">国药</li>*@
+                    </ul>
+                    <div class="ah-drug-search-pms">
+                        <input type="checkbox" title="包含价格为零" id="isIncludeZero"
+                               onchange="$('#btn_search_drug').click();"
+                               /> @*包含价格为零的*@
+                    </div>
+         
+                    <div class="ah-pvFormed-tips">温馨提示 : 双击添加药品,选择完善度高(超过40%)的条目</div>
+                </div>
+                <div class="ah-fMultiple-search-letter ah-fMultiple-hide" ah-name="letter">
+                    <ul class="ah-flex ah-flex-wrap">
+                        @foreach (var c in aaa)
+                        {
+                            <li><a href="#md_@(c)">@(c == '_' ? "特殊" : c.ToString())</a></li>
+                        }
+                    </ul>
+                </div>
+            </form>
+
+            @*这部分代码放入缓存中，设置无人操作后1分钟后过期*@
+            @*<distributed-cache name="myclinic_drugs" expires-sliding="TimeSpan.FromMinutes(1)">*@
+                <div class="ah-touch-wrap scrollbar-dynamic">
+                    <div class="ah-fMultiple-hide" ah-name="letter" id="setLetter">
+                        <span id="setLetterLoading">载入中...</span>
+                    </div>
+                    <div ah-name="search" ah-id="selectMultipleDrugTable">
+                        @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+                    </div>
+                </div>
+
+            @*</distributed-cache>*@
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //设置来源
+        ADDMULTIPLE.setDrigFroms('@ViewBag.FORMEDSELECT');
+        //绑定事件
+        ADDMULTIPLE.setMultipleEvent();
+        updataLayui();
+    })
+
+</script>

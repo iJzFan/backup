@@ -1,0 +1,400 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "患者就诊";
+    ViewBag.FuncId = 108;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+    
+}
+@section links{
+    <link href="~/css/other/patient-visit.css" rel="stylesheet" />
+    <link href="~/css/pages/doctor-patient-visit.css" rel="stylesheet" />
+}
+
+
+<div ah-tools="wrap" class="ah-max-width ah-max-height">
+    <div class="ah-qk-apm">
+        @*<a href="http://my.jk213.com/Customer/Appointment?stationId=@(u.StationId)&departId=@(u.SelectedDepartmentId)&doctorId=@(u.DoctorId)"
+           target="_blank" style="margin-right:20px;">快速预约</a>*@
+        <a href="javascript:void(0)" ah-id='sidebarBtn' onclick="PATIENTVISIT.isSidebar()">其他约诊</a>
+    </div>
+    <div class="layui-tab layui-tab-brief" lay-filter="patientvisitTab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">候诊患者<span class="layui-badge" id="clinic1"></span></li>
+            <li>在诊患者<span class="layui-badge" id="clinic2"></span></li>
+            <li>已诊患者<span class="layui-badge" id="clinic3"></span></li>
+            <li>一体机接诊<span class="layui-badge" id="clinic4"></span></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show" id="patient_wating">
+                <!--候诊患者 搜索框-->
+                <form class="navbar-form row">
+                    <div class="pull-right">
+                        <div class="input-group  input-group-sm ah-fing-group">
+                            <input class="ah-search-text form-control" name="searchText" type="text" placeholder="请输入用户姓名" />
+                            <span class="input-group-btn">
+                                <a class="btn btn-primary" onclick="SearchPatientList(this,0);"><i class="fa fa-search"></i> </a>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <!--列表循环开始-->
+                <div id="patientWatingList" class="clearfix"></div>
+                <script id="patientWatingTemplate" type="text/html">
+                    {{each items as one i}}
+                    <div class="col-md-4">
+                        <div class="row" style="position:relative; margin:1%;box-shadow:0 2px 2px #e8eaec;border-radius:5px 5px 0 0">
+                            <div class="customer_info clearfix">
+                                <img src="{{imgUrl '@(Global.ConfigSettings.CustomerImagePathRoot)',one.userImageUrl}}" style="width:64px" class="img-circle pull-left">
+                                {{if one.isVip}}
+                                <i class="ah-img-vip ah-visit-list1"></i>
+                                {{/if}}
+
+                                <dl class="pull-left">
+                                    <dt>{{one.customerName}}（{{one.gender}}，{{one.age}} ）</dt>
+                                    <dd>手机号码：{{one.mobile}}</dd>
+                                    <dd>预约来源：{{one.sourceFrom}}</dd>
+                                    <dd>预约时间：{{one.visitTime}} {{one.registSlot}}</dd>
+                                </dl>
+                            </div>
+                            <div class="table-bordered text-center customer_btn bd-color">
+                                <a class="patientvisit-records" href="/MedicalLib/MyMedicalRecords?customerId={{one.customerId}}" target="_blank">病历</a>
+                                <a class="patientvisit-btn" href="/Doctor/PatientDetail?customerId={{one.customerId}}&registId={{one.registId}}&treatId={{one.treatId}}"><span class="item-dep">{{one.registDepartmentName}}</span>- 接诊</a>
+                            </div>
+                            @*<div class="col-md-6 table-bordered text-center customer_btn"><a>&nbsp; </a></div>*@
+                            <div class="ah-top-right-btns">
+                                <a onclick="cancelRegist('registId={{one.registId}}&treatId={{one.treatId}}')"><i class="fa fa-times"></i> 取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </script>
+                <!--分页样式-->
+                <div class="pull-right" data-example-id="disabled-active-pagination">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <div id="pager_PatientWating"></div>
+                        </ul>
+                    </nav>
+                </div>
+                <!--分页结束-->
+            </div>
+            <div class="layui-tab-item" id="patient_treating">
+                <!--在诊患者  搜索框-->
+                <form class="navbar-form row">
+                    <div class="pull-right">
+                        <div class="input-group  input-group-sm">
+                            <input class="ah-search-text form-control" name="searchText" type="text" placeholder="请输入用户姓名" />
+                            <span class="input-group-btn">
+                                <a class="btn btn-primary" onclick="SearchPatientList(this,1);"><i class="fa fa-search"></i> </a>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <!--列表循环开始-->
+                <div id="patientTreatingList" class="clearfix"></div>
+                <script id="patientTreatingTemplate" type="text/html">
+                    {{each items as one i}}
+                    <div class="col-md-4">
+                        <div class="row" style="margin:1%;box-shadow:0 2px 2px #e8eaec;border-radius:5px 5px 0 0">
+                            <div class="customer_info clearfix">
+                                <img src="{{imgUrl '@(Global.ConfigSettings.CustomerImagePathRoot)',one.userImageUrl}}" style="width:64px" class="img-circle pull-left">
+                                {{if one.isVip}}
+                                <i class="ah-img-vip ah-visit-list"></i>
+                                {{/if}}
+
+                                <dl class="pull-left">
+                                    <dt>{{one.customerName}}（{{one.gender}}，{{one.age}}）</dt>
+                                    <dd>手机号码：{{one.mobile}}</dd>
+                                    <dd>预约来源：{{one.sourceFrom}}</dd>
+                                    <dd>预约时间：{{one.visitTime}} {{one.registSlot}}</dd>
+                                </dl>
+                            </div>
+                            <div class="table-bordered text-center customer_btn bd-color">
+                                <a class="patientvisit-records" href="/MedicalLib/MyMedicalRecords?customerId={{one.customerId}}" target="_blank">病历</a>
+                                <a class="patientvisit-btn" href="/Doctor/PatientDetail?customerId={{one.customerId}}&registId={{one.registId}}&treatId={{one.treatId}}">接诊</a>
+                            </div>
+                            @*<div class="col-md-6 table-bordered text-center customer_btn"><a> &nbsp;</a></div>*@
+                        </div>
+                    </div>
+                    {{/each}}
+                </script>
+
+                <!--分页样式-->
+                <div class="bs-example pull-right" data-example-id="disabled-active-pagination">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <div id="pager_PatientTreating"></div>
+                        </ul>
+                    </nav>
+                </div>
+                <!--分页结束-->
+            </div>
+            <div class="layui-tab-item" id="patient_treated">
+                <!--已诊患者 搜索框-->
+                <form class="navbar-form row" id="haveTreatedList">
+                    <div class="pull-right">
+                        <input type="checkbox" id="isIncludeToday" title="包含所有当日接诊" /><br />
+                        <div class="input-group  input-group-sm" style="margin-top: 4px;">
+                            <input class="ah-search-text form-control" name="searchText" type="text" placeholder="请输入用户姓名" />
+                            <span class="input-group-btn">
+                                <a class="btn btn-primary" onclick="SearchPatientList(this, 2, 'haveTreatedList');"><i class="fa fa-search"></i> </a>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <!--列表循环开始-->
+                <div id="patientTreatedList" class="clearfix"> </div>
+                <script id="patientTreatedTemplate" type="text/html">
+                    {{each items as one i}}
+                    <div class="col-md-4">
+                        <div class="row" style="margin:1%;box-shadow:0 2px 2px #e8eaec;border-radius:5px 5px 0 0">
+                            <div class="customer_info clearfix">
+                                <span class="ah-list-yestoday-mark">{{one.timeMark}}</span>
+                                <img src="{{imgUrl '@(Global.ConfigSettings.CustomerImagePathRoot)',one.userImageUrl}}" style="width:64px" class="img-circle pull-left">
+                                {{if one.isVip}}
+                                <i class="ah-img-vip ah-visit-list"></i>
+                                {{/if}}
+                                <dl class="pull-left">
+                                    <dt>{{one.customerName}}（{{one.gender}}，{{one.age}}）</dt>
+                                    <dd>手机号码：{{one.mobile}}</dd>
+                                    <dd>预约来源：{{one.sourceFrom}}</dd>
+                                    <dd>预约时间：{{one.visitTime}} {{one.registSlot}}</dd>
+                                    <dd>最后接诊：{{one.treatTime}}</dd>
+                                    <dd>&emsp;主诊断：<span>{{one.diagnosis1}}</span></dd>
+                                </dl>
+                            </div>
+                            <div class="table-bordered text-center customer_btn bd-color">
+                                <a class="patientvisit-records" href="/MedicalLib/MyMedicalRecords?customerId={{one.customerId}}" target="_blank">病历</a>
+                                <a class="patientvisit-btn" href="/Doctor/PatientDetail?customerId={{one.customerId}}&registId={{one.registId}}&treatId={{one.treatId}}">继续接诊</a>
+                            </div>
+                            @*<div class="col-md-6 table-bordered text-center customer_btn"><a> &nbsp;</a></div>*@
+                        </div>
+                    </div>
+                    {{/each}}
+                </script>
+
+                <!--分页样式-->
+                <div class="bs-example pull-right" data-example-id="disabled-active-pagination">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <div id="pager_PatientTreated"></div>
+                        </ul>
+                    </nav>
+                </div>
+                <!--分页结束-->
+            </div>
+            <div class="layui-tab-item" id="patient_machine">
+                <!-- 搜索框-->
+                <form class="navbar-form row">
+                    <div class="pull-right">
+                        <div class="input-group  input-group-sm">
+                            <input class="ah-search-text form-control" name="searchText" type="text" placeholder="请输入用户姓名" />
+                            <span class="input-group-btn">
+                                <a class="btn btn-primary" onclick="SearchPatientList(this,3);"><i class="fa fa-search"></i> </a>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <!--列表循环开始-->
+                <div id="patientMachineList" class="clearfix"></div>
+                <script id="patientMachineTemplate" type="text/html">
+                    {{each items as one i}}
+                    <div class="col-md-4">
+                        <div class="row" style="margin:1%;box-shadow:0 2px 2px #e8eaec;border-radius:5px 5px 0 0">
+                            <div class="customer_info clearfix">
+                                <img src="@(Global.ConfigSettings.CustomerImagePathRoot){{one.userImageUrl}}" style="width:64px" class="img-circle pull-left">
+                                {{if one.isVip}}
+                                <i class="ah-img-vip ah-visit-list"></i>
+                                {{/if}}
+
+                                <dl class="pull-left">
+                                    <dt>{{one.customerName}}（{{one.gender}}，{{one.age}}）</dt>
+                                    <dd>手机号码：{{one.mobile}}</dd>
+                                    <dd>预约来源：{{one.sourceFrom}}</dd>
+                                    <dd>预约时间：{{one.visitTime}}  {{one.registSlot}}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-12 table-bordered text-center customer_btn" style="border-top:0;border-color:#dcdcdc;">
+                                <a href="/Doctor/PatientDetail?customerId={{one.customerId}}&registId={{one.registId}}&treatId={{one.treatId}}">接诊</a>
+                            </div>
+                            @*<div class="col-md-6 table-bordered text-center customer_btn"><a>&nbsp;</a></div>*@
+                        </div>
+                    </div>
+                    {{/each}}
+                </script>
+                <!--分页样式-->
+                <div class="bs-example pull-right" data-example-id="disabled-active-pagination">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <div id="pager_PatientMachine"></div>
+                        </ul>
+                    </nav>
+                </div>
+                <!--分页结束-->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+ 
+    
+    <div class="scrollbar-dynamic ah-pv-sidebar ah-m-sliderbar" >
+        <div class="layui-tab layui-tab-brief " lay-filter="sidebarTab">
+            <ul class="layui-tab-title" style="margin: 0 10px;">
+                <li class="layui-this">历史未完诊<span class="kf" id="clinic5"></span></li>
+                <li>明日约诊<span class="kf" id="clinic6"></span></li>
+                <li>未来约诊<span class="kf" id="clinic7"></span></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form style="height:30px;">
+                        <div class="pull-right">
+                            <div class="input-group  input-group-sm">
+                                <input class="ah-search-text form-control" name="searchText" type="text" placeholder="请输入用户姓名" />
+                                <span class="input-group-btn">
+                                    <a class="btn btn-primary" onclick="SearchPatientList(this, 0, 'patientHistory');"><i class="fa fa-search"></i> </a>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="list-unstyled clearfix">
+                        <div id="patientHistoryList" class="clearfix"></div>
+                        <script id="patientHistoryTemplate" type="text/html">
+                            {{each items as one i}}
+                            <li class="col-md-12 li-patient">
+                                <div class="pull-left imagebox">
+                                    <img style="width:42px;" {{if one.gender=="男"}} src="/images/def/u128_1.png" {{else}} src="/images/def/u128_0.png" {{/if}} class="img-circle pull-left">
+                                    {{if one.isVip}}
+                                    <i class="ah-img-vip ah-visit-list-r"></i>
+                                    {{/if}}
+
+                                </div>
+                                <div class="pull-left" style="line-height:22px;">
+                                    <span class="uname">{{one.customerName}}</span>
+                                    <span>{{one.gender}}</span>
+                                    <span>{{one.age}}</span>
+                                    <span class="label {{if one.treatStatus=="未完诊"}}label-warning{{else}}label-primary{{/if}}" style="margin-left:8px;">{{one.treatStatus}}</span>
+                                    <br>
+                                    <span class="ah-lbmk"><i>科</i>{{one.registDepartmentName}}</span>
+                                    <span class="ah-lbmk"><i>约</i>{{one.registData}}</span>
+                                    @*<span>状态:{{one.treatStatus}}</span>*@
+                                </div>
+                                <div class="pull-right" style="line-height:45px;">
+                                    <a href="/Doctor/PatientDetail?customerId={{one.customerID}}&registId={{one.registerID}}&treatId={{one.treatId}}" class="btn btn-link">接诊</a>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </script>
+                        <!--分页样式-->
+                        <div class="bs-example pull-right" data-example-id="disabled-active-pagination">
+                            <nav aria-label="...">
+                                <ul class="pagination">
+                                    <div id="pager_PatientHistory"></div>
+                                </ul>
+                            </nav>
+                        </div>
+                    </ul>
+                </div>
+                <div class="layui-tab-item">
+                    <ul class="list-unstyled clearfix">
+                        <div id="patientTomorrowList" class="clearfix"></div>
+                        <script id="patientTomorrowTemplate" type="text/html">
+                            {{each items as one i}}
+                            <li class="col-md-12 li-patient">
+                                <div class="pull-left imagebox">
+                                    <img style="width:42px;" {{if one.gender=="男"}} src="/images/def/u128_1.png" {{else}} src="/images/def/u128_0.png" {{/if}} class="img-circle pull-left">
+                                    {{if one.isVip}}
+                                    <i class="ah-img-vip ah-visit-list-r"></i>
+                                    {{/if}}
+
+                                </div>
+                                <div class="pull-left">
+                                    <span class="uname">{{one.customerName}}</span>
+                                    <span>{{one.gender}}</span>
+                                    <span>{{one.age}}</span>
+                                    <br>
+                                    <span class="">挂号时间：{{one.registData}}</span>
+                                </div>
+                                <div class="pull-right" style="line-height:45px;">
+                                    <a href="/Doctor/PatientDetail?customerId={{one.customerId}}&registId={{one.registerID}}&treatId={{one.treatId}}" class="btn btn-link">接诊</a>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </script>
+                        <!--分页样式-->
+                        <div class="bs-example pull-right" data-example-id="disabled-active-pagination">
+                            <nav aria-label="...">
+                                <ul class="pagination">
+                                    <div id="pager_PatientTomorrow"></div>
+                                </ul>
+                            </nav>
+                        </div>
+                    </ul>
+                </div>
+                <div class="layui-tab-item">
+                    <ul class="list-unstyled clearfix">
+                        <div id="patientAftertomorrowList" class="clearfix"></div>
+                        <script id="patientAftertomorrowTemplate" type="text/html">
+                            {{each items as one i}}
+                            <li class="col-md-12 li-patient">
+                                <div class="pull-left imagebox">
+                                    <img style="width:42px;" {{if one.gender=="男"}} src="/images/def/u128_1.png" {{else}} src="/images/def/u128_0.png" {{/if}} class="img-circle pull-left">
+                                    {{if one.isVip}}
+                                    <i class="ah-img-vip ah-visit-list-r"></i>
+                                    {{/if}}
+
+                                </div>
+                                <div class="pull-left">
+                                    <span class="uname">{{one.customerName}}</span>
+                                    <span>{{one.gender}}</span>
+                                    <span>{{one.age}}</span>
+                                    <br>
+                                    <span class="">挂号时间：{{one.registData}}</span>
+                                </div>
+                                <div class="pull-right" style="line-height:45px;">
+                                    <a href="/Doctor/PatientDetail?customerId={{one.customerID}}&registId={{one.registerID}}&treatId={{one.treatId}}" class="btn btn-link">接诊</a>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </script>
+                        <!--分页样式-->
+                        <div class="bs-example pull-right" data-example-id="disabled-active-pagination">
+                            <nav aria-label="...">
+                                <ul class="pagination">
+                                    <div id="pager_PatientAftertomorrow"></div>
+                                </ul>
+                            </nav>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+
+
+
+
+@section scripts{
+    <script src="~/Customer/lib/extendPagination.js"></script>
+    <script type="text/javascript" src="~/js/pages/doctor-patient-visit.js"></script>
+    <script>
+        //待诊
+        LoadPationtList(0, "", 1, true);
+        //未完成接诊
+        unfinishedPationtList(0, "", 1, true);
+        //layui tab 监听
+        $.onTab(function (data) { 
+            LoadPationtList(data.index, "", 1, true);
+        }, "patientvisitTab");
+        $.onTab(function (data) {
+            unfinishedPationtList(data.index, "", 1, true);
+        }, "sidebarTab");
+    </script>
+}
+

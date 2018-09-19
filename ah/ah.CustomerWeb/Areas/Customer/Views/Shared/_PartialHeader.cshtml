@@ -1,0 +1,170 @@
+﻿
+<style>
+    .wrapper {
+        border-bottom: 1px solid transparent;
+ margin-top:-5px;
+ background:url(/images/bg.png);
+ 
+    }
+
+        .wrapper p {
+            text-align: center;
+            line-height: 35px;
+            margin: 0px;
+        }
+
+    .dropdown-menu > li > a {
+        padding: 5px 15px;
+        font-size: 12px;
+    }
+
+    .list-group {
+        color: #333;
+    }
+
+        .list-group ul li {
+            line-height: 28px;
+            list-style: none;
+            text-align: center;
+            display: block;
+        }
+
+        .list-group ul {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .list-group a {
+            text-decoration: none;
+            display: block;
+        }
+
+            .list-group a:hover {
+                display: block;
+                background: #eee;
+            }
+
+    .panel {
+        color: #333;
+        font-size: 12px;
+        text-align: center;
+        line-height: 35px;
+    }
+
+    .panel-heading {
+        padding: 0px;
+    }
+
+    .badge {
+        background: #ff5454 none repeat scroll 0 0;
+        border: 2px solid white;
+        border-radius: 50em;
+        font-size: 8px;
+        line-height: 8px;
+        padding: 4px 6px;
+        position: absolute;
+    }
+
+    .badge-setting {
+        top: 45px;
+        right: 10px;
+    }
+
+    .par_iocn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+    }
+
+    .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+        background-color: none;
+        border-color: #337ab7;
+    }
+
+        .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+            background-color: none;
+            border-color: #fff;
+        }
+
+    .nav > li > a:focus, .nav > li > a:hover {
+        background: transparent;
+    }
+
+    .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+        background: transparent;
+    }
+</style>
+@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+    var cus_cookie = ViewBag.CUSTOMER_INFO as ah.Models.ViewModel.CUSTOMER_INFO;
+}
+
+<div class="pc">
+    <header class="ui-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-left ui-logo">
+                        <img src="~/images/logo.png" />
+                    </div>
+                    <ul class="nav navbar-nav navbar-right ui-tips">
+                        <li class="dropdown">
+                            @*<a href="#" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-bell" style="font-size:24px; color:#ffffff;"></span>
+                                    <span class="badge" style="right:5px; top:10px;">4</span>
+                                </a>*@
+                            <div class="dropdown-menu  animated fadeInUp">
+                                <div class="panel bg-white">
+                                    <div class="panel-heading bg-primary">
+                                        <span>消息中心</span>
+                                    </div>
+                                    <div class="list-group">
+                                        <ul>
+                                            <li><a href="#">预约通知 <span class="badge" style="top:45px; right:10px;">2</span></a></li>
+                                            <li><a href="#">预约通知 <span class="badge" style="top:75px; right:10px;">2</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a style="padding:0px;" href="#" data-toggle="dropdown">
+                                <img class="par_iocn" src="@(myRazor.GetCustomerDefImagePath(cus.PhotoUrlDef,cus.Gender))" />
+                                @if (cus.IsVIP==true)
+                                {
+                                <i class="ah-img-vip ah-img-vip-u2" ></i>
+                                }
+                            </a>
+                            <!-- dropdown -->
+                            <ul class="dropdown-menu animated fadeInRight">
+                                <li class="wrapper  bg-primary">
+                                    <p>个人中心</p>
+                                </li>
+                                <li>
+                                    <a asp-action="ChangePassword" asp-controller="Home">
+                                        <span class="glyphicon glyphicon-cog"></span> 修改密码
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ShowCustomerInfo" asp-controller="Home"><span class="glyphicon glyphicon-user"></span> 个人资料</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-headphones"></span> 帮助中心
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a asp-action="CustomerLoginOut" asp-controller="Home"><span class="glyphicon glyphicon-off"></span> 退 出</a>
+                                </li>
+                            </ul>
+                            <!-- / dropdown -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>

@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Titel = "修改密码成功";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section links{
+    <style>
+        .changeMobileOk {
+            align-items: center;
+            justify-content: center;
+            font-size: 4ex;
+            color: #4680ea;
+        }
+
+        .changeMobileOk img {
+            width: 100px;
+            height: 100px;
+            padding: 3px;
+            background: #4780eb;
+            border-radius: 50%;
+            margin-right: 41px;
+        }
+
+        .changeMobileOk a {
+            border: none;
+            background: none;
+            font-size: 1.2ex;
+            margin-left: 10px;
+            border-bottom: 1px solid #4680ea;
+        }
+    </style>
+}
+
+<div class="ah-flex ah-col-md1 changeMobileOk">
+    <img src="~/images/layer-icon-1.png" />
+    恭喜，修改密码成功
+    <a id="reload" href="/Home/OutLogin"><span class="sec" id="sec">10秒后重登录</span></a> 
+</div>
+
+@section scripts{
+    <script>  
+        $(function () { 
+            var time = 10;//10秒后跳转
+            var handle= setInterval(function () {
+                $('#sec').text((time--)+"秒后重登录");
+                if (time == 0) {
+                    $('#sec').trigger('click');
+                    clearInterval(handle);
+                }
+             }, 1000);
+
+        });
+
+
+    </script>    
+}

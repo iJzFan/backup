@@ -1,0 +1,44 @@
+﻿@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "我的关注";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+}
+@section links{
+
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/MyFollowList">我的关注</a></li>
+    </ol>
+</div>
+<div class="ah-public-main">
+    <div class="layui-form">
+        <div class="layui-tab layui-tab-brief ah-blue-layuitab" lay-filter="my-follow-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">医生列表</li>
+                <li>诊所列表</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:10px 0;" id="MYFOOLOWTAB">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/customer/js/pages/home-my-follow-list.js"></script>
+    <script>
+        var op = {
+
+        }
+        $(function () {
+            layui.use('element', function () {
+                var element = layui.element;
+                FOLLOW.InitFollowLists();
+            });
+        });
+
+    </script>
+}

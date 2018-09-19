@@ -1,0 +1,98 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_Code_Doctor_Authenticate>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+
+ }
+<style>
+
+</style>
+@if (!Model.HaveRecords)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th width="90px"></th>
+                <th>姓名</th>
+                <th class="ah-tr-hide">性别</th>
+                <th></th>
+               
+
+                <th>手机</th>
+                <th  style="width:180px;">身份证</th>
+                <th style="width:180px;">邮箱</th>
+                <th class="ah-tr-hide">注册日期</th>
+                <th></th>
+     
+                <th style="width:200px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>
+                        @{ var imgurl = myRazor.GetImageUrl(Global.ConfigSettings.DoctorImagePathRoot, item.DoctorPhotoUrl);
+                            if (imgurl.IsNotEmpty())
+                            {  <img class='tbupic2' src='@(imgurl)' />
+                                }
+                            }
+                    </td>
+                    <td>@(item.DoctorName)</td>
+                    <td class="ah-tr-hide">@(item.Gender?.ToGenderString())</td>             
+                    <td class="ah-td-left ">
+                        <div class="ah-docr-status-grp">
+                            <i class="ah-mk-char @(item.DoctorIsAuthenticated == true?"ah-mk-char-hilight":"")" title="医护人员验证">医</i>                           
+                            <i class='fa fa-mobile @(item.MobileIsAuthenticated == true?"ah-mk-hilight":"")' title="手机验证"></i>
+                            <i class='fa fa-id-card @(item.IdCardNumberIsAuthenticated == true?"ah-mk-hilight":"")' title="身份证验证"></i>
+                            <i class='fa fa-envelope @(item.EmailIsAuthenticated == true?"ah-mk-hilight":"")' title="邮箱验证"></i>
+                        </div>
+                    </td>
+                    <td class="ah-tb-multline">
+
+                        <i class="mobile_@(Ass.P.PStr(item.Mobile).Length>0?"1":"0")">@(item.Mobile.ToMarkString(Ass.Models.MaskType.MobileCode))</i>
+
+                    </td>
+                    <td>
+                        <i class="idcard_@(Ass.P.PStr(item.IdCardNumber).Length>0?"1":"0")">@(item.IdCardNumber.ToMarkString(Ass.Models.MaskType.IDCode))</i>
+                    </td>
+                    <td>
+                        <i class="email_@(Ass.P.PStr(item.Email).Length>0?"1":"0")">@(item.Email.ToMarkString(Ass.Models.MaskType.EmailCode))</i>
+                    </td>
+                    <td>
+                        @item.DoctorCreateTime?.ToDateString()
+                    </td>
+                    <td>@Html.Raw(Ass.P.PBool(item.NeedCheck) ? "<i style='color:red;'>要审核</i>" : "") </td>
+                  
+                    <td class="ah-td-nowrap" style="width:200px;">
+                        <a onclick="docCheck(@(item.DoctorId))">审核</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <span>共 @(Model.PageTotal) 页, @(Model.RecordTotal) 条记录</span>
+    <span>@ViewBag.DebugText</span>
+}
+<script>
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+    function loadDetail(e, id) {
+        SEARCH.loadRowDetail(e, '/Code/LoadDocotrRowDetail?doctorId=' + id);
+    }
+    function docCheck(doctorId) {
+        var layerIndex = $.open({
+            type: 2, title: '医护权限审核',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            content: "/Doctor/DoctorPendingDetail?doctorId=" + doctorId
+        });
+    }
+
+</script>

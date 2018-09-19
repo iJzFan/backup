@@ -1,0 +1,53 @@
+/*
+    公用复写样式 最后载入
+*/
+
+ 
+
+ /*Layer 由于是动态最后载入的，所以放在最后载入复写*/
+
+.layui-layer-btn .layui-layer-btn0,
+.layui-layer-btn .layui-layer-btn0:active,
+.layui-layer-btn .layui-layer-btn0:focus,
+.layui-layer-btn .layui-layer-btn0:hover,
+.layui-layer-btn .layui-layer-btn1,
+.layui-layer-btn .layui-layer-btn1:active,
+.layui-layer-btn .layui-layer-btn1:focus,
+.layui-layer-btn .layui-layer-btn1:hover
+ {
+    font-size:14px;font-weight:bold;padding:4px 25px;height:auto;border:none;border-radius:4px;
+ }
+
+
+.layui-layer-btn .layui-layer-btn0,
+.layui-layer-btn .layui-layer-btn0:active,
+.layui-layer-btn .layui-layer-btn0:focus{
+    background:#1276c1; 
+}
+.layui-layer-btn .layui-layer-btn0:hover{
+    background:#1480d1;
+}
+.layui-layer-btn .layui-layer-btn1,
+.layui-layer-btn .layui-layer-btn1:active,
+.layui-layer-btn .layui-layer-btn1:focus{
+    background:#b0b0b0;
+}
+.layui-layer-btn .layui-layer-btn1:hover{background:#bbb;}
+
+
+
+
+.layui-layer-dialog .layui-layer-padding {
+    padding-bottom:40px;
+}
+.layui-layer-title{text-align:left;}
+
+
+
+/*Datetimepicker 最后载入样式*/
+
+.datetimepicker table tr td.disabled, 
+.datetimepicker table tr td.disabled:hover {
+    color: #ccc;
+}
+ 

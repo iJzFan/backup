@@ -1,0 +1,137 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.DataModel.Doctor
+@{
+    ViewBag.Title = "编辑医生档案";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+    </style>
+}
+<div class="container layui-form">
+    <!--该部分是导航部分-->
+    <ul class="ah-step-wrap ah-flex">
+        @if (ViewBag.op == "NEWF")
+        {
+            <li class="ah-strp-active"> <a>1.用户选择</a></li>
+            <li class="ah-strp-active"><a>2.医生基础信息</a></li>
+            <li><a>3.诊所/角色/科室</a></li>
+            <li><a>4.登录设置</a></li>
+            <li><a>5.提交审核</a></li>
+        }
+        else
+        {
+            <li class="ah-strp-active"><a class="active" asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">用户信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_DoctorBase" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">医生基础信息</a></li>
+            <li><a asp-action="DoctorSets_StationRoleDepart" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">诊所/角色/科室</a></li>
+            <li><a asp-action="DoctorSets_Login" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">登录设置</a></li>
+            <li><a asp-action="" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">完成</a></li>
+        }
+    </ul>
+    @*--------------------------显示用户基本信息---------------------*@
+    <section class="ah-require-one-group">
+        <h5>用户基本信息</h5>
+        <div>
+            <span>@Model.BaseInfo.CustomerName</span>
+            <span>@Model.BaseInfo.Gender?.ToGenderString()</span>
+            <span>@Model.BaseInfo.Birthday?.ToAgeString()</span>
+        </div>
+    </section>
+    <form id="form1" asp-controller="Code" asp-action="DoctorSets_DoctorBase_Save" asp-route-op="@ViewBag.op">
+        @*------------------------重要隐藏数据-------------------------*@
+        <input type="hidden" asp-for="DoctorInfo.DoctorId" />
+        <input type="hidden" name="customerId" value="@ViewBag.customerId" />
+        <input type="hidden" name="doctorId" value="@ViewBag.doctorId" />
+        <div class="ah-doc-sets-upic-edit">
+            <input asp-for="DoctorInfo.DoctorPhotoUrl" type="hidden" />
+            <div id="cusImg" class="ah-doc-sets-upic" style="background-image:url(@(myRazor.GetImageUrl(Global.ConfigSettings.DoctorImagePathRoot,Model.DoctorInfo?.DoctorPhotoUrl)));"></div>
+            <a id="EditUserPic" style="cursor:pointer;">修改</a>
+        </div>
+        <div class="ah-flex-layout ah-align-self">
+            <div class="ah-col-md1 ah-flex ah-flex-wrap">
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">职位</div>
+                    @{
+                        var princ = myRazor.GetSelectListItemsByDictKey("Principalship");
+                    }
+                    <select class="ah-data-select" asp-items="princ" asp-for="DoctorInfo.Principalship">
+                        <option value="">未选择职位</option>
+                    </select>
+                    <span asp-validation-for="DoctorInfo.Principalship"></span>
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">职称</div>
+                    @{
+                        var posttitle = myRazor.GetSelectListItemsByDictKey("PostTitle");
+                    }
+                    <select class="ah-data-select" asp-items="posttitle" asp-for="DoctorInfo.PostTitle">
+                        <option value="">未选择职称</option>
+                    </select>
+                    <span asp-validation-for="DoctorInfo.PostTitle"></span>
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">接诊费</div>
+                    <input class="ah-data-input" type="number" placeholder="请输入接诊费" min="0.00" max="9999.99" asp-for="DoctorInfo.TreatFee" asp-format="{0:0.00}" />
+                </div>
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        专长简介
+                    </div>
+                    <textarea placeholder="请输入专长简介" cols="2" style="height:150px;" class="layui-textarea" asp-for="DoctorInfo.DoctorSkillRmk"></textarea>
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">是否可用</div>
+                    <select class="ah-data-select" asp-for="DoctorInfo.IsEnable">
+                        <option value="True">可用</option>
+                        <option value="False">禁用</option>
+                    </select>
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">禁用日期</div>
+                    <input type="text" class="ah-data-input ah-date" asp-for="DoctorInfo.StopDate" />
+                </div>
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        备注
+                    </div>
+                    <textarea placeholder="请输入备注" cols="2" class="layui-textarea" asp-for="DoctorInfo.Remark"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="ah-doc-sets-btns ah-flex">
+    @if (ViewBag.op == "NEWF")
+    {
+        <a title="上一步" class="ah-btn-blue" asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op">上一步</a>
+    }
+    <button type="button" title="保存后下一步" class="ah-btn-blue" onclick="submitForm();">下一步</button>
+</div>
+
+
+@section scripts{
+    <script src="~/js/pages/code-doctor.js"></script>
+    <script>
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        docImgRoot:'@Global.ConfigSettings.DoctorImagePathRoot',
+        ver:1
+    };
+    $(function () {
+        initialLoad_DoctorBase();
+        console.log(top);
+    });
+
+    function submitForm() {
+        $('#form1').submit();
+    }
+    </script>
+}

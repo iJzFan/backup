@@ -1,0 +1,148 @@
+﻿@model CHIS.Models.CHIS_Sys_FuncDetail
+@{
+    ViewBag.Title = "菜单修改";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+
+
+}
+@section links{
+
+    <link href="~/sys/projcommon.css" rel="stylesheet" />
+    <style>
+        table.form tr td select {
+            height: 30px;
+        }
+
+        fieldset.disabled {
+            ime-mode: disabled;
+        }
+
+        .ah-switch {
+            cursor: pointer;
+        }
+
+        .fa-toggle-off {
+            font-size: 22px;
+            color: #aea7a7;
+        }
+
+        .fa-toggle-on {
+            font-size: 22px;
+            color: #57c756;
+        }
+    </style>
+}
+
+<form id="form1">
+    <div style="padding: 10px">
+        <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+            <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+            请填写业务功能信息，用于创建或修改业务功能记录！
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">表单信息</h3>
+                @Html.HiddenFor(m => m.BelongFunctionId)
+                @Html.HiddenFor(m => m.FuncDetailId)
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">组</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="GroupKey" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">功能键名</th>
+                        <td class="formValue">
+                            <div class="select-input">
+                                <input type="text" asp-for="KeyName" class="form-control">
+                                <select>
+                                    <option value="IsNew">新增</option>
+                                    <option value="IsMod">修改</option>
+                                    <option value="IsDel">删除</option>
+                                </select>
+                            </div>
+                        </td>
+                        <th class="formTitle">功能名称</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="FuncDetailName" class="form-control " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">功能说明</th>
+                        <td class="formValue" colspan="5">
+                            <input type="text" asp-for="FuncDetailRmk" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">类型</th>
+                        <td class="formValue">
+                            <select class="form-control" asp-for="TypeName">
+                                <option value="bool">bool</option>
+                                <option value="string">string</option>
+                                <option value="int">int</option>
+                                <option value="float">float</option>
+                                <option value="datetime">datetime</option>                                
+                            </select>
+                        </td>
+                        <th class="formTitle">默认值</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="DefValue" class="form-control required" />
+                        </td>
+                        <th class="formTitle">多值平准法</th>
+                        <td class="formValue">
+                            <select class="form-control" asp-for="MultiMethod">
+                                <option value="Val" selected>Value 值为准</option>
+                                <option value="True">True 值为准</option>
+                                <option value="False">False 值为准</option>
+                                <option value="Max">Max 值为准</option>
+                                <option value="Min">Min 值为准</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="height:200px;"></div>
+
+@section scripts{
+    <script>
+    var pagedata = {
+        op: '@ViewBag.OP',
+        isView: '@(ViewBag.OP)' == "VIEW",
+        ver:1
+     };
+
+    $(function () {
+        if (!pagedata.isView) {
+            $('#FunctionIndex').attr('max', pagedata.seq);
+            $('#FunctionKey').focus();
+        }
+    });
+
+    //保存记录
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        $.submitForm({
+            url: "/Function/GetGridJson_FuncDetails_Edit?op=" + pagedata.op,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+
+
+
+    </script>
+}

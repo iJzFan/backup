@@ -1,0 +1,49 @@
+﻿@using Ass
+
+@{
+    Layout = null;
+    var u = this.GetUserSelf();
+}
+@section links{
+
+    <style>
+        body {
+            background: #ebecf1;
+        }
+
+        .ah-data-input {
+            height: 40px;
+        }
+
+        .ah-flex-layout {
+            margin-bottom: 20px;
+        }
+    </style>
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @*该部分内容很重要，因为需要一个跳转来将cookie设置好，否则直接进入管理界面，则没有cookie数据
+    另外需要重新载入公共菜单的html代码。避免每次刷新页面都会去大量获取数据库，计算权限*@
+    <meta http-equiv="refresh" content="0;URL=/Home/RedirectDefaultIndexPage?IsMenuLoad=1">     
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    @if (u == null)
+    {
+        <script>
+            window.location.href = "/Home/OutLogin";
+        </script>
+    }
+    else
+    {
+        <script>
+            if (self != top) top.window.location.href = window.location.href; //传给顶层
+        </script>
+    }
+</head>
+
+<body>
+    <div class="ah-fm-loading">
+        <h3><img src="~/images/loading-tianshi2.gif" width="30" /> 系统登录中...</h3>
+    </div>
+</body>
+</html>

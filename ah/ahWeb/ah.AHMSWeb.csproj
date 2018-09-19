@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    <RootNamespace>ah</RootNamespace>
+    <UserSecretsId>a405853d-db32-4bb7-b8c1-bb57e5a864a4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\js\pages\**" />
+    <Compile Remove="wwwroot\lib\mousewheel\**" />
+    <Content Remove="Areas\Apis\**" />
+    <Content Remove="wwwroot\js\pages\**" />
+    <Content Remove="wwwroot\lib\mousewheel\**" />
+    <EmbeddedResource Remove="wwwroot\js\pages\**" />
+    <EmbeddedResource Remove="wwwroot\lib\mousewheel\**" />
+    <None Remove="wwwroot\js\pages\**" />
+    <None Remove="wwwroot\lib\mousewheel\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <PackageReference Include="Ass" Version="2.0.27" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />    
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Yi" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ah.DbContext\ah.DbContext.csproj" />
+    <ProjectReference Include="..\ah.Models.SysAuto\ah.Models.SysAuto.csproj" />
+    <ProjectReference Include="..\ah.Models\ah.Models.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\HealthMgr\Controllers\Hypertension\" />
+    <Folder Include="Areas\HealthMgr\Controllers\Diabetes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\HealthMgr\Views\BackPanel\_BreastPlanDetailOfCus_PlanList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Shared\Error.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

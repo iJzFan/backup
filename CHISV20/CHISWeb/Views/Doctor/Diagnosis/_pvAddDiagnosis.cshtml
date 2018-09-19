@@ -1,0 +1,59 @@
+﻿@using Ass
+@{
+    Layout = null;
+    ViewData["Title"] = "新增诊断";
+}
+<style>
+    .ah-addDiagnosis-wrap {
+        width: 100%;
+        border-top: 1px solid #f0f0f0;
+        margin-left: 10px;
+        padding-top: 8px;
+        margin-top: 20px;
+    }
+</style>
+<div class="ah-addDiagnosis-wrap layui-form">
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">诊断名称</div>
+            <input class="ah-data-input" id="diagName" placeholder="诊断名称" type="text">
+        </div>
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">诊断类型</div>
+            <select role-initial="false" id="diagTypeCode" class="ah-data-select">
+                <option value="USERDEFINED" selected>用户自定义</option>
+                <option value="STANDARD">标准</option>
+            </select>
+        </div>
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">诊断键值</div>
+            <input class="ah-data-input" id="diagVal" placeholder="可不填" type="text">
+        </div>
+    </div>
+    <div class="ah-flex ah-sub-wrap">
+        <button class="ah-btn-blue" onclick="addDiagnosis()">保存诊断</button>
+    </div>
+</div>
+
+<script>
+    var actionID = '@ViewBag.actionID';
+    top.layui.form.render();
+    //保存诊断
+    function addDiagnosis() {
+        var diagName = $("#diagName").val();
+        var diagTypeCode = $("#diagTypeCode").val();
+        var diagVal = $("#diagVal").val();
+        if (!diagName || diagName=="") {
+            $.err("请输入诊断名称!");
+            return false;
+        }
+        $.get("/openapi/Treat/AddDiagnosis", { diagName: diagName, diagTypeCode: diagTypeCode, diagVal: diagVal }, function (jn) {
+            if (jn.rlt) {
+                parent.DIAGNOSIS.DiagnosisCallback(actionID, diagName, jn.item.diagnoisisId);
+                layer.closeAll();
+            } else {
+                $.err(jn.msg);
+            }
+        });
+    }
+</script>

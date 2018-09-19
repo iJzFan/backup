@@ -1,0 +1,39 @@
+﻿html{height:100%}
+body{height:100%}
+.iframe-content-wrap{height:100%}
+.iframe-title{border-bottom:1px solid #f2f2f2;height:30px;line-height:30px;font-size:14px;color:#666}
+.iframe-title i{margin-right:10px}
+.iframe-padding-10{padding:0 10%}
+.iframe-table{width:100%;border-collapse:collapse;border-spacing:0;table-layout:fixed}
+.iframe-table td,.iframe-table th,.iframe-table tr{border-bottom:1px solid #efefef;padding:5px;text-align:center}
+.iframe-table th{background-color:#f0f0f0}
+.iframe-table tr:nth-child(odd){background-color:#f5f5f5}
+.auto-width-33{width:33.3334%!important}
+/*-------医生审批(DoctorPendingDetail.cshtml)私有 */
+.doctor-pic-wrap{background-image:url(../images/bg/bg.jpg);height:100px;display:flex;justify-content:space-around;margin-bottom:46px}
+.doctor-pic{width:100px;height:100px;border-radius:50%;border:3px solid #fff;margin-top:46px}
+.doctor-info-wrap{display:flex;margin:10px 0;flex-wrap:wrap}
+.doctor-data-info{width:33.3334%;display:flex;align-items:center;margin-bottom:10px}
+.data-label{width:72px}
+.data-content{flex:1}
+.pendingPass i,.pendingReject i{margin-right:5px}
+.pendingPass{margin:0 3px;color:#35ab26;cursor:pointer}
+.pendingReject{margin:0 3px;color:#ff6a00;cursor:pointer}
+.cert{position:relative}
+.cert-pic{width:80px;}
+.doctor-idCard-wrap{justify-content:space-around}
+.doctor-idCard-content{width:30%;text-align:center}
+.doctor-idCard-wrap img{height:80px;}
+.pendingIcon-true{font-size:10px;background:#4ca932;color:#fff;border-radius:3px;padding:0 3px;margin:0 3px}
+.pendingIcon-false{font-size:10px;background:#ff6a00;color:#fff;border-radius:3px;padding:0 3px;margin:0 3px}
+/*-------医生审批.End */
+
+/*-------库存药品编辑(_pvStockMonitorDetailEdit.cshtml)私有 */
+.stockEdit-main-wrap{display:flex;flex-wrap:wrap;padding: 22px 30px 10px 20px;}
+.stockEdit-width-50{width:50%;display:flex;align-items:center;margin-bottom:20px;position:relative}
+.stockEdit-width-100{flex-wrap:wrap;display:flex;width:100%;position:relative}
+.stockEdit-input{border:1px solid #ccc;height:30px;width:240px;border-radius:3px;padding:0 5px;color:#666}
+.stockEdit-textarea{border:1px solid #ccc;flex:1;padding:10px;height:63px;resize:none}
+.stockEdit-old-data{position:absolute;top:-15px;font-size:11px;left:103px;color:#a7237c;font-weight:700}
+
+/*-------库存药品编辑.End */

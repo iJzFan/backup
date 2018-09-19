@@ -1,0 +1,265 @@
+﻿@model CHIS.Models.CHIS_Code_WorkStation
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.WorkStationService svrStation
+@{
+    ViewBag.Title = "编辑工作站信息";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <link href="~/sys/projcommon.css" rel="stylesheet" />
+}
+
+<form id="form1" style="position: fixed;">
+    <div style="padding: 10px">
+        @Html.HiddenFor(m => m.StationID)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">表单信息</h3>
+                @Html.HiddenFor(m => m.OpID)
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle" style="width:75px">工作站名称</th>
+                        <td class="formValue" colspan="5">
+                            <input type="text" asp-for="StationName" class="form-control" required placeholder="请输入工作站名称" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:75px">父节点</th>
+                        <td class="formValue" colspan="5">
+                            <select asp-for="ParentStationID" class="form-control">
+                                <option value="0">无上级工作站</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">负责人</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="LegalPerson" class="form-control " placeholder="请输入负责人姓名" />
+                        </td>
+                        <th class="formTitle" style="width:65px">联系电话</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="Telephone" class="form-control " placeholder="请输入联系方式" />
+                        </td>
+                        <th class="formTitle" style="width:65px">传真</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="Fax" name="Fax" class="form-control " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">省份</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <select id="province" name="province" class="form-control"></select>
+                        </td>
+                        <th class="formTitle" style="width:65px">城市</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <select id="citys" name="city" class="form-control"></select>
+                        </td>
+                        <th class="formTitle" style="width:65px">区/县</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <select id="county" name="county" class="form-control"></select>
+                            <input type="hidden" name="AreaId" id="AreaId" value="@Model.AreaID" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">详细地址</th>
+                        <td class="formValue" colspan="3" style="padding-top: 1px;">
+                            <input type="text" asp-for="Address" class="form-control" placeholder="请输入详细地址" />
+                        </td>
+                        <td>
+                            <input type="number" asp-for="Lng" class="form-control" placeholder="经度" />
+                        </td>
+                        <td>
+                            <input type="number" asp-for="Lat" class="form-control" placeholder="纬度" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px"></th>
+                        <td colspan="5" class="formValue">
+                            <div class="ckbox" style=" float:left;"> @Html.CheckBoxFor(m => m.IsCanTreat)<label for="IsCanTreat">是否是可接诊单位</label> </div>
+                            <div class="ckbox" style=" float:left;"> @Html.CheckBoxFor(m => m.IsNotMedicalUnit)<label for="IsNotMedicalUnit">是否是非医疗单位</label> </div>
+                            <div class="ckbox" style=" float:left;"> @Html.CheckBoxFor(m => m.IsNetPlat)<label for="IsNetPlat">是否是网络平台</label> </div>
+                            <div class="ckbox" style=" float:left;"> @Html.CheckBoxFor(m => m.IsManageUnit)<label for="IsManageUnit">是否是管理单位</label> </div>
+                            <div class="ckbox" style=" float:left;"> @Html.CheckBoxFor(m => m.IsTestUnit)<label for="IsTestUnit">是否是测试站</label> </div>
+                            <div class="ckbox" style=" float:left;"> @Html.CheckBoxFor(m => m.IsCenterDrugStore)<label for="IsCenterDrugStore">是否作为中心药库</label> </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">工作站类别</th>
+                        <td class="formValue" colspan="5">
+                            @{ var stationTypes = myRazor.GetSelectListItemsByDictKey("StationType");}
+                            <select asp-for="StationTypeId" asp-items="stationTypes"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">工作站介绍</th>
+                        <td class="formValue" colspan="5">
+                            <textarea asp-for="StationRmk" class="form-control"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">工作站图片</th>
+                        <td class="formValue" colspan="2">
+                            <span>纵图</span>
+                            <input type="text" class="form-control" asp-for="@Model.StationPic" />
+                        </td>
+                        <td class="formValue" colspan="2">
+                            <span>横图</span>
+                            <input type="text" class="form-control" asp-for="@Model.StationPicH" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">热度</th>
+                        <td class="formValue">
+                            <input type="number" asp-for="HotNum" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">我的药房</th>
+                        <td class="formValue">
+                            @{
+                                var sts = svrStation.GetMyLevelWorkStations(Model.StationID).Select(m => new SelectListItem
+                                {
+                                    Text = m.StationName,
+                                    Value = m.StationID.ToString()
+                                });
+
+                            }
+                            <select asp-for="DrugStoreStationId" asp-items="sts">
+                                <option value="">--自身--</option>
+                            </select>
+                        </td>                   
+                        <th class="formTitle" style="width:65px">我的中心供货药房</th>
+                        <td class="formValue">
+                            @{
+                                var sts2 = svrStation.GetManagerStation(true).Select(m => new SelectListItem
+                                {
+                                    Text = m.StationName,
+                                    Value = m.StationID.ToString()
+                                });
+                            }
+                            <select asp-for="CenterDrugStoreStationId" asp-items="sts2">
+                                <option value="">--自身--</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">可用状态</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <div class="status3" id="IsEnable_Status3">
+                                <!--采用该样式实现三态效果-->
+                                <select asp-for="IsEnable">
+                                    <option value="">未选择</option>
+                                    <option value="True">是</option>
+                                    <option value="False">否</option>
+                                </select>
+                            </div>
+                        </td>
+                        <th class="formTitle" style="width:65px">停用日期</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <div class="input-group">
+                                <input type="text" asp-for="StopDate" asp-format="{0:yyyy-MM-dd}" date-format="yyyy-mm-dd" class=" form-control input-datetime" pickerpos="top-left" />
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+                        </td>
+                        <th class="formTitle" style="width:65px">显示顺序</th>
+                        <td class="formValue">
+                            <input type="number" asp-for="ShowOrder" min="1" max="@(ViewBag.Count)" class="form-control " required />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="formTitle" style="width:65px">备注</th>
+                        <td class="formValue" colspan="5">
+                            <input type="text" asp-for="Remark" class="form-control  " />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">操作人</th>
+                        <td class="formValue" style="padding-top: 1px;">
+
+                            <input type="text" asp-for="OpMan" class="form-control  " readonly />
+
+                        </td>
+                        <th class="formTitle" style="width:65px">操作时间</th>
+                        <td class="formValue" style="padding-top: 1px;">
+
+                            <input type="text" asp-for="OpTime" class="form-control" readonly />
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    @*<script src="~/Customer/js/common-function.js"></script>*@
+    @*<script src="~/Customer/lib/my-widget/my-widget.js"></script>*@
+    <script>
+        var pagedata = {
+            op: '@(ViewBag.OP)',
+            parentStationId: '@(Model.ParentStationID??1)',
+            isView:'@(ViewBag.OP)'=="VIEW",
+            ver: 1
+        }
+
+        $(function () {
+
+            //初始化父级工作站列表
+            $("#ParentStationID").bindSelect({
+                search: true,
+                initialValue: pagedata.parentStationId,
+                url: "/Code/GetTreeSelectJson_Workstation"
+            } );
+
+            //可用状态三态显示
+            $('#IsEnable_Status3').status3("setOptions",{
+                onChange: function (v) {
+
+                    if (v == "True") {
+                        $('#StopDate').val('').attr("disabled", "");
+                        $('#ShowOrder').focus();
+
+                    } else if (v == "False"||v==undefined) {
+                        $('#StopDate').removeAttr("disabled").val(new Date().formatDateTime('yyyy-MM-dd'));
+                        $('#StopDate').focus();
+                    }
+                }
+            });
+
+            //初始地址
+            $.set3LevelAddress({
+                $province:$('#province'),
+                $city:$('#citys'),
+                $county:$('#county'),
+                $val:$('#AreaId')
+            });
+
+
+        })
+
+        //保存记录
+        function submitForm() {
+            if ($('#ParentStationID').val()=="0") {
+                $.alertMsg("必须设置上级工作站！");
+                return false;
+
+            }
+
+            if (!$('#form1').formValid()) {
+                return false;
+            }
+
+            $.submitForm({
+                url: "/Code/CHIS_Code_Workstation_Edit?op=" + '@(ViewBag.OP)',
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+    </script>
+}

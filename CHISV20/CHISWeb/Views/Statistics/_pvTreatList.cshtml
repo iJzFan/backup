@@ -1,0 +1,78 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_DoctorTreat>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+ 
+}
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead> 
+            <tr>
+                <th style="width:76px;">约诊日期</th>
+                <th class="">接诊单位</th>
+                <th>医生</th>
+                <th class="ah-th-customer">患者</th>
+                <th>患者电话</th>
+                <th>主诊断</th>
+                <th class="ah-tr-hide">接诊时间</th>
+                <th>状态</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.RegisterDate?.ToDateString()</td>
+                    <td class="ah-td-left ah-td-showall" title="@(item.StationName) ">
+                        <span>@item.StationName</span><br />
+                        <span>@(item.DepartmentName)</span>
+                    </td>
+                    <td><i class="ahico16 ahico-doctor"></i> @(item.DoctorName)</td>
+                    <td class="ah-td-left">
+                        @await Component.InvokeAsync("TdCustomer", new TdCustomerModel { CustomerName = item.CustomerName, Gender = item.Gender, BirthDay = item.Birthday })
+                    </td>
+                    <td>@item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                    <td>@item.Diagnosis1</td>
+                    <td class="ah-tr-hide">
+                        <small>始: @item.FirstTreatTime?.ToStdString()</small><br />
+                        <small>终: @item.TreatTime.ToStdString()</small>
+                    </td>
+                    <td>
+                        <span class="ah-treat-mk-@(item.TreatStatus)">
+                            @(CHIS.DictValues.TreatStatus.Ins().GetName(item.TreatStatus.ToString()))
+                        </span>
+                    </td>
+                    <td class="ah-td-left">
+                        <span class="ah-linkbg"> <a onclick="loadDetail(event,'@item.TreatId','@item.RegisterID')">详情</a></span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+<div>
+    <span>共计 @(Model.RecordTotal) 条 / 共 @(Model.PageTotal) 页</span>
+</div>
+
+@ViewBag.DebugText
+<script>
+    var pager = {
+        pagenumber: @Model.PageIndex,
+        pagecount: @Model.PageTotal,
+        ver:1
+    };
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+    function loadDetail(e, treatId,registerId) {
+        SEARCH.loadRowDetail(e, '/Doctor/MyTreatInfo?treatId=' + treatId +'&registId='+registerId);
+    }
+</script>
+ 

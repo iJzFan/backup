@@ -1,0 +1,48 @@
+﻿@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "我的积分";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+}
+@section links{
+
+}
+<div>
+    <div class="app">
+        <div class="ah-integral-wrap">
+            <img class="app-head-pic" src="@(myRazor.GetCustomerDefImagePath(cus.PhotoUrlDef,cus.Gender))" />
+            <div class="ah-integral-div">我的积分: <span>205</span></div>
+        </div>
+        <div class="ah-integral-main">
+            <div>
+                <span class="ah-integral-shopping"></span>
+                积分商城
+            </div>
+            <div>
+                <span class="ah-get-integral"></span>
+                积分获取
+            </div>
+        </div>
+        <div class="layui-form ah-integral-list">
+            <div class="layui-tab layui-tab-brief ah-blue-layuitab" lay-filter="my-integral-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">积分明细</li>
+                </ul>
+                <div class="layui-tab-content" style="padding:10px 0;">
+                    <div class="layui-tab-item layui-show" id="allIntegral">
+                        @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    </div>
+    @section scripts{
+        <script>
+            layui.use('element', function () {
+                INTEGRAL.GetIntegralList();
+            });
+
+        </script>
+    }

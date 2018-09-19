@@ -1,0 +1,285 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.DataModel.CustomerInfo
+@{
+    ViewBag.Title = "编辑用户资料";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+        .status3 {margin-right:0}
+        .status3 label{margin-bottom:0;font-weight:initial}
+        .ah-require-one-group{padding:10px;}
+        .can-use {
+            color: #4680EB;
+            font-weight: bold;
+            position: absolute;
+            right: 13px;
+            top: 5px;
+        }
+    </style>
+}
+<div class="container layui-form" style="margin-bottom:40px;">
+    <form id="form1" method="post" asp-action="CustomerEdit" asp-controller="Code" asp-area="" asp-route-op="@(ViewBag.op)"
+          ah-role-method="ajax" ah-success-callback="sendCustomerSuccess" ah-fail-callback="sendCustomerFailed">
+        <input type="hidden" asp-for="Customer.CustomerID" />
+        <div class="ah-doc-sets-upic-edit">
+            <input asp-for="Customer.CustomerPic" type="hidden" />
+            <div id="cusImg" class="ah-doc-sets-upic" style="background-image:url(@(myRazor.GetCustomerDefImagePath(Model.Customer?.CustomerPic,Model.Customer?.Gender)));"></div>
+            <a id="EditUserPic" style="cursor:pointer;">修改</a>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">用户姓名</div>
+                <input class="ah-data-input" placeholder="请输入用户姓名" asp-for="Customer.CustomerName" type="text" />
+                <span asp-validation-for="Customer.CustomerName"></span>
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">用户性别</div>
+                <select role-initial="false" asp-for="Customer.Gender" class="ah-data-select">
+                    <option value="">未选择</option>
+                    <option value="1">男</option>
+                    <option value="0">女</option>
+                </select>
+                <span asp-validation-for="Customer.Gender"></span>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-flex ah-space-between">
+                    <span>选择VIP类别</span>
+                    <span class="status3">
+                        <select asp-for="Customer.IsVIP" ah-select="false" onclick="$('#sel_vip')">
+                            <option value="">未选择</option>
+                            <option value="True">是</option>
+                            <option value="False">否</option>
+                        </select>
+                        <label>是否VIP</label>
+                    </span>
+                </div>
+                <select asp-for="Customer.VIPcode" class="ah-data-select" role-initial="false">
+                    <option value="">选择VIP类别</option>
+                    <option value="AH_VIP_01">天使VIP-01</option>
+                </select>
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-flex ah-space-between">
+                    <span>出生日期</span>
+                    <div class="ah-range">
+                        <span>0岁</span>
+                        <input type="range" min="0" max="120" oninput="setAgeDay('#Customer_Birthday',this)" style="width:120px;display:inline-block;" />
+                        <span>120岁</span>
+                        <i></i>
+                    </div>
+                </div>
+                <input class="ah-data-input ah-date" type="text" placeholder="请选择出生年月" asp-format="{0:yyyy-MM-dd}" data-format="yyyy-mm-dd" asp-for="Customer.Birthday"/>
+                <span asp-validation-for="Customer.Birthday"></span>
+            </div>
+        </div>
+        <section class="ah-require-one-group" ah-role-validate="require_one">
+            <h5>以下至少填写任一项</h5>
+            <div class="ah-flex-required ah-align-self">
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label ah-required"title="必选其一">手机号码</div>
+                    <input type="text" class="ah-data-input" placeholder="请输入手机号码" asp-for="Customer.CustomerMobile" onblur="checkTheSameCustomer(this,'mobile');" />
+                    <span asp-validation-for="Customer.CustomerMobile"></span>
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label ah-required" title="必选其一">电子信箱</div>
+                    <input type="text" class="ah-data-input" placeholder="请输入电子信箱" asp-for="Customer.Email" onblur="checkTheSameCustomer(this,'email');" />
+                    <span asp-validation-for="Customer.Email"></span>
+                </div>
+            </div>
+            <div class="ah-flex-required ah-align-self">
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label ah-required" title="必选其一">身份证号码</div>
+                    <input type="text" class="ah-data-input" placeholder="请输入身份证号码" asp-for="Customer.IDcard" id="IDcard" onblur="checkTheSameCustomer(this,'idcard');" />
+                    <span asp-validation-for="Customer.IDcard"></span>
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between  ah-required">
+                        <span title="必选其一">登录名(小写字母数字和.构成)</span>
+                        <span><a onclick="setLoginName('#Customer_LoginName');">点此自动填</a></span>
+                    </div>
+                    <input type="text" class="ah-data-input" placeholder="请输入登录名"  asp-for="Customer.LoginName" />
+                    <span asp-validation-for="Customer.LoginName"></span>
+                </div>
+            </div>
+        </section>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">电话(非手机)</div>
+                <input type="text" class="ah-data-input" placeholder="请输入电话（非手机）" asp-for="Customer.Telephone" />
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">社保卡号</div>
+                <input type="text" class="ah-data-input" placeholder="请输入社保卡号" asp-for="Customer.InsuranceNo" id="InsuranceNo" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">证件类型</div>
+                @{
+                    var certtypes = myRazor.GetSelectListItemsByDictKey("CertificateType").Where(m => m.Text != "身份证");
+                }
+                <select asp-items="certtypes" asp-for="Customer.CertificateNo" class="ah-data-select" role-initial="false">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">证件号</div>
+                <input type="text" class="ah-data-input" placeholder="请输入证件号" asp-for="Customer.CertificateTypeId" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self ah-row-border">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">婚姻状况</div>
+                @{
+                    var marg = myRazor.GetSelectListItemsByDictKey("Marriage");
+                }
+                <select asp-items="marg" asp-for="Customer.Marriage" class="ah-data-select" role-initial="false">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">文化程度</div>
+                @{ var edu = myRazor.GetSelectListItemsByDictKey("EduLevel");}
+                <select asp-items="edu" asp-for="Customer.EduLevel"class="ah-data-select" role-initial="false">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">联系人</div>
+                <input type="text" class="ah-data-input" placeholder="请输入联系人" asp-for="Customer.ContactMan" />
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">联系人电话</div>
+                <input type="text" class="ah-data-input" placeholder="请输入联系人电话" asp-for="Customer.ContactPhone" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self ah-row-border">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">家庭成员</div>
+                <input type="text" class="ah-data-input" placeholder="请输入家庭成员" asp-for="Customer.Relation" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self ah-row-border">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">工作单位</div>
+                <input type="text" class="ah-data-input" placeholder="请输入工作单位" asp-for="Customer.WorkUnit" />
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">职业类型</div>
+                @{ var zy = myRazor.GetSelectListItemsByDictKey("Profession");}
+                <select asp-items="zy" asp-for="@Model.Customer.Presfession" class="ah-data-select" role-initial="false">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label">微信号</div>
+                <input type="text" class="ah-data-input" placeholder="请输入微信号" asp-for="Customer.WXCode" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">省份</div>
+                <select id="province" name="province" class="ah-data-select" role-initial="false" lay-filter="province"></select>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">城市</div>
+                <select id="citys" name="city" class="ah-data-select" role-initial="false" lay-filter="city"></select>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">区县</div>
+                <select id="county" name="areaId" class="ah-data-select" role-initial="false" lay-filter="county"></select>
+                <input type="hidden" id="areaId" asp-for="@Model.Customer.AddressAreaId" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self ah-row-border">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">详细地址</div>
+                <input type="text" class="ah-data-input"  placeholder="详细地址填写这里" asp-for="Customer.Address" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">身高</div>
+                <input type="text" class="ah-data-input" placeholder="请输入身高" asp-for="Health.Height" />
+            </div>
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">体重</div>
+                <input type="text" class="ah-data-input" placeholder="请输入体重" asp-for="Health.Weight" />
+            </div>
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">血型</div>
+                @{
+                    var bloodtypes = myRazor.GetSelectListItemsByDictKey("BloodType");
+                }
+                <select asp-items="bloodtypes" asp-for="Health.BloodType" class="ah-data-select" role-initial="false">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">患者标签</div>
+                <select class="ah-data-select" role-initial="false">
+                    <option value="">未选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">月经初潮年龄</div>
+                <input type="text" class="ah-data-input" placeholder="请输入月经初潮年龄" asp-for="Health.MenstruationStartOldYear" />
+            </div>
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">绝经年龄</div>
+                <input type="text" class="ah-data-input" placeholder="请输入绝经年龄" asp-for="Health.MenstruationEndOldYear" />
+            </div>
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">生产子女数量</div>
+                <input type="text" class="ah-data-input" placeholder="请输入生产子女数量" asp-for="Health.BirthChildrenNum" />
+            </div>
+            <div class="ah-col-md4 ah-flex-data">
+                <div class="ah-data-label">怀孕子女数量</div>
+                <input type="text" class="ah-data-input" placeholder="请输入怀孕子女数量" asp-for="Health.PregnancyNum" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">过敏史</div>
+                <input type="text" class="ah-data-input" placeholder="请输入过敏史" asp-for="Health.Allergic" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">既往史</div>
+                <input type="text" class="ah-data-input" placeholder="请输入既往史" asp-for="Health.PastMedicalHistory" />
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script src="~/js/pages/code-customer.js"></script>
+    <script>
+
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        cusRoot: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+        customerId:@(Model.Customer==null?0:Model.Customer.CustomerID),      
+        ver:1
+        };
+        $(function () {initialLoad();});
+    </script>
+
+
+}

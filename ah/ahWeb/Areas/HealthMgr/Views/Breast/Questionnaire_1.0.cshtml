@@ -1,0 +1,966 @@
+﻿@model ah.Models.ViewModel.QuestionaireViewModel
+@{
+    ViewBag.Title = "乳腺癌问卷调查";
+    var cc = ViewBag.CUSTOMER_INFO as ah.Models.ViewModel.CUSTOMER_INFO;
+    int n = 0;
+    Model.QAMain.Name = cc.CustomerName;
+    Model.QAMain.Mobile = cc.CustomerMobile;
+    Model.QAMain.Gender = cc.Gender;
+    Model.QAMain.MaritalStatus = cc.MariageStatusId;
+    Model.QAMain.Email = cc.CustomerEmail;
+    Model.QAMain.Birthday = cc.Birthday;
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+            background-color: #fff;
+        }
+
+        .content-title {
+            color: #FFFFFF;
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .content-wrap {
+            padding: 20px;
+            width: 80%;
+            margin: 0 auto;
+            background: #fff;
+            box-sizing: border-box;
+            box-shadow: 0 0 5px #aaaaaa;
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            font-size: 14.0px;
+            border-radius: 0px;
+            border-width: 1px;
+            border-style: solid;
+            text-align: center;
+            line-height: 20px;
+            font-weight: normal;
+            font-style: normal;
+            z-index: 5;
+            opacity: 0.95;
+            pointer-events: auto;
+            margin-bottom: 100px;
+        }
+
+        .content {
+            margin-top: 40px;
+            box-sizing: border-box;
+            border: 2px solid #e04689;
+            padding: 25px 30px 15px;
+            width: 100%;
+            position: relative;
+            text-align: left;
+        }
+
+        .text-title {
+            background: #fff;
+            color: #e04689;
+            font-size: 24.0px;
+            font-weight: bold;
+            position: absolute;
+            top: -22px;
+            padding: 10px;
+            left: 20px;
+        }
+
+        .text-wrap {
+            line-height: 24px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            .text-wrap p {
+                margin: 0;
+            }
+
+        .keyword {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .foot {
+            line-height: 55px;
+            font-size: 18px;
+            text-align: left;
+            margin: 30px 0;
+        }
+
+            .foot button {
+                background: #ff6091;
+                color: #fff;
+                height: 53px;
+                display: block;
+                float: right;
+                border: 1px solid #d81b60;
+                border-radius: 5px;
+                padding: 0 22px;
+                cursor: pointer;
+            }
+
+        .clear {
+            clear: both;
+        }
+        i.msel:before{content:"(";margin-right:3px;}
+        i.msel:after{content:")";margin-left:3px;}
+        i.msel{font-weight:bold;color:#d81b60;}
+
+        .content-qa{padding-left:13px;}
+        .questionaire-input-option { display:flex;position:relative;
+        }
+        .checkbox-inline, .radio-inline, .options-input-wrap {
+            color: #666;
+        }
+
+        .checkbox-inline, .radio-inline {
+            line-height: 21px;
+        }
+
+        .data-wrap {
+            display: flex;
+            align-items: center;
+            width: 33.33334%;
+            margin-bottom: 15px;
+        }
+
+        .data-label {
+            width: 80px;
+            flex: none;
+            text-align: right;
+        }
+
+        .data-content {
+            margin-left: 10px;
+            flex: 1;
+        }
+
+        .questionnaire-wrap {
+            margin-bottom: 20px;
+            line-height: 24px;
+        }
+
+        .questionnaire-title {
+            padding-left: 33px;
+            background: url(/HealthMgr/img/bowknot.png) no-repeat;
+            background-size: 16px;
+            color: #101010;
+            height: 45px;
+            line-height: 45px;
+            font-size: 16.0px;
+            font-weight: bold;
+            font-style: normal;
+            background-position: 10px;
+        }
+
+        .questionnaire-option-wrap {
+            padding-left: 33px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .questionnaire-option {
+            width: 25%;
+            height: 45px;
+            line-height: 45px;
+            font-size: 16.0px;
+        }
+
+        .auto-width-50 {
+            width: 50% !important;
+        }
+
+        .auto-width-100 {
+            width: 100% !important;
+        }
+
+        .options-input-wrap {
+            width: 33.334%;
+            display: flex;
+        }
+
+            .options-input-wrap input {
+                width: 33.334%;
+            }
+
+        .validation-summary-errors {
+            color: red;
+            text-align: left;
+        }
+
+        .title-tips {
+            font-size: 14px;
+            color: #fff;
+            font-weight: initial;
+            cursor: default
+        }
+
+            .title-tips input {
+                font-size: 14px;
+                background: none;
+                border: none;
+                cursor: default
+            }
+
+        .return_index {
+            color: #ff6091;
+        }
+
+            .return_index:hover {
+                color: #ff6091;
+                text-decoration: underline;
+            }
+
+            .return_index img {
+                width: 26px;
+                margin-top: -3px;
+            }
+
+        .field-validation-error {
+            color: red;
+        }
+
+
+
+        @@media screen and (max-width:500px) {
+            .sub-float {
+                display: none;
+            }
+
+
+               .content-title{width:99%;}
+        .content-wrap {width:99%;  padding:6px;      }
+        .content{margin-top:23px;}
+        .text-title{font-size: 19px;}
+        .data-wrap {width: 100%;}
+        .content-qa{padding-left:0px;padding-right:5px;}
+        .questionnaire-option {
+            line-height: initial;
+            font-size: 13px;
+            height:initial;padding-bottom:10px;
+        }
+        .questionnaire-option-wrap {                    padding-left: 33px;   margin-bottom:10px;   border-bottom: 1px dashed #ddd;padding-bottom:10px;   }
+        .auto-width-50 {width:100%!important;}
+        .questionnaire-option-wrap .questionnaire-option{width:100%;}
+        .options-input-wrap {                 width: 100%;        }
+        .questionaire-input-option{display:block;position:relative;}
+        .questionaire-input-option>.options-input-wrap{margin-left:20px;margin-top:10px;}
+
+        }
+
+  
+    </style>
+}
+
+<form asp-action="QuestionaireSave" autocomplete="off" onsubmit="return toVaild()">
+    <img src="~/HealthMgr/img/briefing_bj.jpg" style="position: fixed;top: 0;left:0;width:100%;" />
+    <div class="content-title">
+        <input type="hidden" asp-for="QAMain.QAFlowMainId" /><!--问卷流水Id-->
+        <input type="hidden" asp-for="QAMain.QANameKey" /><!--问卷名称键-->
+        <input type="hidden" name="TotalQuesNum" id="TotalQuesNum" value="19" /> <!--问卷总共的题目数-->
+        乳腺癌调查问卷
+        <div>
+            <span class="title-tips">版本:<input style="width: 49px;" readonly="readonly" type="text" asp-for="QAMain.QAVer" /></span>
+            <span class="title-tips">测评时间:<input type="datetime" readonly="readonly" asp-format="{0:yyyy-MM-dd HH:mm}" asp-for="QAMain.QATime" /></span>
+        </div>
+    </div>
+    <div class="content-wrap">
+        @Html.ValidationSummary(true)
+        <div class="content" style="padding-left:0;">
+            <div class="text-title">
+                基本信息
+            </div>
+            <div class="text-wrap">
+                <div class="data-wrap">
+                    <div class="data-label">姓名:</div>
+                    <div class="data-content">
+                        <input type="text" class="form-control border3" asp-for="QAMain.Name" placeholder="请填写姓名，方便我们称呼您"
+                               data-rule-required="true" data-msg-required="请填写姓名称呼" />
+                        @Html.ValidationMessageFor(m=>m.QAMain.Name)
+                    </div>
+                </div>
+                <div class="data-wrap">
+                    <div class="data-label">性别:</div>
+                    <div class="data-content">
+                        <select class="form-control border3" asp-for="QAMain.Gender" data-rule-required="true" data-msg-required="请选择性别">
+                            <option value="">选择性别</option>
+                            <option value="0">女</option>
+                            <option value="1">男</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.QAMain.Gender)
+                    </div>
+                </div>
+                <div class="data-wrap">
+                    <div class="data-label">出生日期:</div>
+                    <div class="data-content">
+                        <input type="text" class="form-control border3" required asp-for="QAMain.Birthday" placeholder="yyyy-MM-dd 比如1985-06-18"
+                               asp-format="{0:yyyy-MM-dd}" 
+                               data-rule-required="true" data-msg-required="请填写出生日期，可计算年龄，年龄是很重要的数据"
+                               data-rule-date="true" />
+                        @Html.ValidationMessageFor(m => m.QAMain.Birthday)
+                    </div>
+                </div>
+                <div class="data-wrap">
+                    <div class="data-label">婚姻状况:</div>
+                    <div class="data-content">
+                        @{
+                            var maritalStatuses = myRazor.GetSelectListItemsByDictKey("Marriage");
+                        }
+                        <select class="form-control border3" asp-for="QAMain.MaritalStatus" asp-items="maritalStatuses" data-rule-required="true" data-msg-required="婚姻状况是很重要的数据">
+                            <option value="">请选择</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.QAMain.MaritalStatus)
+                    </div>
+                </div>
+                <div class="data-wrap">
+                    <div class="data-label">联系手机:</div>
+                    <div class="data-content">
+                        <input type="text" class="form-control border3" asp-for="QAMain.Mobile" placeholder="请填写您的真实手机"
+                               data-rule-required="true" data-msg-required="请填写您的手机方便为您服务"
+                               data-rule-mobile="true" />
+                        @Html.ValidationMessageFor(m => m.QAMain.Mobile)
+                    </div>
+                </div>
+                <div class="data-wrap">
+                    <div class="data-label">邮箱:</div>
+                    <div class="data-content">
+                        <input type="text" class="form-control border3" asp-for="QAMain.Email" placeholder="请填写您的Email电子信箱"
+                               data-rule-email="true" data-msg-email="邮箱的格式不正确" />
+                        @Html.ValidationMessageFor(m => m.QAMain.Email)
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="content content-qa">
+            <div class="text-title">问卷信息</div>
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">近期困扰您的乳房问题 <i class="msel">可多选</i></div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q1" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">疼痛
+                        </label>
+                    </div>
+                    <div class="questionnaire-option auto-width-50">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳头改变（瘙痒、脱屑、糜烂、溃疡、流水或血）
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">肿块
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">腋窝淋巴结肿大
+                        </label>
+                    </div>
+                    <div class="questionnaire-option auto-width-50">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳房皮肤结节
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">现病史 <i class="msel">可多选</i></div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q2" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">疼痛
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳头流水或流血
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺癌
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺炎（急性、慢性）
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺增生
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺纤维瘤
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺囊肿
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">既往史 <i class="msel">可多选</i></div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q3" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">疼痛
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳头流水或流血
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺癌
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺炎（急性、慢性）
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺增生
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺纤维瘤
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">乳腺囊肿
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">子宫附件病史
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">月经及婚育史</div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q41" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            初潮年龄
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q41">0-12岁
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q41">13-17岁
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q41">18岁及以上
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q42" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            停经年龄
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q42">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q42">55岁以下
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q42">55岁及以上
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q43" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            初产年龄
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q43">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q43">30岁以下
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q43">30岁及以上
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q44" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            生育哺乳史
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q44">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option auto-width-50 questionaire-input-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q44" style="margin-top: 19px;" special="true">
+                        </label>
+                        <div class="options-input-wrap" title="怀孕多少次数">
+                            孕<input type="text" name="special_RXC_Q44" style="text-align:center;margin:0 5px;" data-rule-digits="true" />次                    
+                        </div>
+                        <div class="options-input-wrap" title="成功产下子女的胎数，多胞胎只算一胎">
+                            产<input type="text" name="special_RXC_Q44" style="text-align:center;margin:0 5px;" data-rule-digits="true" />胎            
+                        </div>
+                        <div class="options-input-wrap" title="正在哺乳期，则已经哺乳月数，超过一年仍然以月数计">
+                            哺<input type="text" name="special_RXC_Q44" style="text-align:center;margin:0 5px;" data-rule-digits="true" />月                       
+                        </div>    
+                        <div data-valmsg-for="special_RXC_Q44" data-valmsg-replace="true" style="position:absolute;left:0;bottom:-30px"></div>
+                    </div>
+                   
+                </div>
+            </div>
+
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">肿瘤家族史</div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q51" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-100 ">
+                        1、直系一级家属中，是否有罹患乳腺癌、卵巢癌、输卵管癌、原发性腹膜癌
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q51">否
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q51">是
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q52" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-100 ">
+                        2、罹患乳腺癌、卵巢癌、输卵管癌、原发性腹膜癌的家属患病年龄
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q52">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q52">0-40岁
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q52">40岁及以上
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q53" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-100 ">
+                        3、罹患乳腺癌、卵巢癌、输卵管癌、原发性腹膜癌的家属有哪些 <i class="msel">可多选</i>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">外祖母
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">母亲
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">父亲
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">姐妹
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">女儿
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q54" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-100 ">
+                        4、直系一级家属中，有无其它恶性肿瘤患者 <i class="msel">可多选</i>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">外祖母
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">母亲
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">父亲
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">姐妹
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="checkbox-inline">
+                            <input type="checkbox">女儿
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">药物史</div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q61" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        接受雌激素、孕激素治疗
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q61">是
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q61">否
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q62" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        长期口服避孕药
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q62">是
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q62">否
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">基因检测</div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q71" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        有无进行乳腺癌基因检测
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q71">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q71">有
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q72" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        乳腺癌或卵巢癌风险超过“++”
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q72">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q72">有
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="questionnaire-wrap">
+                <div class="questionnaire-title">生活习惯史</div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q81" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        饮酒（每日饮用酒的酒精量超过15g）
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q81">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q81">有
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q82" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        经常食用高脂肪食物
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q82">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q82">有
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q83" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        经常性接触放射性物质或既往行胸部放疗
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q83">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q83">有
+                        </label>
+                    </div>
+                </div>
+                <div class="questionnaire-option-wrap">
+                    <input type="hidden" name="answers[@(n)].Key" value="RXC_Q84" />
+                    <input type="hidden" name="answers[@(n++)].String" class="val" />
+                    <div class="questionnaire-option auto-width-50 ">
+                        精神压力（无法通过自身调节）
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q84">无
+                        </label>
+                    </div>
+                    <div class="questionnaire-option">
+                        <label class="radio-inline">
+                            <input type="radio" name="RXC_Q84">有
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <button type="submit">提交问卷</button>
+            <a asp-action="Index" class="return_index"><img src="~/HealthMgr/img/return.png" />返回主题页</a>
+            <div class="clear"></div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("input[type='checkbox']").click(function () {
+                var t = this;
+                var test = $.trim($(t).parent().text());
+
+                //获取最外层
+                var p = $(this);
+                while (p.attr("class") != "questionnaire-option-wrap") {
+                    p = $(p.parent());
+                }
+
+                //所有checkbox
+                var allCheckbox = p.find("input[type='checkbox']");
+                //如果选中了无
+                if (test == "null" || test == "无") {
+                    allCheckbox.each(function () {
+                        //排除“无”
+                        if (this != t) {
+                            $(this).prop('checked', false);
+                        }
+                    });
+                } else {
+                    allCheckbox.each(function () {
+                        //“无” 不勾选
+                        if ($.trim($(this).parent().text()) == "无") {
+                            $(this).prop('checked', false);
+                        }
+                    });
+                }
+
+                //赋值
+                var val = "";
+                allCheckbox.each(function () {
+                    if ($(this).is(':checked')) {
+                        val += $.trim($(this).parent().text()) + "|";
+                    }
+                });
+                $(p.find(".val")[0]).val(val.substring(0, val.length - 1));
+
+            });
+            var RXC_Q44_DATA = ['次，产', '胎，哺', '月']
+            $("input[type='radio']").click(function () {
+                var t = this;
+                var test = $.trim($(t).parent().text());
+
+                //获取最外层
+                var p = $(this);
+                while (p.attr("class") != "questionnaire-option-wrap") {
+                    p = $(p.parent());
+                }
+                if ($(t).attr("special")) {
+                    var val = "";
+                    if ($(t).attr("name") == "RXC_Q44") {
+                        val += '孕';
+                    }
+                    $(t).parent().parent().find("input[type='text']").each(function (i) {
+                        val += $(this).val();
+                        if ($(t).attr("name") == "RXC_Q44") {
+                            val = val + RXC_Q44_DATA[i];
+                        }
+                    });
+                    $(p.find(".val")[0]).val(val);
+                } else {
+                    $(p.find(".val")[0]).val(test);
+                }
+
+            });
+
+            $("input[name='special_RXC_Q44']").blur(function () {
+                $($(this).parent().parent().find('input[type="radio"]')[0]).prop('checked', true);
+                //获取最外层
+                var p = $(this);
+                while (p.attr("class") != "questionnaire-option-wrap") {
+                    p = $(p.parent());
+                }
+                var val = '孕';
+                $("input[name='special_RXC_Q44']").each(function (i) {
+                    val += $(this).val() + RXC_Q44_DATA[i];
+                });
+                $(p.find(".val")[0]).val(val);
+            });
+
+        });
+        function toVaild() {
+            var state = true;
+            $("input[class='val']").each(function () {
+                console.log($(this).val());
+                if ($(this).val() == "" || $(this).val() == null) {
+                    state = false;
+                    $(this).parent().prev(".questionnaire-title").css("background-image", "url(/HealthMgr/img/error.png)").css("background-size", "20px");
+                } else {
+                    $(this).parent().prev(".questionnaire-title").css("background-image", "url(/HealthMgr/img/bowknot.png)").css("background-size", "16px");
+                }
+            });
+            if (!state) {
+                layer.msg("请完善问卷!");
+            }
+            return state;
+        }
+    </script>
+}

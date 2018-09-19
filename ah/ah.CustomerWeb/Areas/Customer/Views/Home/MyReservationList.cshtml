@@ -1,0 +1,213 @@
+﻿
+@{
+
+    ViewBag.Title = "我的预约";
+}
+
+@section links{
+    <style>
+        ul.top-btn {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+
+            ul.top-btn > li {
+                margin: 0;
+                padding: 0;
+                display: inline-block;
+                width: 33%;
+                position: relative;
+                border-right: 1px solid #ddd;
+                float: left;
+                height: 40px;
+            }
+
+                ul.top-btn > li > a {
+                    padding: 10px;
+                    display: block;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 12px;
+                }
+
+                    ul.top-btn > li > a:hover {
+                        background: #ff6a00;
+                        color: #fff;
+                    }
+    </style>
+
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/MyReservationList">我的预约</a></li>
+    </ol>
+</div>
+<div class="ah-public-main">
+    <div class="ah-flex ah-flex-row-reverse ah-public-toolwrap">
+        <a class="ahc-btn-link ahc-btn-default" asp-controller="Appointment" asp-action="Index" asp-route-customerid="@ViewData["CustomerId"]"><i class="glyphicon glyphicon-time"></i> 去约号</a>
+    </div>
+
+    <input type="hidden" id="custId" value="@ViewData["CustomerId"]" />
+    <div>
+        <div class="pull-left">
+            <div>
+                <select class="ah-crtable-sel month" id="c_month">
+                    @for (int m = 1; m < 13; m++)
+                    {
+                        <option value="@(m)" selected=@(DateTime.Today.Month == m)>@(m) 月</option>
+                    }
+                </select>
+
+                <select class="ah-crtable-sel" id="c_year">
+                    @for (int y = 2017; y <= DateTime.Now.Year; y++)
+                    {
+                        <option value="@y" selected=@(DateTime.Today.Year == y)>@(y)</option>
+                    }
+
+                </select>
+            </div>
+        </div>
+        <div class="pull-right" style="margin-top:10px;">
+            <div>
+                <span><i class="ah-jzmark ah-cbg-waiting"></i>待就诊</span>
+                <span><i class="ah-jzmark ah-cbg-treated"></i>已就诊</span>
+                <span><i class="ah-jzmark ah-cbg-outtime"></i>已过期</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table class="table ah-my-calendar">
+            <thead>
+                <tr>
+                    <td>日</td>
+                    <td>一</td>
+                    <td>二</td>
+                    <td>三</td>
+                    <td>四</td>
+                    <td>五</td>
+                    <td>六</td>
+                </tr>
+            </thead>
+            <tbody id="calendar_body">
+                <script type="text/html" id="calendar_template">
+                    {{each items as item i}}
+                    {{if i%7==0}}
+                    <tr>
+                        {{/if}}
+                        <td>
+                            {{if item!=null}}
+                            <div class="ah-cr-bg dd-item" data-date="{{item.date}}">
+                                <span class="sday {{item.isToday?'today':''}}">{{item.day}}</span>
+                                <span class="lday  {{item.isToday?'today':''}}">{{item.lunlarShowString}}</span>
+                                <ul class="ah-yz-lst">
+                                    {{each item.registerItems as reg}}
+                                    <li><span class="cicle ah-cbg-{{reg.treatStatus}}" title="{{reg.clinicName}}-{{reg.departmentName}} ({{reg.doctorName}})"></span></li>
+                                    {{/each}}
+                                </ul>
+                                {{if item.hasTreating}} <span class="selcicle"></span>{{/if}}
+                            </div>
+                            {{/if}}
+                        </td>
+
+                        {{if i%7==6}}
+                    </tr>{{/if}}
+                    {{/each}}
+                </script>
+            </tbody>
+
+        </table>
+    </div>
+    <div>
+        <div class="ah-reserv-rcd" id="reg_details">
+            <script type="text/html" id="calender_detailrow">
+                {{if items.length>0}}
+                <div class="pc">
+                    <h5>预约记录 <span class="pull-right">{{date}}</span></h5><hr />
+                    <table class="table table-hover">
+                        <tbody>
+                            {{each items as reg i}}
+                            <tr class="row-{{reg.treatStatusCode}}">
+                                <td>{{reg.customerName}}</td>
+                                <td>{{ reg.stationName }}</td>
+                                <td>{{ reg.departmentName }}</td>
+                                <td>{{ reg.employeeName }}</td>
+                                <td>{{ reg.registerDate }}</td>
+                                <td>{{reg.slotName}}</td>
+                                <td>
+                                    {{reg.treatStatus}}
+                                    {{if reg.treatStatusCode=='treated'}}<i class="fa fa-check-circle"></i>{{/if}}
+                                    {{if reg.treatStatusCode=='waiting'}}<i class="fa fa-clock-o"></i>{{/if}}
+                                </td>
+                                <td align="right">{{reg.registerFromName}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="app">
+                    {{each items as reg i}}
+                    <div class="reg-items"
+                         {{if reg.treatStatus=='过期'}} style="background-image: url('/customer/image/reg-items-bj.png');" {{/if}}
+                         {{if reg.treatStatus=='接诊中'}} style="background-image: url('/customer/image/reg-items-bj1.png');" {{/if}}
+                         {{if reg.treatStatus=='已诊'}} style="background-image: url('/customer/image/reg-items-bj2.png');" {{/if}}
+                         {{if reg.treatStatus=='待诊'}} style="background-image: url('/customer/image/reg-items-bj2.png');" {{/if}}>
+                        <div>
+                            <span style="font-size:16px;font-weight: bold;">
+                                {{reg.stationName}}
+                            </span>
+                            <span>{{reg.treatStatus}}</span>
+                        </div>
+                        <div>
+                            <span>{{reg.employeeName}}({{reg.departmentName }})</span>
+                            <span>
+                                {{reg.registerDate}}{{reg.slotName}}
+                            </span>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                {{/if}}
+            </script>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script>
+        var pagedata={customerId:@(ViewData["CustomerId"])}
+        $(function () {
+            var f = {
+                LoadCalendar: function () {
+                    $.loadJSON("/api/Common/LoadCalendarData", { year: $("#c_year").val(), month: $("#c_month").val(), customerId: $("#custId").val() }, function (jn) {
+                        //插入生成的数据
+                        document.getElementById('calendar_body').innerHTML = template('calendar_template', { items: jn });
+                    });
+                    f.LoadThisDayData();
+                },
+                LoadThisDayData: function (dt) {
+                    var dd = dt || $.f.toDtStr($(this).data("date"));
+                    if (dd) {
+                        $.loadJSON("/api/Common/LoadRegisterOfDate", { dt: dd,customerId:pagedata.customerId }, function (jn) {
+                            document.getElementById('reg_details').innerHTML = template('calender_detailrow', { date: $.f.toDtStr(dd, "yyyy年 M月 d日"), items: jn });
+                        });
+                    } else document.getElementById('reg_details').innerHTML = template('calender_detailrow', { date: null, items: [] });
+
+                }
+
+            }
+
+
+
+            $('#c_month').change(f.LoadCalendar);
+            $('#c_year').change(f.LoadCalendar);
+            $('#calendar_body').on("click", ".dd-item", function () { f.LoadThisDayData.call(this); });
+
+            f.LoadCalendar();
+            f.LoadThisDayData(new Date().formatDate());
+        })
+    </script>
+}

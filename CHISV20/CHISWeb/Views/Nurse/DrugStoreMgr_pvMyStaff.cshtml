@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CHIS_Sys_LoginExt>
+@{
+    ViewBag.Title = "门店管理";
+    Layout = null;
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.LoginService loginSvr
+
+
+<ul ah-id="dataList" class="ah-user-items">
+    @foreach (var item in Model)
+    {
+        <li class="ah-flex " onclick="editStaff(@item.LoginExtId)">
+            <img src="~/images/pport.png" class="ah-user-item-pic">
+            <div class="ah-user-item-main ah-flex-auto" style="overflow: hidden;">
+                <div>
+                    <span class="ah-LoginExtEnabled ah-i-@item.LoginExtEnabled">
+                        @if (item.LoginExtEnabled)
+                        {
+                            <i class="glyphicon glyphicon-ok-circle"></i>
+                        }
+                        else
+                        {
+                            <i class="glyphicon glyphicon-remove-circle"></i>
+                        }
+                    </span>
+                    @item.LoginExtName (@item.LoginExtMobile)
+                </div>
+                <div class="ah-over-hidden">
+                    @foreach (var tm in loginSvr.GetLoginExtRols(item.LoginExtRoleKeys))
+                    {
+                        <span style="margin-right:5px;">@tm.LoginExtRoleName</span>
+                        @*<div>
+                            <div><b>@tm.LoginExtRoleName</b><small>@tm.LoginExtRoleKey</small></div>
+                            <span>@tm.LoginExtRoleRmk</span>
+                        </div>*@
+                    }
+                </div>
+            </div>
+        </li>
+    }
+</ul>

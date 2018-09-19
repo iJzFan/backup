@@ -1,0 +1,64 @@
+﻿ table.form tr td select {
+            height: 30px;
+        }
+
+        .panel-body .formValue .row .col-lg-4,
+        .panel-body .formValue .row .col-md-4,
+        .panel-body .formValue .row .col-ms-4 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        .select_customerinfo {
+            height:30px;
+            width:260px;
+            background:#eee;
+            margin-left:30px;
+        }
+        .single-selector a.select {
+            top:5px;
+        }
+        .doctor-name {
+            line-height:23px;
+        }
+
+        .ah-doc-select-title{ height: 30px;    line-height: 30px;    padding-left: 10px;}
+
+        select:disabled{background:none;}
+        table.ah-doc-detail{width:100%;}
+        table.ah-doc-detail tr td{padding:3px 8px 3px 3px;}
+      input[type="text"][readonly], input[type="number"][readonly], input[type="tel"][readonly], input[type="password"][readonly], input[type="email"][readonly], textarea
+      {background-color:#eee;color:#0f60f5;padding-left:4px;}
+      select[readonly]{border:none;padding-top:2px;padding-bottom:2px;padding-left:0;color:#0f60f5;}
+     .ah-content-text{color:#0f60f5;margin-left:4px;}
+      
+
+      /*头像*/
+      .ah-pic-edit {
+    background: #000 url("/images/def/d256_1.png") no-repeat scroll 0 0 / contain ;
+    border: medium none;
+    border-radius: 2px;
+    height: 152px;
+    margin-bottom: 6px;
+    padding: 1px;
+    position: relative;
+    width: 128px;
+}
+.ah-pic-edit > .img {
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 1px;
+    height: 100%;
+    width: 100%;
+}
+.ah-pic-edit .pic-btns {
+    bottom: 3px;
+    position: absolute;
+    right: 3px;
+}
+.sel_wid_30{width:30%;float:left;}
+ .ah-bottom-btns{position:fixed;bottom:0px;width:100%;height:60px;background-color:#ccc;padding:15px;text-align:right;}
+ .ah-nav-guide{width:100%;}
+ .ah-nav-guide>li{display:inline-block;}
+  .ah-nav-guide>li:after{content:">>";}
+  .ah-nav-guide>li:last-child:after{content:" ";}
+  .ah-nav-guide>li.active ,.ah-nav-guide>li.active>a{color:red;}

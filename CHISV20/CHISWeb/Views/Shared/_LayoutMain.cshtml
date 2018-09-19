@@ -1,0 +1,142 @@
+﻿@using Ass
+@*@inject CHIS.Code.Managers.IUserFrameMgr CusHelper*@
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    int funcId = Ass.P.PIntV(Context.Request.Query["pagefn"], Ass.P.PIntV(ViewBag.FuncId));
+    var u = this.GetUserSelf();
+    var ua = this.GetUserMgr().GetUserAccessInfo();
+    bool? bLoadMenu = Ass.P.PBoolN(TempData["IsMenuLoad"]);
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@section link3part{
+    @RenderSection("link3part", required: false)
+}
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    @RenderSection("links", required: false)
+}
+
+@section scriptsPart{
+    @RenderSection("scriptsPart", required: false)
+}
+@section scripts{
+    @RenderSection("scripts", required: false)
+    @if (u == null)
+    {
+        <script>
+            window.location.href = "/Home/OutLogin";
+        </script>
+    }
+    else
+    {
+        <script>
+            if (self != top) top.window.location.href = window.location.href; //传给顶层
+        </script>
+
+    }
+}
+<div class="ah-wrap ah-flex scrollbar-dynamic" ah-type="main">
+    <div class="ah-nav-wrap ah-flex">
+
+        <div class="ah-nav-logo">
+            <a asp-area="" asp-action="Index" asp-controller="Home" asp-route-doctorId="@u.DoctorId">
+                <img class="ah-big-logo" src="@(Global.Config.GetSection("SystemSettings:RdCoLogoRootPath").Value)" />
+                <img class="ah-min-logo" src="@(Global.Config.GetSection("SystemSettings:RdCoMinLogoRootPath").Value)" />
+            </a>
+        </div>
+        @await LoadMenu(bLoadMenu==true,u.DoctorId,u.StationId)  
+        @*更多按钮*@
+        <div class="ah-flex-auto ah-navtouch-more"><span>更多</span></div>
+        <div class="ah-index-sname">@u.StationName</div>
+        <form class="ah-nav-user ah-flex ah-align-center ah-justify-content" asp-area="" asp-controller="Home" asp-action="OutLogin" method="post" id="logoutForm">
+            <div class="ah-user-info">
+                @*<pv url="/api/Statistics/Statistics_DoctorTreat_BasicSummary_NeedTreatHtml_ThisStationOfMe" class="ah-my-needtreat"
+                    style="top:10px;left: 30px;"></pv>*@
+                <img class="ah-nav-doctor-pic" src="@(Global.ConfigSettings.DoctorImagePathRoot + u.PhotoUrlDef)" />
+                <div class="ah-flex ah-nav-doctorInfo">
+                    <div>@(u.DoctorName)</div>
+                    <div>@(u.PostTitleName) @(u.LoginExtName)</div>
+                </div>
+            </div>
+            <div class="ah-nav-user-info">
+                <ul class="ah-flex-column">
+                    <li><i class="glyphicon glyphicon-home"></i>@u.StationName</li>
+                    <li>
+                        <ul>
+                            <li><a asp-controller="MyPanel" asp-action="DoctorInfos"><i class="fa fa-user-circle-o"></i>我的资料</a></li>
+                            <li><a asp-controller="MyPanel" asp-action="ChangePassword"><i></i>修改密码</a></li>
+                            <li><a asp-controller="MyPanel" asp-action="ChangeLoginInfo"><i></i>绑定手机/邮箱</a></li>
+                            <li><a asp-controller="MyPanel" asp-action="MyConfig"><i class="fa fa-cogs"></i>我的配置</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul>                         
+                            @*@if (u.SelectedDepartmentId>0) //如果有选择的部门
+                            {
+                                <li>
+                                    <a href="javascript:void(0);" onclick="changeDep();"><i class="glyphicon glyphicon-bookmark"></i>切换科室-@(u.SelectedDepartmentName)</a>
+                                    @{
+                                        var departs = ua.MyStationInfo.GetAllDepartsOfStation();//获取当前工作站的允许的科室
+                                    }
+                                    <ul class="select-dep-items">
+                                        @foreach (var item in departs)
+                                        {
+                                            <li><a class="@(u.SelectedDepartmentId.Equals(item.DepartId)? "ah-current-dep":"")" asp-action="ChangeDepart" asp-controller="Home" asp-route-departid="@item.DepartId">@item.DepartmentName</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                            }*@
+
+                            @if(u.MyAllowStationIds.Length>0)                          
+                            {
+                                <li>
+                                   @* <pv url="/api/Statistics/Statistics_DoctorTreat_BasicSummary_NeedTreatHtml_ThatStationOfMe" class="ah-my-needtreat"></pv>*@
+                                    <a href="javascript:void(0);" onclick="changeStation();"><i class="fa fa-reply-all"></i>切换工作站</a>
+                                </li>
+                            }
+                            <li><a asp-action="OutLogin" asp-controller="Home"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <button type="submit" class="ah-out-login" title="安全退出">
+                <i class="glyphicon glyphicon-off"></i>
+            </button>
+        </form>
+    </div>
+    <div class="ah-main-wrap ah-flex-column">
+        @if (funcId != 0)
+        {
+            <div class="ah-main-breadcrumbs ah-flex ah-align-center">
+                @Html.Raw(myRazor.loadPageNav(funcId))
+            </div>
+        }
+        <div class="ah-main-content ah-flex-auto layui-form">
+            <div class="ah-flex-column ah-max-height">
+                <div class="ah-flex ah-max-height">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@functions{
+    public async Task<Microsoft.AspNetCore.Html.IHtmlContent> LoadMenu(bool bLoadMenu, int doctorId, int stationId)
+    {
+        if (bLoadMenu == true)
+        {
+            var menu = await Html.PartialAsync("_pvMenu", (string)(ViewBag.IsMenuLoad));
+            return await myRazor.WriteMenu2DBAsync(menu, doctorId, stationId);
+        }
+        else
+        {
+            return await myRazor.GetMenuFromDBAsync(doctorId, stationId);
+        }
+    }
+}
+

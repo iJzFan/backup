@@ -1,0 +1,234 @@
+﻿@model IEnumerable<CHIS.Models.CHIS_SYS_Role>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+
+@section links{
+    <style>
+        .checked{color:#0094ff;}
+    </style>
+
+}
+
+<div class="container-fluid-full">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-xs-2">
+            <h3>选择工作站</h3>
+            <div class="ah-tree-bg">
+                <ul id="ztree-WorkStation" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+            <h3>勾选角色</h3>
+            <div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>选择</td>
+                            <td>角色名</td>
+                            <td></td>
+                            <td>角色说明</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="checkedroles" value="@item.RoleID" />
+                                </td>
+                                <td>@item.RoleName</td>
+                                <td>@item.RoleKey</td>
+                                <td>@item.Descript</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <a class="btn btn-primary" onclick="saveStationRoles();">确定</a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-6">
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            zTreeInit({
+                id: 'ztree-WorkStation',
+                success: null,
+                url: '/api/syshis/StationsOfMy'
+            });
+
+
+
+
+        })
+
+
+
+        //左侧树初始化
+        function zTreeInit(options) {
+            var treeId = options.id;
+            var $tree = $("#" + treeId);
+            $tree.empty();//清除处理
+
+            var setting = {
+                edit: {
+                    drag: {
+                        isMove: true,
+                        prev: true,
+                        next: true,
+                        inner: true
+                    },
+                    enable: true,
+                    showRemoveBtn: false,
+                    showRenameBtn: false,
+                },
+
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: false
+                },
+                callback: {
+                    onClick: zTreeOnClick,  //树节点点击事件
+                    beforeDrag: beforeDrag, //在拖拽之前，先判断该节点能否被拖拽，能拖拽的才会继续后续操作，否则直接退出拖拽功能
+                    beforeDrop: beforeDrop, //在添加到目标节点下之前，判断目标节点是否存在（这里限制了对于根节点的添加），若存在则判断目标节点下是否已存在相同的节点
+                    onDrop: onDrop,
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idkey: 'id',
+                        pIdkey: 'pId',
+                        rootId: 0
+                    }
+                }
+            };
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: 'POST',
+                dataType: 'json',
+                url: options.url,
+                success: function (data) {
+                    $.fn.zTree.init($tree, setting, data);
+                    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+                    treeObj.expandAll(true);
+
+                    //设置初始的Station值
+                    var station = getFirstNode(treeObj);
+                    (station) && $('#txt_Station').val(station);
+                    if (options.success) success();
+                },
+                error: function (msg) {
+                    $.modalAlert("请求失败！" + msg, "error");
+                }
+            });
+
+            //================================zTree的拖拽=========================================
+            function beforeDrag(treeId, treeNodes) {
+                for (var i = 0, l = treeNodes.length; i < l; i++) {
+                    if (treeNodes[i].drag === false) {
+                        curDragNodes = null;
+                        return false;
+                    } else if (treeNodes[i].parentTId && treeNodes[i].getParentNode().childDrag === false) {
+                        curDragNodes = null;
+                        return false;
+                    }
+                }
+                curDragNodes = treeNodes;
+                return true;
+            }
+            function beforeDrop(treeId, treeNodes, targetNode, moveType, isCopy) {
+                //如果有提交到后台的操作，则会先执行if…else…再执行post等提交操作
+                if (targetNode) {
+                    if (targetNode.children != undefined) {
+                        //console.log(targetNode.children[0].name)
+                        //var nodes = targetNode.children;
+                        var name = treeNodes[0].name;
+                        for (i = 0; i < targetNode.children.length; i++) {
+                            if (targetNode.children[i].name == name) {
+                                $.modalAlert("错误：此工作站已经存在！", "error");
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+
+            //拖拽成功后，修改后台数据库被拖拽节点的pid
+            function onDrop(event, treeId, treeNodes, targetNode, moveType, isCopy) {
+                treeNodes && targetNode && $.modalConfirm("是否将此操作同步更新至数据库？", function (result) {
+                    if (result) $.post('/Code/UpateWorkStationParent', { id: treeNodes[0].id, pid: targetNode.id })
+                    else $.reload();
+                });
+            }
+
+            //=====================点击工作站查询记录=============================================================
+            function zTreeOnClick(event, treeId, treeNode) {
+                var zTree = $.fn.zTree.getZTreeObj(treeId);
+                var selnodes = zTree.getSelectedNodes();
+                var obj = selnodes[0];
+                checkStationRoles(obj.id);
+            };
+
+            //获取工作站树第一个节点ID
+            function getFirstNode(zTree) {
+                try {
+                    var nodes = zTree.getNodes();
+                    if (nodes.length > 0) return nodes[0].id;
+                    else return -1;
+                } catch (ex) { return 0; }
+            }
+        }
+
+        function zTreeSelectNode(treeId) {
+            var zTree = $.fn.zTree.getZTreeObj(treeId);
+            var selnodes = zTree.getSelectedNodes();
+            var obj = selnodes[0];
+            return obj;
+        }
+
+        function checkStationRoles(stationId) {
+            $('input.checkedroles').prop("checked", false);
+            $('tr.checked').removeClass("checked");
+            stationId && $.loadJSON("/api/syshis/AllRolesOfStationOnlySelect", { stationId: stationId }, function (jn) {
+                if (jn) {
+                    $.each(jn, function (i, m) {
+                        $checkbox = $('input.checkedroles[value=' + m.roleId + ']');
+                        $tr = $checkbox.parents("tr").first();
+                        $checkbox.prop("checked", true);
+                        $tr.addClass("checked");
+                    });
+                }
+            });
+        }
+
+        //保存工作站的可选择角色
+        function saveStationRoles() {
+            var node = zTreeSelectNode('ztree-WorkStation');
+            if (!node || !node.id) $.alertMsg("请选择具体的工作站");
+            var roles = new Array();
+            $.each($('input.checkedroles:checked'), function (i, m) { roles.push(m.value); });//获取所有选中的节点的角色值
+            (node.id) && $.loadJSON("/sys/roles/SaveStationRoles", { stationId: node.id, roles: roles }, function (jn) {
+                if (jn.rlt) $.alertMsg("更新成功");
+                else $.alertError("失败:" + jn.msg);
+            });
+        }
+
+
+    </script>
+}

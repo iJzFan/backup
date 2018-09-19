@@ -1,0 +1,11 @@
+﻿@model TdCustomerModel
+
+@{
+    ViewData["Title"] = "Default";
+}
+
+<div class="ah-vc-tdcustomer" title="@(Model.CustomerName+Model.GenderText+Model.BirthDayText)">
+    <b class="customer">@(Model.CustomerName)</b>
+    <i class="gender">@(Model.GenderText)</i>
+    <i class="birthday">@(Model.BirthDayText)</i> 
+</div>

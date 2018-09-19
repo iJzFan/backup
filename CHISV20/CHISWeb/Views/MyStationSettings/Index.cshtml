@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "我的工作站";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    //var u = ViewBag.User as CHIS.Code.Managers.UserAccessInfo;
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+   
+}
+<div>
+
+
+
+    <div>
+        上传请假印章图片
+    </div>
+
+</div> 
+@section scripts{
+    <script></script>
+    
+}

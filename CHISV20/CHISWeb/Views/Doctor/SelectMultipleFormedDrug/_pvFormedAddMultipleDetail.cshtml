@@ -1,0 +1,16 @@
+﻿@model vwCHIS_DoctorAdvice_Formed_Detail
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    Layout = null;
+}
+@*已选药品*@
+<li rolename="add-multiple-drugs" ah-type="@ViewBag.Type" ah-DrugId="@Model.DrugId" ah-Model="@Model.DrugModel" ah-DrugName="@Model.DrugName"
+    ah-stockfromId="@Model.StockFromId" class="ah-fMultiple-selected ah-flex">
+    <img class="newTips" src="~/images/ah-new-tips.png" />
+    <div class="drugName">@Model.DrugName</div>
+    <div class="ah-flex ah-space-between">
+        <span class="manufacturerOrigin">@Model.ManufacturerOrigin</span>
+        <span class="drugModel">@Model.DrugModel</span>
+        <i class="glyphicon glyphicon-remove" onclick="ADDMULTIPLE.DeleteOneNewDrug(this)"></i>
+    </div>
+</li>

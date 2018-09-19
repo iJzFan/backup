@@ -1,0 +1,43 @@
+﻿@model ah.Models.ViewModel.PaginatedItemsViewModel<ah.Models.ViewModel.GiftViewModel>
+@{
+    ViewBag.Title = "积分商城";
+}
+@section links{
+    <link href="~/lib/jquery-weui/jquery-weui.css" rel="stylesheet" />
+}
+@*<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="~/images/mobilepage1.png" /></div>
+        <div class="swiper-slide"><img src="~/images/mobilepage1.png" /></div>
+        <div class="swiper-slide"><img src="~/images/mobilepage1.png" /></div>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>*@
+@foreach (var item in Model.Rows)
+{
+    <a class="ah-flex ah-gift-wrap" href="/Customer/Gift/GetById?giftId=@item.GiftId" data-giftid="@item.GiftId">
+        <img class="ah-gift-pic" src="@item.CoverImg" />
+        <div class="ah-flex-auto">
+            <div class="ah-gift-giftName">@item.GiftName</div>
+            <div class="ah-gift-rmk">@item.Description</div>
+            <div class="ah-need-points ah-flex">
+                <span>需要积分:@item.NeedPoints</span>
+                <div>去兑换</div>
+            </div>
+        </div>
+    </a>
+}
+<a href="/Customer/Gift" class="ah-retnrn" style="display:none;">
+    返回我的积分
+</a>
+@section scripts{
+    <script src="~/lib/jquery-weui/swiper.js"></script>
+    <script>
+        $(function () {
+            //$(".swiper-container").swiper({
+            //    loop: true,
+            //    autoplay: 3000
+            //});
+        })
+    </script>
+}

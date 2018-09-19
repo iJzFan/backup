@@ -1,0 +1,232 @@
+﻿@model IEnumerable<vwCHIS_Code_Customer_AddressInfos>
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    long selectedAddressId = (long)(ViewBag.SelectedAddressId);//选择的地址
+}
+
+@section links{
+
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        body{background:#fff;}
+        .ah-addr-edit {
+            width: 100%;
+            position: relative;
+        }
+
+        .ah-addr-item {
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        input.error {
+            border-color: red;
+        }
+
+        body {
+            font-size: 12px;
+            background-color: #fff;
+        }
+
+        .charge-Address-flex {
+            display: flex;
+            flex-wrap: wrap;
+            color: #666
+        }
+
+        .address-data-wrap {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .address-data-main {
+            height: 30px;
+            background-size: 100% 100%;
+            align-items: center;
+            padding: 0 6px;
+        }
+
+        .address-data-main:hover > .info {
+            background: #eaeaea;
+        }
+
+        .address-default {
+            background: #ff6a00;
+            color: #fff;
+            font-size: 11px;
+            border-radius: 3px;
+            padding: 2px;
+            margin-right:3px;
+        }
+
+        .address-data-hide {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            overflow: hidden;
+            height: 30px;
+            line-height: 31px;
+            padding-left: 10px;
+        }
+
+        .addRess-select {
+            margin-right: 10px;
+            width: 30%;
+        }
+
+        .addRemark {
+            background: #fff;
+            width: 105px;
+            border: 1px solid #4780eb;
+            text-align: center;
+            padding: 0;
+            height: 30px;
+            flex: none;
+            line-height: 29px;
+        }
+        .address-data-main a {
+            color: #ff6a00;
+            display: block;
+            height: 100%;
+            line-height: 29px;
+            flex: none;
+            padding: 0 10px;
+        }
+    </style>
+}
+
+<div style="padding:10px;">
+    <div class="charge-Address-flex">
+        @foreach (var item in Model)
+        {
+            <div class="address-data-wrap">
+                <div class="address-data-main ah-flex" >
+
+                    <div class="address-data-hide addRemark">
+                        @if (item.Remark != null)
+                        {
+                            <span>@item.Remark</span>
+                        }
+                        else
+                        {
+                            <span>暂无备注</span>
+                        }
+                    </div>
+                    <div class="address-data-hide info">
+                        @if (@item.IsDefault)
+                        {
+                            <span class="address-default">默</span>
+                        }
+                        @item.FullAddress
+                    </div>
+                    <div class="address-data-hide ah-flex-auto info">
+                        <span>( @item.ContactName</span>
+                        <span>@item.Mobile )</span>
+                    </div>
+                    <a class="info" ad-name="selAddress" ah-AddressId="@item.AddressId" ah-info="@(item.FullAddress) <br> ( @(item.ContactName) @(item.Mobile ) )">
+                        选择地址
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    <hr />
+    <div>
+        <b>可通过如下快速添加地址:</b>
+    </div>
+    <div class="ah-addr-edit">
+        <form id="add_edit_form"
+              asp-route-selectedaddressid="@(selectedAddressId)"
+              asp-route-customerid="@ViewBag.CustomerId"
+              asp-route-treatid="@ViewBag.TreatId"
+              method="post">
+            <div class="ah-addr-item">
+                <div class="base-bg" style="display: flex;width: 100%;flex-wrap: wrap;">
+                    <span class="addRess-select"><select id="province" name="province" class="form-control"></select></span>
+                    <span class="addRess-select"><select id="citys" name="city" class="form-control"></select></span>
+                    <span class="addRess-select"><select id="county" name="county" class="form-control"></select></span>
+                    <input type="hidden" name="AreaId" id="AreaId" data-rule-required="true" data-msg-required="区域地址信息需要选择" />
+                </div>
+            </div>
+            <div class="ah-addr-item">
+                <input type="text" class="form-control" name="AddressDetail" placeholder="详细街道地址" style="border-radius:0;margin-top:-1px;" data-rule-required="true" data-msg-required="请输入地址详细信息" />
+            </div>
+            <div class="ah-addr-item">
+                <input type="text" class="form-control" name="ContactName" placeholder="联系人" data-rule-required="true" data-msg-required="请输入联系人信息" />
+            </div>
+            <div class="ah-addr-item">
+                <input type="text" class="form-control" name="Mobile" placeholder="联系人手机" data-rule-required="true" data-msg-required="请输入联系人手机" />
+            </div>
+            <div class="ah-addr-item">
+                <label><input type="checkbox" name="IsDefault" /> 是否默认</label>
+            </div>
+            <div class="ah-addr-item">
+                <input type="text" class="form-control" name="Remark" placeholder="备注" />
+            </div>
+            <div class="ah-addr-item">
+                <button class="btn btn-default">添加</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+<script type="text/javascript">
+        var pagedata = {
+            submitType: '@(Context.Request.Query["submit"])'
+        }
+
+        $(function () {
+            $('#add_edit_form').validate({ignore: ""});
+
+            //$.layui3LevelAddress({
+            //    $province: $('#province'),
+            //    $city: $('#citys'),
+            //    $county: $('#county'),
+            //    $val: $('#AreaId')
+            //});
+            $.set3LevelAddress({
+                $province: $('#province'),
+                $city: $('#citys'),
+                $county: $('#county'),
+                $val: $('#AreaId')
+            });
+
+            $('a[ad-name="selAddress"]').on("click", function (e) {
+                var aId = $(this).attr("ah-addressid");
+                $.confirm("选择地址", "是否确认选择 : <br>" + $(this).attr("ah-info"), function () {
+                    
+                    $.ajax({
+                        url: "/Charge/ChangeTreatAddress",
+                        dataType: "json",
+                        data: {
+                            treatId:'@ViewBag.TreatId',
+                            addressId:aId,
+                        },
+                        success: function (jn) {
+                            if (jn.rlt) {
+                                $.ok("修改成功！");
+                                console.log('@ViewBag.Type')
+                                parent.CHARGE.modifyAddressCallback('@ViewBag.TreatId','@ViewBag.Type');
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                            } else {
+                                $.err("修改失败，请重试！");
+                            }
+                        }
+                    });
+                })
+            });
+
+        });
+
+</script>
+
+}

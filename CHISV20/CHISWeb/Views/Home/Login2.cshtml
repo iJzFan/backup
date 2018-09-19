@@ -1,0 +1,68 @@
+﻿@model CHIS.Models.ViewModel.AccountLoginViewModel
+@{ Layout = null;}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>系统登录 - @(Global.Config.GetSection("SystemSettings:RdCoName")) 云HIS系统(CHIS)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="中国基层医疗机构解决方案的提供商">
+    <meta name="author" content="">
+    <!-- CSS -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+    <link rel="stylesheet" href="~/css/other/reset.css">
+    <link rel="stylesheet" href="~/css/other/supersized.css">
+    <link rel="stylesheet" href="~/css/other/login-style.css">
+    <link rel="stylesheet" href="~/css/other/angel_media.css">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if (top != self) top.location = "/Home/Login"; //如果需要登录，就必须刷新到整个最外层框架去
+    </script>
+    <style>
+         .validation-summary-errors{margin-top:12px;}
+        .validation-summary-errors ul li{color:red;text-align:left;padding-left:64px;}
+    </style>
+</head>
+
+<body>
+
+    <div class="page-container">
+        <div class="logo_style">
+            <img src="@(Global.Config.GetSection("SystemSettings:RdCoLogoRootPath").Value)" sstyle="magin-top:10px;margin-bottom:10px;"/>
+            @*<b style="font-size:32px; top:-8px; position:relative; font-weight:bold;">天使云医生</b>*@
+        </div>
+        @*<h6 style="font-weight:600 ">中国基层医疗结构解决方案的提供商</h6>*@
+        <form class="login-form" method="post" asp-action="Login" asp-controller="Home">
+            <input type="text" id="txt_account"  class="username"   asp-for="AccountName">
+        @if (Global.IsDebug)
+        {
+            <input type="text" id="txt_password" class="password"  asp-for="AccountPassword">
+        }
+        else
+        {
+            <input type="password" id="txt_password" class="password"  asp-for="AccountPassword">
+        }
+            @Html.ValidationSummary()
+            <button type="submit">登录</button>
+            <p class="forger_word"><a href="#">忘记密码 ?</a></p>
+            <div class="error"><span>+</span></div>
+        </form>
+    </div>
+    <div class="login-bottom">@(Global.Config.GetSection("SystemSettings:RdCompanyFullName").Value) Copyright &copy; 2016 - @DateTime.Now.Year</div>
+
+    <!-- Javascript -->    
+    <script src="~/lib/jquery-1.12.0.min.js"></script>
+    <script src="~/lib/supersized.3.2.7.min.js"></script>
+    <script src="~/lib/supersized-init.js"></script>
+    <script src="~/lib/err-scripts.js"></script>
+
+</body>
+
+</html>
+
+
+ 

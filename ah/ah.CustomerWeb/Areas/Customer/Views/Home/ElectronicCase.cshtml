@@ -1,0 +1,106 @@
+﻿
+@{
+}
+
+@section links{
+    <style>
+        .panel-body ul{
+            margin:0px;
+            padding:0px;
+        }
+        .panel-body ul li{
+            float:left;
+            list-style:none;
+            margin:0px;
+            padding:0px;
+            display:block;
+            font-size:13px;
+            
+        }
+            .panel-body ul li p{
+                text-align:left;
+                margin:0px;
+                padding:0px;
+                line-height:35px;
+            }
+        .right_border_gray {
+            border-right: 1px solid #ccc;
+            height:70px;
+        }
+        .text_left {
+            text-align: left;
+            padding: 0 15px;
+        }
+        .doctor_name {
+            line-height:1;
+            padding:0.5em 0;
+        }
+
+    </style>
+}
+<ol class="breadcrumb">
+    <li><a href="#">个人中心</a></li>
+    <li><a href="#">电子病例</a></li>
+</ol> 
+<div class="panel panel-default">
+    <div class="panel-heading">2017-03-28 11:43:27<span class="text-muted pull-right">诊断编号：TS00215</span></div>
+    <div class="panel-body">
+        <ul>
+            <li class="right_border_gray" style="width:55%;">
+                <p>
+                    <span class="label label-primary" style="font-size:13px; margin-right:10px;">主&nbsp;&nbsp;&nbsp;诉</span><b>感冒3日，头疼2日，无其他症状</b>
+                </p>
+                <p><span class="label label-primary" style="font-size:13px; margin-right:10px;">主诊断</span><b>流行感冒</b></p>
+                
+            </li>
+            <li class="right_border_gray" style="width:15%; font-size:12px; padding-top:5px;">
+               
+                    @*<span class="glyphicon glyphicon-user" style="display:block; font-size:25px; color:#194cd8;"></span>*@
+               <span><img src="~/images/doc.png" class="center-block"  style="width:30px; display:block;" /></span> 
+               
+                <span class="label label-info">朱医生</span>
+                <span class="label label-warning">全科医生</span>
+
+            </li>
+            <li class="right_border_gray" style="width:15%; padding-top:15px; font-size:13px;">
+                体检:<b class="text-success">已体检</b>
+            </li>
+            <li style="width:15%; padding-top:15px; font-size:13px;">
+              <a asp-action="ElectronicDetail" class="btn btn-default btn-sm"> 查看详情</a>
+            </li>
+        </ul>
+    </div>
+ </div>
+    <!--此处需要循环-->
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align:left;padding:0 15px;">2017-03-28 11:43:27<span class="text-muted pull-right">诊断编号：TS00215</span></div>
+    <div class="panel-body">
+        <ul>
+            <li class="right_border_gray" style="width:55%;">
+                <p>
+                    <span class="label label-primary" style="font-size:13px; margin-right:10px;">主&nbsp;&nbsp;&nbsp;诉</span><b>感冒3日，头疼2日，无其他症状</b>
+                </p>
+                <p><span class="label label-primary" style="font-size:13px; margin-right:10px;">主诊断</span><b>流行感冒</b></p>
+
+            </li>
+            <li class="right_border_gray" style="width:15%; font-size:12px; padding-top:5px; line-height:1;">
+                
+                <span class="glyphicon glyphicon-user" style="display:block; font-size:20px; color:rgb(18,150,219);"></span>  
+                <div class="doctor_name">朱医生</div>
+                <span class="label label-warning" style="line-height:1;">全科医生</span>
+
+            </li>
+            <li class="right_border_gray" style="width:15%; padding-top:15px; font-size:13px;">
+                体检:<b class="text-success">已体检</b>
+            </li>
+            <li style="width:15%; padding-top:15px; font-size:13px;">
+                <a asp-action="ElectronicDetail" class="btn btn-default btn-sm"> 查看详情</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+    @section scripts{
+
+    }

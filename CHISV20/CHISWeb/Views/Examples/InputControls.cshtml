@@ -1,0 +1,632 @@
+﻿@model CHIS.Models.ViewModel.InputControlsDataModel
+@using Ass;
+@{
+
+}
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@section links{
+    <style>
+        .mynav {
+            position: fixed;
+            top: 58px;
+            left: 8px;
+        }
+
+            .mynav > li {
+                float: none;
+            }
+
+                .mynav > li > a {
+                    padding: 3px;
+                }
+
+        hr {
+            margin-top: 140px;
+            margin-bottom: 60px;
+        }
+
+        h4 {
+            color: #4800ff;
+            margin-top: 0px;
+        }
+
+            h4 > i:after {
+                content: ' ';
+                margin-right: 10px;
+            }
+
+        table tr > td:first-child {
+            width: 10%;
+            color: #1d8aca;
+            font-weight: bold;
+            text-align: right;
+            padding-right: 13px;
+        }
+
+        table tr > td:nth-child(5n+2), table tr > td:nth-child(5n+3), table tr > td:nth-child(5n+4) {
+            width: 20%;
+        }
+
+        .base-bg {
+            width: 280px;
+        }
+    </style>
+}
+
+
+
+<div class="container body-content">
+    <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
+        <ul class="nav nav-tabs nav-stacked mynav">
+            <li><a href="#SingleSelector">SingleSelector</a></li>
+            <li><a href="#inputcheckbox">Input-checkBox,bool,bool?</a></li>
+            <li><a href="#inputtxt">Input-text,number</a></li>
+            <li><a href="#select">Select</a></li>
+            <li><a href="#datetimepicker">Input-datetimePicker</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-7 col-xs-0">
+
+
+        <h1>常用的前端输入控件</h1>
+        <p>讲常用的表单控件整理到这里，统一成一种外观格式</p>
+
+        <hr id="SingleSelector" />
+        <h4><i class="fa fa-tag"></i>SingleSelector</h4>
+        <p class="text-info">用于KeyId,比如主键<code>int</code><code>long</code></p>
+        <p>可以搜索后端，然后选择单个带keyid的数据</p>
+        <div>
+            <table class="table">
+                <tr>
+                    <td></td>
+                    <td>可编辑</td>
+                    <td>disabled</td>
+                    <td> readonly</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="base-bg" style="height:36px;">
+                            <div class="single-selector" id="sel_doctor">
+                                <span class="doctor-name"></span>
+                                @Html.HiddenFor(m => m.DoctorId)
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-bg" style="height:36px;">
+                            <div class="single-selector" id="sel_doctor_d">
+                                <span class="doctor-name"></span>
+                                <input type="hidden" asp-for="DoctorId_d" disabled />
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-bg" style="height:36px;">
+                            <div class="single-selector" id="sel_doctor_r">
+                                <span class="doctor-name"></span>
+                                <input type="hidden" asp-for="DoctorId_r" readonly />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <hr id="inputcheckbox" />
+        <h4><i class="fa fa-tag"></i>Input- checkbox ,bool/bool?,switch/status3</h4>
+        <p class="text-info">用于<code>bool</code>,数据库是<code>bit</code>非空的字段</p>
+        <p>勾选框 针对bool只有是和否的情况(还有三态的情况 是/否/未知)</p>
+
+        <table class="table">
+            <tr><td></td><td>可编辑</td><td>disabled</td><td>readonly</td>        </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="base-bg">
+                        <div class="ckbox">
+                            <input type="checkbox" asp-for="IsMenu" checked="checked"><label for="IsMenu">需要授权</label>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="ckbox">
+                            <input type="checkbox" asp-for="IsMenu_d" checked="checked" disabled><label for="IsMenu_d">是否是菜单</label>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="ckbox">
+                            <input type="checkbox" asp-for="IsMenu_r" checked="checked" readonly><label for="IsMenu_r">是否是菜单</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>两态 - 开关switch<br /><code>bool</code></td>
+                <td>
+                    <div class="base-bg">
+                        <div class="ckbox-switch2">
+                            <input type="checkbox" asp-for="IsSwitch2" checked="checked"><label for="IsSwitch2" title="是否需要授权"></label>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="ckbox-switch2">
+                            <input type="checkbox" asp-for="IsSwitch2_d" checked="checked" disabled><label for="IsSwitch2_d" title="是否需要授权"></label>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="ckbox-switch2">
+                            <input type="checkbox" asp-for="IsSwitch2_r" checked="checked" readonly><label for="IsSwitch2_r" title="是否需要授权"></label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>三态 - 下拉选择<br /><code>bool?</code></td>
+                <td>
+                    <div class="base-bg">
+                        <select class="form-control" asp-for="Is3Status">
+                            <option value="">未选择</option>
+                            <option value="True">是</option>
+                            <option value="False">否</option>
+                        </select>
+                    </div>
+                    <p>一定要写每一个<code>option</code>的<code>value</code>,并且只能是<code>True/False/[空]</code></p>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <select class="form-control" disabled asp-for="Is3Status_d">
+                            <option value="">未选择</option>
+                            <option value="True">是</option>
+                            <option value="False">否</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <select class="form-control" readonly asp-for="Is3Status_r">
+                            <option value="">未选择</option>
+                            <option value="True">是</option>
+                            <option value="False">否</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>三态 - status3<br /><code>bool?</code></td>
+                <td>
+                    <div class="base-bg">
+                        <div class="status3">
+                            <select asp-for="Is3Status1">
+                                <option value="">未选择</option>
+                                <option value="True">是</option>
+                                <option value="False">否</option>
+                            </select>
+                            <label for="Is3Status1">是否三态</label>
+                        </div>
+                    </div>
+                    <p>
+                        一定要写每一个<code>option</code>的<code>value</code>,并且只能是<code>True/False/[空]</code> 并且用样式<code>status3</code>的<code>div</code>包裹起来。
+                        <br />
+                        <code>disabled</code><code>readonly</code>特性设置在select上.
+                    </p>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="status3">
+                            <select disabled asp-for="Is3Status1_d">
+                                <option value="">未选择</option>
+                                <option value="True">是</option>
+                                <option value="False">否</option>
+                            </select>
+                            <label>是否三态</label>
+                        </div>
+                    </div>
+                    <p>我们可以在<code>status3</code>内的<code>select</code>后加入<code>label</code>标签</p>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="status3">
+                            <select readonly asp-for="Is3Status1_r">
+                                <option value="">未选择</option>
+                                <option value="True">是</option>
+                                <option value="False">否</option>
+                            </select>
+                            <label>是否三态</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+
+        </table>
+
+        <hr id="inputtxt" />
+        <h4><i class="fa fa-tag"></i>Input[type=text],Input[type=number]</h4>
+        <p> </p>
+        <table class="table">
+            <tr><td></td><td>可编辑</td><td>disabled</td><td>readonly</td>        </tr>
+            <tr>
+                <td>文本框</td>
+                <td>
+                    <div class="base-bg">
+                        <input type="text" class="form-control" asp-for="Name" />
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <input type="text" disabled class="form-control" asp-for="Remark" />
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <input type="text" readonly class="form-control" asp-for="Remark" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>文本输入，下拉选择</td>
+                <td>
+                    <div class="base-bg">
+                        <div class="select-input">
+                            <input type="text" asp-for="KeyName" class="form-control">
+                            <select>
+                                <option value="IsNew">新增</option>
+                                <option value="IsMod">修改</option>
+                                <option value="IsDel">删除</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="select-input">
+                            <input type="text" asp-for="KeyName_d" class="form-control" disabled>
+                            <select>
+                                <option value="IsNew">新增</option>
+                                <option value="IsMod">修改</option>
+                                <option value="IsDel">删除</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="select-input">
+                            <input type="text" asp-for="KeyName_r" class="form-control" readonly>
+                            <select>
+                                <option value="IsNew">新增</option>
+                                <option value="IsMod">修改</option>
+                                <option value="IsDel">删除</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>数字框 Int</td>
+                <td>
+                    <div class="base-bg">
+                        <input type="number" class="form-control" asp-for="IntNumber" />
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <input type="number" disabled class="form-control" asp-for="IntNumber" />
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <input type="number" readonly class="form-control" asp-for="IntNumber" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <hr id="select" />
+        <h4><i class="fa fa-tag"></i>Select</h4>
+        <p> </p>
+        <table class="table">
+            <tr><td></td><td>可编辑</td><td>disabled</td><td>readonly</td></tr>
+            <tr>
+                <td>一般下拉</td>
+                <td>
+                    @{
+                        var items = myRazor.GetSelectListItemsByDictKey("FormType");
+                    }
+                    <div class="base-bg" style="width:100%;">
+                        <select asp-items="items" asp-for="FormTypeId" class="form-control">
+                            <option value="">未选择剂型</option>
+                        </select>
+                    </div>
+                    <p>此处我们默认宽度是自适应父级锚点的宽度，已经讲容器宽度设置为<code>sytle='width:100%;'</code></p>
+                </td>
+                <td>
+                    <div class="base-bg" style="width:100%;">
+                        <select asp-items="items" asp-for="FormTypeId_d" class="form-control" disabled>
+                            <option value="">未选择剂型</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg" style="width:100%;">
+                        <select asp-items="items" asp-for="FormTypeId_r" class="form-control" readonly>
+                            <option value="">未选择剂型</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>一般下拉 带搜索功能</td>
+                <td>
+                    <div class="base-bg">
+                        <select asp-items="items" asp-for="FormTypeId2" class="form-control">
+                            <option value="">未选择剂型</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <select asp-items="items" asp-for="FormTypeId2_d" class="form-control" disabled>
+                            <option value="">未选择剂型</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <select asp-items="items" asp-for="FormTypeId2_r" class="form-control" readonly>
+                            <option value="">未选择剂型</option>
+                        </select>
+                        <p>虽然一般<code>select</code>不带<code>readonly</code>特性，但是还是写上，我们会利用<code>select2</code>样式做特别处理。</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>带缩进的树结构</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>省市区三级联动</td>
+                <td>
+                    <div class="base-bg">
+                        <span style="display:inline-block;width:33.3%;float:left;"><select id="province" name="province" class="form-control"></select></span>
+                        <span style="display:inline-block;width:33.3%;float:left;"><select id="citys" name="city" class="form-control"></select></span>
+                        <span style="display:inline-block;width:33.3%;float:left;">
+                            <select id="county" name="county" class="form-control"></select>
+                            <input type="hidden" asp-for="AreaId" />
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <span style="display:inline-block;width:33.3%;float:left;"><select id="province_d" name="province_d" class="form-control" disabled></select></span>
+                        <span style="display:inline-block;width:33.3%;float:left;"><select id="citys_d" name="city_d" class="form-control" ></select></span>
+                        <span style="display:inline-block;width:33.3%;float:left;">
+                            <select id="county_d" name="county_d" class="form-control" ></select>
+                            <input type="hidden" asp-for="AreaId_d" />
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <p>只要设置省级的<code>select</code>为<code>disabled</code>即可</p> 
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <span style="display:inline-block;width:33.3%;float:left;"><select id="province_r" name="province_r" class="form-control" readonly></select></span>
+                        <span style="display:inline-block;width:33.3%;float:left;"><select id="citys_r" name="city_r" class="form-control" ></select></span>
+                        <span style="display:inline-block;width:33.3%;float:left;">
+                            <select id="county_r" name="county_r" class="form-control" ></select>
+                            <input type="hidden" asp-for="AreaId_r" />
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <p>只要设置省级的<code>select</code>为<code>readonly</code>即可</p> 
+                </td>
+            </tr>
+        </table>
+
+        <hr id="datetimepicker" />
+        <h4><i class="fa fa-tag"></i>Input 日期选择</h4>
+        <p> </p>
+        <table class="table">
+            <tr><td></td><td>可编辑</td><td>disabled</td><td>readonly</td></tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="base-bg">
+                        <div class="input-group">
+                            <input type="text" class="input-datetime form-control" asp-format="{0:yyyy-MM-dd}" asp-for="StopDate" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <p>
+                        设置<code>asp-format={0:yyyy-MM-dd HH:mm:ss}</code>可以设置Razor初始化值的格式，但不能设定前端选择的格式
+                    </p>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="input-group">
+                            <input type="text" class="input-datetime form-control" disabled asp-format="{0:yyyy-MM-dd}" asp-for="StopDate_d" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="input-group">
+                            <input type="text" class="input-datetime form-control" readonly asp-format="{0:yyyy-MM-dd}" asp-for="StopDate_r" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="base-bg">
+                        <div class="input-group">
+                            <input type="text" class="input-datetime form-control" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd hh:ii" asp-for="StopDate2" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <p>
+                        前端要使用 属性<code>data-format='yyyy-mm-dd hh:ii:ss'</code>来设置
+                    </p>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="input-group">
+                            <input type="text" class="input-datetime form-control" disabled asp-format="{0:yyyy-MM-dd HH:mm}" asp-for="StopDate2_d" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="base-bg">
+                        <div class="input-group">
+                            <input type="text" class="input-datetime form-control" readonly asp-format="{0:yyyy-MM-dd HH:mm:ss}" asp-for="StopDate2_r" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <hr />
+        <h4><i class="fa fa-tag"></i>Input[type=CheckBox]</h4>
+        <p>勾选框 针对bool只有是和否的情况(还有三态的情况 是/否/未知)</p>
+        <table class="table">
+            <tr><td></td><td>可编辑</td><td>disabled</td><td>readonly</td></tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+
+
+
+
+
+    <div style="height:300px;"></div>
+</div>
+
+
+@section scripts{
+
+    <script>
+
+        var pagedata = {
+            op: null,
+            ver: 1
+        }
+
+
+        $(function () {
+
+            $('#sel_doctor').singleSelector({
+                placeholder: "请输入医生的姓名或电话",
+                valueName: 'doctorId',
+                searchUrl: '/api/common/GetDoctors',
+                isReadonly: pagedata.op == "VIEW",
+                onSelect: function (jn) {
+                    $('#sel_doctor').find('.doctor-name').text(jn.doctorName);
+                },
+                formatSearchItem: function (jn) {
+                    var gender = jn.gender == 1 ? "男" : "女";
+                    var mobile = jn.telephone == 'null' || jn.telephone == null || jn.telephone == undefined ? "" : jn.telephone;
+                    return "<li><a><b>" + jn.doctorName + "</b> (" + gender + ")" + jn.employeeCode + "<br /><span>" + mobile + "</span></a></li>";
+                }
+            });
+            $('#sel_doctor_d').singleSelector({
+                placeholder: "请输入医生的姓名或电话",
+                valueName: 'doctorId',
+                searchUrl: '/api/common/GetDoctors',
+                isReadonly: pagedata.op == "VIEW",
+                onSelect: function (jn) {
+                    $('#sel_doctor_d').find('.doctor-name').text(jn.doctorName);
+                },
+                formatSearchItem: function (jn) {
+                    var gender = jn.gender == 1 ? "男" : "女";
+                    var mobile = jn.telephone == 'null' || jn.telephone == null || jn.telephone == undefined ? "" : jn.telephone;
+                    return "<li><a><b>" + jn.doctorName + "</b> (" + gender + ")" + jn.employeeCode + "<br /><span>" + mobile + "</span></a></li>";
+                }
+            });
+            $('#sel_doctor_r').singleSelector({
+                placeholder: "请输入医生的姓名或电话",
+                valueName: 'doctorId',
+                searchUrl: '/api/common/GetDoctors',
+                isReadonly: pagedata.op == "VIEW",
+                onSelect: function (jn) {
+                    $('#sel_doctor_r').find('.doctor-name').text(jn.doctorName);
+                },
+                formatSearchItem: function (jn) {
+                    var gender = jn.gender == 1 ? "男" : "女";
+                    var mobile = jn.telephone == 'null' || jn.telephone == null || jn.telephone == undefined ? "" : jn.telephone;
+                    return "<li><a><b>" + jn.doctorName + "</b> (" + gender + ")" + jn.employeeCode + "<br /><span>" + mobile + "</span></a></li>";
+                }
+            });
+
+            //省市区三级联动
+            $.set3LevelAddress({
+                $province: $('#province'),
+                $city: $('#citys'),
+                $county: $('#county'),
+                $val: $('#AreaId')
+            });
+            $.set3LevelAddress({
+                $province: $('#province_d'),
+                $city: $('#citys_d'),
+                $county: $('#county_d'),
+                $val: $('#AreaId_d')
+            });
+            $.set3LevelAddress({
+                $province: $('#province_r'),
+                $city: $('#citys_r'),
+                $county: $('#county_r'),
+                $val: $('#AreaId_r')
+            });
+
+
+
+
+
+
+            $('#FormTypeId2').select2({ minimumResultsForSearch: 0 });
+
+
+
+        });
+
+
+
+
+
+
+    </script>
+}

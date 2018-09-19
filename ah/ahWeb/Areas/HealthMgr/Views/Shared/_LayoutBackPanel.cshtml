@@ -1,0 +1,110 @@
+﻿@inject ah.Code.Managers.IUserFrameMgr myUser
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBase.cshtml";
+    var login = myUser.GetLoginInfo(Ass.P.PInt(User.FindFirst("CustomerId").Value));//用户信息
+    
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+
+
+
+@section links{
+    @RenderSection("links", required: false)
+}
+
+<div class="layer-wrap">
+    <div class="layer-sidebar">
+        <div class="user-head-wrap">
+            <img class="user-pic" src="@(Global.ConfigSettings.DoctorImagePathRoot + login.DoctorPhotoUrlDef)" />            
+            <div class="user-name">                
+                @(login.CustomerName)
+             </div>
+        <div class="user-number">客服10086</div>
+    </div>
+    <div class="sidebar-more" id="sidebar-more">
+        <i class="glyphicon glyphicon-list"></i>
+    </div>
+    <div class="sidebar-nav" id="sidebar-nav">
+
+        <a href="/HealthMgr/BackPanel/BreastPlan">
+            <i class="glyphicon glyphicon-th-list"></i>
+            <span>干预平台</span>
+        </a>
+        <a href="/HealthMgr/BackPanel/BreastArchives">
+            <i class="glyphicon glyphicon-folder-open"></i>
+            <span>健康档案</span>
+        </a>
+        <a href="/HealthMgr/BackPanel/QuestionList">
+            <i class="fa fa-file-text-o"></i>
+            <span>问卷信息</span>
+        </a>
+
+        @*<a href="/HealthMgr/BackPanel/CustomerDaily">
+                <i class="fa fa-users"></i>
+                <span>用户日信息</span>
+            </a>*@
+        <a href="/HealthMgr/BackPanel/Customers">
+            <i class="glyphicon glyphicon-user"></i>
+            <span>用户管理</span>
+        </a>
+    </div>
+    <div class="loginOut">
+        <a asp-action="BackLoginOut" asp-controller="BackPanel" asp-area="HealthMgr">
+            <i class="glyphicon glyphicon-off"></i>
+            <span>登出</span>
+        </a>
+    </div>
+</div>
+<div class="layer-main">
+    @RenderBody()
+</div>
+</div>
+
+
+
+ 
+@section scripts{
+    @RenderSection("scripts", required: false)
+    <script>
+        var navState = false;
+        $(function () {
+            var url = window.location.pathname;
+            $(window).resize(function () {
+                if ($(window).height() > 500) {
+                    $("#sidebar-nav").find("span").each(function () {
+                        $(this).show("fast");
+                    });
+                } else { 
+                    $("#sidebar-nav").find("span").each(function () {
+                        $(this).hide("fast");
+                    });
+                }
+            });
+            $("#sidebar-nav a").mouseover(function () {
+                if (parseInt($(this).css("height").replace("px", "")) < 80) {
+                    $($(this).find("span")).show("fast");
+                }
+            });
+            $("#sidebar-nav a").mouseleave(function () {
+                if (parseInt($(this).css("height").replace("px", "")) < 80) {
+                    $($(this).find("span")).hide("fast");
+                }
+            });
+            $("#sidebar-nav").find("a").each(function () {
+                if ($(this).attr("href") == url) {
+                    $(this).attr("class", "sidebar-nav-action");
+                }
+            });
+            $("#sidebar-more").click(function () {
+                if (!navState) {
+                    navState = true;
+                    $("#sidebar-nav").show();
+                } else {
+                    navState = false;
+                    $("#sidebar-nav").hide();
+                }
+            });
+        });
+    </script>
+}

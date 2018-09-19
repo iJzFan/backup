@@ -1,0 +1,134 @@
+﻿@using Ass;
+@model CHIS.Models.ViewModel.PrintHerbModel
+@{
+    ViewBag.Title = "中草药处方";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+@section links{
+    <style>
+        .center{text-align:center;position:relative;}
+        .row>div{display:inline-block;}
+.title{font-size: 22px;display: inline-block;font-weight: bold;margin-top: 48px;font-family: 楷体,"Microsoft YaHei"}
+  .type{border: 1px solid #333;padding: 3px 8px;position: absolute;top: 1px;left: 1px;border-radius:3px;}
+
+.p-no{text-transform: uppercase;color: #aaa;text-align: right;font-size: 10px;position:absolute;right:0;bottom:0px;}
+        .sec-line{border-bottom:1px solid #888;margin:5px 0px;padding-bottom:3px;position:relative;}
+        .row-item{width:100%;padding:2px 10px;}
+        .row-item > div{display:inline;}
+        .row-item .r,ol li .r{float:right;}
+        .row>.m{width:25%;}
+        .row>.m>b:after,.row>.m2>b:after{content:":";margin-right:3px;}
+        .table{width:100%;}
+        .table thead th{text-align:left;}
+        .bottom{position:absolute;bottom:50px;width:100%;}
+        .bottom-herb{position:absolute;bottom:120px;width:100%;}
+        .doc-sign{position:absolute;width:35%;right:0;top:-16px;border-bottom:1px solid #666;}
+        .doc-sign>b{font-size:1.3em;}
+        .doc-sign>.sign{}
+        .rx{font-size:16px;font-weight:bold;position:relative;}
+        .rx:before{content:"R";font-family:Arial;}
+        .rx:after{content:"x";position:absolute;left:5px;top:4px;font-family:Arial;}
+        ol *{box-sizing:border-box;}
+        ol{margin:0;padding:10px;list-style:decimal;position:relative;}
+        ol li:nth-child(3n){border-right:none;}
+        ol li{display:inline-block;width:calc(33.3% - 7px);position:relative;list-style-position:inside;padding-right:10px;height:37px;border-right:1px dashed #888;overflow:hidden;}
+        ol li .num{display:inline-block;width:12px;}
+        ol li .num:after{content:".";}
+        ol li .qty{margin-right:3px;font-family:Arial;font-size:1.2em;}
+        ol li .r{position:absolute;right:5px;top:12px;}
+        .herb-title{margin-top:8px;font-weight:normal;font-size:1.1em;}
+        .ah-qr-preno{position: absolute;top: 0px;right: 0px;}
+        .drug-yf{padding-left:20px;font-size:11px;}
+    </style>
+}
+
+
+<div class="center">
+    <div class="title">处 方 签</div>
+    <span class="type">中草药</span>
+    <div>@Model.Treat.StationName</div>
+</div>
+@{
+    var qrurl = $"{Global.ConfigSettings.QrScanUrl}?n=TreatPreNo&v={Model.Main.PrescriptionNo}&tid={Model.Treat.TreatId}&t=Herb";
+}
+<div class="ah-qr-preno" id="this_pre_no" qr-text="@qrurl"></div>
+<div class="sec-line">
+    <span>就诊日期:@Model.Treat.TreatTime.ToDateString()</span>
+    <div class="p-no">处方号:@Model.Main.PrescriptionNo</div>
+
+</div>
+<div class="sec-line">
+    <div class="row">
+        <div class="m"><b>姓名</b>@Model.Treat.CustomerName</div>
+        <div class="m"><b>性别</b>@Model.Treat.Gender?.ToGenderString()</div>
+        <div class="m"><b>年龄</b>@Model.Treat.Birthday?.ToAgeString()</div>
+        
+    </div>
+    <div class="row">
+        <div class="m"><b>科室</b>@Model.Treat.DepartmentName</div>
+        <div class="m2"><b>诊断</b> 
+            @(Model.Treat.Diagnosis1 + (Model.Treat.FstIsDiag ? "?" : ""))
+            @(Model.Treat.Diagnosis2 + (Model.Treat.SecIsDiag ? "?" : ""))
+            @(Model.Treat.Diagnosis3 + (Model.Treat.ThrIsDiag ? "?" : ""))
+        </div>
+    </div>
+</div>
+<div>
+    <b class="rx"></b>
+    <div class="clearfix"></div>
+    <div class="herb-title">
+        <b>@Model.Main.HerbTitle</b>  
+    </div>
+    <ol>
+        @{ var n = 1;
+            foreach (var item in Model.Detail)
+            {
+                <li>
+                   <span class="num">@(n++)</span> <b>@item.DrugName</b> 
+                    <div class="drug-yf"> @(item.HerbUseTypeName)                     </div>
+                    <span class="r"><i class="qty">@item.Qty</i><span>@item.UnitName</span></span> 
+                </li>
+            }
+            <li style="text-align:center;border-right:none;">                -- END --            </li>
+        }
+    </ol>
+ 
+   
+</div>
+<div class="bottom-herb">
+    <div>
+        <b>【用法用量】</b>
+        <span>@Model.Main.GivenTakeTypeName</span>
+        <span>@Model.Main.GivenRemark</span>
+        <span>@Model.Main.DoctorAdvice</span>
+    </div>
+    <div style="text-align:right;">
+        <span>共计:<i style="font-size:1.3em;font-family:Arial">@Model.Main.Qty</i> 付</span>
+    </div>
+</div>
+
+<div class="bottom">
+    <div class="sec-line">
+        <div class="doc-sign"><b>医师:</b><span class="sign">@Model.Treat.DoctorName</span></div>
+    </div>
+    <div>
+        <div>打印时间：@DateTime.Now.ToStdString()</div>
+    </div>
+</div>
+
+
+<script>
+
+    function setQrCode(cid) {
+        var $c;
+        try { $c = $('#' + cid); }
+        catch (e) {
+            $c = parent.$('#' + cid);
+            $c = parent.$(self.document.getElementById(cid));
+            $c.empty();
+        }
+        $c.qrcode({ width: 102, height: 102, text: $c.attr("qr-text") });
+    }
+    setQrCode('this_pre_no');
+</script>

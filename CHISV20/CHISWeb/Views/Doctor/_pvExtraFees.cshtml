@@ -1,0 +1,43 @@
+﻿@model IEnumerable<vwCHIS_Doctor_ExtraFee>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var fees = myRazor.GetSelectListItemsByDictKey("ExtraFeeType");
+}
+<div class="ah-table-wrap">
+    <table>
+        <tbody>
+            <tr>
+                <th>收费类型</th>
+                <th>数量</th>
+                <th>价格</th>
+                <th class="ah-th-price">小计</th>
+                <th>说明</th>
+                <th>操作</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(item.FeeName)</td>
+                    <td>@(item.Qty)</td>
+                    <td>
+                        <span class="td-dj" style="color:gray;"><s>@(item.TreatFeeOriginalPrice)</s></span>
+                        <span class="td-dj">@(item.TreatFeePrice)</span>
+                    </td>
+                    <td class="ah-td-price"><span>@(item.Amount)</span> </td>
+                    <td>@(item.FeeRemark)</td>
+                    <td>
+                        @if (item.ChargeStatus == 0)
+                        {
+                            <a title="删除" onclick="OTHERFEE.deleteExtraFeeItem(@item.ExtraFeeId,this);">删除</a>
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<div class="ah-flex ah-justify-end ah-mt-10">
+    <a href="javascript:void(0)" class="ah-btn-blue" onclick="OTHERFEE.addExtraFees(this)">添加收费</a>
+</div>

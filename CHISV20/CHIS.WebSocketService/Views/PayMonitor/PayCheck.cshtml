@@ -1,0 +1,34 @@
+﻿@model CHIS.Models.ViewModel.PayRedirectInfo
+@{
+    ViewData["Title"] = "支付选择确认";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+
+<div class="container-fluid"> 
+    <div class="row">
+        @Model.ClientIP
+    </div>
+    <div class="row">
+        支付金额:
+        <span>@((Model.payAmount / 100m).ToString("#0.00"))</span>
+    </div>
+    <div class="row">
+        使用微信支付     
+            <a class="pull-right btn btn-primary" href="@(Model.payWxH5CreateUrl)">微信支付</a>      
+    </div>
+    @if (Model.payType == "" && !string.IsNullOrEmpty(Model.payAliQrUrl))
+    {
+    <div class="row">
+        使用支付宝支付
+        <a class="pull-right btn btn-primary" href="@Model.payAliQrUrl">支付宝支付</a>
+    </div>
+    }
+</div>
+
+
+
+@section scripts{
+    <script>
+
+    </script>
+}

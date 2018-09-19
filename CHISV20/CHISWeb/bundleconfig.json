@@ -1,0 +1,140 @@
+﻿// Configure bundling and minification for the project.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    "outputFileName": "wwwroot/css/ah-all.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/lib/layui/css/layui.css",
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/lib/font-awesome/css/font-awesome.min.css",
+      "wwwroot/lib/third-party-library/my-widget/my-widget.css",
+      "wwwroot/lib/jquery-nav-touch/owl.carousel.css",
+      "wwwroot/lib/jquery.scrollbar/css/jquery.scrollbar.css",
+      "wwwroot/lib/jquery-pager/Pager.css",
+      "wwwroot/css/ui-frame.css",
+      "wwwroot/css/lrtk.css",
+      "wwwroot/css/ah-common-*",
+      "wwwroot/css/ah-*.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/ah-site.min.js",
+    "inputFiles": [
+      //"wwwroot/lib/jquery-1.12.0.min.js",
+      //"wwwroot/lib/layer/build/layer.js",
+      //"wwwroot/lib/layui/layui.js",
+      "wwwroot/lib/jquery.form.min.js",
+      "wwwroot/lib/jquery-pager/jquery.pager.js",
+      "wwwroot/lib/xdate.js",
+      "wwwroot/lib/jquery-nav-touch/owl.carousel.js",
+      "wwwroot/lib/jquery/dist/select/bootstrap.min.js",
+      "wwwroot/js/ah-head-load.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/ah-site-body1.min.js",
+    "inputFiles": [
+      "wwwroot/lib/vue.min.js",
+      "wwwroot/lib/template.js",
+      "wwwroot/lib/third-party-library/my-widget/my-widget.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "wwwroot/js/ass-validation.js",
+      "wwwroot/lib/jquery.scrollbar/js/jquery.scrollbar.js",
+      "wwwroot/lib/third-party-library/jquery.SuperSlide2.js",
+      "wwwroot/lib/jquery-pager/jquery.pager.js",
+      "wwwroot/lib/XNav/js/XNav.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/ah-site-body2.min.js",
+    "inputFiles": [
+      "wwwroot/js/data-china-area.js",
+      "wwwroot/js/common-project.js",
+      "wwwroot/js/ah-common-function.js",
+      "wwwroot/js/ah-common-main.js",
+      "wwwroot/js/ah-common-proj.js",
+      "wwwroot/js/ah-load-before-scripts.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/ah-site-body3.min.js",
+    "inputFiles": [
+      "wwwroot/js/ah-common-main.js",
+      "wwwroot/js/ah-load-before-scripts.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  }
+
+
+
+
+  //--------------------------分布页面的压缩-----------------------------------
+  ,
+  { //发药页面压缩
+    "outputFileName": "wwwroot/js/pages/ahzp-dispensing-detail.min.js",
+    "inputFiles": [
+      "wwwroot/js/pages/dispensing-main-v2.js",
+      "wwwroot/js/pages/charge-main1.js",
+      "wwwroot/js/pages/dispensing-detail.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  { //接诊页面前端代码压缩
+    "outputFileName": "wwwroot/js/pages/ahzp-patient-detail.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-ui/ui/widget.js",
+      "wwwroot/lib/jquery-ui/ui/widgets/autocomplete.js",
+      "wwwroot/lib/jquery-ui/ui/jquery-ui.min.js",
+      "wwwroot/js/pages/patient-visit-patient-detail.js",
+      "wwwroot/js/pages/select-fmultiple-drug.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  { //处方药记录保存前端代码压缩
+    "outputFileName": "wwwroot/js/pages/ahzp-rxdrug-save.min.js",
+    "inputFiles": [
+      "wwwroot/lib/uploadSingleImg/tools.js",
+      "wwwroot/lib/qrcode/jquery.qrcode.min.js",
+      "wwwroot/js/pages/rx-drug-save.js",
+      "wwwroot/js/ah-common-search.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  }
+]

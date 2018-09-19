@@ -1,0 +1,115 @@
+﻿@model DoctorInfo
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+
+    var pid = Guid.NewGuid().ToString("N");
+}
+
+<style>
+    body, html, .layui-layer-content {
+        background: #f0f0f0
+    }
+    .ah-flex-layout {
+        margin: 8px 20px;
+    }
+</style>
+<div class="ah-row-detail ah-flex">
+    <div class="ah-row-left">
+        <img class="ah-row-upic" src="@(myRazor.GetImageUrl(Global.ConfigSettings.DoctorImagePathRoot, Model.Doctor.PhotoUrlDef))" />
+
+        <div class="ah-row-uinfo ah-flex">
+            <span>@Model.Doctor.DoctorName (@Model.Doctor.Gender?.ToGenderString())</span>
+            <span>@(Model.Doctor.Birthday?.ToAgeString())</span>
+        </div>
+    </div>
+    <div class="ah-flex-auto">
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">ID:</span>
+                <span class="ah-row-value">医生Id: @Model.Doctor.DoctorId,用户Id:@Model.Customer.CustomerID</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">登录名:</span>
+                <span class="ah-row-value">@Model.Doctor.LoginName</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">昵称:</span>
+                <span class="ah-row-value">@Model.Customer.NickName</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">出生年月:</span>
+                <span class="ah-row-value">@Model.Doctor.Birthday?.ToDateString()</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">手机:</span>
+                <span class="ah-row-value">@Model.Doctor.CustomerMobile</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">邮箱:</span>
+                <span class="ah-row-value">@Model.Doctor.Email</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">身份证:</span>
+                <span class="ah-row-value">@Model.Doctor.IDcard</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">职称:</span>
+                <span class="ah-row-value">@Model.Doctor.PostTitleName</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">学历:</span>
+                <span class="ah-row-value">@myRazor.GetDictDetailNameById(Model.Doctor.EduLevel)</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">专长介绍:</span>
+                <span class="ah-row-value">@Model.Doctor.DoctorSkillRmk</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">所在科室:</span>
+                <span class="ah-row-value"><a onclick="$.moreToggle('#sa_@(pid)',this)">展开</a></span>
+            </div>
+        </div>
+        <div class="ah-flex-layout" id="sa_@(pid)" style="display:none;">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">&nbsp;</span>
+                <div class="ah-row-value">
+                    <table class="ah-table-wrap">
+                        <tr>
+                            <th>工作站</th>
+                            <th>角色</th>
+                            <th>接诊科室</th>
+                        </tr>
+                        @foreach (var station in Model.StationInfos)
+                        {
+                            <tr>
+                                <td>@station.StationName</td>
+                                <td>@station.RolesOfStation</td>
+                                <td>
+                                    @station.DepartsString
+                                    @if (station.DepartsString.IsEmpty())
+                                    {<span>无</span>}
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

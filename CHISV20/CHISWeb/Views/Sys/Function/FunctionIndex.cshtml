@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+
+@section links{
+    <style>
+        .fa-check {color: #00aa00;}
+    </style>
+  
+}
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()" title="刷新"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" title="新建菜单" onclick="btn_Add()"><i class="fa fa-plus"></i>新建菜单</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first" style="display:none;">已选中<span>1</span>项</li>
+                <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit();"><i class="fa fa-pencil-square-o"></i>修改菜单</a></li>
+                <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete();"><i class="fa fa-trash-o"></i>删除菜单</a></li>
+                <li><a id="btn_Details" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看菜单</a></li>
+                @*<li class="split"></li>
+                <li><a id="btn_modulebutton" authorize="yes" onclick="btn_modulebutton();"><i class="fa fa-gavel"></i>按钮管理</a></li>*@
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_Search" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="pager"></div>
+</div>
+
+@section scripts{
+<script>
+    $(function () {
+        gridInit();
+        $('#txt_Search').on('keydown', function (e) {
+            var e = e || window.event;
+            if (e && e.keyCode == 13) {
+                $("#btn_Search").click();
+            }
+        });
+    })
+
+    //jqgrid表格函数。
+    function gridInit() {
+        CE = new CommonEdit({
+            title: "业务功能设置",
+            url: "/Function/CHIS_SYS_Function_Edit",  //编辑记录地址
+            jqurl: "/Function/GetGridJson_Function",  //网格查询地址
+            width: "700px", height: "620px",
+            btn: ['确认', '关闭'],
+            btnclass: ['btn btn-primary', 'btn btn-warning'],
+            jqGridId: "gridList",
+            jqGridPager: "pager"
+        });
+
+        CE.InitialJqGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "FunctionKey",
+            colModel: [
+                { label: "主键", name: "FunctionID", hidden: true, key: true },
+                { label: '菜单名称', name: 'FunctionName', width: 200, align: 'left' },
+                { label: '菜单键', name: 'FunctionKey', width: 160, align: 'left' },
+                { label: '序', name: 'FunctionIndex', width: 80, align: 'left' },
+                { label: 'Nav序', name: 'NavNum', width: 80, align: 'left' },
+                { label: '连接地址', name: 'UrlAddress', width: 260, align: 'left' },
+                {
+                    label: "有效", name: "IsEnable", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-circle-thin\"></i>";
+                    }
+                },
+                {
+                    label: "菜单", name: "IsMenu", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-circle-thin\"></i>";
+                    }
+                },
+                {
+                    label: "需要授权", name: "IsRight", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-circle-thin\"></i>";
+                    }
+                },
+                {
+                    label: '图标', name: 'Icon', 
+                    formatter: function (cellvalue) {
+                        return " <i class='" + cellvalue + "' style='width:20px;'></i>"+"<span>"+ cellvalue + "</span>";
+                    }
+                },
+                { label: '操作人', name: 'OpMan', width: 80, align: 'left' },
+                {
+                    label: '操作时间', name: 'OpTime', width: 150, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }
+                },
+                { label: '备注', name: 'Remark', align: 'left' }
+            ],
+            height: $(window).height() - 184,//高度，表格高度。可为数值、百分比或'auto'
+
+            //网格双击事件
+            ondblClickRow: function (rowId) {
+                if (rowId > 0) btn_View();
+            }
+        }),
+
+        //实现行拖拽
+        $('#gridList').jqGrid('sortableRows', {
+            items: '.jqgrow:not(.unsortable)'
+        });
+
+        //查询记录
+        $("#btn_Search").click(function () {
+            var postData = {
+                keyword: $("#txt_Search").val().trim()
+            };
+            CE.$jqGridReload(postData);
+        });
+    }
+
+    //新增记录
+    function btn_Add() {
+        CE.Add(function (index,win) {
+            win.submitForm();
+        });
+    };
+
+    //修改记录
+    function btn_Edit() {
+        var keyValue = CE.$jqGrid.jqGridRowValue().FunctionID;
+        CE.Modify("recID=" + keyValue,
+            function (index,win) {
+                win.submitForm();
+            });
+    }
+
+    //删除记录
+    function btn_Delete() {
+        var keyValue = CE.$jqGrid.jqGridRowValue().FunctionID;
+        CE.Delete("recID=" + keyValue);
+    }
+
+    //查看记录
+    function btn_View() {
+        var keyValue = CE.$jqGrid.jqGridRowValue().FunctionID;
+        CE.View("recID=" + keyValue);
+    }
+
+    //按钮设置
+    function btn_modulebutton() {
+        var keyValue = $("#gridList").jqGridRowValue().FunctionID;
+        $.modalOpen({
+            id: "modulebutton",
+            title: "系统按钮",
+            url: "/FunctionMenu/Index?moduleId=" + keyValue,
+            width: "950px",
+            height: "600px",
+            btn: null,
+        });
+    }
+
+</script>
+    }

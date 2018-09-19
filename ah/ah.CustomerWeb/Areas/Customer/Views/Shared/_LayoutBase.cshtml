@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="=en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width" name="viewport">
+    <meta name="author" content="" />
+    <meta name="x5-fullscreen" content="true">
+    <meta name="full-screen" content="yes">
+    @* bootstrap css 等第三方样式应用 及lib文件夹下的css样式引用 *@
+    @*   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link href="~/lib/iCheck/skins/all.css" rel="stylesheet" />
+    <link href="~/lib/datepicker/foundation-datepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/customer/appointment/css/appointment_layer.css" />
+    <link rel="stylesheet" href="~/css/common-overide.css" />
+    <link rel="stylesheet" href="~/css/common-self.css" />
+
+    @RenderSection("links", required: false)
+    <script src="~/js/ah-config.js"></script>
+</head>
+<body>
+    @* 页面内容占位 *@
+
+    @RenderBody()
+
+
+
+    @* js部分的载入 *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/vue.min.js"></script>
+    <script src="~/lib/template.js"></script>
+    <script src="~/lib/third-part-library/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/lib/third-part-library/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="~/lib/layer/build/layer.js"></script>
+    <script src="~/lib/datepicker/foundation-datepicker.js"></script>
+    <script src="~/lib/third-part-library/template.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/iCheck/icheck.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @* 公用js *@
+    <script src="~/js/common-function.js"></script>
+    <script src="~/js/common-project.js"></script>
+
+    @*载入属于页面的JS*@
+ 
+    @RenderSection("scripts", required: false)
+    <script>
+        //载入最后的复写样式
+        $(function () {
+
+        });
+    </script>
+</body>
+
+</html>

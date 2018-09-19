@@ -1,0 +1,80 @@
+﻿@model ah.Models.vwCHIS_Code_Customer
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackIframe.cshtml";
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+
+}
+
+<div class="iframe-wrap">
+    <div class="iframe-data-wrap">
+        <div class="data-wrap-50">
+            <span class="data-title">姓名:</span>
+            <input class="data-input" type="text" asp-for="@Model.CustomerName" />
+        </div>
+        <div class="data-wrap-50">
+            <span class="data-title">联系方式:</span>
+            <input class="data-input" type="text" asp-for="@Model.CustomerMobile" />
+        </div>
+    </div>
+    <div class="iframe-data-wrap">
+        <div class="data-wrap-50">
+            <span class="data-title">性别:</span>
+            <select asp-for="@Model.Gender" class="data-select">
+                <option value="">未选择</option>
+                <option value="1">男</option>
+                <option value="0">女</option>
+            </select>
+        </div>
+        <div class="data-wrap-50">
+            <span class="data-title">邮箱:</span>
+            <input class="data-input" type="text" asp-for="@Model.Email" />
+        </div>
+    </div>
+    <div class="iframe-data-wrap">
+        <div class="data-wrap-50">
+            <span class="data-title">工作类型:</span>
+            <input class="data-input" type="text" value="未知字段" />
+        </div>
+        <div class="data-wrap-50">
+            <span class="data-title">血型:</span>
+            @{
+                var bloodType = myRazor.GetSelectListItemsByDictKey("BloodType").ToList();
+            }
+            <select asp-items="bloodType" asp-for="@Model.BloodType" class="data-select">
+                <option value="">未选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="iframe-data-wrap">
+        <div class="data-wrap-50">
+            <span class="data-title">婚姻状态:</span>
+            @{
+                var marriage = myRazor.GetSelectListItemsByDictKey("Marriage").ToList();
+            }
+            <select asp-items="marriage" asp-for="@Model.Marriage" class="data-select">
+                <option value="">未选择</option>
+            </select>
+        </div>
+        <div class="data-wrap-50">
+            <span class="data-title">孕育状态:</span>
+            <input class="data-input" type="text" value="未知字段" />
+        </div>
+    </div>
+    <div class="iframe-data-wrap">
+        <div class="data-wrap-100">
+            <span class="data-title">家庭住址:</span>
+            <input class="data-input" type="text" asp-for="@Model.Address" />
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            
+        });
+    </script>
+}

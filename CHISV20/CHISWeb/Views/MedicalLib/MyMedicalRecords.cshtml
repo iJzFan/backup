@@ -1,0 +1,47 @@
+﻿@using Ass;
+@model MyMedicalHistoryRecordsModel
+@{
+    Layout = "~/Views/Shared/_LayoutMin.cshtml";
+    ViewBag.Title = $"病历 - {Model.Customer.CustomerName}({Model.Customer.Gender?.ToGenderString()})";
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links {
+    <link href="~/css/pages/chis-my-medical-lib.css" rel="stylesheet" />
+}
+<div class="wrap-body">
+    <div class="wrap-main">
+        <div class="ah-toggle-show">显示/隐藏</div>
+        <div class="main-left">
+            <div class="ah-customerInfo">
+                <img src="@myRazor.GetCustomerDefImagePath(Model.Customer.CustomerPhoto,Model.Customer.Gender)" class="ah-upic" />
+                @Model.Customer.CustomerName
+                (@Model.Customer.Gender?.ToGenderString())
+                @Model.Customer.Birthday?.ToAgeString()
+            </div>
+            <div style="flex:1;" class="scrollbar-macosx">
+                @await Html.PartialAsync("_pvMyMedicalRecordList", Model.List1st)
+            </div>
+        </div>
+        <div class="main-right" id="Content">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/pages/medial-lib.js"></script>
+    <script>
+        //滚动条初始化
+        $(".scrollbar-macosx").scrollbar();
+        $(".ah-mr-item").on("click", function () {
+            $(".ah-item-active").each(function () {
+                $(this).removeClass("ah-item-active");
+            });
+            $(this).addClass("ah-item-active");
+            if ($(".ah-toggle-show").is(":visible")) $('.main-left').hide();
+        })
+
+        $('.ah-toggle-show').on("click", function () {
+            $(".main-left").toggle();
+        });
+    </script>
+}

@@ -1,0 +1,81 @@
+﻿@model ah.Models.ViewModel.GiftMainViewModel
+@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "我的积分";
+
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+}
+<div data-customerid="@Model.CustomerId">
+
+    <div class="ah-gift-wrap">
+        <img class="app-head-pic" src="@(myRazor.GetCustomerDefImagePath(cus.PhotoUrlDef, cus.Gender))" />
+        @if (cus.IsVIP == true)
+        {
+            <i class="ah-img-vip ah-img-vip-u" style="left: 52%;top: 86px;"></i>
+        }
+        <div class="ah-gift-div">我的积分: <span>@Model.Points</span></div>
+    </div>
+    <div class="ah-gift-main">
+        @*<a href="/Customer">
+            <span class="ah-get-gift"></span>
+            返回首页
+        </a>*@
+        <a asp-action="List" asp-controller="Gift" style="width:50%">
+            <span class="ah-gift-shopping"></span>
+            积分商城
+        </a>
+    </div>
+    <div class="layui-form ah-gift-list">
+        <div class="layui-tab layui-tab-brief ah-blue-layuitab" lay-filter="my-gift-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">积分明细</li>
+                <li>兑换记录</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:10px 0;">
+                <div class="layui-tab-item layui-show">
+                    @if (Model.PointsDetail != null)
+                    {
+                        @foreach (var item in Model.PointsDetail.Rows)
+                        {
+                            <a class="ah-flex-auto ah-flex ah-giftMain-list" >
+                                <div class="ah-flex ah-flex-auto ah-giftMain-title">
+                                    <div class="title">@item.Description</div>
+                                    <div class="time">@item.CreatedTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                                </div>
+                                <div class="num">
+                                    @if (@item.Points > 0)
+                                    {
+                                        <div style="color:red">+@item.Points</div>
+                                    }
+                                    else
+                                    {
+                                        <div style="color:green">@item.Points</div>
+                                    }
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    else
+                    {
+                        @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                    }
+                </div>
+                <div class="layui-tab-item" id="OrderList">
+                    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="/Customer" class="ah-retnrn" style="display:none;">
+    返回首页
+</a>
+@section scripts{
+    <script>
+        layui.use('element', function () {
+            GIFT.GetGiftList();//获取数据
+        });
+    </script>
+}

@@ -1,0 +1,217 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "数据字典";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+@section links{
+    <link rel="stylesheet" href="~/lib/XSidebar/css/XSidebar.css" />
+    <style>
+        .content-wrap {
+            position: absolute;
+            bottom: 0;
+            top: 72px;
+            left: 0;
+            right: 0;
+            display: flex;
+        }
+
+        .content-left-wrap {
+            width: 250px;
+            margin-right: 10px;
+            flex: none;
+            height: 100%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-right-wrap {
+            flex: 1;
+            height: 100%;
+        }
+        .topPanel .toolbar {
+            padding-right: 40px;
+        }
+    </style>
+}
+<div class="content-wrap">
+    <div class="content-left-wrap">
+        <div class="XB-action-wrap">
+            <i class="glyphicon glyphicon-plus" onclick="addDictMain()" title="新增"></i>
+            <i class="glyphicon glyphicon-minus" onclick="deleteDictMain()" title="删除"></i>
+            <i class="glyphicon glyphicon-pencil" onclick="modifyDictMain()" title="修改"></i>
+        </div>
+        <div id="dictItems" class="XS-ul-items"></div>
+    </div>
+    <div class="content-right-wrap">
+        <div class="topPanel row">
+            <div class="toolbar">
+                <div class="btn-group">
+                    <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_Add()"><i class="fa fa-plus"></i>新建</a>
+                </div>
+                <div class="operate">
+                    <ul class="nav nav-pills">
+                        <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                        <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete()"><i class="fa fa-trash-o"></i>删除</a></li>
+                        <li class="split"></li>
+                        <li><a id="btn_View" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看</a></li>
+
+                    </ul>
+                    <a href="javascript:;" class="close"></a>
+                </div>
+            </div>
+            <div class="search">
+                <div style="float:left;line-height:50px;padding-top:10px;">
+                    <div class="input-group">
+                        <input id="txt_Search" type="text" class="form-control" placeholder="字典码/字典名" style="width: 200px;margin-top:1px;">
+                        <span class="input-group-btn">
+                            <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/lib/XSidebar/js/XSidebar.js"></script>
+    <script>
+        var CE;
+        var XS;
+        //父类默认ID
+        var DictID = 1;
+        $(function () {
+            //网格初始化
+            gridInit();
+            $.loadJSON('/Code/CHIS_Code_dictMainItems', {}, function (jn) {
+                XS = $("#dictItems").XSidebar({
+                    url:"/Code/CHIS_Code_dictMainItems",//用于更新数据
+                    onLoaded: gridInit,
+                    items: jn,
+                    dataParameter:"dictMains",//用于数据的取值字段
+                    defaultsShow: { key: "dictID", value: DictID},
+                    nodeTitle: "dictName",
+                    nodeRemark: "dictKey",
+                    onClick: function (e) {
+                        DictID = e.dictID;
+                        CE.reload({
+                            searchText: "",
+                            dictParentId: e.dictID
+                        });
+                    },
+                });
+            });
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+        });
+        //新增主表数据字典
+        function addDictMain() { 
+            $.modalOpen({
+                title: "新增字典大类",
+                url: "/code/CHIS_Code_DictMain_Edit?op=NEWF",
+                width: "800px",
+                height: "80%",
+                yesThenAutoClose: false,
+                yes: function (index, layero, win) {
+                    win.submitForm();
+                }
+            });
+        }
+        //删除主表数据字典
+        function deleteDictMain() {
+            //选中的对象
+            var s = XS.local.selectRow;
+            //询问框
+            $.confirm('删除提示','确定删除"' + s.dictName + '"?', function () {
+                $.loadJSON('/code/CHIS_Code_DictMain_Edit', { op: "DELETE", recid: s.dictID }, function (jn) {
+                    layer.msg(jn.message)
+                    window.location.reload();
+                });
+            });
+        }
+        //修改主表数据字典
+        function modifyDictMain() {
+            $.modalOpen({
+                title: "新增字典大类",
+                url: "/code/CHIS_Code_DictMain_Edit?op=MODIFYF&&recid=" + XS.local.selectRow.dictID,
+                width: "800px",
+                height: "80%",
+                yesThenAutoClose: false,
+                yes: function (index, layero, win) {
+                    win.submitForm();
+                }
+            });
+        }
+        //搜索
+        function Search() {
+            CE.reload({
+                searchText: $('#txt_Search').val(),
+                dictID: DictID,
+            });
+        }
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "数据字典",
+                url: "/Code/CHIS_Code_DictDetail_Edit",  //编辑记录地址
+                jqurl: "/Code/CHIS_Code_dictDetails",   //网格查询地址
+                width: "80%", height: "95%",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: 'Id', name: 'detailID', align: 'center' },
+                    { label: '字典名', name: 'itemName' },
+                    { label: '字典码', name: 'itemKey' },
+                    { label: '值', name: 'itemValue' },
+                    { label: '排序', name: 'showOrder' },
+                    { label: '拼音', name: 'pyCode' },
+                    { label: '全拼', name: 'qPcode' },
+                    { label: '默认', name: 'isDefault', formatter: function (cellvalue) { return cellvalue ? "<i class='glyphicon glyphicon-ok' ></i>" : "<i class='glyphicon glyphicon-remove' ></i>"; } },
+                    { label: '组标签', name: 'groupTag' },
+                    { label: '可用', name: 'isEnable', formatter: function (cellvalue) { return cellvalue ? "<i class='glyphicon glyphicon-ok' ></i>" : "<i class='glyphicon glyphicon-remove' ></i>"; } },
+                    { label: '说明', name: 'remark' },
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().detailID;
+            CE.View("recID=" + keyValue + "&parentId=" + DictID);
+        }
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            }, "parentId=" + DictID);
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().detailID;
+            CE.Modify("recID=" + keyValue, function (index, win) {
+                 win.submitForm();
+            },"parentId=" + DictID);
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().detailID;
+            CE.Delete("recID=" + keyValue);
+        }
+    </script>
+}

@@ -1,0 +1,85 @@
+﻿@{   
+ 
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+}
+
+<!DOCTYPE html>
+<html lang="=en">
+<head>
+    <meta charset="utf-8" />
+    <title>天使健康-@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width,initial=scale=1.0" />
+    <meta name="author" content="" />
+    @* bootstrap css 等第三方样式应用 及lib文件夹下的css样式引用 *@
+    @*  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/third-part-library/my-widget/my-widget.css" />
+    <link rel="stylesheet" href="~/lib/XPage/Xpage.css" />
+   
+
+    @* 项目公共样式引用 *@
+    <link rel="stylesheet" href="~/css/ui-frame.css" />
+    <link rel="stylesheet" href="~/css/common-overide.css" />
+    <link rel="stylesheet" href="~/css/common-self.css" />
+    <link rel="stylesheet" href="~/css/lrtk.css" />
+
+    @* 自写样式饮用 *@
+    <link rel="stylesheet" href="~/@(ViewContext.RouteData.Values["area"].ToString())/css/pages/@(ViewContext.RouteData.Values["controller"].ToString())-@(ViewContext.RouteData.Values["Action"].ToString()).css" />
+    <link href="~/HealthMgr/css/publicPanel.css" rel="stylesheet" />
+    @RenderSection("links", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+</head>
+<body>
+    @* 页面内容占位 *@
+
+    @RenderBody()
+
+
+
+
+    @* js部分的载入 *@
+    <environment names="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/vue.min.js"></script>
+        <script src="~/lib/template.js"></script>
+        <script src="~/lib/select2/dist/js/select2.min.js"></script>
+        <script src="~/lib/select2/dist/js/select2.full.min.js"></script>
+        <script src="~/lib/third-part-library/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/lib/third-part-library/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+        <script src="~/lib/layer/build/layer.js"></script>
+        <script src="~/lib/XPage/Xpage.js"></script>
+        <script src="~/lib/XDate/xdate.js"></script>
+        <script src="~/lib/third-part-library/template.js"></script>
+        <script src="~/lib/third-part-library/my-widget/my-widget.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" src="~/js/ahzp-base.min.js"></script>
+    </environment>
+   
+
+    @RenderSection("scripts3Part", required: false)
+    @* 公用js *@
+    <script src="~/js/common-function.js"></script>
+    <script src="~/js/common-project.js"></script>
+
+
+    @*载入属于页面的JS*@
+ 
+    <script src="~/@(ViewContext.RouteData.Values["area"].ToString())/js/pages/@(ViewContext.RouteData.Values["controller"].ToString())-@(ViewContext.RouteData.Values["Action"].ToString()).js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        //载入最后的复写样式
+        $(function () {
+            $("head").append('<link rel="stylesheet" href="/css/common-overide-last.css" />');
+        });
+    </script>
+</body>
+
+</html>

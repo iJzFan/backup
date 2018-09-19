@@ -1,0 +1,48 @@
+﻿@using Ass;
+@model CHIS.Models.vwCHIS_Sys_Login
+@{
+    ViewBag.Title = "修改邮箱成功";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+    <style>
+        .changeMobileOk {
+            align-items: center;
+            justify-content: center;
+            margin-top: 69px;
+            font-size: 4ex;
+            color: #4680ea;
+        }
+
+        .changeMobileOk img {
+            width: 100px;
+            height: 100px;
+            padding: 3px;
+            background: #4780eb;
+            border-radius: 50%;
+            margin-right: 41px;
+        }
+
+        .changeMobileOk button {
+            border: none;
+            background: none;
+            font-size: 1.2ex;
+            margin-left: 10px;
+            border-bottom: 1px solid #4680ea;
+        }
+    </style>
+}
+<div class="container layui-form">
+    <ul class="ah-step-wrap ah-flex">
+        <li class="ah-strp-active"><a>1.验证身份</a></li>
+        <li class="ah-strp-active"><a>2.绑定新邮箱</a></li>
+        <li class="ah-strp-active"><a>3.完成修改</a></li>
+    </ul>
+    <form class="form-one" asp-controller="MyPanel" asp-action="ChangeLoginInfo" method="post"> 
+        <div class="ah-flex ah-col-md1 changeMobileOk">
+            <img src="~/images/layer-icon-1.png" />
+            恭喜，邮箱已成功修改
+            <button class="abolish-button">返回</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "我的药房-入库";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.FuncId = 1118;
+}
+
+@section links{
+    <link href="~/css/pages/chis-pharmacy.css" rel="stylesheet" />
+    <style>
+
+    </style>
+}
+
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="药品ID/药品名称、拼音" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap ah-flex-auto">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <a asp-action="MyPharmacy_StockMonitor" >查看库存</a>
+            <a class="ah-btn-blue" asp-controller="Pharmacy" asp-action="DurgIncome" asp-area="">我要入库</a> 
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="TimeRange"><strong>接诊时间段：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span class="ah-def-active">当日</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                        </section>
+
+                        <section class="section-inline ah-search-input">
+                            <div class="section-more-wrap">
+                                <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                至
+                                <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                <button class="ah-btn-blue" type="button">确定</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="sl-ext">
+                    <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ah-table-wrap" ah-id="INCOME-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+@section scripts{
+    <script src="~/js/ah-common-search.js"></script>
+    <script src="~/lib/xdate.js"></script>
+    <script src="~/js/pages/pharmacy-my-drug-store.js"></script>
+    <script>
+        SEARCH.searchMain = "INCOME-TABLE";//搜索结果存放区域
+        SEARCH.searchUrl = "/Pharmacy/LoadIncomeLists"; //设置搜索的请求地址
+        SEARCH.search(1,'@(Context.Request.QueryString)');
+        //鼠标移入移出
+        function showBigImg(_this) {
+            $(_this).next().show();
+        }
+        function hideBigImg(_this) {
+            $(_this).next().hide();
+        }
+
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="public-table-layout">
+        <form autocomplete="off" id="search">
+            <div class="public-tool-wrap">
+                <span>入库时间：</span>
+                <div class="tool-wrap">
+                    <div class="input-group-sm public-layout-two-date">
+                        <input type="text" name="dt0" class="input-datetime form-control" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd"  value="@(Context.Request.Query["dt0"])"/>
+                        <span class="date-line">-</span>
+                        <input type="text" name="dt1" class="input-datetime form-control" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd"  value="@(Context.Request.Query["dt1"])" />
+                    </div>
+                </div>
+                <div class="tool-wrap">
+                    <div class="input-group  input-group-sm">
+                        <input class="ah-search-text form-control" name="searchText" ah-id="searchText" type="text" placeholder="药品ID/药品名称、拼音" value="@(Context.Request.Query["searchText"])" />
+                        <span class="input-group-btn">
+                            <button type="button" onclick="INCOME.GetIncomeLists(1)" name="submit" class="btn btn-primary"><i class="fa fa-search"></i> </button>
+                        </span>
+                    </div>
+                </div>
+                <a class="stock-btn" href="/Pharmacy/DurgIncome?pagefn=1120"><i class="glyphicon glyphicon-plus"></i>药品入库</a>
+
+                <div class="stock-btn-wrap">
+                    <a class="public-export-btn" onclick="INCOME.ExportIncomeList()"><i class="glyphicon glyphicon-export"></i>导出</a>
+                </div>
+            </div>
+        </form>
+        <div class="public-table-wrap" ah-id="INCOME-TABLE"></div>
+    </div>
+    <script src="~/lib/xdate.js"></script>
+    <script src="~/js/pages/pharmacy-my-drug-store.js"></script>
+
+    @section scripts{
+        <script>
+            $(function () {
+                INCOME.GetIncomeLists();
+            })
+            //鼠标移入移出
+            function showBigImg(_this) {
+                $(_this).next().show();
+            }
+            function hideBigImg(_this) {
+                $(_this).next().hide();
+            }
+        </script>
+    }*@
+
+

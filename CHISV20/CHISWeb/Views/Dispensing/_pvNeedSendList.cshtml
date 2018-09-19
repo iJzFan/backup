@@ -1,0 +1,57 @@
+﻿@model Ass.Mvc.PageListInfo<DispensingItemViewModel>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+ 
+}
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th>接诊号</th>
+                <th style="width:150px">患者姓名</th>
+                <th style="width:50px">性别</th>
+                <th>年龄</th>
+                <th>患者电话</th>
+                <th>接诊完毕</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.TreatId</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.Gender?.ToGenderString()</td>
+                    <td>@item.Birthday?.ToAgeString()</td>
+                    <td>@item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                    <td>@item.TreatTime</td>
+                    <td>
+                        @if (item.DispensingStatus == 0)
+    {
+                    <a href="/Dispensing/DispensingDetail?pagefn=105&&treatId=@(item.TreatId)">发药</a>
+}
+else{
+                    <span class="ah-linkbg"><a onclick="loadDetail(event,@(item.TreatId));">详情</a></span>
+}
+                    
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@ViewBag.DebugText
+  
+<script>
+    $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    function loadDetail(e, id) {
+        SEARCH.loadRowDetail(e, '/Dispensing/LoadDispensingDetail?treatId=' + id);
+    }
+</script>

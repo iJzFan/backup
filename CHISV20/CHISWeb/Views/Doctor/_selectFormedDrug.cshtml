@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    var u = this.GetUserSelf();
+    var isDrugStore = u.StationTypeId == CHIS.DictValues.StationType.k_StationType_DrugStore;
+}
+
+
+@section links{
+    <link href="~/css/pages/select-formed-drug.css" rel="stylesheet" />
+}
+
+<!-- 添加药品 搜索药品弹出层 -->
+<div class="search-drug-background" id="search-bg" style="padding:15px;">
+    <form id="searchForm" asp-action="" onkeydown="if(event.keyCode==13)return false;" method="post" role="form">
+        <div style="width:100%;">
+            <div class="input-group marb10" style="width:100%;">
+                <div class="select_source">
+                    来源：
+                    <ul ah-id="select-items-ul">
+                        <li ah-value="0-0" class="select-active">我的药房</li>
+                        <li ah-value="1-1">天使</li>      
+                        @if (!isDrugStore)
+                        {
+                        <li ah-value="1-3">健客</li>
+                        }
+                        @*<li ah-value="2-4">国药</li>*@
+                    </ul>
+                </div>
+                <input type="text" id="search_drupinfos" class="form-control input-lg" placeholder="输入药品名 拼音汉字简拼均可 最少3个字符(不足用空格代替)">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="marb10">
+                <div class="table-responsive" ah-id="selectDrugTable">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>药品名</th>
+                                <th>包装单位</th>
+                                <th>封装单位</th>
+                                <th>剂量单位</th>
+                                <th>规格</th>
+                                <th>单价</th>
+                                <th width="60px">供应商</th>
+                                <th>库存</th>
+                            </tr>
+                        </thead>
+                        <tbody id="drup_list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="input-group" style="display:none">
+        <input id="choosed_medicine" type="text" class="form-control input-lg">
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/pages/select-formed-drug.js"></script>
+    <script>
+        var pagedata = {
+            SelectForms:'@(ViewBag.FORMEDSELECT)',
+            ver:1
+        }
+    </script>
+}

@@ -1,0 +1,21 @@
+﻿/*通用插件*/
+
+
+/*选择三级地址*/
+.select-area{cursor:pointer;}
+.area-select-ul{list-style:none;margin:0;padding:0;}
+.area-select-ul>li{padding:10px;margin:0;}
+.area-select-ul>li select{width:100%;padding:8px;}
+.layui-layer-title{text-align:left;}
+.areaselect-bg{width:100%;height:100%;text-align:left;padding:10px;}
+.select-area label.error{margin-top:0;}
+
+
+/*EditLabel*/
+/*编辑区域*/
+    .edit-label{padding-left: 10px;padding-right:10px;border:1px solid transparent;display:inline-block;position:relative;}
+    .edit-label:hover{border-bottom:1px solid #ccc; background:#eee;}
+    .edit-label-now{padding-left:1px!important;padding-right:1px!important;position:relative;}
+    .edit-label-now input[type=text]{width:100%;padding:1px 6px!important;height:calc(100% - 8px);}
+    .edit-label-now textarea{width:100%;padding:3px 9px!important;}
+ 

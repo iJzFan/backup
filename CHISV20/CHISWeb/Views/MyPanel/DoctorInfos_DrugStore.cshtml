@@ -1,0 +1,125 @@
+﻿@using Ass;
+@model CHIS.Models.vwCHIS_Code_Doctor
+@{
+    ViewBag.Title = "完善医生信息";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+    var ulogin = umgr.GetMyLoginData();
+    var bDoctorVed = Model.DoctorIsAuthenticated == true;
+
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    @*<link href="~/css/pages/my-panel-doctor-infos.css" type="text/css" rel="stylesheet" />*@
+    <style>
+        .cert-pic {
+            width: 49%;
+            height: 140px;
+            position: relative;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-right: 1%;
+        }
+
+        .ah-formula {
+            width: 113px;
+            padding: 0
+        }
+
+        .ah-formula-span {
+            padding-top: 22px;
+            font-size: 20px;
+            color: #666;
+            margin: 0 10px
+        }
+
+        @@media (max-width:800px) {
+            .ah-col-md3 {
+                width: 33.33333333%;
+                padding-right: 10px
+            }
+
+            #EditDrugImg, #drugImg {
+                width: 174px;
+                text-align: center;
+                margin-left: 0
+            }
+
+            div[ah-id=pic] {
+                justify-content: initial
+            }
+        }
+    </style>
+}
+
+
+<div class="ah-max-width">
+    <form asp-action="SaveDoctorInfo">
+        <div class="container layui-form">
+            <!--该部分是导航部分-->
+            <ul class="ah-step-wrap ah-flex">
+                <li class="ah-strp-active"> <a>基本信息</a></li>
+                @*<li><a href="/MyPanel/DoctorOccupationInfos">职业信息</a></li>*@
+            </ul>
+            <div class="ah-flex-layout drug-msg-currency ah-doctor-baseInfo">
+                <div>
+                    @Html.HiddenFor(m => m.CustomerId)
+                    @Html.HiddenFor(m => m.DoctorId)
+                    <div class="ah-flex-data ah-align-self ah-drug-input-wrap" style="border:none;">
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label">验证</div>
+                            <div class="ah-data-div">
+                                @if (Model.CustomerIsAuthenticated == true)
+            {
+                    <span>@Model.CustomerAuthenticatedTime?.ToDateString()</span><span class="authed">已验证</span>
+}
+                            </div>
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label ah-required">分店</div>
+                            @if (bDoctorVed)
+        {
+                    <div class="ah-data-div">@Model.DoctorName</div>
+}
+else
+{
+                    <input type="text" class="ah-data-input" asp-for="DoctorName" />
+                    <span asp-validation-for="DoctorName"></span>
+}
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label">当前登录店员</div>
+                            <div class="ah-data-div">@u.LoginExtName</div>
+                        </div>
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label">当前登录店员手机</div>
+                            <div class="ah-data-div">@u.LoginExtMobile</div>
+                        </div>
+                        @if (this.DEBUG())
+                        {
+                        <div class="ah-col-md2 ah-flex-data">
+                            <div class="ah-data-label">当前登录店员可操作性权限</div>
+                            <div class="ah-data-div">@u.LoginExtFuncKeys</div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="data-submit-wrap" style="text-align:center">
+            <button type="submit" class="ah-btn-blue">确定</button>
+        </div>*@
+    </form>
+</div>
+@section scripts{
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/pages/my-panel-doctor-infos.js"></script>
+    <script>
+         var pagedata = {
+             docRoot: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+             certRoot:'@(Global.ConfigSettings.CertificateImagePathRoot)'
+        };
+    </script>
+}

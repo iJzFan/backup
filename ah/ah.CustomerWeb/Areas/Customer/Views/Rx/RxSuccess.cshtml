@@ -1,0 +1,155 @@
+﻿@model ah.Models.ViewModel.ResvationReturn
+@inject ah.Code.Managers.IMyRazor myRazor
+@{
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutBase.cshtml";
+}
+<style>
+    .customer-wrap {
+        height: 100%;
+    }
+
+    .bg {
+        width: 100%;
+    }
+
+        .bg .ah-row {
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+            .bg .ah-row a {
+                color: #666 !important;
+                text-decoration: underline;
+            }
+
+    .d-title {
+        color: #d8b00f;
+    }
+
+        .d-title:before {
+            content: "(";
+            margin-right: 3px;
+            margin-left: 3px;
+        }
+
+        .d-title::after {
+            content: ")";
+            margin-left: 3px;
+        }
+
+    .d-img {
+        width: 48px;
+        border-radius: 50px;
+    }
+
+    .u-img {
+        width: 48px;
+        border-radius: 50px;
+    }
+
+    .mk-station {
+    }
+
+    .mk-depart {
+    }
+
+    .seq {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: darkorange;
+        text-align: center;
+        margin-top: 6px;
+    }
+
+    .u-card, .d-card {
+        position: relative;
+        flex: 0 1 auto;
+        display: flex;
+    }
+
+    .success-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+    }
+
+        .success-wrap span {
+            font-size: 2.2em;
+            color: #34b388;
+        }
+
+    .appintment-info {
+        margin-bottom: 20px;
+        color: #666;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 25px;
+        border: 1px solid #34b388;
+        padding: 20px 5px 15px;
+        border-radius: 3px;
+        background: #fbf6f6;
+        margin-left: 10px;
+        margin-right:10px;
+    }
+
+    .people {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .appintment-info-div {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #backnum {
+        color: #ff6a00;
+        font-size: .8em;
+    }
+
+        #backnum:before {
+            content: "(";
+            margin: 0 2px;
+        }
+
+        #backnum:after {
+            content: ")";
+            margin: 0 2px;
+        }
+</style>
+
+
+<div class="bg">
+    <div class="success-wrap">
+        <img src="~/customer/appointment/image/success.png" width="25%" />
+        @*<div class="seq">第 @Model.re 号</div>*@
+        <span>预约成功</span>
+    </div>
+    <div class="ah-row">
+        预约号：@Model.registerId
+    </div>
+    <div class="appintment-info">
+        <div class="people">
+            <img src="@myRazor.GetCustomerDefImagePath(Model.customer.CustomerPhoto,Model.customer.Gender)" class="u-img" />
+            <span>@Model.customer.CustomerName</span>
+        </div>
+        <div class="appintment-info-div">
+            <span class="mk-station">@(Model.stationName)</span>
+            <span class="mk-depart"> @(Model.departmentName)</span>
+            <span>@Model.reservationDate</span>
+            <span>@Model.timeInfo</span>
+        </div>
+        <div class="people">
+            <img src="@(Global.ConfigSettings.DoctorImagePathRoot+ Model.employee.DoctorPhotoUrl)" class="d-img" />
+            <span>@Model.employee.DoctorName</span>
+        </div>
+    </div>
+
+</div>
+
+
+

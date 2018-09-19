@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "我的药房-库存";
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+@section links{
+    <link href="~/css/pages/chis-pharmacy.css" rel="stylesheet" />
+    <style>
+    </style>
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+<div class="public-table-layout">
+    @*这个FORM用于清除缓存的搜索框数据*@
+    <form autocomplete="off">
+        <div class="public-tool-wrap">
+            <div class="tool-wrap">
+                <div class="tool-radio-wrap">
+                    <label><input type="radio" value="0" name="stockNumStatus" checked="checked" />&nbsp;全部</label>
+                    <label><input type="radio" value="1" name="stockNumStatus" />&nbsp;库存不足</label>
+                    <label><input type="radio" value="2" name="stockNumStatus" />&nbsp;库存正常</label>
+                </div>
+            </div> 
+            <div class="tool-wrap">
+                @{
+                    var items = myRazor.GetSelectListItemsByDictKey("DrugStockType");
+                    items = items.Where(m => m.Text != "健客药");
+                }
+                <div style="min-width:120px;">
+                    <select asp-items="items" id="drugStockTypeId" class="form-control">
+                        <option value="">请选择药品库</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="tool-wrap">
+                <div class="input-group  input-group-sm">
+                    <input class="ah-search-text form-control" ah-id="searchText" type="text" placeholder="请输入药品ID/药品名称" value="@(Context.Request.Query["searchText"])" />
+                    <span class="input-group-btn">
+                        <button type="button" onclick="STOCK.GetStockMontorLists(1)" name="submit" class="btn btn-primary"><i class="fa fa-search"></i> </button>
+                    </span>
+                </div>
+            </div>
+            <div class="stock-btn-wrap">
+                <a class="public-export-btn" onclick="STOCK.ExportStockMonitorList()"><i class="glyphicon glyphicon-export"></i>导出</a>
+            </div>
+            
+        </div>
+    </form>
+    <div class="public-table-wrap" ah-id="INCOME-TABLE"></div>
+</div>  
+
+@section scripts{
+    <script src="~/js/pages/pharmacy-my-drug-store.js"></script>
+    <script>
+            $(function () {
+                STOCK.GetStockMontorLists();
+                $('input[type="radio"]').iCheck({
+                    checkboxClass: 'icheckbox_flat-blue',
+                    radioClass: 'iradio_flat-blue'
+                });
+            })
+            //鼠标移入移出
+            function showBigImg(_this) {
+                $(_this).next().show();
+            }
+            function hideBigImg(_this) {
+                $(_this).next().hide();
+            }
+    </script>
+}

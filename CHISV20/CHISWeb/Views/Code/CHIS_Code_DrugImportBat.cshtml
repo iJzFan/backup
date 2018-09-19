@@ -1,0 +1,27 @@
+﻿@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "批量导入药品";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+@section links{
+    <style>
+    
+    </style>
+}
+<div>
+    <div>
+        <h5>剑客药品数据导入</h5>
+        <form asp-controller="code" asp-action="JKImportDrugs" method="post" enctype="multipart/form-data">
+            <input type="file" name="importExcel" />
+            <button type="submit">导入健客</button>
+        </form>
+    </div>
+
+
+</div>
+@section scripts{
+    <script>
+       
+
+    </script>
+}

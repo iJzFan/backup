@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CHIS.Models.ViewModel.DoctorStationInfo>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService _accSvr
+@{
+    var u = this.GetUserSelf();
+    var bmod = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsMod).ToBool();
+    var bdel = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsDel).ToBool(); 
+} 
+<style>
+    .ah-flex-layout {
+        margin-bottom: 0;
+    }
+
+    .ah-treat-station {
+        color: #3645f7;
+    }
+
+    .ah-role-dep-row > div:hover {
+        background-color: #eee;
+    }
+</style>
+<div class="ah-flex-layout ah-role-dep-th">
+    <div class="ah-col-md3">
+        门诊
+    </div>
+    <div class="ah-col-md3">
+        角色
+    </div>
+    <div class="ah-col-md3">
+        科室
+    </div>
+</div>
+<div class="ah-role-dep-wrap" style="margin-bottom:100px;">
+    @foreach (var item in Model)
+    {
+        <div class="ah-flex-layout" ah-stationId="@item.StationId">
+            <div class="ah-col-md3 ah-flex ah-role-dep-row ">
+                <div>
+                    @if (item.Station.IsCanTreat)
+                    {
+                        <span title="接诊站" class="ah-treat-station"><i class="fa fa-medkit"></i> @item.StationName </span>
+                    }
+                    else
+                    {
+                        <span>@item.StationName </span>
+                    }
+                    <a class="ah-flex ah-com-close" ah-type="station"><i class="fa fa-remove"></i></a>
+                </div>
+            </div>
+            <div class="ah-col-md3 ah-flex ah-role-dep-row ">
+                @foreach (var roles in item.Roles)
+                {
+                    <div>
+                        @roles.RoleName
+                        <a class="ah-flex ah-com-close" ah-type="role" ah-id="@roles.RoleId"><i class="fa fa-remove"></i></a>
+                    </div>
+                }
+            </div>
+            <div class="ah-col-md3 ah-flex ah-role-dep-row ">
+                @foreach (var dep in item.Departs)
+                {
+                    <div>
+                        @if (dep.IsNotTreatDept != false)
+                        {
+                            <span title="管理科室">@dep.DepartmentName</span>
+                        }
+                        else
+                        {
+                            <span title="接诊科室">@dep.DepartmentName</span>
+
+                        }
+                        <a class="ah-flex  ah-com-close" ah-type="departs" ah-id="@dep.DepartId"><i class="fa fa-remove"></i></a>
+                    </div>
+                }
+                @if (item.Departs.Count() <= 0)
+                {
+                    <div>-</div>
+                }
+            </div>
+        </div>
+    }
+</div>
+<script>
+
+</script>

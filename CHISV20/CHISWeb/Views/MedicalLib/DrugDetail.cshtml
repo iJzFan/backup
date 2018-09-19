@@ -1,0 +1,109 @@
+﻿@using Ass;
+@model vwCHIS_Code_Drug_Main
+@{
+    Layout = "~/Views/Shared/_LayoutMin.cshtml"; 
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links {
+    <style>
+        html{
+            height:100%;
+        }
+        body{
+            height:100%;
+        }
+        .bg {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .left {
+            position: relative;
+            flex: none;
+        }
+        .right {
+            padding: 10px;
+            word-wrap: break-word;
+            overflow: auto;
+            flex: 1 1 auto;
+        }
+        .drug-detail-name {
+            text-align: center;
+            font-size: 16px;
+        }
+        .drug-detail-line {
+            background: url('/images/long_image_shadow_2.png') repeat-x 4px top;
+            height: 12px;
+            position: absolute;
+            bottom: -2px;
+            z-index: 10;
+            width: 100%;
+        }
+    </style>
+}
+<div class="bg">
+    <div class="left">
+        <img src="@(Model.DrugPicUrl.ahDtUtil().GetDrugImg(Model.MedialMainKindCode,false))" style="width:100%;height: 280px;" />
+        <div class="drug-detail-line"></div>
+    </div>
+    <div class="right">
+        <div class="drug-detail-name">@Model.DrugName</div>
+        @if (Model.Alias != null)
+        {
+            <div><b>别名：</b><b>@Model.Alias</b></div>
+        }
+        @if (Model.Trademark != null)
+        {
+            <div><b>商标：</b><b>@Model.Trademark</b></div>
+        }
+        @if (Model.DrugModel != null)
+        {
+            <div><b>型号：</b><i>@Model.DrugModel</i></div>
+        }
+        @if (Model.ManufacturerOrigin != null || Model.OriginPlace != null)
+        {
+            <div><b>厂商/产地：</b><i>@Model.ManufacturerOrigin @Model.OriginPlace</i></div>
+        }
+        @if (Model.ApprovalCode != null)
+        {
+            <div><b>批准文号：</b><i>@Model.ApprovalCode</i></div>
+        }
+        <div><b>药品号：</b><i>@Model.DrugId - @Model.DrugCode - @Model.ThreePartDrugId</i></div>
+        <div><b>搜索码：</b><small>@Model.CodeDock</small></div>
+        @if (Model.UseRemark != null)
+        {
+            <div><b>【用法用量】</b><small>@Model.UseRemark</small></div>
+        }
+        @if (Model.MainIngredients != null)
+        {
+            <div><b>【成份】</b><small>@Model.MainIngredients</small></div>
+        }
+        @if (Model.Taboo != null)
+        {
+            <div><b>【禁忌】</b><small>@Model.Taboo</small></div>
+        }
+        @if (Model.UntowardEffect != null)
+        {
+            <div><b>【不良反应】</b><small>@Model.UntowardEffect</small></div>
+        }
+        @if (Model.Notice != null)
+        {
+            <div><b>【注意事项】</b><small>@Model.Notice</small></div>
+        }
+        @if (Model.Indicate != null)
+        {
+            <div><b>【适应症】</b><small>@Model.Indicate</small></div>
+        }
+        
+        
+    </div>
+</div>
+
+@section scripts{
+ 
+    <script>
+         
+    </script>
+}
+ 

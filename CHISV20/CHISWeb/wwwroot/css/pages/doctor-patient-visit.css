@@ -1,0 +1,32 @@
+﻿#patientWating.active > a,#patientTreating.active > a ,#patientTreated.active > a{border-top-width:2px;border-top-style:solid;}
+.minheight{min-height: unset;flex: 1;border: 1px solid #ddd;border-top: 0;}
+#patientWating.active>a{border-top-color:#017cc2;}
+#patientTreating.active>a{border-top-color: #ff6a00;}
+#patient_treating input.ah-search-text:focus{border-color:#ff6a00;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 106, 0, 0.61);}
+#patient_treating .btn-primary{background-color:#ff6a00;border-color:#ff6a00;}
+#patient_treating .pagination .active>a{background-color:#ff6a00;border-color:#ff6a00;}
+#patientTreated.active>a{border-top-color:#26a69a;}
+#patient_treated input.ah-search-text:focus{border-color:#26a69a;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(38, 166, 154, 0.60);}
+#patient_treated .btn-primary{background-color:#26a69a;border-color:#26a69a;}
+#patient_treated .pagination .active>a{background-color:#26a69a;border-color:#26a69a;}
+.item-dep{}
+#clinic1{background-color:#017cc2;}
+#clinic2{background-color:#ff6a00;}
+#clinic3{background-color:#26a69a;}
+#clinic4{background-color:#017cc2;}
+span[ah-val="0"]{display:none!important;}
+.ah-list-yestoday-mark{background: #005c6e none repeat scroll 0 0;border-radius: 5px;color: #fff;left: 23px;padding: 0 5px;position: absolute;top: 7px;}
+.bd-color{border-top:0!important;border-color:#dcdcdc!important;}
+.ah-qk-apm {position: absolute;right: 12px; top: 8px;z-index: 99;}
+.ah-top-right-btns{position:absolute;right:5px;top:5px;}
+.ah-top-right-btns a{color:antiquewhite;cursor:pointer;}
+.ah-top-right-btns a:hover{color:azure;}
+.ah-lbmk{ }
+.ah-lbmk>i{font-style:normal;background:#666;color:white;padding:1px 3px;font-size:0.9em;margin-right:3px;display:none;}
+.ah-fing-group{}
+.ah-fing-group input[type=text]{}
+.ah-fing-group span.input-group-btn{}
+.ah-fing-group span.input-group-btn .btn{}
+@media (max-width:600px){
+    .ah-qk-apm {position: relative;text-align:right;margin-bottom:10px;}
+}

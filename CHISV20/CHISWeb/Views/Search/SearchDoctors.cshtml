@@ -1,0 +1,47 @@
+﻿@model CHIS.Models.ViewModel.PrescriptionCheckModel
+@{
+    ViewBag.Title = "查找医生";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <style>
+    </style>
+}
+
+<div>
+    <div>
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchText" placeholder="请输入医生手机或身份证号" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" onclick="searchDoctors();">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+<div id="rlt">
+
+</div>
+
+
+@section scripts{
+    <script>
+        function searchDoctors() {
+            $.post("/Search/FindDoctors", { searchText: $('#searchText').val() }, function (html) {
+                $('#rlt').html(html);
+            });
+        }
+        function selectThisDoctor(doctorId) {
+            //执行上层方法:
+            if (parent.doctorSelect) parent.doctorSelect(doctorId)
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+        }
+    </script>
+
+}

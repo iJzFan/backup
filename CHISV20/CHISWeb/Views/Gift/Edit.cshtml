@@ -1,0 +1,216 @@
+﻿@model CHIS.Models.ViewModel.GiftViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+
+        .ah-doc-sets-upic-edit {
+            background: url()
+        }
+
+        .ah-doc-sets-upic, .ah-doc-sets-upic {
+            background-size: 100% !important;
+        }
+
+        .ah-doc-sets-upic-edit {
+            margin-right: 10px;
+        }
+    </style>
+}
+<div class="container layui-form" style="margin-bottom:40px;">
+    <form id="form1" asp-action="Edit">
+        <input asp-for="GiftId" type="hidden" class="form-control" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="ah-flex">
+            <div class="ah-doc-sets-upic-edit" ah-for="#CoverImg" ah-sourceId="0">
+                <input asp-for="CoverImg" type="hidden" />
+                <input type="file" id="upload-0" value="选择图片文件" style="display:none;" accept="image/*" />
+                <div id="giftImg0" class="ah-doc-sets-upic" style="background:url(@Model.CoverImg)"></div>
+                <a ah-updata="gift" ah-sourceId="0" style="cursor:pointer;">封面图</a>
+            </div>
+            <div class="ah-doc-sets-upic-edit" ah-for="#Img1" ah-sourceId="1">
+                <input asp-for="Img1" type="hidden" />
+                <input type="file" id="upload-1" value="选择图片文件" style="display:none;" accept="image/*" />
+                <div id="giftImg1" class="ah-doc-sets-upic" style="background:url(@Model.Img1)"></div>
+                <a ah-updata="gift" ah-sourceId="1" style="cursor:pointer;">详情图1</a>
+            </div>
+            <div class="ah-doc-sets-upic-edit" ah-for="#Img2" ah-sourceId="2">
+                <input asp-for="Img2" type="hidden" />
+                <input type="file" id="upload-2" value="选择图片文件" style="display:none;" accept="image/*" />
+                <div id="giftImg2" class="ah-doc-sets-upic" style="background:url(@Model.Img2)"></div>
+                <a ah-updata="gift" ah-sourceId="2" style="cursor:pointer;">详情图2</a>
+            </div>
+            <div class="ah-doc-sets-upic-edit" ah-for="#Img3" ah-sourceId="3">
+                <input asp-for="Img3" type="hidden" />
+                <input type="file" id="upload-3" value="选择图片文件" style="display:none;" accept="image/*" />
+                <div id="giftImg3" class="ah-doc-sets-upic" style="background:url(@Model.Img3)"></div>
+                <a ah-updata="gift" ah-sourceId="3" style="cursor:pointer;">详情图3</a>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">商品名称</div>
+                <input type="hidden" asp-for="GiftName" />
+                <div class="ah-data-div">@(Model.GiftName)</div>
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">商品类型</div>
+                <div class="ah-data-div">
+                    <input type="hidden" asp-for="Type" />
+                    @if (Model.Type == 0)
+                {
+                    <span>实物</span>
+            }
+            else if (Model.Type == 1)
+            {
+                <span>满减券</span>
+        }
+        else if (Model.Type == 2)
+        {
+            <span>满打折券</span>
+    }
+                </div>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">满减条件</div>
+                <div class="ah-data-div">@(Model.OrderLimit)</div>
+                <input type="hidden" asp-for="OrderLimit" />
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">打折</div>
+                <div class="ah-data-div">@(Model.DiscountRate)</div>
+                <input type="hidden" asp-for="DiscountRate" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">抵扣量</div>
+                <div class="ah-data-div">@(Model.DiscountPrice)</div>
+                <input type="hidden" asp-for="DiscountPrice" />
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">活动有效期</div>
+                <div class="ah-data-div">@(Model.ExpiryDate)</div>
+                <input type="hidden" asp-for="ExpiryDate" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">有效期</div>
+                <div class="ah-data-div">@(Model.AvailableDays)</div>
+                <input type="hidden" asp-for="AvailableDays" />
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+
+            </div>
+        </div>
+
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">所需积分</div>
+                <input class="ah-data-input" placeholder="所需积分" asp-for="NeedPoints" type="text" />
+                <span asp-validation-for="NeedPoints"></span>
+            </div>
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">库存</div>
+                <input class="ah-data-input" placeholder="库存" asp-for="Stock" type="text" />
+                <span asp-validation-for="Stock"></span>
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label ah-required">描述</div>
+                <input type="text" class="ah-data-input" placeholder="请输入描述" asp-for="Description" />
+            </div>
+        </div>
+        <div class="ah-flex-required ah-align-self">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label ah-required">使用须知</div>
+                <input type="text" class="ah-data-input" placeholder="请输入使用须知" asp-for="Instruction" />
+            </div>
+        </div>
+        <input type="hidden" asp-for="WeChatCardId" />
+    </form>
+</div>
+@section scripts{
+    @* 上传与压缩依赖文件 *@
+    <script src="~/lib/uploadSingleImg/tools.js"></script>
+    <script src="~/lib/jquery.serializejson.js"></script>
+    <script>
+        var pagedata = {
+            cusRoot: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+        };
+        //标准日历
+        layui.use(['laydate'], function () {
+            var laydate = layui.laydate;
+            var op = {
+                elem: '#ah-doctorIndex-dateIcon'
+                , trigger: 'click'
+                , calendar: true
+            };
+            var newDate = new XDate();
+            op.max = newDate.toString("yyyy-MM-dd");
+            op.min = newDate.getFullYear() - 90 + "-" + (parseInt(newDate.getMonth()) + 1) + "-1";
+            op.done = function (value, date) {
+                $("#Customer_Birthday").val(value)
+                $("#ah-doctorIndex-dateIcon").html("");
+                dateChangeRange($("#Customer_Birthday"));
+            }
+            laydate.render(op);
+
+            $("a[ah-updata='gift']").each(function () {
+                var _this = $(this);
+                var sourceId = _this.attr("ah-sourceId");
+                $.localUpdataPic(document.getElementById("upload-" + sourceId), function (jn) {
+                    if (jn.rlt) {
+                        $("#giftImg" + sourceId).css("background", "url(" + jn.url + ")");
+                        $("#giftImg" + sourceId).parent().find("input[type='hidden']").first().val(jn.url);
+                    } else {
+                        $.err(jn.msg)
+                    }
+                });
+
+                _this.click(function () {
+                    $("#upload-"+ sourceId).click();
+                });
+            });
+        });
+        //上传图片回调
+        function setPicName(fileName, sourceId) {
+            var path = pagedata.cusRoot + fileName;
+            var val = "url('" + path + "')";
+
+            if (sourceId == 0) {
+                $('#CoverImg').val(fileName);
+            } else if (sourceId == 1) {
+                $('#Img1').val(fileName);
+            } else if (sourceId == 2) {
+                $('#Img2').val(fileName);
+            } else if (sourceId == 3) {
+                $('#Img3').val(fileName);
+            }
+            $('#giftImg' + sourceId).css("background-image", val);
+        }
+        //提交
+        function editSub(index) {
+            $.post("/Gift/Edit", { model: $("#form1").serializeJSON()}, function (jn) {
+                console.log(jn);
+                if (jn.rlt) {
+                    $.ok("修改成功！");
+                    parent.layer.close(index);
+
+                } else {
+                    $.err(jn.msg);
+                }
+            });
+        }
+    </script>
+}

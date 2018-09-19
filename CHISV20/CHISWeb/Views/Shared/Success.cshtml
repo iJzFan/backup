@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+     ViewData["Title"] = "操作成功";
+}
+
+<div class="container">
+    <div style="font-size:60px;color:#20974a;float:left;margin-right:20px;"><i class="fa fa-check-circle"></i></div>
+    <div style="float:left;">
+        <h1 class="text-info">操作成功!</h1>
+        <h2 class="text-info">您刚才的操作已经成功处理了！</h2>
+         
+       
+        <div>
+            @if (Ass.P.PStr(ViewBag.BackLink) == "")
+            {
+                <a href="javascript:void(0)" onclick="history.go(-1);">返回</a>
+            }
+            else
+            {
+            <a href="@ViewBag.BackLink">@ViewBag.BackLinkName</a>
+            }
+        </div>
+        @ViewBag.DebugText 
+    </div>
+
+</div>

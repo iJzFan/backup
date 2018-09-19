@@ -1,0 +1,70 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "修改邮箱";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+    <style>
+        .ah-fixed-md1, .ah-col-md1 {
+            position: relative
+        }
+    </style>
+}
+<div class="container layui-form">
+    <ul class="ah-step-wrap ah-flex">
+        <li class="ah-strp-active"><a>1.验证身份</a></li>
+        <li class="ah-strp-active"><a>2.绑定新邮箱</a></li>
+        <li><a>3.完成修改</a></li>
+    </ul>
+    <form class="form-one" asp-controller="MyPanel" asp-action="ChangeEmailOk" method="post" asp-anti-forgery="true">
+        <input type="hidden" name="CheckCode" value="@ViewBag.CheckCode" />
+        <input type="hidden" name="OriginalEmail" value="@ViewBag.OriginalEmail" />
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1">
+                <div class="ah-data-label">原邮箱</div>
+                <div class="ah-data-div">@(ViewBag.OriginalEmail)</div>
+            </div>
+            <div class="ah-col-md1">
+                <div class="ah-data-label">新邮箱</div>
+                <input class="ah-data-input" id="email" name="email" type="text" />
+            </div>
+            <div class="ah-col-md1">
+                <div class="ah-data-label">验证码</div>
+                <input class="ah-data-input" type="text" name="vcode" placeholder="输入验证码" />
+                <button class="ah-btn-blue ah-code-btn " type="button" onclick="SendEmailVCode(this)">获取效验码</button>
+            </div>
+            <div class="ah-col-md1 ah-flex ah-justify-end" style="padding-top:13px">
+                <a class="ah-btn-white ah-sub-btn" type="button" href="/MyPanel/ChangeEmail">返回</a>
+                <button class="ah-btn-blue ah-sub-btn" type="submit" onclick="buttonOne">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script>
+  
+        function SendEmailVCode(c) {
+            //首先调用后台接口，发送邮件验证码
+            var email = $('#email').val();
+             
+            $.loadJSON("/mypanel/SendNewEmailVCode", { newEmail: email }, function (jn) {
+                if (jn.rlt) {
+                    //成功了开始计时
+                    var e = $(c);
+                    e.attr('disabled', true).addClass("disabled");
+                    var n = 60;
+                    var handle = setInterval(function () {
+                        e.html("(剩余" + (n--) + "秒重发)");
+                        if (n == 0) {
+                            clearTimeout(handle);
+                            e.removeClass("disabled").removeAttr('disabled').html("重新发送");
+                        }
+                    }, 1000);
+                } else {
+                    $.alertError("发现错误" + jn.msg);
+                }
+            });
+        }
+    </script>
+}

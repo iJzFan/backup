@@ -1,0 +1,96 @@
+﻿@model Ass.Mvc.PageListInfo<ah.Models.vwCHIS_Code_Customer>
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        img.upic { border-radius: 100px; width:48px;height:48px; }
+    </style>
+}
+
+<div class="main-title">
+    <i class="glyphicon glyphicon-user"></i>用户管理
+</div>
+<div class="main-content">
+    <div class="search-wrap"> 
+        <form>
+            <input type="text" name="searchText" placeholder="手机/邮箱/身份证" />
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th width="64"></th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>身份证</th>
+                <th>其他联系号</th>
+                <th>婚况</th>
+                @*<th>操作</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>                       
+                            <img class="upic" src="@(myRazor.GetCustomerDefImagePath(item.CustomerPhoto,item.Gender))"  />                       
+                    </td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.Gender?.ToGenderString()</td>
+                    <td>@item.Birthday?.ToAgeString()</td>
+                    <td>@item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                    <td>@item.Email.ToMarkString(Ass.Models.MaskType.EmailCode)</td>
+                    <td>@item.IDcard.ToMarkString(Ass.Models.MaskType.IDCode)</td>
+                    <td>@item.Telephone.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                    <td>@item.MarriageStatus</td>
+                    <td class="action">
+                        @*<a class="edit" onclick="edit(@item.CustomerID)">修改</a>|
+                        <a class="info" onclick="info(@item.CustomerID)">查看</a>|
+                        <a class="del">删除</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var page = $("#page").XPage({
+                pageIndex:@(Model.PageIndex),//当前页
+                pageTotal:@(Model.PageTotal),//总页数
+                pageSize:@(Model.PageSize),//页条数
+                recordTotal:@(Model.RecordTotal),//总条数
+                showPageCount: 4,//用于显示分页显示的量
+                onPageClick: function (pageIndex) {
+                    if (pageIndex) {
+                        window.location.href = "/HealthMgr/BackPanel/Customers?pageIndex=" + pageIndex;
+                    }
+                } 
+            });
+        });
+        function info(id) { 
+            layer.open({
+                type: 2,
+                btn: ['取消'],
+                title: '修改用户信息',
+                shade: 0.8,
+                area: ['730px', '410px'],
+                content: '/HealthMgr/BackPanel/CustomersInfo?cid='+id,
+            }); 
+        }
+        
+    </script>
+}

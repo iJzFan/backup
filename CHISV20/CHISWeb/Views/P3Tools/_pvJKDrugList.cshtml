@@ -1,0 +1,47 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_DrugStock_Monitor>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>健客药品Id</th>
+            <th>药品名</th>
+            <th>规格</th>
+            <th>厂商</th>
+            <th>现价</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DataList.Count() == 0)
+        {
+            <tr>
+                <td colspan="6" align="center">
+                    没有搜索到相关信息
+                </td>
+            </tr>
+
+        }
+
+        @foreach (var item in Model.DataList)
+        {
+            <tr>
+                <td>                @item.ThreePartDrugId            </td>
+                <td>                @item.DrugName            </td>
+                <td>                @item.DrugModel            </td>
+                <td>                @item.ManufacturerOrigin            </td>
+                <td class="td-price">                @item.StockSalePrice            </td>
+                <td>
+                    <input class="price-input" type="text" value="@item.StockSalePrice" onkeydown="return onlyNumbersEvt(event);" />
+                    <a class="a-link" onclick="SetPrice(@item.ThreePartDrugId,this);">调整</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div id="pager"></div>
+<script>
+    setPager("pager", @(Model.PageIndex), @(Model.PageTotal));
+</script>
+
+@ViewBag.DebugText 

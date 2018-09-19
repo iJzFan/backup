@@ -1,0 +1,73 @@
+/*
+ *start-responsive-design
+ * Description: media is design
+ * Author: Feng Jesses
+ * Author URI: http:www.tsyhis.com
+ *
+ */
+@media (max-width:1440px){
+    .login-form {
+        width:30%;
+        margin:4% auto 4% auto;
+    }
+    .text-center{ font-size:16px;}
+}
+@media (max-width:1366px){
+    .login-form {
+        width: 32%;
+        margin: 2% auto 4% auto;
+    }
+    .text-center{ font-size:14px;}
+}
+
+@media (max-width:1200px){
+    .login-form  {
+        margin:4% auto 0;
+        width:45%;
+    }
+    .text-center{ font-size:12px;}
+}
+@media (max-width:768px) {
+    .login-form {
+        margin: 4% auto 0;
+        width: 59%;
+    }
+    .text-center{ font-size:8px;}
+    .top-content .top-big-link {
+        margin-top: 25px;
+    }
+
+        .top-content .top-big-link a.btn {
+            margin-top: 10px;
+        }
+
+    .form-bottom {
+        padding-bottom: 25px;
+    }
+
+    form .form-bottom button.btn {
+        margin-bottom: 5px;
+    }
+}
+@media (max-width:640px){
+    .login-form {
+        margin: 4% auto 0;
+        width: 63%;
+    }
+   
+}
+@media (max-width:480px) {
+    .login-form {
+        margin: 4% auto 0;
+        width: 74%;
+    }
+    h1, h2 { font-size: 32px; }
+}
+@media (max-width: 320px) {
+    .login-form {
+        margin: 5% auto 0;
+        width: 85%;
+    }
+}
+
+

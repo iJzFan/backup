@@ -1,0 +1,225 @@
+﻿@model ah.Models.ViewModel.CustomerRegistViewModel
+@{ Layout = null;    }
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>用户注册-个人中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="天使健康个人中心">
+    <meta name="author" content="">
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/customer/css/pages/home-customer-regist.css" />
+    <style>
+        .disabled {
+            background-color: #ccc !important;
+            cursor: not-allowed;
+        }
+        .validation-summary-errors {
+            color: red;
+            font-size: 12px;
+            text-align: left;
+        }
+        .radio-inline input {
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+ 
+    <form autocomplete="off" id="form1" method="post" asp-action="CustomerRegist" asp-controller="Home">
+        <input type="hidden" value="email" id="RegistType" name="RegistType" />
+        <input type="hidden"  value="customer" id="RegistRole" name="RegistRole" />
+        <div class="content-wrap">
+            <div class="content">
+                <div class="regist-logo">
+                    <img class="" src="~/images/logo1.png">
+                    <p>天使健康会员中心</p>
+                </div>             
+                <div class="registType">
+                    <a href="CustomerRegistPhone"><img src="~/customer/image/phone-icon.png" />使用手机注册</a>
+                </div>
+                <div class="regist-input-wrap">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback iconSpan"></span>
+                    <input type="text" placeholder="请输入邮箱" asp-for="Email"/>
+                    <div class="regist-tips"></div>
+                </div>
+                <div class="regist-input-wrap">
+                    <span class="glyphicon glyphicon-comment form-control-feedback iconSpan"></span>
+                    <input type="text" asp-for="VCode" placeholder="请输入验证码" />
+                    <button class="getCode" type="button" onclick="getEmailVCode()" id="getVCode">获取验证码</button>
+                    <div class="regist-tips"></div>
+                </div>
+                <div class="regist-input-wrap">
+                    <span class="glyphicon glyphicon-heart form-control-feedback iconSpan"></span>
+                    <input type="text" asp-for="Name" placeholder="请输入用户昵称" />
+                    <div class="regist-tips"></div>
+                </div>
+                <div class="regist-input-wrap">
+                    <span class="glyphicon glyphicon-gift form-control-feedback iconSpan"></span>
+                    <input type="date" asp-for="Birthday" asp-format="{0:yyyy-MM-dd}" placeholder="出生日期 格式:1986-8-8"/>
+                    <div class="regist-tips"></div>
+                </div>
+                <div class="regist-input-wrap">
+                    <label class="radio-inline"><input type="radio" asp-for="Gender" value="1" checked/>男</label>
+                    <label class="radio-inline"><input type="radio" asp-for="Gender" value="0" />女</label>
+                </div>
+                <div class="regist-input-wrap">
+                    <span class="glyphicon glyphicon-lock form-control-feedback iconSpan"></span>
+                    <input type="password" asp-for="RegPaswd" placeholder="请输入密码" />
+                    <div class="regist-tips"></div>
+                </div>
+                <div class="regist-input-wrap">
+                    <span class="glyphicon glyphicon-lock form-control-feedback iconSpan"></span>
+                    <input type="password" asp-for="RegPaswdConfirm" placeholder="请输入确认密码" />
+                    <div class="regist-tips"></div>
+                </div>
+                <div class="regist-input-wrap">
+                    <button class="regist-sub" type="button" id="regist_submit">注册</button>
+                </div>
+                <div class="regist-input-wrap">
+                    @Html.ValidationSummary()
+                </div>
+                <div class="regist-input-wrap">
+                    <a href="CustomerLogin">返回登录</a>
+                </div>
+             </div>
+        </div>
+    </form>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/layer/build/layer.js"></script>
+    <script src="~/lib/third-part-library/jquery.backstretch.js"></script>
+    
+    <script>
+        $(function () {
+            //设置全屏背景
+            $.backstretch("/images/web_bg.jpg");
+            //提交注册
+            $("#regist_submit").on("click", function () {
+                var state = true;
+
+                //验证昵称
+                var name = $("#Name").val();
+                if (name==""||name==null) {
+                    error("Name", true, "*请输入昵称!");
+                    state = false;
+                } else {
+                    error("Name", false);
+                }
+                //验证出生日期
+                var bir = $("#Birthday").val();
+                if (!(bir && /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/.test(bir))) {
+                    error("Birthday", true, "*请输入正确格式的出生日期!");
+                    state = false;
+                } else {
+                    error("Birthday", false);
+                }
+                
+                //验证码验证
+                var VCode = $("#VCode").val();
+                if (!(VCode && /^[a-zA-Z0-9]{6,6}$/.test(VCode))) {
+                    error("VCode", true, "*请输入字母、数字组成的6位的验证码!");
+                    state = false;
+                } else { 
+                    error("VCode", false);
+                }
+
+                //密码验证
+                var RegPaswd = $("#RegPaswd").val();
+                if (!(RegPaswd && /^[0-9a-zA-Z_]{6,15}$/.test(RegPaswd))) {
+                    error("RegPaswd", true, "*请输入字母、数字、下划线组成的6-15位的密码!");
+                    state = false;
+                } else { 
+                    error("RegPaswd", false);
+                }
+                //确认密码
+                var RegPaswdConfirm = $("#RegPaswdConfirm").val();
+                if (!(RegPaswdConfirm && RegPaswdConfirm == RegPaswd)) {
+                    error("RegPaswdConfirm", true, "*两次密码不一致!");
+                    state = false;
+                } else { 
+                    error("RegPaswdConfirm", false);
+                }
+
+                if (state) { 
+                    $("#form1")[0].submit();
+                }
+            });
+        })
+        //错误提示
+        function error(obj, state, msg) {
+            if (state) {
+                $($("#" + obj).parent().find(".regist-tips")[0]).html(msg);
+            } else { 
+                $($("#" + obj).parent().find(".regist-tips")[0]).html("");
+            }
+        }
+        //获取邮箱验证码
+        function getEmailVCode() { 
+            var emailVal = $("#Email").val();
+            var e = $("#getVCode");
+            var state = false;
+            if (emailVal && /([.a-zA-Z0-9_-]){2,10}@@([a-zA-Z0-9_-]){2,10}(\.([a-zA-Z0-9]){2,}){1,4}$/.test(emailVal)) {
+                $.ajax({
+                    async: false,
+                    type: "post",
+                    url: "/Api/Customer/IsCustomerRegisted",
+                    data: { regAccount: emailVal },
+                    dataType: "json",
+                    success: function (jn) {
+                        state = !jn;
+                        if (jn) {
+                            error("Email", true, "该邮箱已经占用!");
+                        } else { 
+                            error("Email", false);
+                        }
+                    }
+                });
+            } else {
+                error("Email", true, "请输入正确的邮箱!");
+            }
+            if (state) { 
+                //获取验证码
+                $.ajax({
+                    async: false,
+                    type: "post",
+                    url: "/Api/Customer/SendRegVCode",
+                    data: { regAccount: emailVal },
+                    dataType: "json",
+                    success: function (jn) {
+                        console.log(jn);
+                        if (jn.rlt) {
+                            layer.msg("验证码发送成功！");
+                            $("#Email").attr("readonly", "readonly").addClass("disabled");
+                            isGetVCode(false);
+                            //定时器
+                            var n = 60;
+                            var handle = setInterval(function () {
+                                e.html("(剩余" + (n--) + "秒重发)");
+                                if (n == -2) {
+                                    clearTimeout(handle);
+                                    isGetVCode(true);
+                                    e.html("重新发送");
+                                }
+                            }, 1000);
+                        } else { 
+                            layer.msg("验证码发送失败,请重试!");
+                        }
+                    }
+                });
+            }
+        }
+        //是否可以获取验证码
+        function isGetVCode(state) {
+            if (state) {
+                $("#getVCode").removeAttr('disabled').removeClass("disabled");
+            } else {
+                $("#getVCode").attr('disabled', 'disabled').addClass("disabled")
+            }
+        }
+    </script>
+</body>
+
+</html>

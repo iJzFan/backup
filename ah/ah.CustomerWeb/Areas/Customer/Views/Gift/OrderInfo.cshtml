@@ -1,0 +1,74 @@
+﻿@model ah.Models.ViewModel.GiftOrderViewModel
+@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "兑换详情";
+
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+}
+<div class="ah-gift-wrap">
+    <div class="ah-order-type ah-flex">
+        <i class="fa fa-check-circle-o"></i>@Model.State
+    </div>
+</div>
+
+<div class="ah-order-number">
+    <div>订单编号：@Model.GiftOrderId</div>
+    <div>下单时间:@Model.CreatedTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+</div>
+@if (!Model.DeadLine.HasValue)
+{
+    <div class="ah-order-address ah-flex">
+        <i class="map-marker"></i>
+        <div class="info">
+            <div>@Model.CustomerName <span>@Model.PhoneNumber</span></div>
+            <div class="text">地址:@Model.Address</div>
+        </div>
+    </div>
+}
+<div class="ah-order-gift ah-flex">
+    <div class="title ah-flex">
+        <i class="gift-icon"></i>
+        商品
+    </div>
+    <div class="info">
+        <div class="ah-flex ah-gift-info">
+            <img src="~/customer/appointment/image/station-icon1.png" class="ah-gift-pic" />
+            <div class="main">
+                <div class="gift-name">@Model.GiftName</div>
+                <div class="gift-rmk">有效期:2019-09-09</div>
+                <div class="gift-active-wrap ah-flex">
+                    @if (Model.State == "未使用" || Model.State == "未领取")
+                    {
+                        <a href="/Customer/Gift/UseGift?giftOrderId=@Model.GiftOrderId&&customerId=@Model.CustomerId" class="gift-active" style="margin-right:10px;">去使用</a>
+
+                    }
+                    <a href="/Customer/Gift/GetById?giftId=@Model.GiftId" class="gift-active">查看商品详情</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Instruction!="")
+{
+    <div class="ah-order-help ah-flex">
+        <div class="title ah-flex">
+            <i class="help-icon"></i>
+            使用方法
+        </div>
+        <div class="info">
+            @Model.Instruction
+        </div>
+    </div>
+}
+<a href="/Customer/Gift" class="ah-retnrn" style="display:none;">
+    返回我的积分
+</a>
+@section scripts{
+    <script>
+        layui.use('element', function () {
+
+        });
+
+    </script>
+}

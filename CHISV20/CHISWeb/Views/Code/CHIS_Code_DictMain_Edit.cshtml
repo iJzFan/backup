@@ -1,0 +1,108 @@
+﻿
+@using Ass;
+@model CHIS.Models.CHIS_Code_Dict_Main
+@{
+    ViewBag.Title = "新增字典主类";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <style>
+        .content-action-wrap {
+            padding: 10px;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+}
+<form id="form1">
+    <input type="hidden" asp-for="DictID" />
+    <div class="content-action-wrap">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="line-height:30px;">基本信息</h3>
+            </div>
+            <div class="panel-body">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle" style="width:75px">键码</th>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control border3" asp-for="DictKey" required data-msg-required="请输入键码" />
+                        </td>
+                        <th class="formTitle" style="width:75px"><span class="ah-form-need">键名</span></th>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control required border3" asp-for="DictName" required data-msg-required="请输入键名" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:75px">是否以值为准</th>
+                        <td class="formValue" colspan="6">
+                            <select class="form-control" asp-for="IsValueCode">
+                                <option value="">未选择</option>
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </td>
+                        <th class="formTitle" style="width:75px">是否可用</th>
+                        <td class="formValue" colspan="6">
+                            <select class="form-control" asp-for="IsEnable">
+                                <option value="">未选择</option>
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:75px">停用日期</th>
+                        <td class="formValue" colspan="6">
+                            <div class="input-group">
+                                <input type="text" class="input-datetime form-control" data-format="yyyy-mm-dd" asp-for="StopDate" />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:75px">备注</th>
+                        <td class="formValue" colspan="13">
+                            <textarea cols="2" class="form-control" asp-for="Remark"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        var pagedata = {
+            op: '@ViewBag.OP',
+            isView:'@(ViewBag.OP)'=="VIEW",
+            ver:1
+        };
+
+        //保存记录
+        function submitForm() {
+            var win = this;
+            if (!$('#form1').formValid()) {
+                return false;
+            }
+
+            $.submitForm({
+                url: "/Code/CHIS_Code_DictMain_Edit?op=" + pagedata.op  ,
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    win.parent.location.reload()
+                }
+            })
+        }
+
+
+
+    </script>
+}

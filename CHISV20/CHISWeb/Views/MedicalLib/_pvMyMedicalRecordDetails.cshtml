@@ -1,0 +1,245 @@
+﻿@using Ass;
+@model MyMedicalHistoryRecordDetailModel
+
+<div class="ah-medical">
+    <div class="ah-medical-title">@Model.Treat.StationName-诊断报告</div>
+    <div class="scrollbar-macosx ah-medical-main">
+        <div class="ah-medical-head">
+            <table class="ah-medical-customer">
+                <tr>
+                    <td>
+                        <span class="ah-table-label">医生名称：</span>@Model.Treat.DoctorName
+                    </td>
+                    <td>
+                        <span class="ah-table-label">开始时间：</span>@Model.Treat.FirstTreatTime?.ToString("yyyy-MM-dd HH:mm")
+                    </td>
+                    <td>
+                        <span class="ah-table-label">结束时间：</span>@Model.Treat.TreatTime.ToString("yyyy-MM-dd HH:mm")
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="ah-table-label">患者名称：</span>@Model.Treat.CustomerName
+                    </td>
+                    <td>
+                        <span class="ah-table-label">患者年龄：</span>
+                        <span>@(Model.Treat.TreatCustomerAge?.ToAgeString())</span>
+                        <span>(@(Model.Treat.Birthday?.ToString("yyyy-MM")))</span>
+                    </td>
+                    <td>
+                        <span class="ah-table-label">患者性别：</span>@Model.Treat.Gender?.ToGenderString()
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="ah-medical-main-title">接诊-基本信息</div>
+        <div class="ah-medical-content">
+            <div class="ah-data-wrap">
+                <span class="ah-data-label">主诉</span>
+                <div class="ah-data-text">@Model.Treat.Complain</div>
+            </div>
+            <div class="ah-data-wrap">
+                <span class="ah-data-label">现病史</span>
+                <div class="ah-data-text">@Model.Treat.PresentIllness</div>
+            </div>
+            <div class="ah-data-wrap">
+                <span class="ah-data-label">体查</span>
+                <div class="ah-data-text">@Model.Treat.Examination</div>
+            </div>
+            <div class="ah-data-wrap">
+                <span class="ah-data-label">诊断</span>
+                <div class="ah-data-text">@Model.Treat.Diagnosis1 @Model.Treat.Diagnosis2 @Model.Treat.Diagnosis3</div>
+            </div>
+        </div>
+
+        <div class="ah-medical-content">
+            <div class="ah-data-wrap ah-bl-show-@(Model.Treat.TreatDoctorMethod.IsEmpty()?"0":"1")">
+                <span class="ah-data-label">处理</span>
+                <div class="ah-data-text">@Model.Treat.TreatDoctorMethod</div>
+            </div>
+            <div class="ah-data-wrap  ah-bl-show-@(Model.Treat.TreatDoctorUseDrug.IsEmpty()?"0":"1")">
+                <span class="ah-data-label">用药</span>
+                <div class="ah-data-text">@Model.Treat.TreatDoctorUseDrug</div>
+            </div>
+            <div class="ah-data-wrap  ah-bl-show-@(Model.Treat.TreatDoctorUseDrip.IsEmpty()?"0":"1")">
+                <span class="ah-data-label">打针</span>
+                <div class="ah-data-text">@Model.Treat.TreatDoctorUseDrip</div>
+            </div>
+            <div class="ah-data-wrap  ah-bl-show-@(Model.Treat.TreatDoctorFollowUp.IsEmpty()?"0":"1")">
+                <span class="ah-data-label">随访</span>
+                <div class="ah-data-text">@Model.Treat.TreatDoctorFollowUp</div>
+            </div>
+        </div>
+        @*心理接诊*@
+        @if (Model.SpecialTreat != null)
+        {
+            if (Model.SpecialTreat.SpetialDepartTypeVal == MPS.SpetialDepartType_PSYCH)
+            {
+                var st = (SpecialTreat_Psych)(Model.SpecialTreat);
+                if (st.QsData != null)
+                {
+                    //问卷部分的信息
+                    <div class="ah-medical-main-title">心理接诊-心理问卷</div>
+                    <div class="ah-medical-content">
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">职业</span>
+                            <div class="ah-data-text">@st.QsData.Occupation</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">职业描述</span>
+                            <div class="ah-data-text">@st.QsData.WorkStatus</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">教育程度</span>
+                            <div class="ah-data-text">@st.QsData.EduLevelName</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">就读学校</span>
+                            <div class="ah-data-text">@st.QsData.TopSchool</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">教育描述</span>
+                            <div class="ah-data-text">@st.QsData.StudyStatus</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">婚姻状况</span>
+                            <div class="ah-data-text">@st.QsData.MarriageName</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">孕育子女</span>
+                            <div class="ah-data-text">孕：@st.QsData.PregnancyNum  产：@st.QsData.BirthChildrenNum 育：@st.QsData.AliveChildNum</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">教育描述</span>
+                            <div class="ah-data-text">@st.QsData.MarrageStatus</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">子女描述</span>
+                            <div class="ah-data-text">@st.QsData.ChildStatus</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">咨询原因</span>
+                            <div class="ah-data-text">@st.QsData.NeedTreatCause</div>
+                        </div>
+                        <div class="ah-data-wrap">
+                            <span class="ah-data-label">预期结果</span>
+                            <div class="ah-data-text">@st.QsData.ExpectRlt</div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+        @if (Model.SpecialTreat!=null &&  Model.SpecialTreat.DoctorTreatExt != null)
+        {
+            <div class="ah-medical-main-title">心理接诊-基本信息</div>
+            <div class="ah-medical-content">
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">婚姻陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.MarrageRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">工作陈述 </span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.WorkRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">交际陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.ShipRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">自我陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.SelfRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">家族史陈诉</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.FamilyRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">幼儿时期陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.ChildhoodRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">少年时期陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.YouthRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">青年时期陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.NonageRec</div>
+                </div>
+                <div class="ah-data-wrap">
+                    <span class="ah-data-label">近况陈述</span>
+                    <div class="ah-data-text">@Model.SpecialTreat.DoctorTreatExt.CurrentRec</div>
+                </div>
+            </div>
+        }
+        @if (Model.HerbDic.Keys.Count > 0)
+        {
+            <div class="ah-bl-herb">
+
+                @foreach (var item in Model.HerbDic.Keys)
+    {
+                <div class="ah-bl-pre">
+                    <div class="ah-medical-main-title">中药</div>
+                    <table class="table">
+                        <caption>
+                            @* @item.PrescriptionNo*@
+                            <span>@item.HerbTitle</span>
+                            <span class="ah-qty">@item.Qty<span>付</span></span>
+                            <span>@item.GivenTakeTypeName</span>
+                            <span>@item.GivenRemark<br /></span>
+                            <span>@item.DoctorAdvice</span>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>品名</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*中药单方内容*@
+                            @foreach (var drug in Model.HerbDic[item])
+            {
+                <tr>
+                    <td><b>@drug.DrugName</b></td>
+                    <td class="right">@drug.Qty @drug.UnitName</td>
+                    <td class="herb-rmk">@drug.HerbUseTypeName</td>
+                </tr>
+}
+
+                        </tbody>
+                    </table>
+                </div>}
+            </div>
+        }
+        @if (Model.FormDic.Keys.Count > 0)
+        {
+            <div class="ah-bl-formed">
+                @foreach (var item in Model.FormDic.Keys)
+                {
+                <div class="ah-bl-pre">
+                    <div class="ah-medical-main-title">成药</div>
+                    <table class="table">
+                        <tbody>
+                            @*西药单方内容*@
+                            @foreach (var fm in Model.FormDic[item])
+            {
+                <tr>
+                    <td><b>@fm.DrugName</b>&nbsp;<small>@fm.DrugModel</small></td>
+                    <td class="right">@fm.Qty@fm.UnitName</td>
+                    <td>@fm.GivenTakeTypeName @fm.GivenTimeTypeName @fm.GivenWhereTypeName &nbsp;</td>
+                    <td>@fm.GivenRemark</td>
+                    <td>@fm.Advice</td>
+                </tr>
+}
+
+                        </tbody>
+                    </table>
+                </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $(".ah-medical-main").scrollbar();
+</script>

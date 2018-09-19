@@ -1,0 +1,261 @@
+﻿@model ah.Models.ViewModel.CustomerInfo
+@{
+
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <style>
+        .form-group label {
+            color: #333;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .ah-legend {
+            font-size: 15px;
+            float: right;
+            position: relative;
+            top: 8px;
+        }
+
+        .form-control {
+            border: 1px solid #cdcdcd;
+            border-radius: 5px;
+        }
+
+        i.t-rmk {
+            font-size: .8em;
+        }
+
+            i.t-rmk:before {
+                content: "(";
+                margin-left: 3px;
+                margin-right: 2px;
+            }
+
+            i.t-rmk::after {
+                content: ")";
+                margin-left: 2px;
+            }
+
+        label.required {
+            color: #ff6a00;
+        }
+
+            label.required:before {
+                content: "*";
+                margin-right: 2px;
+            }
+
+        form > fieldset {
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .ah-btn-div {
+            padding: 15px;
+        }
+
+        @@media screen and (max-width:500px) {
+            .ah-btn-div > .btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+            .ah-public-main .col-md-12 {
+                padding-right: 0px;
+                padding-left: 0px;
+            }
+            .ah-btn-div {
+                padding: 0;
+                margin-left: 0;
+            }
+        }
+    </style>
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/ShowCustomerInfo">我的资料</a></li>
+    </ol>
+</div>
+<div class="ah-public-main">
+    <form class="form-horizontal" role="form" asp-action="EditCustomerInfo">
+        <fieldset>
+            <span class="glyphicon glyphicon-star" style="color:#ff0000;"></span> 基本资料<legend class="ah-legend"></legend>
+            <p></p>
+            <input type="hidden" asp-for="Customer.CustomerID" />
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>昵称</label>
+                        <input type="text" class="form-control" asp-for="Customer.NickName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="required">姓 名</label>
+                        <input type="text" class="form-control" asp-for="Customer.CustomerName" data-rule-required="true" data-msg-required="必须填写姓名" />
+                        @Html.ValidationMessageFor(m => m.Customer.CustomerName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="required">性 别</label>
+                        <select class="form-control" asp-for="Customer.Gender" data-rule-required="true" data-msg-required="必须选择性别">
+                            <option value="">- 性别 -</option>
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.Customer.Gender)
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>身份证号</label>
+                        <input class="form-control" asp-for="Customer.IDcard" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="required">出生日期</label>
+                        <div class="input-group date form_date" data-date="" id="departmentSelect" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input class="form-control" size="16" type="date" asp-for="Customer.Birthday" placeholder="出生日期:比如 1990-8-8" data-rule-required="true" data-msg-required="必须填写生日，以便计算年龄">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Customer.Birthday)
+                        <input type="hidden" id="dtp_input2" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>手机号码</label>
+                        <input id="Telephone" class="form-control" asp-for="Customer.Telephone" readonly />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <span class="glyphicon glyphicon-heart" style="color:#ff0000;"></span>健康资料<legend class="ah-legend"></legend>
+            <p></p>
+            <input type="hidden" asp-for="CustomerHealthInf.CustomerId" />
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>婚况<i class="t-rmk">已/未婚即可</i></label>
+                        @{
+                            var marriageS = myRazor.GetSelectListItemsByDictKey("Marriage");
+                        }
+                        <select class="form-control" asp-for="Customer.Marriage" asp-items="marriageS">
+                            <option value="">--请选择婚况--</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>身高<i class="t-rmk">厘米</i></label>
+                        <input type="text" class="form-control" asp-for="CustomerHealthInf.Height" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>体重<i class="t-rmk">千克</i></label>
+                        <input type="text" class="form-control" asp-for="CustomerHealthInf.Weight" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>血型</label>
+                        @{
+                            var btypes = myRazor.GetSelectListItemsByDictKey("BloodType");
+                        }
+                        <select class="form-control" asp-for="CustomerHealthInf.BloodType" asp-items="btypes">
+                            <option value="">- 血型 -</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>过敏原</label>
+                        <input type="text" class="form-control" asp-for="CustomerHealthInf.Allergic" placeholder="如没有请填写“无”" />
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label></label>
+                            <input  class="form-control" />
+                        </div>
+                    </div>
+                </div>*@
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.ValidationSummary(true)
+                </div>
+            </div>
+        </fieldset>
+        <div class="ah-btn-div" style="height:auto;">
+            <input type="submit" id="btn-submit" class="btn btn-primary " value="保存资料" />
+            <div class="layui-clear"></div>
+        </div>
+
+
+
+    </form>
+</div>
+@section scripts{
+    <script>
+
+        $(function () {
+            romveInputDisabled();
+            $('form').validate();
+            //setInputDisabled();
+
+            //$('.form_date').datetimepicker({
+            //    language: 'zh-CN',
+            //    weekStart: 1,
+            //    todayBtn: 1,
+            //    autoclose: 1,
+            //    todayHighlight: 1,
+            //    pickerPosition: "bottom-left",
+            //    startView: 2,
+            //    minView: 2,
+            //    forceParse: 0
+            //});
+
+        });
+        /*function setInputDisabled() {
+            $("fieldset input,fieldset select").attr("disabled", true);
+            $("#btn-submit").hide();
+        };*/
+        function romveInputDisabled() {
+            $("fieldset input,fieldset select").attr("disabled", false);
+            $("#btn-submit").show();
+        };
+
+
+    </script>
+}

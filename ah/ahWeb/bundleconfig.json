@@ -1,0 +1,35 @@
+﻿// Configure bundling and minification for the project.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/ahzp-base.min.js",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "wwwroot/lib/vue.min.js",
+      "wwwroot/lib/template.js",
+      "wwwroot/lib/select2/dist/js/select2.min.js",
+      "wwwroot/lib/select2/dist/js/select2.full.min.js",
+      "wwwroot/lib/third-part-library/bootstrap-datetimepicker.min.js",
+      "wwwroot/lib/third-part-library/locales/bootstrap-datetimepicker.zh-CN.js",
+      "wwwroot/lib/layer/build/layer.js",
+      "wwwroot/lib/XPage/Xpage.js",
+      "wwwroot/lib/XDate/xdate.js",
+      "wwwroot/lib/third-part-library/template.js",
+      "wwwroot/lib/third-part-library/my-widget/my-widget.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

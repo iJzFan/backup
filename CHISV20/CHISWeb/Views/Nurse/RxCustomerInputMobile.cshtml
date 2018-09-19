@@ -1,0 +1,241 @@
+﻿@model RxMobileInputModel
+@{
+    ViewBag.Title = "处方药手机填写信息";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        html, body, .ah-rxCustomerInfo-wrap {
+            height: 100%;
+            min-height: 470px;
+        }
+
+        body {
+            background: #fff;
+            font-size: 14px;
+        }
+
+        .ah-btn-blue {
+            font-size: 14px;
+        }
+    </style>
+}
+
+<div class="ah-flex layui-form ah-m-fullwidth ah-rxCustomerInfo-wrap">
+    <form id="form1" asp-controller="Nurse" asp-action="RxCusM" class="ah-max-width">
+        <input type="hidden" asp-for="Station.StationID" />
+        <input type="hidden" asp-for="Doctor.DoctorId" />
+        <input type="hidden" asp-for="IsAgreement" />
+        <input type="hidden" asp-for="CustomerId" />
+        <input type="hidden" asp-for="RxPicUrl1" />
+        <input type="hidden" asp-for="RxPicUrl2" />
+        <input type="hidden" asp-for="RxPicUrl3" />
+        <input type="file" id="upload" value="选择图片文件" style="display:none;" accept="image/*" />
+
+        <div class="ah-rxCustomerInfo-main layui-anim" step="1">
+            <h4 class="ah-rxCustomerInfo-title1">个人处方药购入</h4>
+            <p class="ah-rxCustomerInfo-title2">根据卫生部门要求，处方药需要登记相关信息。</p>
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div class="ah-data-label">药业</div>
+                <div class="ah-data-div">@Model.Station.StationName</div>
+            </div>
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div class="ah-data-label">分店</div>
+                <div class="ah-data-div">@Model.Doctor.DoctorName</div>
+            </div>
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div class="ah-data-label">身份证号码</div>
+                <input class="ah-data-input" asp-for="CustomerIdCode" type="text">
+                <span asp-validation-for="CustomerIdCode" class="text-danger"></span>
+            </div>
+
+            <div class="ah-rxCustomerInfo-data ah-flex" style="margin-top: 35px;">
+                <button type="button" class="ah-btn-blue" style="margin-left:0;height: 40px;" onclick="supplementaryInfo()">
+                    <i class="layui-icon">&#x1005;</i>信息填报
+                </button>
+            </div>
+        </div>
+
+        <div class="ah-rxCustomerInfo-main layui-anim" step="2">
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div class="ah-data-label">姓名</div>
+                <input class="ah-data-input" asp-for="CustomerName" type="text">
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div class="ah-data-label">手机号码</div>
+                <input class="ah-data-input" asp-for="CustomerMobile" type="text">
+                <span asp-validation-for="CustomerMobile" class="text-danger"></span>
+            </div>
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div>
+                    <input name="CustomerGenderStr" value="1" title="男" checked="checked" type="radio">
+                    <input name="CustomerGenderStr" value="0" title="女" checked="" type="radio">
+                </div>
+            </div>
+
+            <div class="ah-rxCustomerInfo-data ah-flex">
+                <div class="ah-data-label">上传处方</div>
+                <div class="ah-rxCustomerInfo-data ah-flex" ah-id="Rx-Updata" style="flex-direction: initial;">
+                    <button type="button" class="ah-public-updata" style="margin-left:0;height: 65px;width:65px;" id="file_btn"></button>
+                    @if (Model.RxPicUrl1 != null)
+                    {
+                        <div class="ah-rx-updataPic"><img src="@Model.RxPicUrl1"><i class="layui-icon">ဆ</i></div>
+                    }
+                    @if (Model.RxPicUrl2 != null)
+                    {
+                        <div class="ah-rx-updataPic"><img src="@Model.RxPicUrl2"><i class="layui-icon">ဆ</i></div>
+                    }
+                    @if (Model.RxPicUrl3 != null)
+                    {
+                        <div class="ah-rx-updataPic"><img src="@Model.RxPicUrl3"><i class="layui-icon">ဆ</i></div>
+                    }
+                </div>
+            </div>
+            <div class="ah-rxCustomerInfo-data">
+                <span asp-validation-for="IsAgreement" class="text-danger"></span>
+                <input id="agreement" lay-skin="primary" title="同意相关条款" @(Model.IsAgreement ? "checked=''" : "") type="checkbox">
+            </div>
+
+            <div class="ah-rxCustomerInfo-data ah-flex" style="margin-top: 16px; flex-direction: inherit;">
+                <button type="button" class="ah-btn-blue" style="margin-left:0;height: 40px;width: 63px;padding: 0 5px;flex: none;" onclick="showStep(1)">
+                    <i class="layui-icon">&#xe65c;</i>返回
+                </button>
+                <button type="button" class="ah-btn-blue" style="height: 40px;flex: 1 1;" onclick="subAddRx()">
+                    <i class="layui-icon">&#xe618;</i>保存信息
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script>
+    //提交
+    function subAddRx() {
+        var pic = $("div[ah-id='Rx-Updata'] .ah-rx-updataPic");
+        //判断是否有上传处方
+        if (pic.length > 0) {
+            pagedata.picUrl = [];//清空旧图片数据
+            pic.each(function () {
+                pagedata.picUrl.push($(this).find("img").attr("src"));
+            });
+            //整理图片数据
+            for (var i = 1; i < 4; i++) {
+                if (pagedata.picUrl[i - 1] != "undefined") {
+                    $("#RxPicUrl" + i).val(pagedata.picUrl[i - 1]);
+                } else {
+                    $("#RxPicUrl" + i).val("");
+                }
+            }
+            //判断是否有同意相关政策
+            if ($("#agreement").is(':checked')) {
+                $("#IsAgreement").val(true);
+                $("#form1").submit();
+            } else {
+                $.err("请先同意相关政策！");
+                return false;
+            }
+
+        } else {
+            $.err("请上传处方图！");
+            return false;
+        }
+    }
+    //显示步骤
+    function showStep(i) {
+        $(".ah-rxCustomerInfo-main").each(function () {
+            var _this = $(this);
+            if (_this.attr("step") == i) {
+                _this.show();
+                _this.addClass("layui-anim-up");
+            } else {
+                _this.removeClass("layui-anim-up");
+                _this.hide();
+            }
+        });
+
+    }
+    //填报信息，根据身份证查询
+    function supplementaryInfo() {
+        var wrap = $(this).parents(".ah-rxCustomerInfo-main").first();
+        var codeID = $("#CustomerIdCode").val();
+        //校验身份证
+        if (codeID && /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(codeID)) {
+            $.getJSON("/api/Customer/GetCustomersAndRelations", {
+                searchText: codeID,//搜索内容
+            }, function (jn) {
+                if (jn.length > 0) {
+                    var c = jn[0];
+                    $("#CustomerName").val(c.customer.customerName);
+                    $("#CustomerMobile").val(c.customer.customerMobile);
+                    $("#CustomerId").val(c.customer.customerID);
+                    $("input[name='CustomerGenderStr']").each(function () {
+                        var _this = $(this);
+                        if (_this.val() == parseInt(c.customer.gender)) {
+                            _this.prop("checked", true);
+                        } else {
+                            _this.removeProp("checked");
+                        }
+                    });
+
+                } else {
+                    $("#CustomerName").val("");
+                    $("#CustomerMobile").val("");
+                    $("#CustomerId").val("0");
+                    $("input[name='CustomerGenderStr']").each(function () {
+                        var _this = $(this);
+                        if (_this.val() == parseInt(1)) {
+                            _this.prop("checked", true);
+                        } else {
+                            _this.removeProp("checked");
+                        }
+                    });
+                }
+                $.updataAllLayui()
+                showStep(2)
+            })
+        } else {
+            $.err("请输入正确格式的身份证号码！");
+        }
+    }
+</script>
+@section scripts{
+    @* 上传与压缩依赖文件 *@
+    <script src="~/lib/uploadSingleImg/tools.js"></script>
+    <script>
+        var pagedata = {
+            fileName: '@(ViewBag.fileName)',
+            posType: 'doctor',
+            picUrl: [],
+            updataInput: document.getElementById("upload"),
+        }
+        $(function () {
+
+            //删除处方图片
+            $(".ah-rxCustomerInfo-wrap").on("click", ".ah-rx-updataPic .layui-icon", function () {
+                var _this = $(this);
+                $.confirm("确认", "是否删除该处方图！", function () {
+                    _this.parent(".ah-rx-updataPic").first().remove();
+                })
+            })
+            $('#file_btn').click(function () {
+                if ($("div[ah-id='Rx-Updata'] .ah-rx-updataPic").length < 3) {
+                    $('#upload').click();
+                } else {
+                    $.err("最多只能上传3张处方图！");
+                }
+            });
+            showStep(1);
+            //初始化上传
+            $.localUpdataPic(pagedata.updataInput, function (jn) { 
+                var html = "<div class='ah-rx-updataPic'><img src='" + jn.url + "'/><i class='layui-icon'>&#x1006;</i></div>";
+                $("div[ah-id='Rx-Updata']").append(html)
+            });
+        });
+    </script>
+}

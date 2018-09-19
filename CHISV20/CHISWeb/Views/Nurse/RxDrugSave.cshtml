@@ -1,0 +1,231 @@
+﻿@model RxDrugSaveViewModel
+@{
+    ViewBag.Title = "处方药品备录";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@{
+    string routeId;
+    var routeIdT = @Html.ViewContext.RouteData.Values["id"];
+    if (routeIdT != null)
+    {
+
+        routeId = routeIdT.ToString();
+    }
+    else
+    {
+        routeId = "";
+
+    }
+}
+
+@section links{
+    <style>
+        .ah-main-content {
+            padding: 0;
+            background: none;
+            border: none;
+        }
+
+        .ah-data-input[type=text][readonly] {
+            border: 1px solid #e4e4e4;
+            background-color: #f0f0f0 !important;
+            cursor: not-allowed;
+            padding: 0 10px;
+        }
+    </style>
+}
+
+<div class="ah-rxDrugSave-wrap ah-flex ah-max-width">
+    <div class="ah-rxDrugSave-left">
+        <div class="ah-public-title">扫一扫，填信息</div>
+        <div class="ah-rxDrugSave-code" id="rx-userinfo-code"></div>
+        <div class="ah-public-title">
+            <div>
+                <span>待添加人员</span>
+                <a class="" onclick="refreshRxSave()"><i class="fa fa-refresh"></i> 刷新</a>
+            </div>
+            <a class="" href="/Nurse/RxDrugSave" @*onclick="newRxSave()" *@><i class="fa fa-plus-circle"></i> 新增</a>
+        </div>
+        <div id="user_list">
+            @await Html.PartialAsync("_pvRxUserList", Model.RxUserList)
+        </div>
+    </div>
+    <div class="ah-rxDrugSave-right">
+
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">新增处方记录</li>
+                <li onclick="getCompletedRxList()">已记录处方</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    @await Html.PartialAsync("_pvRxDrugSaveBase", Model.NewRxUser)
+                </div>
+
+                <div class="layui-tab-item" id="CompletedRxList">
+                    <div ah-tools="wrap" class="ah-max-width">
+                        <div class="ah-tools">
+                            <div class="ah-tool-wrap">
+                                <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入用姓名或手机号码" value="@(Context.Request.Query["searchText"])" />
+                                <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+                            </div>
+                            <div class="ah-tool-wrap">
+                                <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+                            </div>
+                        </div>
+                        <div id="J_selector" class="selector ah-tool-more">
+                            <div class="search-conditions" id="search_items">
+                                <div class="title">
+                                    已选：
+                                </div>
+                                <div class="sel-items">
+
+                                </div>
+                            </div>
+                            <div class="J_selectorLine s-brand">
+                                <div class="sl-wrap">
+                                    <div class="sl-key" title-key="TimeRange"><strong>查询时间段：</strong></div>
+                                    <div class="sl-value">
+                                        <div class="clr"></div>
+                                        <div class="sl-v-list">
+                                            <section class="section-inline">
+                                                <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span>当日</span></label>
+                                                <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                                                <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                                                <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                                                <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                                            </section>
+
+                                            <section class="section-inline ah-search-input">
+                                                <div class="section-more-wrap">
+                                                    <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                                    至
+                                                    <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                                    <button class="ah-btn-blue" type="button">确定</button>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    <div class="sl-ext">
+                                        <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ah-table-wrap" ah-id="TREAT-TABLE"></div>
+                        <div class="ah-page-wrap" id="pager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+
+    <environment names="Development">
+        @* 上传与压缩依赖文件 *@
+        <script src="~/lib/uploadSingleImg/tools.js"></script>
+
+        <script src="~/lib/qrcode/jquery.qrcode.min.js"></script>
+        <script src="~/js/pages/rx-drug-save.js"></script>
+        <script src="~/js/ah-common-search.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" src="~/js/pages/ahzp-rxdrug-save.min.js"></script>
+    </environment>
+    
+    <script>
+        var pagedata = {
+            qrUrl: "@(Context.Request.Scheme)://@(Context.Request.Host)/Nurse/RxCusM?s=@(u.StationId)&d=@(u.DoctorId)",
+            picUrl: [],
+        }
+        $(function () {
+            //初始化扫一扫二维码
+            RXDRUGSAVE.InitSupplementInfoCode();
+
+            //删除药品监听
+            $(".ah-pvRxDrugDrugSaveBase_Drug").on("click", " i[ah-id='delete-drug']", function () {
+                var _this = $(this).parent("li").first();
+                var rxid = _this.attr("ah-rxdrugId");
+                $.confirm("确认", "是否删除该药品？", function () {
+                    $.post("/Nurse/RxDrugSaveDeleteDrug", { rxSaveDrugId: rxid }, function (jn) {
+                        if (jn.rlt) {
+                            _this.remove();
+                            $.ok("删除成功!");
+                        } else {
+                            $.err(jn.msg)
+                        }
+                    });
+
+                })
+            })
+
+            //搜索药品选中
+            $(".ah-rx-selectDrug").on("click", "li", function () {
+                var _this = $(this);
+                $("#drugId").val(_this.attr("ah-drugId"));
+                $("#dosageUnitName").val(_this.attr("ah-dosageUnitName"));
+                $("#drugName").val(_this.attr("ah-drugName"));
+                $("#drugMolde").val(_this.attr("ah-drugMolde"));
+                $("#drugManufacturerOrigin").val(_this.attr("ah-drugManufacturerOrigin"));
+                $("#drugBatNo").val("");
+                $("#drugDeadlineTime").val("");
+                $("#drugNum").val(1);
+                $(".ah-rx-selectDrug").css("right", "-290px");
+            });
+        })
+
+        //新增处方
+        function newRxSave() {
+            $.get("/Nurse/EditRxSave", { rxSaveId: 0 }, function (html) { $('#rx_edit').html(html); refreshRxSave();});
+        }
+
+        //删除顾客
+        function deleteRxUser() {
+            if ('@routeId' === '') {
+                $.err("请先在左侧选择需要删除的顾客！");
+            }else {
+                $.confirm("确认", "是否删除该顾客？", function () {
+                    $.get("/Nurse/DeleteRxUser?rxSaveId=" + "@routeId", {}, function (jn) {
+                        if (jn.rlt) {
+                            $.ok("删除成功!");
+                            $(window).attr('location', '/Nurse/RxDrugSave');
+                        } else {
+                            $.err(jn.msg);
+                        }
+                    })
+                })
+            }
+        }
+        
+
+        //刷新列表
+        function refreshRxSave() {
+            $.get("/Nurse/GetRxUserList/" + "@routeId", {}, function (html) {
+                $('#user_list').html(html);
+            })
+        }
+
+        //显示处方药列表
+        function getCompletedRxList() {
+            SEARCH.searchMain = "TREAT-TABLE";//搜索结果存放区域
+            SEARCH.searchUrl = "/Nurse/GetCompletedRxList"; //设置搜索的请求地址
+            SEARCH.search(1);
+            //$.get("/Nurse/GetCompletedRxList", {}, function (html) {
+            //    $('#CompletedRxList').html(html);
+            //})
+
+        }
+
+        //显示处方药记录详情
+        function loadDetail(e, rxId) {
+            SEARCH.loadRowDetail(e, '/Nurse/GetCompletedRxUser?rxSaveId=' + rxId);
+        }
+
+    </script>
+}

@@ -1,0 +1,120 @@
+﻿@model CHIS.Models.ViewModel.GiftViewModel
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GiftDetail</title>
+</head>
+<body>
+
+<div>
+    <h4>GiftViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GiftId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GiftId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GiftName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GiftName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NeedPoints)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NeedPoints)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Stock)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Stock)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Instruction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Instruction)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CoverImg)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CoverImg)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderLimit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderLimit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscountRate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DiscountRate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscountPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DiscountPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpiryDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExpiryDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Img1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Img1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Img2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Img2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Img3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Img3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailableDays)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AvailableDays)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>

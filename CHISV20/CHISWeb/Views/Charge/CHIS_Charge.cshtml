@@ -1,0 +1,74 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model ChargeMainViewModel
+@{
+    ViewBag.Title = "门诊收费";
+    ViewBag.FuncId = 23;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    //从地址栏带入的参数
+    string treatId = Context.Request.Query["treatId"];
+}
+@section links{
+    <link href="~/css/pages/chis-charge-main.css" rel="stylesheet" />
+}
+<div class="ah-flex ah-m-fullwidth ah-max-width">
+    <div class="ah-sidebar ah-charge-sidebar">
+        <div class="layui-tab layui-tab-brief" lay-filter="Charge">
+            <ul class="layui-tab-title">
+                <li class="layui-this" onclick="setShow(true,'#wait_payment')">
+                    待缴费
+                    <span class="kf" id="waitNum">
+                        @if (treatId.IsNotEmpty())
+                        {
+                            <i class="glyphicon glyphicon-triangle-bottom" style="margin-left:10px"></i>
+                        }
+                    </span>
+                </li>
+                <li onclick="setShow(true,'#already_payment')">已缴费<span class="kf" id="alreadyNum"></span></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show @(treatId.IsEmpty()?"":"ah-pay-hidelist") " id="wait_payment">
+                    @await Html.PartialAsync("_pvChargeListNeedPay", Model.NeedPayList)
+                </div>
+                <div class="layui-tab-item" id="already_payment">
+                    @await Html.PartialAsync("_pvChargeListPayed", Model.PayedList)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ah-flex-auto charge-main-wrap ah-postion-relative">
+        <div class="charge-set-wrap" id="set-pay-code">
+            设置收费二维码
+            <img src="~/images/ah-code.png" class="charge-set-code" title="收费二维码展示" />
+        </div>
+        <div class="ah-set-payCode">
+            <div class="ah-flex ah-set-payCode-wrap ">
+                <div>
+                    <p class="ah-set-payCode-title">扫描说明</p>
+                    <p>1.使用手机、平板浏览器或者微信的 "扫一扫" 功能扫描左侧二维码 , 访问相关支付页面。</p>
+                    <p>2.使用电脑找到需要付款人的订单信息 , 然后点击 "去支付" 按钮 , 并将 "步骤1" 呈现的二维码让用户扫描支付 </p>
+                </div>
+                <div id="ah-set-payCode"></div>
+            </div>
+        </div>
+        <div class="ah-flex ah-flex-column ah-max-height ah-table-wrap" ah-id="chargeIndex">
+            @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/qrcode/jquery.qrcode.min.js"></script>
+    <script src="~/js/pages/charge-main1.js"></script>
+    <script>
+        $(function () {
+            //判断url参数是否需要初始化
+            CHARGE.getUrlRegInit();
+            //添加设置收费二维码监听
+            CHARGE.setPayCode();
+        })
+    </script>
+}
+
+

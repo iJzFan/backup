@@ -1,0 +1,56 @@
+﻿@model IEnumerable<vwCHIS_Code_Customer_AddressInfos>
+@{ 
+    var n = 1;
+}
+<p style="font-size:13px;">已保存 @Model.Count() 条地址，还可以添加 @(10-Model.Count()) 条!</p>
+<hr style="margin-top:0;"/>
+@* 地址列表 *@
+<table class="table table-hover ui-table table-addr">
+    <thead>
+        <tr>
+            <td></td>
+            <th>收货人</th>
+            <th>所在地区</th>
+            <th>详细地址</th>
+            <th>邮编</th>
+            <th>手机号码</th>
+            <th>备注</th>
+            <th>操作</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr class="tr-def-@(item.IsDefault?"1":"0")">
+            <td>@(n++)</td>
+
+            <th>@item.ContactName</th>
+
+            <td class="area">@item.MergerName</td>
+            <td class="area-detail">@item.AddressDetail</td>
+            <td class="area-zcode">@item.ZipCode</td>
+
+            <th>@item.Mobile</th>
+                <td class="@(item.Remark!= null? "area-rmk":"")">@item.Remark</td>
+
+            <td class="td-def">
+                @if (item.IsDefault)
+        {
+            <span class="label label-default">默认</span>
+}
+else
+{
+        <a style="cursor:pointer" onclick="setAddrIsDefault(@item.AddressId);">设置为默认</a>
+}
+            </td>
+            <td>
+                <button onclick="delectAddr(@item.AddressId);">删除</button> | <button onclick="editAddr(@item.AddressId);">修改</button>
+            </td>
+
+        </tr>
+        }
+
+    </tbody>
+</table>
+ 

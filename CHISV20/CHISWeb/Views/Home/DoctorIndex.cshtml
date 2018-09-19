@@ -1,0 +1,210 @@
+﻿@using Ass
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.DoctorService doctorSvr
+@{ 
+    ViewBag.Title = "首页";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+    var smy = await doctorSvr.GetMyStatisticSummaryAsync(u.DoctorId, u.StationId);
+}
+
+@section links{
+    <link href="~/css/pages/doctor-index.css" rel="stylesheet" />
+    <style>
+        .ah-main-content {
+            padding: 0;
+            background: none;
+            border: none;
+        }
+    </style>
+}
+<div class="ah-flex ah-doctorIndex-wrap">
+    <div class="ah-doctor-index ah-flex">
+        <div class="ah-doctorIndex-left ah-flex">
+            <div class="ah-doctorIndex-data ah-flex">
+                <div class="ah-doctorIndex-patientInfo">
+                    <div class="ah-doctorIndex-dataTitle">
+                        接诊<span>(例)</span>
+                    </div>
+                    <div class="ah-flex">
+                        <div class="ah-doctorIndex-dataMain"><div>@(smy.TreatCountOfToday)</div><span>今日接诊</span></div>
+                        <div class="ah-doctorIndex-dataMain"><div>@(smy.TreatCountOfWeek)</div><span>本周接诊</span></div>
+                    </div>
+                </div>
+                <div class="ah-doctorIndex-profitInfo">
+                    <div class="ah-doctorIndex-dataTitle">
+                        收益<span>(元)</span>
+                    </div>
+                    <div class="ah-flex">
+                        <div class="ah-doctorIndex-dataMain"><div>@(smy.FeeAmountOfToday)</div><span>今日收益</span></div>
+                        <div class="ah-doctorIndex-dataMain"><div>@(smy.FeeAmountOfWeek)</div><span>本周收益</span></div>
+                    </div>
+                </div>
+                <div class="ah-doctorIndex-drugInfo">
+                    <div class="ah-doctorIndex-dataTitle">
+                        开药<span>(总量/种类)</span>
+                    </div>
+                    <div class="ah-flex">
+                        <div class="ah-doctorIndex-dataMain"><div>@(smy.DrugQtyAmountOfToday) / <small>@(smy.DrugTypeCountOfToday)</small></div><span>今日开药</span></div>
+                        <div class="ah-doctorIndex-dataMain"><div>@(smy.DrugQtyAmountOfWeek) / <small>@(smy.DrugTypeCountOfWeek)</small></div><span>本周开药</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ah-doctorIndex-patientWrap ah-flex">
+                <div class="ah-doctorIndex-patientItems ah-flex">
+                    <div class="ah-doctorIndex-title ah-flex">
+                        待接诊<a href="/Doctor/Patientvisit?pagefn=108">更多</a>
+                    </div>
+                    <div class="ah-public-main">
+                        <ul id="PatientList" class="ah-doctorIndex-patient">
+                            @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                        </ul>
+                    </div>
+                </div>
+                <div class="ah-doctorIndex-patientItems ah-flex">
+                    <div class="ah-doctorIndex-title ah-flex">
+                        已接诊<a href="/Doctor/Patientvisit?pagefn=108">更多</a>
+                    </div>
+                    <div class="ah-public-main">
+                        <ul id="Patient2List" class="ah-doctorIndex-patient">
+                            @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ah-doctorIndex-right">
+            <div class="ah-doctorIndex-register">
+                <div class="ah-doctorIndex-title ah-flex">
+                    快速接诊
+                </div>
+                <div class="ah-doctorIndex-register-main">
+                    <input type="hidden" id="Customer_Id"/>
+                    <div class="ah-flex register-data ah-hide ah-flex-wrap" ah-id="customer-more"></div>
+                    <div class="ah-flex register-data">
+                        <div class="title">手机</div>                     
+                        <div class="ah-flex-auto">
+                            <input type="text" class="ah-data-input" placeholder="请输入手机【可输入后回车】"  id="ah-register-phone"/>
+                            <button class="ah-btn-search" type="button" onclick="getCustomersBy();"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="ah-flex register-data">
+                        <div class="title">患者</div>
+                        <div class="ah-flex-auto"><input type="text" class="ah-data-input" id="Customer_Name" /></div>
+                    </div>
+                    <div class="ah-flex register-data">
+                        <div class="title">性别</div>
+                        <div class="ah-flex-auto">
+                            <input name="sex" value="1" title="男" checked="" type="radio">
+                            <input name="sex" value="0" title="女" type="radio">
+                        </div>
+                    </div>
+                    <div class="ah-flex register-data">
+                        <div class="title">出生日期</div>
+                        <div class="ah-flex-auto">
+                            <div class="ah-flex-auto ah-flex ah-align-center">
+                                <div class="ah-input-icondate ah-flex">
+                                    <input onchange="dateChangeRange(this)" type="text" id="Customer_Birthday" style="width: 93px;" placeholder="1988-08-08"/>
+                                    <span class="dateicon" id="ah-doctorIndex-dateIcon"></span>
+                                </div>
+                                <span style="margin:0 10px;">岁</span>
+                                <div class="ah-range-wrap">
+                                    <span class="ah-rangeAge-0">0</span>
+                                    <span class="ah-rangeAge-99">99</span>
+                                    <input min="0" max="99" oninput="setAgeDay('#Customer_Birthday',this)" type="range">
+                                    <i></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (u.StationTypeId == CHIS.DictValues.StationType.k_StationType_DrugStore)
+                    {
+                    <div class="ah-flex register-data">
+                        <div class="title">预约来源</div>
+                        <div class="ah-flex-auto">
+                            <input type="hidden" id="register-opId" />
+                            <input type="text" class="ah-data-input" id="register_source" />
+                            <div class="ah-register-source-wrap layui-anim">
+                                <div class="ah-flex">
+                                    <input type="text" class="ah-data-input" ah-outInputId="register-opId" id="register_source_search" />
+                                    <button class="ah-btn-search" type="button" onclick="registerSource(pagedata.stationId)"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                                <dl></dl>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    }
+                    <div class="ah-flex register-data">
+                        <div class="title">科室</div>
+                        <div class="ah-flex-auto">
+                            @{
+                                var departs = myRazor.GetDepartsOfStation(u.StationId);
+                            }
+                            
+                            @if (u.IsCanTreat)
+                            {
+                                <select role-initial="false" asp-items="departs" asp-for="@u.SelectedDepartmentId" id="DepartmentId"
+                                        class="ah-data-select" onchange="doctorItemLoad(this.value);">
+                                    <option value="">请选择</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select role-initial="false" asp-items="departs" class="ah-data-select" id="DepartmentId" onchange="doctorItemLoad(this.value);">
+                                    <option value="">请选择</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="ah-flex register-data">
+                        <div class="title">医生</div>
+                        <div class="ah-flex-auto">
+                            <select role-initial="false" class="ah-data-select" id="DoctorId" ah-select="DoctorIndexItems">
+                                @if (u.IsCanTreat)
+                                {
+                                    <option value="@u.DoctorId">@u.DoctorName</option>
+                                }
+                                else
+                                {
+                                    <option value="">请选择科室</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ah-flex register-data" style="margin:20px 0 10px 0">
+                        <button class="ah-btn-white ah-flex-auto" style="height: 40px;" id="Reset">重置</button>
+                        <button class="ah-btn-blue ah-flex-auto" style="height: 40px;" id="fastPatient">开始接诊</button>
+                    </div>
+                    
+                </div>
+            </div>
+             <div class="ah-doctorIndex-scheduling">
+                 <div class="ah-date-show"></div>
+             </div>
+        </div>
+    </div>
+</div>
+<script>
+    if (self != top) top.window.location.href = "/home/DoctorIndex";
+</script>
+<script>
+    var pagedata = {
+            customerPicPath: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+            doctorPicPath: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+            stationId:@(u.StationId),
+            stationName: '@u.StationName',
+            doctorId:'@u.DoctorId',
+            ver: 1
+        }
+    function doctorItemLoad(departId) {
+        $.get("/openapi/Common/JetDoctorsInDepart?departId="+departId, function (jn) {
+            $("select[ah-select='DoctorIndexItems']").html($.addSelectOption("请选择医生", jn.items));
+            $.updataLayui();
+        });
+    }
+</script>
+@section scripts{
+    <script src="~/js/pages/doctor-index.js"></script>
+}

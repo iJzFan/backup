@@ -1,0 +1,143 @@
+﻿body {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+.psy-bj {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.psychology-title {
+    color: #FFFFFF;
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+    position: relative;
+    font-size: 24px;
+}
+.psychology-content {
+    padding: 20px;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 0px;
+    background: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px #aaaaaa;
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    font-size: 14.0px;
+    border-radius: 0px;
+    border-width: 1px;
+    border-style: solid;
+    text-align: center;
+    line-height: 20px;
+    font-weight: normal;
+    font-style: normal;
+    z-index: 5;
+    opacity: 0.9;
+    pointer-events: auto;
+    margin-bottom: 100px;
+}
+.content {
+    margin-top: 40px;
+    box-sizing: border-box;
+    border: 2px solid #56b0fc;
+    padding: 25px 30px 15px;
+    width: 100%;
+    position: relative;
+    text-align: left;
+}
+.text-title {
+    background: #fff;
+    color: #56b0fc;
+    font-size: 24.0px;
+    font-weight: bold;
+    position: absolute;
+    top: -22px;
+    padding: 10px;
+    left: 20px;
+}
+.bowknot-wrap {
+    position: absolute;
+    top: -22px;
+    right: -18px;
+    background: #fff;
+    width: 58px;
+    text-align: center;
+}
+.bowknot-wrap img {
+    width: 68%;
+}
+.text-wrap {
+    line-height: 24px;
+    color: #666;
+}
+.keyword {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+.sub-float {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background: #56b0fc;
+    border-radius: 3px;
+    right: 0.5%;
+    bottom: 30px;
+    margin-top: 53px;
+    transition: all 1s;
+    -moz-transition: all 1s;
+    -webkit-transition: all 1s;
+    -o-transition: all 1s;
+    opacity: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.sub-float img {
+    width: 100%;
+    height: 100%;
+}
+.foot {
+    line-height: 55px;
+    font-size: 18px;
+    text-align: left;
+    margin: 30px 0;
+}
+.foot a {
+    background: #56b0fc;
+    color: #fff;
+    height: 53px;
+    display: block;
+    float: right;
+    border: 1px solid #8f9498;
+    border-radius: 5px;
+    padding: 0 22px;
+    cursor: pointer;
+}
+@media screen and (max-width:690px) {
+    .sub-float {
+        display: none;
+    }
+
+    .psychology-content {
+        width: 99%;
+        padding: 16px;
+        margin-bottom:0;
+    }
+    .content {
+        padding: 23px 12px 9px;
+    }
+    .foot {
+        line-height: 29px;
+    }
+    .foot a {
+        height: 35px;
+    }
+}

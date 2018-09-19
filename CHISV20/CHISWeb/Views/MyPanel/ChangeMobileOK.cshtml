@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "修改手机号成功";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section links{
+   <style>
+       .changeMobileOk {
+           align-items: center;
+           justify-content: center;
+           margin-top: 69px;
+           font-size: 4ex;
+           color: #4680ea;
+       }
+        .changeMobileOk img {
+            width: 100px;
+            height: 100px;
+            padding: 3px;
+            background: #4780eb;
+            border-radius: 50%;
+            margin-right: 41px;
+        }
+        .changeMobileOk button {
+            border: none;
+            background: none;
+            font-size: 1.2ex;
+            margin-left: 10px;
+            border-bottom: 1px solid #4680ea;
+        }
+    </style>
+}
+<div class="container layui-form">
+    <ul class="ah-step-wrap ah-flex">
+        <li class="ah-strp-active"><a>1.验证身份</a></li>
+        <li class="ah-strp-active"><a>2.绑定新手机</a></li>
+        <li class="ah-strp-active"><a>3.完成修改</a></li>
+    </ul>
+    <form class="form-one" asp-controller="MyPanel" asp-action="ChangeLoginInfo" method="post">
+        <div class="ah-flex ah-col-md1 changeMobileOk">
+            <img src="~/images/layer-icon-1.png" />
+            恭喜，手机已成功修改
+            <button class="abolish-button" asp-controller="MyPanel" asp-action="ChangeLoginInfo">返回</button>
+        </div>
+    </form>
+</div>
+@section scripts{
+    @*一个页面只切换form内容*@
+    @*<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"> </script>
+        <script>
+            $(function () {
+                $('.form-one').show;
+                $('.form-tow').hide;
+                $('.form-three').hide;
+            });
+            function buttonOne() {
+                $('.form-one').hide;
+                $('.form-tow').show;
+                $('.form-three').hide;
+            };
+            function buttonTow() {
+                $('.form-one').hide;
+                $('.form-tow').hide;
+                $('.form-three').show;
+            };
+            function buttonThree() {
+                $('.form-one').hide;
+                $('.form-tow').show;
+                $('.form-three').hide;
+            };
+        </script>*@
+}

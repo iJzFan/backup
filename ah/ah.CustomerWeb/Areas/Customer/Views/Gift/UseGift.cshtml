@@ -1,0 +1,40 @@
+﻿@model ah.Models.ViewModel.GiftOrderViewModel
+
+@{
+    ViewBag.Title = "使用商品";
+}
+@if (string.IsNullOrWhiteSpace(Model.WeChatCardCode))
+{
+    <div style=" color: #dc143c;
+    font-size: 20px;
+    text-align:center;">
+        <div>请先到公众号领取卡券</div>
+    </div>
+}
+else
+{
+    <div class="code"></div>
+}
+
+<div class="ah-gift-info">
+    <div>@Model.GiftName</div>
+</div>
+@section scripts{
+    <script src="~/lib/jquery.qrcode.min.js"></script>
+    <script>
+        layui.use('element', function () {
+            var w = $(document).width();
+            if (w >= 800) {
+                w = 500;
+            } else {
+                w = w * 0.6;
+            }
+
+            $(".code").qrcode({
+                text: @Model.WeChatCardCode,
+                width: w,
+                height: w
+            });
+        });
+    </script>
+}

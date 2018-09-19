@@ -1,0 +1,259 @@
+﻿@model CHIS.Models.ViewModels.SpecialTreat
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{ 
+    var myModel = Model as CHIS.Models.ViewModels.SpecialTreat_Psych;
+}
+<div class="ah-flex-layout">
+    <input type="radio" name="isShowPsych" onchange="isShowPatientDetailBase(false,'.patient_detail_nav')" checked="" title="隐藏心理明细" />
+    <input type="radio" name="isShowPsych" onchange="isShowPatientDetailBase(true,'.patient_detail_nav')" title="显示心理明细" />
+</div>
+<div class="patient_detail_nav">
+    <ul class="patient-detail-ul">
+        @if (myModel.QsData != null) {
+            <li class="active"><a href="#Psy" data-toggle="tab">就诊问卷</a></li>
+            <li class="@(myModel.QsData==null ? "active": "")"><a href="#Record" data-toggle="tab">咨询记录</a></li>
+        }
+    </ul>
+    <div class="tab-content toptab">
+        @if (myModel.QsData!=null)
+        {
+            <div class="tab-pane fade in active" id="Psy">
+                <ul class="pvSt-Item">
+                    <li>
+                        <div class="pvSt-Item-Title">宗教</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.Religion</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">职业</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.Occupation</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">职业描述</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.WorkStatus</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">教育程度</div>
+                        <div class="pvSt-Item-Value">
+                            @{
+                                var EduLevel = myRazor.GetSelectListItemsByDictKey("EduLevel");
+                            }
+                            <span>@myModel.QsData.EduLevelName</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">就读学校</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.TopSchool</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">教育描述</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.StudyStatus</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">婚姻状况</div>
+                        <div class="pvSt-Item-Value">
+                            @myModel.QsData.MarriageName
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">婚姻描述</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.MarrageStatus</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">育有子女</div>
+                        <div class="pvSt-Item-Value">
+                            <span>孕：@myModel.QsData.PregnancyNum</span>
+                            <span>产：@myModel.QsData.BirthChildrenNum</span>
+                            <span>育：@myModel.QsData.AliveChildNum</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">子女描述</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.ChildStatus</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">咨询原因</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.NeedTreatCause</div>
+                    </li>
+                    <li>
+                        <div class="pvSt-Item-Title">预期结果</div>
+                        <div class="pvSt-Item-Value">@myModel.QsData.ExpectRlt</div>
+                    </li>
+
+                </ul>
+            </div>
+         }
+        <div class="tab-pane fade @(myModel.QsData==null ? "in active": "")" id="Record">
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        主诉<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">是来访者寻求最迫切帮助的问题及持续时间，或者是来访者求诊的主要原因或问题发生发展的过程与持续时间。基本格式为：主要问题或表现 + 过程 + 时间（注意：主诉一般不超过20个字），例如“考试前焦虑不安，失眠一周。”</span>
+                    <textarea placeholder="请输入个人陈述" ah-id="complain" rows="3" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        婚姻陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        (1)是否自由恋爱、他人介绍、包办、买卖婚姻；对婚姻关系是否满意。<br />
+                        (2)婚姻中有无重大事件发生，事件原因中有无道德和文化因素<br />
+                        (3)家庭成员，对家庭各成员的看法，家庭成员在日常生活中的分工，自己在家庭中所起的作用。<br />
+                        (4)家庭中发生的重要事件和原因，原因中有无道德、文化因素。
+                    </span>
+                    <textarea placeholder="请输入婚姻陈述" name="SpecialTreat.DoctorTreatExt.MarrageRec" asp-for="DoctorTreatExt.MarrageRec" rows="3" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        工作陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        (1)对工作的态度、兴趣、满意程度。<br />(2)是否改变过职业，理由何在。
+                    </span>
+                    <textarea rows="3" placeholder="请输入工作陈述"
+                          name="SpecialTreat.DoctorTreatExt.WorkRec" asp-for="DoctorTreatExt.WorkRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        交际陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        (1)社交网以及社交兴趣和社交活动的主要内容<br />
+                        (2)与自己交往最多、最密切的人有几个<br />
+                        (3)能给予求助者帮助的人和求助者帮助过的人有几个<br />
+                        (4)举例说明社交中的相互影响<br />
+                        (5)社交中互相在道德和法律方面的责任感<br />
+                        (6)参加集体活动的兴趣如何<br />
+                        (7)最令求助者感到愉快的活动。<br />
+                        (8)求助者对愉快情绪体验的描述是否恰当。<br />
+                    </span>
+                    <textarea rows="3" placeholder="请输入交际陈述" 
+                          name="SpecialTreat.DoctorTreatExt.ShipRec" asp-for="DoctorTreatExt.ShipRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        自我陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        (1)描述自己长处、优点时的言词、表情、语言、语词是否夸张或缩小。<br />
+                        (2)描述自己缺点时的言词、表情、语言、语调，是否夸大或缩小。<br />
+                        (3)居住条件。<br />
+                        (4)日常活动内容、活动场所。<br />
+                        (5)生活方式和习惯。<br />
+                        (6)近期生活方式有无重大改变。 <br />
+                    </span>
+                    <textarea rows="3" placeholder="请输入自我陈述" 
+                          name="SpecialTreat.DoctorTreatExt.SelfRec" asp-for="DoctorTreatExt.SelfRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        家族史陈诉<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        (1)描述自己既往病史。<br />
+                        (2)描述自己家族病史。<br />
+                    </span>
+                    <textarea  rows="3" placeholder="请输入家族史陈诉"
+                          name="SpecialTreat.DoctorTreatExt.FamilyRec" asp-for="DoctorTreatExt.FamilyRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        幼儿时期陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        （1）婴幼儿期<br />
+                        围产期、出生时的情况，包括母亲身体状况、服药情况、是否顺产。<br />
+                        （2）童年生活<br />
+                        ①走路、开始说话的时间；<br />
+                        ②与大多数儿童比较，有无重大特殊事件发生，现在对当时情景的回忆是否完整；<br />
+                        ③童年身体情况，是否患过严重疾病；<br />
+                        ④童年家庭生活，父母情感是否和谐；<br />
+                        ⑤童年家庭教养方式、学校教育情况，有无退缩或攻击行为。<br />
+                    </span>
+                    <textarea rows="3" placeholder="请输入幼儿时期陈述" 
+                          name="SpecialTreat.DoctorTreatExt.ChildhoodRec" asp-for="DoctorTreatExt.ChildhoodRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        少年时期陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        ①少年期家庭教育、学校教育、社会教育中有无挫折发生；<br />
+                        ②少年期最值得骄傲的事和深感羞耻的事是什么；<br />
+                        ③少年期性萌动时的体验和对待；<br />
+                        ④少年期有无严重疾病发生；<br />
+                        ⑤少年期在与成人的关系中，有无不愉快事件发生，有无仇视、忌恨的事或人；<br />
+                        ⑥少年期的兴趣何在，有无充足时间做游戏，与同伴关系如何。<br />
+                    </span>
+                    <textarea rows="3" placeholder="请输入少年时期陈述" 
+                          name="SpecialTreat.DoctorTreatExt.YouthRec" asp-for="DoctorTreatExt.YouthRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        青年时期陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        ①青年期最崇拜的人是谁；<br />
+                        ②爱情生活状况(有无失恋等)；<br />
+                        ③最喜欢读的书籍；<br />
+                        ④学习(包括升学)有无挫折；<br />
+                        ⑤就业有无挫折；<br />
+                        ⑥婚姻是否受过挫折；<br />
+                        ⑦有无最要好的朋友，朋友的状况如何(包括职业、道德行为、法律意识)。<br />
+                    </span>
+                    <textarea rows="3" placeholder="请输入青年时期陈述" 
+                          name="SpecialTreat.DoctorTreatExt.NonageRec" asp-for="DoctorTreatExt.NonageRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex">
+                        近况陈述<i class="glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <span class="tips">
+                        （1）精神状态<br />
+                        ①感知觉、思维、注意力、记忆力。<br />
+                        ②情绪、情感表现。<br />
+                        ③意志行为(自控能力、言行一致性等)。<br />
+                        ④人格的完整性、相对稳定性。<br />
+                        （2）身体状态<br />
+                        ①有无躯体异常感觉。<br />
+                        ②求助者近期体检报告。<br />
+                        （3）社会工作与社会交往<br />
+                        ①工作动机和考勤(在校学生学习动机和考勤状况)。<br />
+                        ②社会交往状况(接触是否良好)。
+                    </span>
+                    <textarea rows="3" placeholder="请输入近况陈述"
+                          name="SpecialTreat.DoctorTreatExt.CurrentRec" asp-for="DoctorTreatExt.CurrentRec" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('textarea[ah-id="complain"]').blur(function () {
+            var val = $(this).val();
+            $('textarea[ah-id="complain"]').each(function () { 
+                $(this).val(val);
+            });
+        });
+    })
+</script>

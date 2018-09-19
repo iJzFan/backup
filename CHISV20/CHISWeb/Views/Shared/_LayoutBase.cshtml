@@ -1,0 +1,206 @@
+﻿
+@{
+    //var area = ViewContext.RouteData.Values["area"];
+    //var areaurl = area == null ? "/" : area.ToString()+"/";
+    //var controller = ViewContext.RouteData.Values["controller"].ToString();
+    //var action = ViewContext.RouteData.Values["Action"].ToString();
+    var ci = Ass.Net.ClientInfo.Get(Context.Request);
+
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-
+strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <title>天使健康个人中心</title>
+    <meta name="author" content="" />
+    @* bootstrap css 等第三方样式应用 及lib文件夹下的css样式引用 *@
+    @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">*@
+
+    @* layui 有重写部分CSS 为了防止bootstrap被污染 所以放到前面 *@
+    <link rel="stylesheet" href="~/lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="~/lib/bootstrap3/css/ie.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap3/css/metisMenu.min.css" />
+              <![endif]-->
+
+    
+    <link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/third-party-library/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="~/sys/jqgrid/jqgrid.css" />
+    <link rel="stylesheet" href="~/lib/third-party-library/my-widget/my-widget.css" />
+    <link rel="stylesheet" href="~/lib/iCheck/skins/all.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery.scrollbar/css/jquery.scrollbar.css" />
+    <link rel="stylesheet" href="~/lib/zTree/css/zTreeStyle/zTreeStyle.css" />
+    <link rel="stylesheet" href="~/lib/jquery-pager/Pager.css" />
+    @RenderSection("link3part", required: false)
+
+    @* 项目公共样式引用 *@
+    <link rel="stylesheet" href="~/css/ui-frame.css" />
+    <link rel="stylesheet" href="~/css/common-overide.css" />
+    <link rel="stylesheet" href="~/css/common-self.css" />
+    <link rel="stylesheet" href="~/css/common-site.css" />
+    <link rel="stylesheet" href="~/css/lrtk.css" />
+
+    @* 自写样式引用 *@
+
+    @* <link rel="stylesheet" href="~/@(areaurl)css/pages/@(controller)-@(action).css" />*@
+
+    @RenderSection("links", required: false)
+
+    <script src="~/lib/jquery-1.12.0.min.js"></script>
+    <script src="~/lib/jquery-pager/jquery.pager.js"></script>
+</head>
+<body>
+    @RenderBody()
+    @* js部分的载入 *@
+    @if (ci.IsLessIE9)
+    {
+        <script src="~/lib/jquery-1.12.0.min.js"></script>
+    }
+    else
+    {
+        <script src="~/lib/jquery-1.12.0.min.js"></script>
+        @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    }
+
+
+    <!--[if lte IE 9]>
+     <script src="~/lib/bootstrap3/js/respond.min.js"></script>
+    <script src=~/lib/bootstrap3/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+
+    <script src="~/lib/jquery/dist/select/bootstrap.min.js"></script>
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+    <script src="~/lib/vue.min.js"></script>
+
+    <script src="~/lib/template.js"></script>
+    @*<script src="~/lib/select2/dist/js/select2.min.js"></script>
+        <script src="~/lib/select2/dist/js/select2.full.min.js"></script>*@
+    <script src="~/lib/select2/dist/js/select2.js"></script>
+    @*  <script src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>*@
+
+    <script src="~/lib/third-party-library/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="~/lib/third-party-library/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <script src="~/lib/layer/build/layer.js"></script>
+    <script src="~/sys/jqgrid/jqgrid.min.js"></script>
+    @*<script src="~/lib/jqGrid/js/jquery.jqGrid.min.js"></script>*@
+    <script src="~/sys/jqgrid/grid.locale-cn.js"></script>
+    <script src="~/lib/zTree/js/jquery.ztree.all.min.js"></script>
+    @* 公用js *@
+    <script src="~/lib/iCheck/icheck.js"></script>
+    <script src="~/js/common-function.js"></script>
+    <script src="~/lib/third-party-library/my-widget/my-widget.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery.scrollbar/js/jquery.scrollbar.js"></script>
+    <script src="~/lib/third-party-library/jquery.SuperSlide2.js"></script>
+    <script src="~/lib/jquery-pager/jquery.pager.js"></script>
+    <script src="~/lib/layui/layui.js"></script>
+    @RenderSection("scriptsPart", required: false)
+
+    <script src="~/js/common-project.js"></script>
+
+
+
+    @*载入属于页面的JS*@
+    @*@RenderSection("scriptspro",required:false)*@
+    @*<script src="~/@(areaurl)js/pages/@(controller)-@(action).js"></script>*@
+    <script>
+        $(function () {
+            //首先设置只读
+            if (typeof pagedata != "undefined" && pagedata.isView) {
+                $('input[type=text],input[type=password],input[type=number],input[type=date],input[type=checkbox],input[type=email],textarea').prop("readonly", true);
+                $('.status3 select,select').attr("readonly", "readonly");
+                $('.input-group.input-display').attr("readonly", "");//针对input-group不能很好处理readonly的显示情况
+            }
+
+            //设置ckbox
+            $('.ckbox-switch2,.ckbox').each(function () {
+                if (typeof ($(this).attr("readonly")) != "undefined") { $(this).attr("disabled", "disabled"); } //添加一个disabled
+            });
+
+            $('.ckbox-switch2').switch2();
+            //设置初始样式
+            $('.status3').status3();
+
+            $('.select-input').selectInput();
+
+            //设置只读
+            $('input[type=checkbox][readonly]').click(function () { this.checked = !this.checked; });
+            //select2来初始化select表单控件
+            $("select").each(function () {
+                if ($(this).attr("role-initial") == "false") return;
+                var b = $(this).parent().hasClass("status3");
+                if (b) return;
+                if (typeof ($(this).attr("readonly")) != "undefined") { $(this).attr("disabled", "disabled"); } //添加一个disabled
+                $(this).select2({
+                    minimumResultsForSearch: -1,
+                    allowClear: false,
+                    width: '100%'
+                });
+            });
+
+            //设置时间控件
+            $('.input-datetime').each(function () {
+                var $this = $(this);
+                var options = {
+                    language: 'zh-CN',//显示中文
+                    minView: "month",//设置只显示到月份
+                    initialDate: new Date(),//初始化当前日期
+                    autoclose: true,//选中自动关闭
+                    todayBtn: true//显示今日按钮
+                };
+
+                options.format = $this.attr("data-format") || 'yyyy-mm-dd';//显示格式
+                options.pickerPosition = $this.attr("pickerpos") || 'bottom-left';
+
+                var act = true;
+                if (typeof ($(this).attr("disabled")) != "undefined") act = false;
+                if (typeof ($(this).attr("readonly")) != "undefined") act = false; //添加一个disabled
+                act && $this.datetimepicker(options);
+            });
+            //滚动条初始化(待删)
+            $(".scrollbar-macosx").each(function () {
+                $(this).scrollbar();
+            });
+            $(".scrollbar-dynamic").each(function () { 
+                $(this).scrollbar();
+            });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+    <script>
+
+        $(function () {
+            //载入最后的复写样式
+            $("head").append('<link rel="stylesheet" href="/css/common-overide-last.css" />');
+
+            //最后样式的调整
+
+            //设置ckbox
+            $('.ckbox-switch2,.ckbox').each(function () {
+                if (typeof ($(this).attr("readonly")) != "undefined") { $(this).attr("disabled", "disabled"); } //添加一个disabled
+            });
+
+        });
+
+        //整体窗口大小改变
+        $(window).resize(function () {
+            var wh = $(window).height();
+            var h = wh < 700 ? wh : wh - 30;
+            $('.layui-layer-iframe').css("height", h + "px");//设置弹出layer的高度 ，宽度在css设置
+
+        });
+    </script>
+</body>
+
+</html>

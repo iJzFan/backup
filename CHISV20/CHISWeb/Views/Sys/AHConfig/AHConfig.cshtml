@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" title="刷新" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="btn_Add" authorize="yes" title="新建配置文件" class="btn btn-primary dropdown-text" onclick="btn_Add();"><i class="fa fa-plus"></i>新建配置文件</a>
+        </div>
+        @*<div class="btn-group">
+                <a id="btn_Export" authorize="yes" class="btn btn-info" title="导出记录" href="/Role/Export_Role"><i class="fa fa-file-excel-o"></i>导出</a>
+            </div>*@
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit();"><i class="fa fa-pencil-square-o"></i>修改配置文件</a></li>
+                <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete();"><i class="fa fa-trash-o"></i>删除配置文件</a></li>
+                <li class="split"></li>
+                <li><a id="btn_Details" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看配置文件</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group search-group">
+                        <input id="txt_Search" type="text" class="form-control" placeholder="配置文件名称">
+                        <span class="input-group-btn">
+                            <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="pager"></div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            gridInit();
+
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) {
+                var e = e || window.event;
+                if (e && e.keyCode == 13) {
+                    $("#btn_Search").click();
+                }
+            })
+
+            //查询记录
+            $("#btn_Search").click(function () {
+                $gridList.jqGrid('setGridParam', {
+                    postData: { keyword: $("#txt_Search").val() },
+                }).trigger('reloadGrid');
+            });
+
+        })
+
+        //网格初始
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "配置信息",
+                url: "/AHConfig/AH_Config_Edit",      //编辑记录地址
+                jqurl: "/AHConfig/GetGridJson_AH_Config",  //网格查询地址
+                width: "60%", height: "80%",
+                jqGridId: "gridList",
+                jqGridPager: "pager",
+                btn: ['确认', '关闭']
+
+        });
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: "主键", name: "configId", hidden: true, key: true },
+                    { label: '配置类别', name: 'cfgSec', width: 150, align: 'left' },
+                    { label: '配置键', name: 'cfgKey', width: 150, align: 'left' },
+                    { label: '配置值', name: 'cfgVal', width: 400, align: 'left' },
+                    {
+                        label: "有效", name: "isEnable", width: 40, align: "center",
+                        formatter: function (cellvalue) {
+                            return cellvalue ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-circle-thin\"></i>";
+                        }
+                    }                
+                  
+                ],
+                height: $(window).height() - 126,//高度，表格高度。可为数值、百分比或'auto'
+
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            });
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().configId;
+            CE.Modify("recID=" + keyValue,
+                function (index, win) {
+                    win.submitForm();
+                });
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().configId;
+            CE.Delete("recID=" + keyValue);
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().configId;
+            CE.View("recID=" + keyValue);
+        }
+
+    </script>
+}

@@ -1,0 +1,136 @@
+﻿@model ah.Models.ViewModel.AppointmentViewModel
+@{
+    ViewData["Title"] = "预约";
+    Layout = "../Shared/_LayoutAppointment.cshtml";
+    var cus = (ah.Models.ViewModel.CUSTOMER_INFO)(ViewBag.CUSTOMER_INFO);
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link rel="stylesheet" href="~/customer/css/pages/ah-layout.css" />
+    <link rel="stylesheet" href="~/customer/css/pages/appointment-index.css" />
+    <style></style>
+}
+<div class="ah-appointmert-wrap">
+    <div class="wrap-logo">
+        <img src="~/images/logo1.png" />
+        <p>天使健康就诊预约</p>
+        <div class="pc-linknav">
+            <a href="~/Customer/home">
+                <i class="glyphicon glyphicon-user"></i>
+                个人中心
+            </a>
+        </div>
+    </div>
+    <div class="index-appointment-info">
+        <div class="wrap-data">
+            <div class="input-wrap search-input-group">
+                <input class="flex-input" data-role="account" placeholder="请输入手机号码/邮箱/身份证" type="text" value="@cus.CustomerMobile" id="pc_key" onchange="inputSets(this)" onblur="inputSets(this,true)" />
+                @if (ViewBag.doctorId==null)
+                {
+                <button id="btn_pc_getcust" class="flex-btn" type="button" onclick="customerInfoByKey(this,null)"><i class="fa fa-search"></i> 查补信息</button>
+                }
+                else
+                {
+                    <button id="btn_pc_getcust" class="flex-btn" type="button" onclick="customerInfoByKey(this,@ViewBag.doctorId)"><i class="fa fa-search"></i> 查补信息</button>
+                }
+                
+            </div>
+            <div class="appointment-user-items-wrap"></div>
+            <div class="input-wrap can-hide">
+                <input class="flex-input" placeholder="请输入姓名" name="userName" type="text" />
+            </div>
+            <div class="input-wrap can-hide">
+                <input class="weui-input flex-input data-icon" placeholder="请输入出生日期" name="birthday" type="text" value="" />
+            </div>
+            <div class="input-wrap can-hide">
+                <label class="flex-label">
+                    <input type="radio" value="0" name="sex" checked />女
+                </label>
+                <label class="flex-label">
+                    <input type="radio" value="1" name="sex" />男
+                </label>
+
+            </div>
+            <div class="input-wrap can-hide">
+                <a class="btn btn-primary" style="width:100%;" onclick="quickReg(this);">快速注册</a>
+            </div>
+            <div class="input-wrap read-only">
+                <input class="flex-input" readonly="readonly" name="stationName" value="@ViewBag.stationName" type="text" style="cursor:not-allowed;" />
+                <a class="allDoctor-show" onclick="showAllDoctor();">查看诊所医生<i class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+            <div class="input-wrap">
+                @if (ViewBag.doctorId==null)
+                {
+                    <select class="flex-input" name="departmentsSelect" style="margin-right:10px" onchange="checkInputs();"></select>
+                    <select class="flex-input" name="doctorSelect" onchange="checkInputs();">
+                        <option value="">请选择医生</option>
+                    </select>
+                }
+                else
+                {
+                    <select class="flex-input" name="departmentsSelect" style="margin-right:10px;background-color: #EEEEEE;" disabled="disabled"></select>
+                    <select class="flex-input" name="doctorSelect" style="background-color: #EEEEEE;" disabled="disabled">
+                        <option value="">请选择医生</option>
+                    </select>
+                }
+
+            </div>
+            <div class="input-wrap">
+                <input class="flex-input data-icon" placeholder="请输入预约时间" id="appointment-date" type="text" style="padding-right: 24px;margin-right:10px" onblur="checkInputs();" onchange="checkInputs()" />
+                <select class="flex-input" name="slotNum" onchange="slotChange(this.value)">
+                    <option value="">请选择</option>
+                    <option value="1">上午</option>
+                    <option value="2">下午</option>
+                </select>
+            </div>
+            <div class="input-wrap">
+                <div class="resv-status">
+                    <label class="can-resv" style="visibility:hidden;"><span>可预约:</span><b>0</b></label>
+                    <label class="not-resv" style="display:none;"><span>满号，不能预约</span></label>
+                </div>
+            </div>
+            <div class="input-wrap">
+                <button class="return-btn" type="button" onclick="history.go(-1)">返回</button>
+                <button class="sub-btn" onclick="appointmentSubmit()">提交预约</button>
+            </div>
+        </div>
+    </div>
+    <div class="appointment-nav-app">
+        <a style="color: #22a88f;" href="/Customer/Appointment">
+            <i class="glyphicon glyphicon-th-list"></i>
+            健康预约
+        </a>
+        <a href="/doctor/AllDoctorsLists">
+            <i class="glyphicon glyphicon-heart"></i>
+            医生团队
+        </a>
+        <a href="/Customer/home">
+            <i class="glyphicon glyphicon-user"></i>
+            个人中心
+        </a>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/customer/js/pages/appointment-index.js"></script>
+
+    <script>
+        var pagedata = {
+            stationImgRoot: '@(Global.ConfigSettings.StationImagePathRoot)',
+            doctorImgRoot: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+            ver: 1,
+            stationId: '@ViewBag.stationId',
+            _departId: '@ViewBag.departId',
+            _doctorId: '@ViewBag.doctorId',
+        };
+        op.stationId = pagedata.stationId;
+        $(function () {
+            STEP.InitStep2();
+            op.setSubmitEnable(false)
+            //查询科室
+            getDepartsOfStation(pagedata.stationId,pagedata._departId,pagedata._doctorId);
+        });
+    </script>
+}

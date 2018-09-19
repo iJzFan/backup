@@ -1,0 +1,78 @@
+﻿@model CHIS.Models.ViewModel.PaymentViewModel
+@{
+    ViewBag.Title = "支付";
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+}
+@section links{
+    <style>
+
+    </style>
+}
+<div class="ah-wrap">
+    <div class="ah-max-width ah-max-height ah-flex ah-flex-column" style="overflow:auto; justify-content: space-between;">
+        <div class="ah-flex ah-flex-none">            
+            <div class="ah-flex-auto ah-pay-type">
+                <div id="payCode_wechat"></div>
+                <img onclick="refresh2D('WX',@(Model.TreatId))" class="wx_pay" src="~/images/wx_pay.png" />
+            </div>
+            <div class="ah-flex-auto ah-pay-type">
+                <div id="payCode_zfb"></div>
+                <img onclick="refresh2D('ALI',@(Model.TreatId))" class="zfb_pay" src="~/images/zfb_pay.png" />
+            </div>
+        </div>
+        @*如果允许现金支付*@
+        @if (Model.IsAllowedCashPay)
+        {
+            <div class="ah-flex-auto ah-pay-xj">
+                <div class="xj_icon">
+                    <input type="checkbox" id="use_cash" title="现金支付" />    
+                </div>
+                <div class="ah-flex ah-pay-info">
+                    <div class="xj-pay-main">
+                        <div class="ah-flex ah-align-center">
+                            <span>应付金额</span>
+                            <div class="xj_amout" id="cash_amount" style="background: #e7e7e7;"> @((Model.Amount / 100).ToString("#0.00"))</div>
+                        </div>
+                        <div class="ah-flex ah-align-center ah-mt-10">
+                            <span>应收金额</span>
+                            <div class="xj_amout" id="cash_amount">
+                                <input class="ah-pay-input" onkeydown="return $.f.onlyNumbersEvt(event);" onafterpaste="$.f.onlyNumAfterPaste(this)" id="pay_input" ah-id="pay" type="text" placeholder="请输实收金额" />
+                            </div>
+                        </div>
+                        <div class="ah-flex ah-align-center ah-mt-10">
+                            <span>找零金额</span>
+                            <div class="xj_amout" ah-id="pay-change" style="background: #e7e7e7;"></div>
+                        </div>
+                    </div>
+                    <div class="xj-pay-tips">
+                        <p>注:</p>
+                        <p>1.请确保您收到现金后再填写对应的数额  , 否则造成的损失将由您自己承担;</p>
+                        <p>2.实付金额填写的数字需大于应付金额 , 否则无法支付成功;</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="ah-pay-submit">
+            <button id="pay_btn_failed" class="ah-btn-white ah-btn-pay-failed" onclick="PayMentFail()">支付失败/取消</button>
+            <button id="pay_btn_success" class="ah-btn-blue ah-btn-pay-success" onclick="PayMentSuccess()">支付成功</button>
+        </div>
+    </div>
+</div>
+<input type="hidden" ah-rid="PayOrderId" value="@(Model.PayOrderId)" />
+<input type="hidden" ah-code="WxQrcodeString" value="@(Model.WxQrcodeString)" />
+<input type="hidden" ah-code="AliQrcodeString" value="@(Model.AliQrcodeString)" />
+
+
+
+@section scripts{
+    <script src="~/lib/qrcode/jquery.qrcode.min.js"></script>
+    <script src="~/js/pages/charge-payment.js"></script>
+    <script>
+        var pagedata = {
+            Amount: parseFloat('@(Model.Amount/100)'),
+            subStates : false,
+        }
+    </script>
+}
+

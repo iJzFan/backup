@@ -1,0 +1,149 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.vwCHIS_Code_Doctor
+@{
+    ViewBag.Title = "编辑医生档案";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+    </style>
+}
+<div class="container">
+    <!--该部分是导航部分-->
+    <ul class="ah-step-wrap ah-flex">
+        @if (ViewBag.op == "NEWF")
+        {
+            <li class="ah-strp-active"> <a>1.用户选择</a></li>
+            <li><a>2.医生基础信息</a></li>
+            <li><a>3.诊所/角色/科室</a></li>
+            <li><a>4.登录设置</a></li>
+            <li><a>5.提交审核</a></li>
+        }
+        else
+        {
+            <li class="ah-strp-active"><a class="active" asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">用户信息</a></li>
+            <li><a asp-action="DoctorSets_DoctorBase" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">医生基础信息</a></li>
+            <li><a asp-action="DoctorSets_StationRoleDepart" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">诊所/角色/科室</a></li>
+            <li><a asp-action="DoctorSets_Login" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">登录设置</a></li>
+            <li><a asp-action="DoctorSets_ForCheck" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">完成</a></li>
+        }
+    </ul>
+
+
+    <form id="form1" asp-controller="Code" asp-action="DoctorSets_DoctorBase" asp-route-op="@ViewBag.op">
+        @*------------------------重要隐藏数据-------------------------*@
+        <input type="hidden" asp-for="DoctorId" />
+        <input type="hidden" id="customerId" name="customerId" value="@ViewBag.customerId" />
+
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex-data">
+                <div class="ah-data-label ah-required">选择用户</div>
+                <div class="ah-data-input ah-pd-0" style="background-color:#eee;">
+                    <div class="ah-single-select" id="sel_customer">
+                        <span class="customer-name"></span>
+                        <input type="hidden" asp-for="CustomerId" />
+                    </div>
+                </div>
+                <div id="sel_cus_t" class="ah-doc-select-title">请选择人员，没有请 <a class="ah-minbtn" onclick="createCustomer()">新增</a> .</div>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">医生姓名</div>
+                <div class="ah-data-div" id="DoctorName">@Model?.DoctorName</div>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">本人手机</div>
+                <div class="ah-data-div" id="CustomerMobile">@Model?.CustomerMobile</div>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">身份证号</div>
+                <div class="ah-data-div" id="IDcard">@Model?.IDcard</div>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">电子邮件</div>
+                <div class="ah-data-div" id="Email">@Model?.Email</div>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">出生日期</div>
+                <div class="ah-data-div" id="Birthday">@Model?.Birthday?.ToDateString()</div>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">用户性别</div>
+                <div class="ah-data-div">
+                    <select asp-for="Gender" class="ah-data-onlyshow" disabled >
+                        <option value=""></option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">婚姻状况</div>
+                @{
+                    var marg = myRazor.GetSelectListItemsByDictKey("Marriage");
+                }
+                <div class="ah-data-div">
+                    <select asp-for="Marriage" asp-items="marg" class="ah-data-onlyshow" disabled>
+                        <option value=""> </option>                      
+                    </select>
+                </div>
+            </div>
+            <div class="ah-col-md3 ah-flex-data">
+                <div class="ah-data-label">文化程度</div>
+                @{
+                    var edu = myRazor.GetSelectListItemsByDictKey("EduLevel");
+                }
+                <div class="ah-data-div">                 
+                        <select asp-for="EduLevel" asp-items="edu" class="ah-data-onlyshow" disabled>
+                            <option value=""> </option>
+                        </select>               
+                </div>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">家庭地址</div>
+                <div class="ah-data-div" id="Marriage">
+                    <span class="ah-content-text" id="cus_addr_pro">@myRazor.GetChinaAreaById(Model?.AddressAreaId)?.MergerName</span>
+                    <span class="ah-content-text" id="cus_addr_detail">@Model?.Address</span>
+                </div>
+            </div>
+        </div>
+        @Html.ValidationSummary()
+    </form>
+
+</div>
+
+<div class="ah-doc-sets-btns ah-flex">
+    <button type="button" title="保存后下一步" class="ah-btn-blue" onclick="submitForm();">下一步</button>
+</div>
+
+@section scripts{
+    <script src="~/js/pages/code-doctor.js"></script>
+    <script>
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        cusImgRoot:'@Global.ConfigSettings.CustomerImagePathRoot',
+        docImgRoot:'@Global.ConfigSettings.DoctorImagePathRoot',
+        ver:1
+    };
+        $(function () { initialLoad_SelectCustomer(); });
+
+        function submitForm() {
+            if (!$('#customerId').val()) { $.alertMsg("请先选择用户！"); return false;}
+            $('#form1').submit();
+        }
+    </script>
+}

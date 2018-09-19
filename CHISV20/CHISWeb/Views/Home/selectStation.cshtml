@@ -1,0 +1,184 @@
+﻿@model CHIS.Models.ViewModel.HisLoginViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    var stations = ViewBag.Stations as IEnumerable<CHIS.Models.vwCHIS_Code_WorkStation>;
+    var netTreatStations = stations.Where(m => m.IsNetPlat == true && m.IsManageUnit != true);
+    var stationNormal = stations.Where(m => m.IsNetPlat != true);
+
+    var stationTree = ViewBag.StationTree as Ass.Data.TreeEntity<CHIS.Models.vwCHIS_Code_WorkStationEx>;
+    var hasManageUnit = stations.Any(m => m.IsManageUnit == true);
+    var actionName = ViewBag.Action ?? "Login";
+    int doctorId = (int)(ViewBag.DoctorId);
+}
+
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color:transparent!important;
+        }
+    </style>
+}
+
+<div class="ah-login-wrap">
+    <div class="ah-select-station">
+        @if (hasManageUnit) { 
+            <div class="ah-s-station-pic-wrap ah-station-hide">
+                <div class="ah-s-station-pic ah-flex ah-flex-column ah-pd-10">
+                    <div class="ah-station-title">
+                        管理站选择
+                    </div>
+                    <div class="ah-flex-auto ah-ztree_style scrollbar-dynamic">
+                        <ul class="ah-admin-station"  style="-moz-user-select: none;">
+                            @if (hasManageUnit)
+                            {
+                                @foreach (var item in stationTree.SubItems)
+                                {
+                                    if (item.ThisItem.IsManageUnit)
+                                    {
+                                        <li>
+                                            @{
+                                                var ahtml = item.ThisItem.IsForbiddenNode ? "style=\"cursor:not-allowed;color:#444 !important;\" ah-type='none'" : "ah-type='true' onclick=\"selectStationSub(" + item.ThisItem.StationID + ")\"";
+                                            }
+                                            <a class="station-unit" @Html.Raw(ahtml)  href="javascript:void(0)">
+                                                <i class="glyphicon glyphicon-folder-open"></i>
+                                                <span class="node_name">@item.ThisItem.StationName</span>
+                                            </a>
+                                            @if (item.HasSubs)
+                                            {
+                                                <ul>
+                                                    @foreach (var item1 in item.SubItems)
+                                                    {
+                                                        if (item1.ThisItem.IsManageUnit)
+                                                        {
+                                                            <li>
+                                                                @{
+                                                                    ahtml = item1.ThisItem.IsForbiddenNode ? "style=\"cursor:not-allowed;color:#444 !important;\" ah-type='none'" : " onclick=\"selectStationSub(" + item1.ThisItem.StationID + ")\"";
+                                                                }
+                                                                <a class="station-unit" @Html.Raw(ahtml) href="javascript:void(0)">
+                                                                    <i class="glyphicon glyphicon-file"></i>
+                                                                    <span id="tree_2_span" class="node_name">@item1.ThisItem.StationName</span>
+                                                                </a>
+                                                                @if (item1.HasSubs)
+                                                                {
+                                                                    <ul>
+                                                                        @foreach (var item2 in item1.SubItems)
+                                                                        {
+                                                                            if (item2.ThisItem.IsManageUnit)
+                                                                            {
+                                                                                <li>
+                                                                                    @{
+                                                                                        ahtml = item2.ThisItem.IsForbiddenNode ? "style=\"cursor:not-allowed;color:#444 !important;\" ah-type='none'" : "onclick=\"selectStationSub(" + item2.ThisItem.StationID + ")\"";
+                                                                                    }
+                                                                                    <a class="station-unit" @Html.Raw(ahtml)  href="javascript:void(0)">
+                                                                                        <span class="button ico_docu"></span>
+                                                                                        <span class="node_name">@item2.ThisItem.StationName</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            }
+                                                                         }
+                                                                    </ul>
+                                                                 }
+                                                            </li>
+                                                        }
+                                                     }
+                                                </ul>
+                                             }
+                                        </li>
+                                    }
+                                 }
+                             }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="ah-s-station-main ah-flex ah-flex-column">
+            <div class="ah-login-title">
+                门诊选择
+            </div>
+            <div class="ah-select-station-item scrollbar-dynamic">
+                <div class="ah-flex ah-flex-wrap">
+                    @foreach (var item in stationNormal)
+                    {
+                        if (item.IsCanTreat)
+                        {
+                            <div class="ah-login-station" onclick="selectStationSub(@(item.StationID))">
+                                @{
+                                    var tn = item.StationTodayTreatSummary(doctorId).waiting;
+                                }
+                                @if (tn > 0)
+                                {
+                                    <span class="ah-treat-num">@(tn)</span>
+                                }
+                                @*<img class="ah-station-pic" src="@(item.DefStationPic.GetUrlPath(Global.ConfigSettings.StationImagePathRoot))" />*@
+                                @*<img class="ah-station-pic" src="~/images/login/login-station-pic.jpg" />*@
+                                <div class="ah-station-pic" style="background-image:url(@(item.DefStationPic.ahDtUtil().GetStationImg())"></div>
+                                <div class="ah-station-name">@item.StationName</div>
+                            </div>  
+                        }
+                    }
+                    @if (netTreatStations != null && netTreatStations.Count() > 0)
+                    {
+                        @foreach (var netStation in netTreatStations)
+                        {
+
+                            <div class="ah-login-station ah-other-station"  onclick="selectStationSub(@(netStation.StationID))">
+                                @{
+                                    var tn = netStation.StationTodayTreatSummary(doctorId).waiting;
+                                }
+                                @if (tn > 0)
+                                {
+                                    <span class="ah-treat-num">@(tn)</span>
+                                }
+                                <img class="ah-station-pic" src="~/images/linshi/net-doctore.png" />
+                                <div class="ah-station-name">@netStation.StationName</div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (hasManageUnit)
+    {
+        <div class="ah-s-move-wrap">
+            <div class="ah-s-station-move" onclick="selectStationType(this)" ah-type="0">
+                管理站选择
+            </div>
+        </div>
+
+    }
+</div>
+<form id="myForm" asp-action="@(actionName)" asp-controller="Home" method="post"> 
+    <input type="hidden" name="LoginName" id="LoginName" value="@Model.LoginName" />
+    <input type="hidden" name="LoginPassword" id="LoginPassword" value="@Model.LoginPassword" />
+    <input type="hidden" name="BaseTimeTicks" id="BaseTimeTicks" value="@Model.BaseTimeTicks" />
+    @Html.HiddenFor(m => m.IsPasswordVCode)
+    @Html.HiddenFor(m => m.LoadEncipt) 
+    @Html.HiddenFor(m => m.StationId)
+    @Html.HiddenFor(m=>m.DepartId)
+</form>
+
+@section scripts{
+    <script>
+        function selectStationType(_this) { 
+            _this = $(_this)
+            var type = $(_this).attr("ah-type");
+            if (type == 0) {
+                $(".ah-s-station-pic-wrap").removeClass("ah-station-hide");
+                $(".ah-s-station-main").addClass("ah-station-hide");
+                $(_this).attr("ah-type", 1)
+                _this.html("门诊选择");
+            } else {
+                $(".ah-s-station-pic-wrap").addClass("ah-station-hide");
+                $(".ah-s-station-main").removeClass("ah-station-hide");
+                $(_this).attr("ah-type", 0);
+                _this.html("管理站选择")
+            }
+        }
+        function selectStationSub(stationId) {
+            if (stationId) $('#myForm #StationId').val(stationId), $('#myForm').submit();
+        }
+    </script>
+}

@@ -1,0 +1,258 @@
+﻿@model CHIS.Models.CHIS_Sys_Login
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "编辑登录信息";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <link href="~/sys/projcommon.css" rel="stylesheet" />
+    <style>
+        .panel-body .col-md-4,
+        .panel-body .col-md-6,
+        .panel-body .col-md-8,
+        .panel-body .col-lg-4,
+        .panel-body .col-lg-8 {
+            margin-top: 6px;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            display: inline;
+        }
+
+
+
+        .panel-body .control-label {
+            text-align: right;
+        }
+    </style>
+}
+<div class="container">
+    <form id="form1">
+        <input type="hidden" name="op" value="@(ViewBag.OP)" />
+        <div style="padding: 10px">
+            <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                请填写 登录 信息，用于创建或修改工作站记录！
+            </div>
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">表单信息</h3>
+                    @Html.HiddenFor(m => m.LoginId)
+                </div>
+                <div class="panel-body" style="width: 98%;">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label for="Email" class="col-lg-4 col-md-4 control-label">登录邮箱</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="status3">
+                                        <select asp-for="EmailIsAuthenticated">
+                                            <option value="">未选择</option>
+                                            <option value="True">是</option>
+                                            <option value="False">否</option>
+                                        </select>
+                                        <label for="Is3Status1">是否已验证</label>
+                                    </div>
+                                    <input type="text" asp-for="EmailAuthenticatedTime" readonly />
+                                    <input type="text" asp-for="Email" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label for="Mobile" class="col-lg-4 col-md-4 control-label">登录手机号</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="status3">
+                                        <select asp-for="MobileIsAuthenticated">
+                                            <option value="">未选择</option>
+                                            <option value="True">是</option>
+                                            <option value="False">否</option>
+                                        </select>
+                                        <label for="Is3Status1">是否已验证</label>
+                                    </div>
+                                    <input type="text" asp-for="MobileAuthenticatedTime" readonly />
+                                    <input type="text" asp-for="Mobile" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label for="IdCardNumber" class="col-lg-4 col-md-4 control-label">登录身份证号</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="status3">
+                                        <select asp-for="IdCardNumberIsAuthenticated">
+                                            <option value="">未选择</option>
+                                            <option value="True">是</option>
+                                            <option value="False">否</option>
+                                        </select>
+                                        <label for="Is3Status1">是否已认证</label>
+                                    </div>
+                                    <input type="text" asp-for="IdCardNumberAuthenticatedTime" readonly />
+                                    <input type="text" asp-for="IdCardNumber" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4  col-md-6">
+                            <div class="form-group">
+                                <label for="LoginPassword" class="col-lg-4 col-md-4 control-label">登录密码</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="password" asp-for="LoginPassword" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label for="PwdCheck" class="col-lg-4 col-md-4 control-label">确认密码</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="password" name="PwdCheck" id="PwdCheck" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label for="IsLock" class="col-lg-4 col-md-4 control-label">锁定状态</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="ckbox">
+                                        <input type="checkbox" asp-for="IsLock"><label for="IsLock">锁定</label>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-6">
+                            <div class="form-group lock">
+                                <label for="WhyLock" class="col-lg-2 col-md-4 control-label">锁定原因</label>
+                                <div class="col-lg-10 col-md-8">
+                                    <input type="text" asp-for="WhyLock" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 control-label">指定医生</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div style="height:32px;">
+                                        <div class="single-selector" id="sel_doctor">
+                                            <span class="doctor-name"></span>
+                                            @Html.HiddenFor(m => m.DoctorId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 control-label">指定用户</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div style="height:50px;">
+                                        <div class="single-selector" id="sel_customer">
+                                            <div id="cus_content" style="position:relative;">
+
+                                            </div>                                            
+                                            @Html.HiddenFor(m => m.CustomerId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="height:300px;">
+
+</div>
+
+@section scripts{
+    @*<script src="~/Customer/js/common-function.js"></script>*@
+    @*<script src="~/Customer/lib/my-widget/my-widget.js"></script>*@
+    <script>
+
+        var pagedata = {
+            op: '@(ViewBag.OP)',
+            cusImgRoot: '@(Global.ConfigSettings.CustomerImagePathRoot)',
+            doctorImgRoot:'@(Global.ConfigSettings.DoctorImagePathRoot)',
+            ver: 1
+        };
+
+        $(function () {
+            //设置选择医生
+            $('#sel_doctor').singleSelector({
+                placeholder: "请输入医生的姓名或电话",
+                valueName: 'doctorId',
+                searchUrl: '/api/common/GetDoctors',
+                isReadonly:pagedata.op=="VIEW",
+                onSelect: function (jn) {
+                   
+                    $('#sel_doctor').find('.doctor-name').text(jn.doctorName);
+                },
+                formatSearchItem: function (jn) {
+                    var gender = jn.gender == 1 ? "男" : "女";
+                    var mobile = jn.telephone == 'null' || jn.telephone == null || jn.telephone == undefined ? "" : jn.telephone;
+                    return "<li><a><b>" + jn.doctorName + "</b> (" + gender + ")" + jn.employeeCode + "<br /><span>" + mobile + "</span></a></li>";
+                }
+            });
+
+            //设置选择病人
+            $('#sel_customer').singleSelector({
+                placeholder: "请输入健康会员的姓名或电话",
+                valueName: 'customerID',
+                searchUrl: '/api/common/GetCustomers',
+                isReadonly:pagedata.op=="VIEW",
+                onSelect: function (jn) {
+                    $h = "<img style='width:42px;border-radius:48px;margin-right:6px;float:left;' src='" + $.getImgPath(pagedata.cusImgRoot , jn.photoUrlDef) + "'/><div style='float:left;'><span>" +
+                        jn.customerName + "</span><br><span>" + (jn.gender == 1 ? "男" : "女") + "</span></div>"
+                    $('#sel_customer #cus_content').html($h);                    
+                },
+                formatSearchItem: function (jn) {
+                    var gender = jn.gender == 1 ? "男" : "女";
+                    var mobile = jn.telephone == 'null' || jn.telephone == null || jn.telephone == undefined ? "" : jn.telephone;
+                    return "<li><a><b>" + jn.customerName + "</b> (" + gender + ")" + "<br /><span>" + mobile + "</span></a></li>";
+                }
+            });
+
+            //设置只读
+            if (pagedata.op == "VIEW") {
+                $('input[type=text],input[type=password]').prop("readonly", true);
+                $('input[type=checkbox],select').prop("disabled", true);
+                $('input[type=text],input[type=password],.single-selector,select').css({ "border": "none", "box-shadow": "none" });
+            }
+           
+        })
+
+        //保存记录
+        function submitForm() {
+            /*验证部分*/
+            if (!($('#Email').val() || $('#Mobile').val() || $('#IdCardNumber').val())) {$.alertError("邮箱、手机、身份证 三者必填一项"); return;}
+            if (!($('#DoctorId').val() || $('#CusotmerId').val())) { $.alertError("必须至少要选择医生或者会员。"); return; }
+            if ($('#LoginPassword').val() && ($('#LoginPassword').val() != $('#PwdCheck').val())) { $.alertError("登录密码与验证登录密码不同。"); return;}
+
+
+            if (!$('#form1').formValid()) {
+                return false;
+            }
+
+            $.submitForm({
+                url: "/Code/LoginManage_Edit?op=" + pagedata.op,
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+    </script>
+}

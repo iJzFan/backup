@@ -1,0 +1,84 @@
+﻿@model Ass.Mvc.PageListInfo<ah.Models.vwAHMS_Daily_Member>
+@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+}
+@section links{
+    <style>
+
+    </style>
+}
+
+<div class="main-title">
+    <i class="fa fa-users"></i>用户日常信息记录管理
+</div>
+<div class="main-content">
+    <div class="search-wrap"> 
+        <form>
+            <input type="text" name="searchText" placeholder="手机/邮箱/身份证" />
+            <input type="text" name="pageIndex" placeholder="页码" />
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>是否会员</th>
+                <th>手机</th>
+                <th>邮箱</th>        
+                <th>婚况</th>
+                <th>创建时间</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.MemberId</td>
+                    <td>@item.MemberName</td>
+                    <td>@item.Gender?.ToGenderString()</td>
+                    <td>@item.Birthday?.ToAgeString()</td>
+                    <td>@(item.CustomerId>0?"是":"")</td>
+                    <td>@item.Mobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                    <td>@item.Email.ToMarkString(Ass.Models.MaskType.EmailCode)</td>           
+                    <td>@item.MaritalStatus</td>
+                    <td>@item.CreateTime</td>
+                    <td>
+                        @if(!(item.CustomerId>0)){                      
+                        <a asp-action="MemberSetOfficalCustomer" asp-route-mid="@(item.MemberId)">转为会员</a> 
+                        }
+                        <a asp-action="DeleteDailyMember" asp-route-mid="@(item.MemberId)" >删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="page"></div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var page = $("#page").XPage({
+                pageIndex:@(Model.PageIndex),//当前页
+                pageTotal:@(Model.PageTotal),//总页数
+                pageSize:@(Model.PageSize),//页条数
+                recordTotal:@(Model.RecordTotal),//总条数
+                showPageCount: 4,//用于显示分页显示的量
+                onPageClick: function (pageIndex) {
+                    if (pageIndex) {
+                        window.location.href = "/HealthMgr/BackPanel/CustomerDaily?pageIndex=" + pageIndex;
+                    }
+                } 
+            });
+        });
+    </script>
+}

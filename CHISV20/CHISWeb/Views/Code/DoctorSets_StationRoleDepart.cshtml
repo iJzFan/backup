@@ -1,0 +1,142 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.vwCHIS_Code_Doctor
+@{
+    ViewBag.Title = "编辑医生档案";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+    var u = this.GetUserSelf();
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/pages/code-doctor.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/XTree/css/XTree.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+        @@media (max-width:800px) {
+            .ah-col-md3 {
+                width: 33.3333333%;
+            }
+        }
+    </style>
+}
+<div class="container">
+    <ul class="ah-step-wrap ah-flex">
+        @if (ViewBag.op == "NEWF")
+        {
+            <li class="ah-strp-active"><a>1.用户选择</a></li>
+            <li class="ah-strp-active"><a>2.医生基础信息</a></li>
+            <li class="ah-strp-active"><a>3.诊所/角色/科室/</a></li>
+            <li><a>4.登录设置</a></li>
+            <li><a>5.提交审核</a></li>
+        }
+        else
+        {
+            <li class="ah-strp-active"><a asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">用户信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_DoctorBase" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">医生基础信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_StationRoleDepart" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">诊所/角色/科室</a></li>
+            <li><a asp-action="DoctorSets_Login" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">登录设置</a></li>
+            <li><a asp-action="DoctorSets_ForCheck" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">完成</a></li>
+        }
+    </ul>
+
+    @*--------------------------显示用户基本信息---------------------*@
+    <section class="ah-require-one-group">
+        <h5>用户基本信息</h5>
+        <div>
+            <span>@Model.DoctorId</span>
+            <span>@Model.DoctorName</span>
+            <span>@Model.Gender?.ToGenderString()</span>
+            <span>@Model.Birthday?.ToAgeString()</span>
+            <span>@myRazor.GetDictDetailNameById(Model.PostTitle)</span>
+        </div>
+    </section>
+    <form id="form1" asp-controller="Code" asp-action="DoctorSets_StationRoleDepart_Save" asp-route-op="@ViewBag.op" style="margin-top:30px;">
+        @*------------------------重要隐藏数据-------------------------*@    
+        <input type="hidden" name="customerId" value="@ViewBag.customerId" />
+        <input type="hidden" name="doctorId" value="@ViewBag.doctorId" />
+        <div class="ah-flex-layout">    
+            <div class="ah-col-md3 ah-flex-data" ah-ui="MyStationTree">
+                <div class="ah-data-label">选择门诊</div>
+                <input class="ah-data-input" type="text" id="ah-tree-event"/>
+            </div>
+        </div>
+        <div id="ah-roles-departs" class="layui-form"></div>
+        <div class="ah-table-wrap" style="margin-top:20px;" ah-id="ROLEANDDEP">
+            @{await Html.RenderPartialAsync("_pvDoctorStationRoleDeparts",(IEnumerable<CHIS.Models.ViewModel.DoctorStationInfo>)ViewBag.DoctorStationInfo); }
+        </div>
+    </form>
+
+</div>
+<div class="ah-doc-sets-btns ah-flex">
+    @if (ViewBag.op == "NEWF")
+    {
+        <a title="上一步" class="ah-btn-blue" asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op">上一步</a>
+    }
+    <button type="button" title="下一步" class="ah-btn-blue" onclick="$('#form1').submit();">下一步</button>
+</div>
+@section scripts{
+    <script src="~/js/pages/code-doctor.js"></script>
+    <script src="~/lib/XTree/js/XTree.js"></script>
+    <script>
+        var pagedata = {
+            op: '@ViewBag.op',
+            isView: '@ViewBag.op' == 'VIEW',
+            docImgRoot:'@Global.ConfigSettings.DoctorImagePathRoot',
+            ver: 1,
+            selectStationId: null,
+            doctorId: @Model.DoctorId,
+            stationId:@(u.StationId)
+        };
+        $(function () {
+            initialLoad();
+            var myTree = $('div[ah-ui="MyStationTree"]').XTree({
+                url: "/api/syshis/GetSonStations?bWithRoot=true&pStationId={0}",
+                moreUrl: "/api/syshis/GetSonStations?pStationId={0}",//查看子节点
+                id:pagedata.stationId,
+                selectNode: selectNode,//点击节点回调
+                field: { value: "stationName", id: "stationId", pid: "pId", },//数据对应字段，确保通用性
+                jnArray: "SonStations",//接口返回数组字段名
+            });
+            function selectNode(op){
+                pagedata.selectStationId = op.id;
+                $("#ah-tree-event").val(op.value);
+                //获取科室，职位
+                $.post("/api/syshis/GetRolesAndDepartsOfStation", { stationId: op.id, doctorId: pagedata.doctorId }, function (html) {
+                    $("#ah-roles-departs").html(html);
+                    layui.form.render()
+                });
+            }
+        });
+        function submitForm() {
+            $('#form1').submit();
+        }
+        function addRolesAndDep() {
+            var roles = [];
+            var dep = [];
+            //获取选择角色
+            $("input[name='StationRoles']:checked").each(function () {
+                roles.push($(this).val())
+            });
+            //获取选择科室
+            $("input[name='StationDeparts']:checked").each(function () {
+                dep.push($(this).val())
+            });
+            if (roles.length <= 0 || dep.length <= 0) {
+                $.err("请选择角色或者科室!");
+                return;
+            } else {
+                //保存
+                $.post("/Code/DoctorSet_AddRole", {
+                    item: {StationId: pagedata.selectStationId,Roles: roles, Departs: dep},
+                    doctorId: pagedata.doctorId
+                }, function (html) {
+                    $("div[ah-id='ROLEANDDEP']").html(html);
+                });
+            }
+        }
+
+    </script>
+}

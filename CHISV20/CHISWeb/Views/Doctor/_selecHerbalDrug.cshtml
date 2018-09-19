@@ -1,0 +1,489 @@
+﻿@{
+
+}
+
+@section links{
+    <style>
+        body {
+            /*background-color: #e6e6e6;*/
+        }
+
+        .padding15 {
+            padding: 6px 30px;
+        }
+
+        .brown_color {
+            background: #f0f0f0;
+        }
+
+            .brown_color li {
+                width: 128px;
+                text-align: center;
+            }
+
+                .brown_color li a {
+                    color: #000;
+                }
+
+        .margin-b {
+            margin-bottom: 20px;
+        }
+
+        .ah-data-list li {
+            border-bottom: 1px dotted rgba(59, 141, 181, 0.45);
+            line-height: 26px;
+        }
+
+            .ah-data-list li > b {
+                color: #333;
+                font-weight: normal;
+            }
+
+        .list-unstyled li textarea {
+            border: none;
+        }
+
+        .ah-data-list li > b {
+            display: inline-block;
+        }
+
+        .ah-data-list li > span.fst {
+            padding-left: 10px;
+        }
+
+        .select2-container {
+            z-index: 10000000000;
+        }
+
+        .ui-menu {
+            background: #fff;
+            border: 1px solid;
+            padding-left: 10px;
+        }
+
+        .tab_switch {
+            border: 0;
+        }
+
+            .tab_switch li {
+                border: 1px solid #bbbbbb;
+                border-radius: 10px;
+                margin-right: 10px;
+            }
+
+            .tab_switch a {
+                cursor: pointer;
+                color: #000;
+            }
+
+        .ah-gender {
+            margin-left: 20px;
+        }
+
+        .ah-icolink {
+            padding-left: 5px !important;
+        }
+
+            .ah-icolink > i {
+                margin-right: 6px;
+            }
+        /*链接按钮*/
+        .btn-link {
+            padding: 5px;
+        }
+
+            .btn-link:hover {
+                color: #37b1e6;
+            }
+
+            .btn-link:active {
+                box-shadow: none;
+            }
+
+        .ah-data-list > li i {
+            font-style: normal;
+        }
+
+        .ah-data-list > li s {
+            text-decoration: none;
+            color: #156779;
+            margin-left: 3px;
+        }
+
+        .border-right {
+            border-right: 1px dotted #bbbbbb;
+            color: #000;
+        }
+
+        .price_brown {
+            height: 72px;
+            line-height: 72px;
+            font-size: 18px;
+            color: #ff0000;
+        }
+
+        .medicinal_info {
+            padding: 15px 0px;
+            background: #ebebeb;
+            color: #000;
+        }
+
+            .medicinal_info h6 {
+                margin: 0px;
+                padding: 0px;
+                margin-left: 15px;
+            }
+
+        .mart10 {
+            margin-top: 10px;
+        }
+
+        .marb10 {
+            margin-bottom: 20px;
+        }
+
+        .select-custom {
+            height: 38px;
+            border: 1px solid #cccccc;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .medicinal_info h6 {
+            font-size: 16px;
+        }
+
+        .medicinal_info a {
+            cursor: pointer;
+            color: #000;
+        }
+
+        .top-row {
+            background-color: #ffffff;
+        }
+
+
+
+
+        .mytabs {
+            background-color: #fff;
+            padding-left: 0;
+            padding-right: 0;
+            border: 1px solid #bbb;
+            padding-bottom: 10px;
+        }
+
+            .mytabs > ul {
+                border-bottom: 1px solid #bbb !important;
+            }
+
+                .mytabs > ul > li:first-child.active > a {
+                    border-left: none !important;
+                }
+
+                .mytabs > ul > li.active > a {
+                    border-top-color: transparent !important;
+                    border-radius: 0 !important;
+                    border-left-color: #bbb !important;
+                    border-right-color: #bbb !important;
+                }
+
+        .cus-pic {
+            position: relative;
+        }
+
+            .cus-pic .cus-tab {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                padding: 10px;
+                background-color: rgba(0,0,0,0.5);
+                color: #fff;
+            }
+
+                .cus-pic .cus-tab > b {
+                    color: #333;
+                    color: #fff;
+                    font-size: 1.2em;
+                    font-weight: normal;
+                }
+
+        .title_border {
+            border-bottom: 1px dotted #ccc;
+            margin-top: 8px;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+
+        .padding5 {
+            padding-left: 0;
+            padding-right: 5px;
+        }
+
+        #drup_list tr:hover, .active_ass {
+            cursor: pointer;
+            color: #fff;
+            background-color: #446e9b;
+            border-color: #446e9b;
+        }
+
+        .padding5 input, .padding5 select {
+            height: 32px;
+            padding: 5px 5px;
+            font-size: 13px;
+        }
+
+        .form-control-feedback {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+        }
+
+        .select-linkage {
+            width: 32%;
+            display: 1;
+        }
+
+        .toptab > div {
+            min-height: 500px;
+        }
+
+
+        div[ah-input-key="BloodPress_H"]:after, div[ah-input-key="BloodPress_L"]:after {
+            font-size: 10px;
+            position: absolute;
+            top: -2px;
+            width: 15px;
+            height: 15px;
+            color: #555;
+            line-height: 14px;
+            border-radius: 2px;
+            text-align: center;
+            border: 1px solid #aaa;
+            background-color: #ddd;
+            right: -4px;
+        }
+
+        div[ah-input-key="BloodPress_H"]:after {
+            content: "高";
+        }
+
+        div[ah-input-key="BloodPress_L"]::after {
+            content: "低";
+        }
+
+        .tab-img {
+            line-height: 23px;
+            font-size: 18px;
+        }
+
+            .tab-img i {
+                cursor: pointer;
+            }
+
+
+        .grp-1, .grp-2, .grp-3 {
+            border-left: 3px solid #888;
+            margin-bottom: 0 !important;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .grp-1 {
+            border-left-color: #37b1e6 !important;
+        }
+
+        ul > li.grp-1:last-child {
+            margin-bottom: 20px !important;
+        }
+
+        .grp- + li.device-space {
+            margin-bottom: 0 !important;
+        }
+
+
+
+        .yfinput select, .yfinput input[type=text] {
+            padding-top: 3px;
+            padding-bottom: 3px;
+            height: 28px;
+            border-radius: 2px;
+            margin-right: 1px;
+        }
+
+        input.readonly-input {
+            border: none;
+            background-color: transparent;
+            padding: 1px;
+            margin: 1px;
+            ime-mode: disabled;
+        }
+
+
+        .pagination {
+            margin: 1px 0;
+        }
+
+        .table tr td {
+            text-align: center;
+        }
+
+        .table tr th {
+            text-align: center;
+        }
+    </style>
+
+
+}
+
+<!-- 添加药品 搜索药品弹出层 -->
+<div class="search-drug-background" id="search-bg" style="margin-top:20px;padding:15px;">
+    <form id="searchForm" onkeydown="if(event.keyCode==13)return false;" asp-action="" method="post" role="form">
+        <div style="width:100%;">
+            <div class="input-group marb10" style="width:100%;">
+                <input type="text" id="search_drupinfos" class="form-control input-lg" placeholder="输入药品名 拼音汉字简拼均可">
+            </div>
+            <div class="marb10">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>名称</th>   
+                                <th style="display:none"></th>                         
+                            </tr>
+                        </thead>
+                        <tbody id="drup_list"></tbody>
+                        <script id="drupTemplate" type="text/html">
+                            {{each ites as drupinfos i}}
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="drugID" value="{{drupinfos.hid}}" />
+                                </td>
+                                <td id="drugName" width="30%" align="left">{{drupinfos.cName}}</td>                            
+                                <td style="display:none" name="JSONDATA">{{jsonString drupinfos}}</td>
+                                <!--显示药品的详细说明-->
+                            </tr>
+                            {{/each}}
+                        </script>
+                    </table>
+                </div>            
+            </div>
+
+        </div>
+    </form>
+    <div class="input-group" style="display:none">
+        <input id="choosed_medicine" type="text" class="form-control input-lg">
+    </div>
+</div>
+<!--静态框-->
+<div id="modelDiv" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">药品说明书</h4>
+            </div>
+            <div class="modal-body" id="modal-body-div">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        $(function () {
+            $('#search-bg').on('dblclick', "#drup_list tr", function () {
+                //应该是触发layer窗体的确定按钮
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                var $c = parent.$('#layui-layer' + index + ' .layui-layer-btn a.layui-layer-btn0');
+                $c.trigger("click");
+                // parent.layer.close(index); //再执行关闭
+            });         
+        });
+
+        //搜索药品
+        $("#search_drupinfos").keyup(function () {
+            var searchTxt = $(this).val();
+
+            if (searchTxt.length > 2) {
+                $.loadJSON("/v20/Patientvisit/Json_SearchZDrugInfo",
+                {
+                    term: searchTxt
+                }, function (jn) {
+                    $('#callBackPager').extendPagination({
+                        totalCount: jn.totalRecords,
+                        limit: jn.pageSize,
+                        callback: function (curr, totalCount) {
+                            $.loadJSON("/v20/Patientvisit/Json_HerbalDrugInfor", {
+                                term: searchTxt
+                            }, function (jn) {
+                                $('#drup_list').html(loadTemplateHtml('drupTemplate', jn));
+                            })
+                        }
+                    });
+                    $('#drup_list').html(loadTemplateHtml('drupTemplate', jn));
+                });
+            }
+
+        })
+
+
+        //药品选中赋值显示
+        $('.table-responsive').on("click", "#drup_list tr", function () {
+            $('#choosed_medicine').val($(this).find('td[id=drugName]').text());
+            $(this).parents('tbody[id=drup_list]').find("tr").removeClass('active_ass');
+            $(this).addClass('active_ass');
+        });
+
+
+
+
+        function SelectedDrug(func) {
+            var _this1 = $('.active_ass').first();
+            var jn = JSON.parse(_this1.find('td[name=JSONDATA]').text());
+            var onedrug = {
+                rltStatus: "SUCCESS",
+                rltMsg: "",
+                adviceId: null,
+                drugId: jn.drugID,
+                drugName: jn.drugName,
+                drugModel: _this1.find('td[id=drugModel]').text(),
+                salePrice: _this1.find('td[id=salePrice]').text(),
+                outUnitbName: _this1.find('td[name=outUnitbName]').text(),//包装单位
+                outUnitName: _this1.find('td[name=outUnitName]').text(),//封装单位
+                minUnitName: _this1.find('td[name=minUnitName]').text(),//剂量单位
+                outUnitbId: _this1.find('td[name=outPatient_Unit_b]').text(),
+                outUnitsId: _this1.find('td[name=outPatient_Unit_s]').text(),
+                disageUnitId: _this1.find('td[name=minUnit]').text(),
+                prescribeStyles: _this1.find('td[name="prescribeStyles"]').text(),
+                qty: 1
+            };
+            //如果是健客药品，则开始检测药品是否可以添加
+            if (jn.sourceFrom == 1) {
+                $.getJSON("/v20/Base/CheckDrugIsAvaliable", { drugId: jn.threePartDrugId }, function (json) {
+                    if (json.rlt) { if (func) func(onedrug); }
+                    else { $.alertError(json.msg); }
+                });
+            } else { if (func) func(onedrug); }
+        }
+
+        //显示药品说明书
+        function drugInforDetail(drugId) {
+
+            $.getJSON("/v20/Patientvisit/Json_DrugInforDetail", { drugId: drugId }, function (jn) {
+                if (jn.rlt) {
+                    var h = '<p style="font-weight:800">' + '【药品名称】' + '</p>' + '<p>' + jn.drugName + '</p> ' + '<p style="font-weight:800">' + '【药品规格】' + '</p>' + '<p>' + jn.packing + '</p>' + '<p style="font-weight:800">' + '【生产厂地】' + '</p>' + '<p>' + jn.manufacturer + '</p>' +'<p style="font-weight:800">' + '【使用症状】' + '</p>'+ '<p>' + jn.introduction + '</p>'
+                    $("#modal-body-div").html(h);
+                }
+                else { $.alertError(jn.msg); }
+            });
+
+
+
+        }
+
+
+    </script>
+}

@@ -1,0 +1,244 @@
+﻿/*
+    网站通用的样式表，一定要做好样式注释
+*/
+u,em,i{font-style:normal;}
+
+
+.ah-inline{display:inline;}
+.ah-inline-block{display:inline-block;}
+.ah-v-middle{vertical-align:middle;}
+
+
+.search-adv{padding-top:14px;}
+/*通用搜索样式*/
+.search-conditions .title{float: left;     padding-top: 4px; margin-right:8px;   position: relative;  padding-bottom: 7px; font-family: "Helvetica Neue","Hiragino Sans GB",SimSun,serif;}
+/*通用条件列表*/
+.sl-value{}
+.sl-value tbody>tr>th{padding-right:20px;padding-top:14px;font-weight:normal;background-color:#ccc;}
+.sl-value .section-inline{margin-right:10px;display:inline;}
+.sl-value label.radio-inline{cursor:pointer;color:#888;padding-left:0;}
+.sl-value .ah-search-radio:checked+span{background-color:#143ee5;color:white;font-weight:bold;padding:2px 5px;}
+.sl-value .ah-search-radio{display:none;}
+
+/*日期段选择*/
+.sl-value .ah-layout-two-date{position:relative;display:inline-block;vertical-align:middle;}
+.sl-value .ah-layout-two-date input[type=text]:first-child{float:left; border-right:none;border-top-right-radius:0;padding-right:20px;  border-bottom-right-radius :0;width:calc(50% - 10px);display:inline-block;}
+.sl-value .ah-layout-two-date .date-line{float:left;border-top:1px solid #ccc;border-bottom:1px solid #ccc; font-size: 12px;
+     height: 30px;    line-height: 1.5;    padding: 5px 4px;}
+.sl-value .ah-layout-two-date input[type=text]:last-child{float:left;border-left:none;border-top-left-radius:0;padding-right:20px; border-bottom-left-radius:0;width:calc(50% - 10px);display:inline-block;}
+.sl-value .ah-layout-two-date .ah-dt-start-ico{position:absolute;left:calc(50% - 26px);top:9px;}
+.sl-value .ah-layout-two-date .ah-dt-end-ico{position:absolute;top:0;right:13px;top:9px;}
+
+.more-search-list-fm{margin-top:17px;margin-left:8px;}
+
+/*只有一个输入框*/
+.sl-value .ah-search-text-one{display:inline-block;max-width:200px;height:28px;border-radius:2px;}
+
+/*高级搜索按钮*/
+.sl-value .ah-more-search-btn{background-color:#3097be;color:white;border:none;padding:5px 8px;border-radius:2px;line-height:17px;cursor:pointer;}
+.sl-value .ah-more-search-btn:hover{background-color:#143ee5;}
+
+
+/*搜索结果排列*/
+.crumb-select-item {
+    border: 1px solid #4780EB;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    height: 24px;
+    line-height: 22px;
+    margin: 0 5px 0 0;
+    padding: 0 26px 0 4px;
+    position: relative;
+    vertical-align: top;
+    background: #fff none repeat scroll 0 0;
+    text-decoration: none;
+}
+ .crumb-select-item b {
+    color: #333;
+    font-weight: 400;
+}
+ .crumb-select-item em {
+    color: #4780EB;
+    margin-right: 3px;
+
+}
+ 
+.crumb-select-item i {
+    background-position:7px -140px;
+    display: block;
+    height: 22px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25px;
+}
+.crumb-select-item i{
+    background-image:url("/images/jd.png");
+    background-color: #4780EB;
+    background-position: 7px -158px;
+}
+.crumbs-arrow {
+    float: left;
+    font-family: "Helvetica Neue","Hiragino Sans GB",SimSun,serif;
+    font-style: normal;
+    margin-right: 5px;padding:4px 0px 3px 3px;
+}
+
+.crumbs-nav-item {
+    float: left; 
+    margin-right: 5px; padding:3px 0 3px 0;
+}
+
+.crumbs-nav-item .search-key {
+    margin-left: 0px;
+}
+.crumbs-nav-item .search-key:before{content:"“";}
+.crumbs-nav-item .search-key::after{content:"”";}
+.crumb-select-item:hover {
+    background: #fff none repeat scroll 0 0;
+    border-color: #4780EB;
+    text-decoration: none;
+}
+.crumb-select-item:hover i {
+    background-color: #4780EB;
+    background-position: 7px -158px;
+}
+
+
+/*选择*/
+.selector {
+    background: #fff none repeat scroll 0 0;
+    border-top: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+.selector .s-brand {
+}
+.selector .s-brand, .selector .s-line {
+    height: auto;
+    width: auto;
+}
+.selector .sl-wrap {
+    background: #F0F0F0 none repeat scroll 0 0;
+    border-bottom: 1px solid #E9E9E9;
+    line-height: 34px;
+    position: relative;
+}
+.selector .sl-key {
+    float: left;
+    overflow: hidden;
+    padding-left: 10px;
+    white-space: nowrap;
+    width: 100px;
+    padding: 5px;
+}
+.selector .sl-value {
+    background: #fff none repeat scroll 0 0;
+    margin-left: 110px;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 130px;
+}
+.selector .sl-ext {
+    height: auto;
+    line-height: 22px;
+    overflow: hidden;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 110px;
+}
+.clr {
+    visibility: hidden;
+}
+.clear, .clr {
+    clear: both;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+}
+.selector .sl-v-list {
+    overflow: hidden;
+    padding: 5px 0;
+}
+.selector .sl-v-list ul {
+    float: left;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+}
+.selector .s-brand .sl-v-list li {
+    margin-right: 5px;
+    width: 130px;
+}
+.selector .sl-v-list li {
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    margin-bottom: 4px;
+    margin-right: 50px;
+}
+.selector .s-brand .sl-v-list li a {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 130px;
+}
+.selector .sl-v-list li a {
+    color: #005aa0;
+    float: left;
+    white-space: nowrap;
+}
+.selector .sl-btns {
+    display: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+}
+ .selector .sl-ext .sl-e-more {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #333;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    margin-right: 10px;
+    padding: 0 7px 0 4px;
+    position: relative;
+    visibility: hidden;
+    width: 39px;
+}
+ .selector .sl-ext .sl-e-multiple {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #333;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    padding: 0 3px 0 18px;
+    position: relative;
+}
+ .selector .sl-ext .sl-e-multiple i {
+    background-position: 0 -63px;
+    display: block;
+    font-style: normal;
+    height: 20px;
+    left: 3px;
+    position: absolute;
+    top: 1px;
+    width: 13px;
+}
+.selector .sl-ext .sl-e-more i, .selector .sl-ext .sl-e-multiple i {
+    background: rgba(0, 0, 0, 0) url("/images/jd.png") no-repeat scroll 9999px 9999px;
+    transition: background-position 0.15s ease-in-out 0s;
+}
+
+
+
+
+
+/*特殊页面的布局*/
+.pg-datetime-group{max-width:240px;}

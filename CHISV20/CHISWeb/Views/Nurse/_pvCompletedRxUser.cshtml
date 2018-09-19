@@ -1,0 +1,136 @@
+﻿@using Ass
+@model RxUserViewModel
+@{
+    Layout = null;
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+<div class="ah-row-detail ah-flex" id="@Model.RxSaveId">
+    <div class="ah-row-left">
+        <img class="ah-row-upic" style="border-radius:50%;" src="@(myRazor.GetCustomerDefImagePath(Model.PhotoUrlDef,Ass.Data.Utils.GetIdCardInfo(Model.CustomerIdCode).Gender))" />
+    </div>
+    <div class="ah-flex-auto">
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">姓名:</span>
+                <span class="ah-row-value">@(Model.CustomerName)</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">手机号:</span>
+                <span class="ah-row-value">@Model.CustomerMobile</span>
+
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">性别:</span>
+                <span class="ah-row-value">@(Model.CustomerGenderStr)</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">身份证:</span>
+                <span class="ah-row-value">@Model.CustomerIdCode</span>
+            </div>
+        </div>
+
+        <div class="ah-flex-layout ah-row-border">
+                <div class="ah-col-md1 ah-flex">
+                    <span class="ah-row-title">处方存照:</span>
+                    <span>
+                        @if (Model.RxPicUrl1 != null)
+                {
+                    <a href="@Model.RxPicUrl1" target="_blank" title="点击查看大图"><img src="@Model.RxPicUrl1" height="50" width="50" style="margin-left: 12px;" /></a>
+        }
+                    </span>
+                    <span>
+                        @if (Model.RxPicUrl2 != null)
+                {
+                    <a href="@Model.RxPicUrl2" target="_blank" title="点击查看大图"><img src="@Model.RxPicUrl2" height="50" width="50" style="margin-left: 12px;" /></a>
+        }
+                    </span>
+                    <span>
+                        @if (Model.RxPicUrl3 != null)
+                {
+                    <a href="@Model.RxPicUrl3" target="_blank" title="点击查看大图"><img src="@Model.RxPicUrl3" height="50" width="50" style="margin-left:12px;" /></a>
+        }
+                    </span>
+                </div>
+            </div>
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">药品列表:</span>
+                <span class="ah-row-value"><a onclick="$.moreToggle('#sa_@(Model.RxSaveId)',this)">展开</a></span>
+            </div>
+        </div>
+</div>
+
+<div class="ah-row-detail ah-flex" id="sa_@(Model.RxSaveId)" style="display:none;">
+        <div class="ah-row-value">
+            <table class="ah-table-wrap">
+                <tbody>
+                    <tr>
+                        <th>
+                            品名
+                        </th>
+                        <th>
+                            规格
+                        </th>
+                        <th width="8%">
+                            数量
+                        </th>
+                        <th width="8%">
+                            单位
+                        </th>
+                        <th width="15%">
+                            批号
+                        </th>
+                        <th>
+                            生产厂家
+                        </th>
+                        <th width="15%">
+                            有效期
+                        </th>
+                    </tr>
+                </tbody>
+                <tbody>
+                    @if (Model != null && Model.DrugList != null)
+                    {
+                        foreach (var item in Model.DrugList)
+                        {
+                            <tr>
+                                <td class="ah-td-left ah-td-showall">
+                                    @Html.DisplayFor(modelItem => item.DrugName)
+                                </td>
+                                <td class="ah-td-left ah-td-showall">
+                                    @Html.DisplayFor(modelItem => item.DrugModel)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DrugQty)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DrugUnitName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DrugPiNo)
+                                </td>
+                                <td class="ah-td-left ah-td-showall">
+                                    @Html.DisplayFor(modelItem => item.DrugManufacture)
+                                </td>
+                                @{
+                                    if (item.DrugDeadTime.HasValue)
+                                    {
+                                        <td>@item.DrugDeadTime.Value.ToString("yyyy-MM-dd")</td>
+                                    }
+                                    else
+                                    {
+                                        <td> </td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+    </div>

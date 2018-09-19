@@ -1,0 +1,119 @@
+﻿@using Ass;
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService _accSvr
+@{
+
+    ViewBag.Title = "医生档案";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.FuncId = 66;
+    var umgr = this.GetUserMgr();
+    var bnew = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsNew).ToBool();
+}
+
+
+@section links{
+    <style>
+    </style>
+}
+
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入医生手机/证件号/邮箱/姓名" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap ah-flex-auto">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+        <div class="ah-tool-wrap">
+            @if (bnew)
+            {
+                <button class="ah-btn-blue" onclick="add()"><i class="fa fa-plus"></i>&nbsp;新建</button>
+            }
+        </div>
+    </div>
+
+
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+
+
+        <div class="J_selectorLine s-brand">
+            <!--======================Start==========================-->
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="TimeRange"><strong>注册时间：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today" /><span class="ah-def-active">当日</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek" /><span>本周</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth" /><span>本月</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter" /><span>本季</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear" /><span>本年</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="All" /><span>所有</span></label>
+                        </section>
+
+                        <section class="section-inline ah-search-input">
+                            <div class="section-more-wrap">
+                                <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                至
+                                <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd" />
+                                <button class="ah-btn-blue" type="button">确定</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="sl-ext">
+                    <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                </div>
+            </div>
+
+        </div><!--======================END==========================-->
+
+
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="IsNeedCheck"><strong>是否需要审核：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="IsNeedCheck" class="ah-search-radio" value="True" /><span>是</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="IsNeedCheck" class="ah-search-radio" value="False" /><span>否</span></label>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div class="ah-table-wrap" ah-id="TABLE-RESULT"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/ah-common-search.js"></script>
+    <script>
+        SEARCH.searchMain = "TABLE-RESULT";//搜索结果存放区域
+        SEARCH.searchUrl = "/Doctor/GetDoctorPendingList"; //设置搜索的请求地址
+
+    </script>
+
+}

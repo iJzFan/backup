@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ah.Models.vwAHMS_Customer_AllergicHistory>
+
+
+<table class="table ah-mob-table">
+    <thead class="ah-mob-hiden">
+        <tr>
+            <th class="ah-mob-hiden">过敏人</th>
+            <th>过敏原</th>
+            <th>过敏日期</th>
+            <th>部位</th>       
+            <th>过敏症状</th>
+            <th class="ah-mob-hiden">记录人</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td  class="ah-mob-hiden">@(item.CustomerName) ( @(item.Gender?.ToGenderString()) ) </td>
+                <td  class="ah-mob-tb20">@item.Allergens</td>
+                <td>@item.AllergicDate?.ToDateString()</td>
+                <td>@item.AllergicBodyParts</td>
+             
+                <td>@item.AllergySymptoms</td>
+                <td class="ah-mob-hiden">@item.RecMan</td>
+                <td><a class="ahbtn-link" onclick="deleteAllergic(@item.AllergicHistoryId)" title="删除该记录"><i class="fa fa-times"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function deleteAllergic(id) {
+        $.confirm("删除", "是否删除该记录", function () {
+            $.loadJSON("/Customer/MyHealthMgr/DeleteAllergyRecord", { id: id }, function (jn) {
+                if (jn.rlt) { loadList(); }
+                else $.alertError(jn.msg);
+            });
+        });
+    }
+    function loadList() {
+        $('#allergy_list').load("/Customer/MyHealthMgr/AllergyRecordList", {});
+    }
+
+</script>
+
+

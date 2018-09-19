@@ -1,0 +1,25 @@
+﻿.landscape {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.app {
+    display: none !important
+}
+
+.pc {
+    display: flex !important;
+}
+
+@media screen and (max-width:800px) {
+    .app {
+        display: flex !important
+    }
+
+    .pc {
+        display: none !important
+    }
+}

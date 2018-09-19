@@ -1,0 +1,71 @@
+﻿@model CHIS.Models.ViewModel.ChangeLoginInfo
+@{
+    ViewBag.Titel = "通过手机验证码修改";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section links {
+    <style>
+        .adop-code {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 24px;
+            z-index: 999;
+        }
+
+        .title {
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .error {
+            color: #b14927;
+        }
+    </style>
+}
+<form id="form" asp-conroller="MyPanel" asp-action="ChangePassword" method="post" autocomplete="off" class="ah-max-width">
+    <div class="ah-changepas-wrap">
+        <div class="ah-changepas-title">通过身份证和原密码修改</div>
+        <div class="ah-adop-mobile">
+            <div class="ah-flex-layout ah-fixed-md1 ">
+                <input type="hidden" id="VarifyType" name="VarifyType" value="idcard" />
+                <input type="hidden" name="IDCard" id="IDCard" value="@(ViewBag.IDCard)" />
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">身份证</div>
+                    <div class="ah-data-div">@(ViewBag.IDCard)</div>
+                </div>
+                <div class="ah-col-md1 ah-postion-relative">
+                    <div class="ah-data-label ah-required">原密码</div>
+                    <input class="ah-data-input ah-flex-auto" type="text" asp-for="OrigPswd" placeholder="输入原密码" tabindex="1"
+                           autocomplete="off" data-rule-required="true" data-msg-required="请输入原密码"
+                           data-rule-minlength="6" data-msg-minlength="请最低输入6个字符"/>
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">新密码</div>
+                    <input type="password" class="ah-data-input" id="MyPswd" name="MyPswd" placeholder="输入新密码" tabindex="2"
+                           data-rule-required="true" data-msg-required="请输入新密码"
+                           data-rule-minlength="6" data-msg-minlength="请最低输入6个字符" />
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">确认新密码</div>
+                    <input type="password" class="ah-data-input" id="MyPswdConfirm" name="MyPswdConfirm" placeholder="请确认新密码"
+                           data-rule-required="true" data-msg-required="请输入确认密码" tabindex="3"
+                           data-rule-equalTo="#MyPswd" />
+                </div>
+                <div class="ah-col-md1 ah-mt-10 ah-flex ah-justify-end">
+                    <button type="button" class="ah-btn-white" onclick="history.go(-1);" tabindex="5">返回</button>
+                    <button type="submit" class="ah-btn-blue" tabindex="4">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#form').validate();//验证
+        });
+    </script>
+}

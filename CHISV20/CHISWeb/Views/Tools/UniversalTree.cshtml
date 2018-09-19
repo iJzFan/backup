@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+
+@section links{
+    <link href="~/lib/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+        .ztree{margin-top:30px;}
+    </style>
+}
+<div class="container">
+    <div class="ztree" id="ztree">
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/lib/zTree/js/jquery.ztree.all.min.js"></script>
+    <script>
+        var pagedata = {
+            turl:'@(ViewBag.turl)',
+        }
+        $(function () {
+            //控件初始           
+            tree = zTreeObj({
+                id: 'ztree',
+                url: pagedata.turl,
+                onClickNode: function (node) {                     
+                    parent.setTreeInfo(node);
+                    $.closeThisLayer(window);
+                 }
+            });
+        });
+    </script>
+}

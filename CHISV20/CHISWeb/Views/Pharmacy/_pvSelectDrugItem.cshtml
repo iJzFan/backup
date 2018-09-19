@@ -1,0 +1,77 @@
+﻿@model Ass.Mvc.PageListInfo<Exp_vwCHIS_Code_Drug_Main>
+<style>
+    .drug-big-pic {position: absolute; width: 135px;border: 1px solid #ccc; border-radius: 3px; left: 56px;display: none;top: -37px;}
+    td{vertical-align: unset !important;cursor:pointer;}
+</style>
+<p style="font-size:0.9em;color:#a228c6;">请注意药品的封装单位，封装单位是出入库和发药的基准单位。</p>
+<input type="hidden" ah-term="term" value="@ViewBag.term" />
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th style="width:36px;"></th>
+            <th>药品名</th>
+            <th>完善度</th>
+            <th>厂商/产地</th>
+            <th>包装单位</th>
+            <th title="出入库发药的基准单位"><i class="fa fa-exclamation-circle"></i>封装单位</th>
+            <th>剂量单位</th>
+        </tr>
+    </thead>
+    <tbody id="drup_list">
+        @foreach (var item in Model.DataList)
+        {
+            <tr ah-DrugId="@item.DrugId"
+                ah-SourceFrom="@item.SourceFrom"
+                ah-ThreePartDrugId="@item.ThreePartDrugId">
+                <td>
+                    <input type="hidden" name="drugId" value="@(item.DrugId)" />
+                </td>
+                <td style="position:relative;">
+                    <img src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode,true))" width="32" onmouseover="showBigImg(this);" onmouseout="hideBigImg(this)" />
+                    <img class="drug-big-pic" src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode,false))" />
+                </td>
+                <td id="drugName" width="30%">
+                    <b>@item.DrugName</b>
+                    @if (item.IsNeedChangeUnit)
+                    {
+                    <a asp-controller="Code" asp-action="DrugNormalEdit" asp-route-DrugId="@item.DrugId" target="_blank"><i class="fa fa-edit"></i></a>
+                    }
+                    <span></span>
+                    <div>@item.DrugModel</div>
+                </td>
+                <td>@(item.DrugCompleteScore)%</td>
+                <td id="manufacturerOrigin">
+                    <span>@item.ManufacturerOrigin</span>
+                    <span>@item.OriginPlace</span>                
+                </td>
+                
+                <td name="outUnitBigName">@item.OutUnitBigName</td>
+                <td name="outUnitSmallName" style="color:#a228c6;font-size:1.2em;">@item.OutUnitSmallName</td>
+                <td name="minUnitName">@item.DosageUnitName</td>                                      
+                <td style="display:none" name="JSONDATA">@(item.ToJson())</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!--分页-->
+<div id="pager"></div>
+<!--分页结束-->
+
+@ViewBag.DebugText
+<script>
+    $(function () {
+         $("#pager").pager({
+            pagenumber: @Model.PageIndex,
+            pagecount: @Model.PageTotal,
+            buttonClickCallback: function (pageclickednumber) {
+                $.post("/Pharmacy/GetMyStockDrugInfos", {
+                    searchText: $('input[ah-term="term"]').val(),
+                    pageIndex: pageclickednumber
+                }, function (html) {
+                    $('div[ah-id="selectDrugTable"]').html(html);
+                });
+            }
+        });
+     })
+</script>

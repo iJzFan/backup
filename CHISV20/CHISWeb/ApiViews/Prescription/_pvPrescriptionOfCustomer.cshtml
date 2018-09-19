@@ -1,0 +1,19 @@
+﻿@using Ass;
+@model IEnumerable<CHIS.Models.DataModel.PrescriptionSearchItem>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+}
+
+<ul class="ah-prescription-items">
+    @foreach (var item in Model)
+    {
+        <li prescription-no="@item.PrescriptionId">
+            <a>
+                @Html.Raw(item.CustomerName)
+                @Html.Raw(item.CustomerGender)
+                @item.CustomerAge
+                @Html.Raw(item.TreatTime.ToString("yyyy-MM-dd HH时"))
+            </a>
+        </li>
+    }
+</ul>

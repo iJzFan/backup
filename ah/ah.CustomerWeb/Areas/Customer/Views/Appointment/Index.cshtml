@@ -1,0 +1,111 @@
+﻿@model ah.Models.ViewModel.AppointmentViewModel
+@{
+    ViewData["Title"] = "预约";
+    Layout = "../Shared/_LayoutAppointment.cshtml";
+    var cus = (ah.Models.ViewModel.CUSTOMER_INFO)(ViewBag.CUSTOMER_INFO);
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link rel="stylesheet" href="~/customer/css/pages/ah-layout.css" />
+    <link rel="stylesheet" href="~/customer/css/pages/appointment-index.css" />
+    <style></style>
+}
+<div class="ah-appointmert-wrap">
+    <div class="wrap-logo">
+        <img src="~/images/logo1.png" />
+        <p>天使健康就诊预约</p>
+        <div class="pc-linknav">
+            <a href="~/Customer/home">
+                <i class="glyphicon glyphicon-user"></i>
+                个人中心
+            </a>
+        </div>
+        <div class="pc-search-wrap">
+            <input class="search-input" id="pc-search-input" placeholder="请输入搜索内容！" />
+            <a onclick="op.GetSearchMore(1,$('#pc-search-input').val())">搜索</a>
+        </div>
+    </div>
+    <div class="app-search-wrap">
+        <input class="search-input" id="search-input" placeholder="请输入搜索内容！" />
+        <a onclick="op.GetSearchMore(1,$('#search-input').val())">搜索</a>
+    </div>
+    <div class="index-search-items">
+        <div style="width:100%;text-align:center">
+            <img src="/images/not-data2.png">
+        </div>
+    </div>
+    <div class="appointment-nav-app">
+        <a style="color: #22a88f;" href="/Customer/Appointment">
+            <i class="glyphicon glyphicon-th-list"></i>
+            健康预约
+        </a>
+        <a href="/doctor/AllDoctorsLists">
+            <i class="glyphicon glyphicon-heart"></i>
+            医生团队
+        </a>
+        <a href="/Customer/home">
+            <i class="glyphicon glyphicon-user"></i>
+            个人中心
+        </a>
+    </div>
+</div>
+<div class="loading-tips">
+    <div>
+        <img style="margin-right:20px;" src="~/lib/layer/src/skin/default/loading-1.gif" />定位中，请稍后！
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=KXBBZ-MPCWS-RRKOG-6XDMI-4MVOK-5QFAT&referer=myapp"></script>
+
+    <script src="~/customer/js/pages/appointment-index.js"></script>
+
+    <script>
+        var pagedata = {
+            stationImgRoot: '@(Global.ConfigSettings.StationImagePathRoot)',
+            doctorImgRoot:'@(Global.ConfigSettings.DoctorImagePathRoot)',
+            ver:1
+        };
+        op.stationId =@(Model.StationId??0);
+        op.stationName = '@(Html.Raw(Model.StationName))';
+        op.departmentId =@(Model.DepartId??0);
+        op.initDoctorId =@(Model.DoctorId??0);
+        op.initDate = '@(Model.Date)';
+        op.initSlot = @Model.Slot;
+        op.isQuickSet =@(Model.DoctorId??0)>0; //是否是快速设置
+        var options = { timeout: 9000 };
+        op.lat = 0;
+        op.lng = 0;
+        op.oldWidth = $(window).width();
+    </script>
+    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+    <script>
+        $(function () {
+            var geolocation = new qq.maps.Geolocation();
+            //定位
+            geolocation.getLocation(showPosition, showErr, options);
+            $(window).resize(function () {
+                if (op.oldWidth <= 800 && $(window).width() > 800) {
+                    op.GetSearchMore(op.pageIndex, "")
+                }
+                if (op.oldWidth > 800 && $(window).width() <= 800) {
+                    op.GetSearchMore(op.pageIndex, "")
+                }
+                op.oldWidth = $(window).width();
+            });
+            STEP.InitStep1();
+        })
+        function showPosition(position) {
+            op.lat = position.lat;
+            op.lng = position.lng;
+            console.log(position);
+            op.GetSearchMore(op.pageIndex, "")
+        };
+
+        function showErr() {
+            layer.msg("定位失败,无法获取到您的位置！");
+            op.GetSearchMore(op.pageIndex, "")
+        };
+    </script>
+}

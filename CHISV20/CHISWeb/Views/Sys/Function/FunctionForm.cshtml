@@ -1,0 +1,276 @@
+﻿@model CHIS.Models.CHIS_SYS_Function
+@{
+    ViewBag.Title = "菜单修改";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+
+
+}
+@section links{
+
+    <link href="~/sys/projcommon.css" rel="stylesheet" />
+    <style>
+        table.form tr td select {
+            height: 30px;
+        }
+
+        fieldset.disabled {
+            ime-mode: disabled;
+        }
+
+        .ah-switch {
+            cursor: pointer;
+        }
+
+        .fa-toggle-off {
+            font-size: 22px;
+            color: #aea7a7;
+        }
+
+        .fa-toggle-on {
+            font-size: 22px;
+            color: #57c756;
+        }
+    </style>
+}
+
+<form id="form1">
+    <div style="padding: 10px">
+        <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+            <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+            请填写业务功能信息，用于创建或修改业务功能记录！
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">表单信息</h3>
+                @Html.HiddenFor(m => m.FunctionID)
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">菜单Key</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="FunctionKey" class="form-control required" placeholder="请输入菜单英文名" />
+                        </td>
+                        <th class="formTitle">菜单名称</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="FunctionName" class="form-control required" placeholder="请输入菜单名称" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">连接</th>
+                        <td class="formValue">
+                            <input type="text" asp-for="UrlAddress" class="form-control" />
+                        </td>
+                        <th class="formTitle">父节点</th>
+                        <td class="formValue">
+                            <select asp-for="ParentFunctionID" class="form-control required">
+                                <option value="0">父节点</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">图标</th>
+                        <td class="formValue">
+                            <div class="input-group">
+                                <input type="text" asp-for="Icon" class="form-control">
+                                <span class="input-group-addon">
+                                    @*显示对应的图标*@
+                                    <i id="functionIcon" class="@Model.Icon"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <th class="formTitle">排序</th>
+                        <td class="formValue" style="padding: 5px, 10px;">
+                            <input type="number" asp-for="FunctionIndex" class="form-control required" placeholder="请输入排序" min="1" max="30" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle"></th>
+                        <td class="formValue">
+                            <div class="ckbox">
+                                <input type="checkbox" asp-for="IsMenu" checked="checked"><label for="IsMenu">菜单</label>
+                            </div>
+                        </td>
+                        <th class="formTitle"></th>
+                        <td class="formValue" style="padding: 5px, 10px;">
+                            <div class="ckbox">
+                                <input type="checkbox" asp-for="IsRight" checked="checked"><label for="IsRight">需要授权</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle"> </th>
+                        <td class="formValue">
+                            <div class="status3">
+                                <select class="form-control" asp-for="IsV20">
+                                    <option value="">选择</option>
+                                    <option value="True">是</option>
+                                    <option value="False">否</option>
+                                </select>
+                                <label>是否新架构菜单</label> 
+                            </div>
+                         
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle"></th>
+                        <td>
+                            <div class="status3">
+                                <select class="form-control" asp-for="IsNavMenu">
+                                    <option value="">选择</option>
+                                    <option value="True">是</option>
+                                    <option value="False">否</option>
+                                </select>
+                                <label>是否导航菜单</label>
+                            </div>
+                        </td>
+                        <th>导航排序(100开始)</th>
+                        <td><input type="number" asp-for="NavNum" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">可用状态</th>
+                        <td class="formValue">
+                            @*<input type="hidden" asp-for="IsEnable" />
+                                <a id="chk_IsEnable" class="ah-switch" ah-targ="ahchk-switchshow"><i class="fa fa-toggle-on"></i></a>*@
+                            <div class="ckbox-switch2">
+                                <input type="checkbox" asp-for="IsEnable" /><label for="IsEnable" title="是否可用"></label>
+                            </div>
+                        </td>
+                        <th class="formTitle">停用日期</th>
+                        <td class="formValue">
+                            <fieldset class="disabled ah-dis">
+                                <div class="input-group">
+                                    <input type="text" class="input-datetime form-control" asp-format="{0:yyyy-MM-dd}" asp-for="StopDate" />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">备注</th>
+                        <td class="formValue" colspan="3">
+                            <input type="text" asp-for="Remark" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:65px">操作人</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <fieldset class="disabled">
+                                <input type="text" asp-for="OpMan" class="form-control required" />
+                            </fieldset>
+                        </td>
+                        <th class="formTitle" style="width:65px">操作时间</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <fieldset class="disabled">
+                                <input type="text" asp-for="OpTime" style="width:220px" class="form-control" />
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+
+        var pagedata = {
+            op: '@(ViewBag.OP)',
+            isView:'@(ViewBag.OP)'=="VIEW",
+            parentFunctionId:@(Model.ParentFunctionID),
+            seq:@(ViewBag.Count),
+            ver:1
+        }
+
+        $(function () {
+
+            //初始上级业务功能
+            $("#ParentFunctionID").bindSelect({
+                url: "/Function/GetTreeSelectJson",
+                initialValue: pagedata.parentFunctionId,
+                search: true,
+                onLoaded: function () {
+                 pagedata.isView && this.select2("enable", true);
+                }
+            });
+
+            //父级功能改变时，更新最大显示顺序
+            $("#ParentFunctionID").click(function () {
+                var parentId = $(this).val();
+                $.loadJSON("/Function/Json_FunctionCount?parentId=" + parentId, function(json) {
+                    var count =json;
+                    if (count==0) count =1;
+                    if (pagedata.op=="NEW") count +=1;
+                    $('#FunctionIndex').attr('max', count);  //更改最大显示顺序
+                });
+            })
+
+            //图标改变时显示相应的图标
+            $('#Icon').keyup(function(){
+                var icon =$(this).val().trim();
+                if (icon){
+                    $('#functionIcon').removeClass();
+                    $('#functionIcon').addClass(icon);
+                }
+            })
+
+
+
+            // 选择switch2后的事件
+            $("#IsEnable").switch2({
+                onChange: function (val) {
+                    var t = $("#StopDate");
+                    if (val) { //禁用
+                        t.val(new Date().formatDateTime('yyyy-MM-dd')).prop("readonly", false);
+                    } else {
+                        t.val('').prop("readonly", true);
+                    }
+                }
+            });
+
+
+
+
+        if (!pagedata.isView) {
+                    $('#FunctionIndex').attr('max', pagedata.seq);
+                    $('#FunctionKey').focus();
+        }
+
+
+
+
+
+    });
+
+    //保存记录
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        var functionId =$('#FunctionID').val().trim();
+        var functionKey =$('#FunctionKey').val().trim();
+
+        functionKey && $.loadJSON("/Function/Json_CheckFunctionKey",
+            postData={ functionKey: functionKey, functionId: functionId }, function(jn) {
+            if (jn>0) {
+                $.modalAlert('此关键字记录已存在，请重新输入！','warning');
+                $('#FunctionKey').focus();
+                return;
+            }
+            else
+                $.submitForm({
+                    url: "/Function/CHIS_SYS_Function_Edit?op=" + pagedata.op,
+                    param: $("#form1").formSerialize(),
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                });
+        });
+    }
+
+    </script>
+}

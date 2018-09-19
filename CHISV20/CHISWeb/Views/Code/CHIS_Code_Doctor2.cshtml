@@ -1,0 +1,209 @@
+﻿@using Ass;
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService _accSvr
+@{
+    var u = this.GetUserSelf();
+    var bmod = _accSvr.GetFuncConfig(MyConfigNames.DoctorDocument_DoctorDocs_IsMod).ToBool();
+    var bdel = _accSvr.GetFuncConfig(MyConfigNames.DoctorDocument_DoctorDocs_IsDel).ToBool();
+    var bacc = _accSvr.GetFuncConfig(MyConfigNames.DoctorDocument_ACCESS_IsAllowedToSetDoctorAccess).ToBool();
+    var bIgnore= _accSvr.GetFuncConfig(MyConfigNames.DoctorDocument_CRUD_IsAllowedSearchIgnoreStation).ToBool();
+}
+@{
+    //ViewBag.Title = "医生档案";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+    var umgr = this.GetUserMgr();
+}
+
+
+<div class="container">
+    <div class="topPanel row">
+        <div class="toolbar">
+            <div class="btn-group">
+                <a class="btn btn-primary" onclick="$.reload();"><span class="glyphicon glyphicon-refresh"></span></a>
+            </div>
+            <div class="btn-group">
+                <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_Add()"><i class="fa fa-plus"></i>新建</a>
+            </div>
+            <div class="operate">
+                <ul class="nav nav-pills">
+                    @*<li class="first">已选中<span>1</span>项</li>*@
+                    <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                    <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete()"><i class="fa fa-trash-o"></i>删除</a></li>
+                    <li class="split"></li>
+                    <li><a id="btn_View" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看</a></li>
+                    @if (bacc)
+                    {
+                        <li><a id="btn_View" authorize="yes" onclick="btn_SetAccess();"><i class="fa fa-search-plus"></i>设置他的权限</a></li>
+                    }
+                </ul>
+                <a href="javascript:;" class="close"></a>
+            </div>
+        </div>
+        <div class="search">
+            <div style="float:left;line-height:50px;padding-top:10px;">
+                <div class="input-group search-group">
+                    <input id="txt_Search" type="text" class="form-control" placeholder="姓名/手机/身份证/Email">
+                    <span class="input-group-btn">
+                        <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+            @if (bIgnore)
+            {
+                <div style="float:left;line-height:50px;">
+                    <label style="margin:0 0 0 10px;padding:0;"><input type="checkbox" id="ignoreStation" />&nbsp;忽略工作站限制</label>
+                </div>
+            }
+            @*<div style="float:left;line-height:50px;">
+                    <label style="margin:0 0 0 10px;padding:0;"><input type="checkbox" name="isOnlyThisStation" id="isOnlyThisStation" checked="checked" />&nbsp;不包含子工作站</label>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+            <div class="ah-tree-bg">
+                <ul id="ztree-WorkStation" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            //控件初始
+            var tree = zTreeObj({
+                id: 'ztree-WorkStation',
+                url: '/api/syshis/StationsOfMy',
+                onLoaded: gridInit,
+                onClickNode: function (node) { Search(); }
+            });
+
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+
+            //载入过程内函数
+            function Search() {
+                var treeNode = tree.getSelectOneNode();
+                if (!treeNode || !treeNode.id) { $.alertMsg("请先选择一个工作站"); return; }
+                CE.reload({
+                    keyword: $('#txt_Search').val(),
+                    stationId: tree.getSelectOneNode().id,
+                    isOnlyThisStation: $('#isOnlyThisStation').is(":checked"),
+                    ignoreStation: $('#ignoreStation').is(":checked")
+                });
+            }
+        })
+
+
+
+
+
+        var CE;
+        //网格初始化
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "医生信息",
+                url: "/Code/CHIS_Code_Doctor_Edit",  //编辑记录地址
+                jqurl: "/Code/SearchJson_CHIS_Code_Doctor",   //网格查询地址
+                width: "90%", height: ($(window).height() - 50) + "px",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: 'doctorId', name: 'doctorId', width: 0, align: 'right', hidden: true },
+                    { label: '姓名', name: 'doctorName', width: 80 },
+                    { label: '性别', name: 'gender', width: 60, align: 'center', formatter: "select", editoptions: { value: "1:男;0:女;2:保密" } },
+                    //{ label: '所在科室', name: 'departmentName', width: 80, align: 'left' },
+                    //{ label: '职位', name: 'principalshipName', width: 60, align: 'left' },
+                    //{ label: '学历', name: 'edulevelName', width: 80, align: 'left' },
+                    {
+                        label: '出生日期', name: 'birthday', width: 120, align: "center", sorttype: "date",
+                        formatter: 'date', formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                    },
+                    { label: '手机', name: 'mobile', width: 140, align: "left" },
+                    { label: '身份证号', name: 'iDcard', width: 180, align: 'left' },
+                    { label: 'Email', name: 'email', width: 220 },
+                    { label: '注册时间', name: 'creatDate', width: 120, align: 'left' },
+                    { label: '其他电话', name: 'telephone', width: 140, align: "left" },
+                    //{ label: '紧急联系人', name: 'contactMan', width: 60, align: "left" },
+                    //{ label: '联系人电话', name: 'contactPhone', width: 120, align: "left" },
+                    //{ label: '备注', name: 'remark', width: 60, align: "left", sortable: false }
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            });
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().doctorId;
+            CE.Modify("recID=" + keyValue,
+                function (index, win) {
+                    win.submitForm();
+                });
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().doctorId;
+            CE.Delete("recID=" + keyValue);
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().doctorId;
+            CE.View("recID=" + keyValue);
+        }
+
+        function btn_SetAccess() {
+            var layerIndex = layer.open({
+                type: 2,
+                icon: 1,
+                area: ['90%', '90%'],
+                title: '设置医生权限',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                content: "/code/setDoctorAccess?doctorId=" + CE.$jqGrid.jqGridRowValue().doctorId,
+                //btn: ['确定', '取消'],
+                //yes: function (index, layero) {
+                //    $tagcontrol.val($pv2.val());
+                //    var txt = $pv2.find("option:selected").data("areatxt");
+                //    $tagtxtcontrol.text(initAddressName(txt));
+                //    layer.close(layerIndex);
+                //    $this.find('label.error').remove();//移除错误提示
+                //},
+                //cancel: function () {
+                //    //右上角关闭回调
+                //}
+            });
+        }
+
+    </script>
+}

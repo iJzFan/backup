@@ -1,0 +1,59 @@
+﻿@using Ass;
+@model IEnumerable<CHIS.Models.StatisticsModels.TreatBasicSummary>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+}
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2"></th>
+            <th>待诊</th>
+            <th>在诊</th>
+            <th>已诊</th>
+        </tr>
+    </thead>
+    @{ var n = 0; }
+    @foreach (var item in Model)
+    {
+        var lend = "";
+        <tr>
+            @if (n++%4 == 0)
+            {               
+                <td rowspan="4" style="vertical-align:middle;text-align:center;" class="ah-td-sp">
+                    @(item.name.StartsWith("This").ToString("本诊所","其他诊所"))
+                </td>                                              
+            }
+            @if (n % 4 == 0) { lend = "ah-td-sp"; }
+            @{  var name = "";
+                switch (item.name)
+                {
+                    case "ThatFuture": name = "未来"; break;
+                    case "ThatPastDay": name = "过去"; break;
+                    case "ThatToday": name = "<b>今日</b>"; break;
+                    case "ThatTomorow": name = "明天"; break;
+                    case "ThisFuture": name = "未来"; break;
+                    case "ThisPastDay": name = "过去"; break;
+                    case "ThisToday": name = "<b>今日</b>"; break;
+                    case "ThisTomorow": name = "明天"; break;
+                    default: name = ""; break;
+                }
+                if (item.name.Contains("Today")) { lend = lend + " ah-td-today"; }
+            }
+            <td class="@(lend)">         
+                @Html.Raw(name)
+            </td>
+            <td  class="@(lend) color_0@(item.waiting>0?1:0)">
+                @if (item.name.Contains("PastDay"))
+                { <span class="ah-treat-num-outtime"> @(item.waiting)
+                    (过期)
+                   </span> }
+                else
+                { @(item.waiting)}
+            </td>
+            <td  class="@(lend) color_1@(item.treating>0?1:0)">@item.treating</td>
+            <td  class="@(lend) color_2@(item.treated>0?1:0)">@item.treated</td>
+    </tr>
+    }
+</table>
+

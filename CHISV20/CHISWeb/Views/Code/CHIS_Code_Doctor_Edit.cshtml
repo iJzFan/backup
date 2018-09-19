@@ -1,0 +1,314 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.DataModel.Doctor
+@{
+    ViewBag.Title = "编辑医生档案";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <style>
+        table.form tr td select {
+            height: 30px;
+        }
+
+        .panel-body .formValue .row .col-lg-4,
+        .panel-body .formValue .row .col-md-4,
+        .panel-body .formValue .row .col-ms-4 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        .select_customerinfo {
+            height:30px;
+            width:200px;
+            background:#fff;
+            margin-left:30px;
+        }
+        .single-selector a.select {
+            top:5px;
+        }
+        .doctor-name {
+            line-height:23px;
+        }
+    </style>
+}
+<form id="form1" asp-controller="Code" asp-action="CHIS_Code_Doctor_Edit"  asp-route-op="@ViewBag.OP">
+    <div style="padding: 10px">
+        @*@Html.HiddenFor(m => m.DepartmentID)*@
+        <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+            <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+            请填写用户的记录信息，用于创建或修改用户记录！
+        </div>
+        
+        <input type="hidden" asp-for="DoctorInfo.DoctorId" />
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="line-height:30px;">基本信息</h3>
+                <div class="base-bg pull-left select_customerinfo">
+                    <div class="single-selector" id="sel_customer">
+                        <span class="customer-name"></span>     
+                        <input type="hidden" asp-for="BaseInfo.CustomerID" />    
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle" style="width:75px">医生姓名</th>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control required border3" asp-for="BaseInfo.CustomerName" readonly data-msg-required="必须要有医生姓名"/>
+                        </td>
+                        <th class="formTitle" style="width:75px">本人手机</th>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control required border3" asp-for="BaseInfo.CustomerMobile" readonly  data-msg-required="必须要有手机号" />
+                        </td>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control required border3" name="BaseInfo.CustomerMobile" readonly data-msg-required="必须要有手机号" />
+                        </td>
+                    </tr>
+                    <tr>                                             
+                        <th class="formTitle" style="width:75px">身份证号</th>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control required border3" asp-for="BaseInfo.IDcard" readonly  data-msg-required="必须要有身份证号"/>
+                        </td>
+                        <th class="formTitle" style="width:75px">电子邮件</th>
+                        <td class="formValue" colspan="6">
+                            <input type="email" class="form-control border3" asp-for="BaseInfo.Email" readonly />
+                        </td>
+                    </tr>                  
+                    <tr>
+                        <th class="formTitle" style="width:75px">出生日期</th>
+                        <td class="formValue" colspan="6">
+                            <div class="input-group">
+                                <input type="text" class="input-datetime form-control" data-format="yyyy-mm-dd" asp-for="BaseInfo.Birthday" asp-format="{0:yyyy-MM-dd}" readonly/>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <th class="formTitle" style="width:75px">用户性别</th>
+                        <td class="formValue" colspan="6">
+                            <select class="form-control" asp-for="BaseInfo.Gender" readonly>
+                                <option value="">未选择</option>
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="width:75px">婚姻状况</th>
+                        <td class="formValue" colspan="6">
+                            @{
+                                var marg = myRazor.GetSelectListItemsByDictKey("Marriage");
+                            }
+                            <select class="form-control" asp-items="marg" asp-for="BaseInfo.Marriage" readonly>
+                                <option value="">未选择</option>
+                            </select>
+                        </td>
+                        <th class="formTitle" style="width:75px">文化程度</th>
+                        <td class="formValue" colspan="6">
+                            @{
+                                var edu =  myRazor.GetSelectListItemsByDictKey("EduLevel");
+                            }
+                            <select class="form-control" asp-items="edu" asp-for="BaseInfo.EduLevel" readonly>
+                                <option value="">未选择</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="formTitle" style="width:75px">家庭地址</th>
+                        <td class="formValue" colspan="6">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <select id="province" name="province" class="form-control" readonly></select>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <select id="citys" name="city" class="form-control" readonly></select>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <select id="county" name="county" class="form-control" readonly></select>
+                                    <input type="hidden" id="areaId" asp-for="BaseInfo.AddressAreaId"/>
+                                </div>
+                            </div>
+                        </td>
+                        <th class="formTitle" style="width:75px">详细地址</th>
+                        <td class="formValue" colspan="6">
+                            <input type="text" class="form-control"  asp-for="BaseInfo.Address"  placeholder="请输入详细地址" readonly/>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            @* 健康基本信息 *@
+            <div class="panel panel-default" style="border:none;">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse"
+                           href="#collapseOne">
+                            医生信息 
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse on">
+                    <div class="panel-body" style="width: 98%;">
+                        <table class="form">
+                            <tr>
+                                <th class="formTitle" style="width:75px">所在门诊</th>
+                                <td class="formValue" colspan="6">                                    
+                                    <select class="form-control">
+                                        <option value="">未选择</option>
+                                    </select>
+                                </td>
+                                <th class="formTitle" style="width:75px">所在科室</th>
+                                <td class="formValue" colspan="6">
+                                    <select class="form-control" >
+                                        <option value="">未选择</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle" style="width:75px">职位</th>
+                                <td class="formValue" colspan="6">
+                                    @{ 
+                                        var princ = myRazor.GetSelectListItemsByDictKey("Principalship");
+                                    }
+                                    <select class="form-control" asp-items="princ" asp-for="DoctorInfo.Principalship">
+                                        <option value="">未选择</option>
+                                    </select>
+                                </td>
+                                <th class="formTitle" style="width:75px">职称</th>
+                                <td class="formValue" colspan="6">
+                                    @{
+                                        var posttitle = myRazor.GetSelectListItemsByDictKey("PostTitle");
+                                    }
+                                    <select class="form-control" asp-items="posttitle" asp-for="DoctorInfo.PostTitle">
+                                        <option value="">未选择</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle" style="width:75px">入职日期</th>
+                                <td class="formValue" colspan="6">
+                                    <div class="input-group">
+                                        
+                                        <input type="text" class="input-datetime form-control" data-format="yyyy-mm-dd" asp-for="DoctorInfo.OnDutyDate" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                                <th class="formTitle" style="width:75px">转正日期</th>
+                                <td class="formValue" colspan="6">
+                                    <div class="input-group">
+                                        <input type="text" class="input-datetime form-control" data-format="yyyy-mm-dd" asp-for="DoctorInfo.ApprovalDate"/>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle" style="width:75px">在离职状态</th> 
+                                <td class="formValue" colspan="6">
+                                    <select class="form-control" asp-for="DoctorInfo.DutyState">
+                                        <option value="">未选择</option>
+                                        <option value="True">在职</option>
+                                        <option value="False">离职</option>
+                                    </select>
+                                </td>
+                                <th class="formTitle" style="width:75px">离职日期</th>
+                                <td class="formValue" colspan="6">
+                                    <div class="input-group">
+                                        <input type="text" class="input-datetime form-control" data-format="yyyy-mm-dd" asp-for="DoctorInfo.OutDutyDate"/>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle" style="width:75px">备注</th>
+                                <td class="formValue" colspan="13">
+                                    <textarea cols="2" class="form-control" asp-for="DoctorInfo.Remark"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+@section scripts{
+    <script>
+
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView:'@ViewBag.op'=='VIEW',
+        ver:1
+    };
+        
+
+    $(function () {
+        //地址
+        if (pagedata.op == "NEW") {
+            //选择会员
+            $('#sel_customer').singleSelector({
+                placeholder: "电话/身份证/邮箱/姓名",
+                valueName: 'customerID',
+                searchUrl: '/api/common/GetCustomers',
+                isReadonly: pagedata.op == "VIEW",
+                onSelect: function (jn) {
+                    $('#sel_customer').find('.customer-name').text(jn.customerName);
+
+                    //选中会员代入信息
+                    $('#BaseInfo_CustomerID').val(jn.customerID);
+                    $('#BaseInfo_CustomerName').val(jn.customerName);
+                    $('#BaseInfo_CustomerMobile').val(jn.customerMobile);
+                    $('#BaseInfo_IDcard').val(jn.iDcard);
+                    $('#BaseInfo_Email').val(jn.email);
+                    $('#BaseInfo_Gender').setSelectValue(jn.gender); //这里增加了一个方法专门用来处理select2的赋值。
+
+                },
+                formatSearchItem: function (jn) {
+                    return "<li><a><b>" + jn.customerName + "</b> (" + (jn.gender == 1 ? "男" : "女") + ")" + "<br /><span>" + jn.customerMobile + "</span></a></li>";
+                }
+            });
+        } else $('#sel_customer').parent().remove();
+
+
+        $.set3LevelAddress({
+            $province: $('#province'),
+            $city: $('#citys'),
+            $county: $('#county'),
+            $val: $('#areaId')
+        });
+        
+
+
+    });
+
+    //保存记录
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        $.submitForm({
+            url: "/Code/CHIS_Code_Doctor_Edit?op=" + pagedata.op,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+
+
+
+    </script>
+}

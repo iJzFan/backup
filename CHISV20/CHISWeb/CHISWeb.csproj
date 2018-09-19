@@ -1,0 +1,158 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <DocFile Include="bin\*\*\CHISWeb.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+  </Target>
+  <PropertyGroup>
+    <RootNamespace>CHIS</RootNamespace>
+    <UserSecretsId>a405853d-db32-4bb7-b8c1-bb57e5a864a4</UserSecretsId>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyName>CHISWeb</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\CHISWeb.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\CHISWeb.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Customer\Base\BaseJson\**" />
+    <Compile Remove="Areas\Customer\Base\CBL\**" />
+    <Compile Remove="Areas\Customer\Controllers\Home\**" />
+    <Compile Remove="Areas\Customer\Views\Home\**" />
+    <Compile Remove="Code\SmsUtils\**" />
+    <Compile Remove="Services\新文件夹\**" />
+    <Compile Remove="Views\ApiViews\**" />
+    <Compile Remove="wwwroot\css\sys\**" />
+    <Compile Remove="wwwroot\js\other\**" />
+    <Compile Remove="wwwroot\lib\touch\**" />
+    <Compile Remove="wwwroot\lib\vue\packages\**" />
+    <Compile Remove="wwwroot\lib\vue\test\**" />
+    <Content Remove="Areas\Apis\**" />
+    <Content Remove="Areas\Customer\Base\BaseJson\**" />
+    <Content Remove="Areas\Customer\Base\CBL\**" />
+    <Content Remove="Areas\Customer\Controllers\Home\**" />
+    <Content Remove="Areas\Customer\Views\Home\**" />
+    <Content Remove="Code\SmsUtils\**" />
+    <Content Remove="Services\新文件夹\**" />
+    <Content Remove="Views\ApiViews\**" />
+    <Content Remove="wwwroot\css\sys\**" />
+    <Content Remove="wwwroot\js\other\**" />
+    <Content Remove="wwwroot\lib\touch\**" />
+    <Content Remove="wwwroot\lib\vue\packages\**" />
+    <Content Remove="wwwroot\lib\vue\test\**" />
+    <EmbeddedResource Remove="Areas\Customer\Base\BaseJson\**" />
+    <EmbeddedResource Remove="Areas\Customer\Base\CBL\**" />
+    <EmbeddedResource Remove="Areas\Customer\Controllers\Home\**" />
+    <EmbeddedResource Remove="Areas\Customer\Views\Home\**" />
+    <EmbeddedResource Remove="Code\SmsUtils\**" />
+    <EmbeddedResource Remove="Services\新文件夹\**" />
+    <EmbeddedResource Remove="Views\ApiViews\**" />
+    <EmbeddedResource Remove="wwwroot\css\sys\**" />
+    <EmbeddedResource Remove="wwwroot\js\other\**" />
+    <EmbeddedResource Remove="wwwroot\lib\touch\**" />
+    <EmbeddedResource Remove="wwwroot\lib\vue\packages\**" />
+    <EmbeddedResource Remove="wwwroot\lib\vue\test\**" />
+    <Folder Include="Controllers\Search\" />
+    <Folder Include="Views\Dispensing\DrugOutList\" />
+    <Folder Include="Views\Pharmacy\DrugSupple\DrugRequest\" />
+    <Folder Include="Views\Pharmacy\DrugSupple\DrugResponse\" />
+    <Folder Include="Views\Search\" />
+    <Folder Include="wwwroot\lib\XAuto\image\" />
+    <None Remove="Areas\Customer\Base\BaseJson\**" />
+    <None Remove="Areas\Customer\Base\CBL\**" />
+    <None Remove="Areas\Customer\Controllers\Home\**" />
+    <None Remove="Areas\Customer\Views\Home\**" />
+    <None Remove="Code\SmsUtils\**" />
+    <None Remove="Services\新文件夹\**" />
+    <None Remove="Views\ApiViews\**" />
+    <None Remove="wwwroot\css\sys\**" />
+    <None Remove="wwwroot\js\other\**" />
+    <None Remove="wwwroot\lib\touch\**" />
+    <None Remove="wwwroot\lib\vue\packages\**" />
+    <None Remove="wwwroot\lib\vue\test\**" />
+    <Compile Remove="Api\OpenApi.v1\RxDrugSaveController.cs" />
+    <Compile Remove="Controllers\Charge\ChargeController_FTFpay.cs" />
+    <Content Remove="Views\Dispensing\_pvDispensingDetailSumary.cshtml" />
+ 
+    <Content Remove="wwwroot/css\other\Patientvisit-PatientDetail.css" />
+    <Content Remove="wwwroot/lib\jquery-1.8.2.min.js" />
+    <None Remove="internal-nlog.txt" />
+ 
+    <None Remove="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Remove="Properties\PublishProfiles\CustomProfile1.pubxml" />
+     <PackageReference Include="Abp.MailKit" Version="3.3.0" />
+     <PackageReference Include="Alipay.AopSdk.AspnetCore" Version="2.2.4" />
+     <PackageReference Include="Alipay.AopSdk.Core" Version="2.2.4" />
+     <PackageReference Include="Ass" Version="2.0.32" />
+
+    <PackageReference Include="AssEx" Version="1.0.6" />
+
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+
+    <PackageReference Include="BuildBundlerMinifier" Version="2.6.362" />
+
+    <PackageReference Include="DotNetCore.NPOI" Version="1.0.2" />
+
+    <PackageReference Include="FastDFSNetCore" Version="1.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+    <PackageReference Include="NLog.Mongo.Core" Version="1.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.5.0-rc2" />
+    <PackageReference Include="NLog" Version="4.5.0-rc04" />
+    <PackageReference Include="QRCoder" Version="1.3.2" />
+    <PackageReference Include="Senparc.Weixin.MP" Version="14.10.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Yi" Version="2.0.0" />
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
+    <ProjectReference Include="..\CHIS.BllCaller\CHIS.BllCaller.csproj" />
+    <ProjectReference Include="..\CHIS.DAL\CHIS.DAL.csproj" />
+    <ProjectReference Include="..\CHIS.DbContext\CHIS.DbContext.csproj" />
+    <ProjectReference Include="..\CHIS.Models.SysAuto\CHIS.Models.SysAuto.csproj" />
+    <ProjectReference Include="..\CHIS.Models\CHIS.Models.csproj" />
+    <Folder Include="ApiViews\syshis\" />
+    <Folder Include="Areas\Customer\Controllers\" />
+    <Folder Include="Controllers\Tools\" />
+    <Folder Include="Controllers\Statistics\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <WCFMetadata Include="Connected Services" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="nlog.Development.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="nlog.Production.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" appsettings_1Development_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

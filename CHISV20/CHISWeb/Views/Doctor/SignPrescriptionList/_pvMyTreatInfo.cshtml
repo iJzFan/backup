@@ -1,0 +1,265 @@
+﻿@using Ass
+@model CHIS.Models.ViewModels.PatientDetailViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "接诊详情";
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+    Layout = null;
+    var id = Guid.NewGuid().ToString("N");
+}
+<div class="ah-row-detail ah-flex" id="@id">
+    <div class="ah-row-left">
+        <img class="ah-row-upic" src="@(myRazor.GetCustomerDefImagePath(Model.CHIS_Code_Customer.PhotoUrlDef,Model.CHIS_Code_Customer.Gender ))" />
+    </div>
+    <div class="ah-flex-auto">
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">姓名:</span>
+                <span class="ah-row-value">@(Model.CHIS_Code_Customer.CustomerName)</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">昵称:</span>
+                <span class="ah-row-value"></span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">性别:</span>
+                <span class="ah-row-value">@(Model.CHIS_Code_Customer.Gender?.ToGenderString())</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">年龄:</span>
+                <span class="ah-row-value">@(Model.CHIS_Code_Customer.Birthday?.ToAgeString())</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">登录名:</span>
+                <span class="ah-row-value">@Model.CHIS_Code_Customer.LoginName</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">手机:</span>
+                <span class="ah-row-value">@(Model.CHIS_Code_Customer.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode))</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">邮箱:</span>
+                <span class="ah-row-value">@Model.CHIS_Code_Customer.Email</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">身份证:</span>
+                <span class="ah-row-value">@Model.CHIS_Code_Customer.IDcard</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">身高:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Height<span>cm</span></span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">体重:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Weight<span>kg</span></span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">体温:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Temperature<span>℃</span></span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">脉搏:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Pulse<span>次/分</span></span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">血压:</span>
+                <span class="ah-row-value">@(Model.DoctorTreat.BloodPress_H ) /  @(Model.DoctorTreat.BloodPress_L)<span>mmHg</span></span>
+            </div>
+        </div>
+        @if (Model.CHIS_Code_Customer.Gender == 0)
+        {
+            <div class="ah-flex-layout">
+                <div class="ah-col-md3 ah-flex">
+                    <span class="ah-row-title">初潮:</span>
+                    <span class="ah-row-value">@(Model.DoctorTreat.MenstruationStartOldYear)<span>岁</span></span>
+                </div>
+                <div class="ah-col-md3 ah-flex">
+                    <span class="ah-row-title">孕:</span>
+                    <span class="ah-row-value">@(Model.DoctorTreat.PregnancyNum)<span>胎</span></span>
+                </div>
+                <div class="ah-col-md3 ah-flex">
+                    <span class="ah-row-title">产:</span>
+                    <span class="ah-row-value">@(Model.DoctorTreat.BirthChildrenNum)<span>胎</span></span>
+                </div>
+            </div>
+        }
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">既往史:</span>
+                <span class="ah-row-value">@(Model.CustomerHealthInfo.PastMedicalHistory)</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">过敏史:</span>
+                <span class="ah-row-value">@(Model.CustomerHealthInfo.Allergic)</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">挂号日期:</span>
+                <span class="ah-row-value">@(Model.CHIS_Register.RegisterDate?.ToDateString())</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">出诊时间:</span>
+                <span class="ah-row-value">@(Model.DoctorTreat.FirstTreatTime?.ToString("yyyy-MM-dd HH:mm"))</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">最后接诊:</span>
+                <span class="ah-row-value">@(Model.DoctorTreat.TreatTime.ToString("yyyy-MM-dd HH:mm"))</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">主诉:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Complain</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">现病史:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.PresentIllness</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">主诊断:</span>
+                <span class="ah-row-value">
+                    <input type="hidden" id="complete2_id" asp-for="DoctorTreat.SecDiagnosis" />
+                    @Model.DoctorTreat.Diagnosis1
+                </span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">次诊断:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Diagnosis2</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">体格检查:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.Examination</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">处理:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.TreatDoctorMethod</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">用药:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.TreatDoctorUseDrug</span>
+            </div>
+            <div class="ah-col-md3 ah-flex">
+                <span class="ah-row-title">打针:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.TreatDoctorUseDrip</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-row-border">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">随访:</span>
+                <span class="ah-row-value">@Model.DoctorTreat.TreatDoctorFollowUp</span>
+            </div>
+        </div>
+
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex">
+                <span class="ah-row-title">药品列表:</span>
+                <div class="ah-row-value">
+                    <table class="ah-table-wrap">
+                        <thead>
+                            <tr>
+                                <th>品名</th>
+                                <th>数量(单位)</th>
+                                <th>合计</th>
+                            </tr>
+                        </thead>
+
+                        @foreach (var item in Model.FormedList)
+                        {
+                            <tr>
+                                <td colspan="3">
+
+
+                                    成药处方
+
+                                    @if (item.Main.RxDoctorSignUrl.IsEmpty())
+                                    {
+                                        <span class="ah-mk-needsign"><i class="ahico16 ahico-rxdoctor"></i>未签名</span>
+                                    }
+                                    <span class="ah-row-value">
+                                        <a onclick="$.moreToggle('#pn_@(item.Main.PrescriptionNo)',this)">展开</a>
+                                        <a onclick="Print(null,'PrintFormedPrescription', 'prescriptNo=@(item.Main.PrescriptionNo)');" >处方详情</a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tbody id="pn_@(item.Main.PrescriptionNo)" class="ah-p-detail" style="display:none;">
+                                @foreach (var formed in item.Details)
+                                {
+                                    <tr>
+                                        <td><span>@formed.DrugName</span></td>
+                                        <td>@formed.Qty (@formed.UnitName)</td>
+                                        <td>@(formed.Amount)元</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+
+
+
+                        @*中药内容*@
+                        @foreach (var item in Model.HerbList)
+                        {
+                            <tr>
+                                <td colspan="3">
+
+                                    中药处方
+                                    @if (item.Main.RxDoctorSignUrl.IsEmpty())
+                                    {
+                                        <span class="ah-mk-needsign"><i class="ahico16 ahico-rxdoctor"></i>未签名</span>
+                                    }
+
+                                    <span class="ah-row-value">
+                                        <a onclick="$.moreToggle('#pn_@(item.Main.PrescriptionNo)',this)">展开</a>
+                                        <a onclick="Print(null,'PrintHerbPrescription', 'prescriptNo=@(item.Main.PrescriptionNo)');" >处方详情</a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tbody id="pn_@(item.Main.PrescriptionNo)" class="ah-p-detail" style="display:none;">
+                                @foreach (var drug in item.Details)
+                                {
+                                    <tr>
+                                        <td><span>@drug.DrugName</span></td>
+                                        <td>@drug.Qty (@drug.UnitName)</td>
+                                        <td>
+                                            @(drug.Amount)元
+                                        </td>
+                                    </tr>
+
+
+                                }
+                            </tbody>
+                        }
+
+
+                        @*其他费用*@
+                        @foreach (var item in Model.TreatExtraFees)
+                        {
+                            <tr>
+                                <td>@(item.FeeName)</td>
+                                <td>@(item.Qty)</td>
+                                <td>@(item.Amount)元</td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,197 @@
+﻿@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+@section links{
+    <style>
+        .content-wrap {
+            position: absolute;
+            bottom: 0;
+            top: 72px;
+            left: 0;
+            right: 0;
+            display: flex;
+        }
+
+        .content-right-wrap {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .select2-container .select2-selection--single {               height: 29px;         }
+      .search-group .select2-selection--single {                 border-right:none;border-top-right-radius:0;border-bottom-right-radius:0;      }
+        .px{line-height:16px;position:relative;}
+        .px>s{position:absolute;right:3px;top:20px;color:#187ee0;text-decoration:none;}
+        .ui-jqgrid .table-bordered td {line-height: 16px;}
+        .alias{display:inline-block!important;margin-right:20px;}
+    </style>
+}
+<div class="content-wrap">
+    <div class="content-right-wrap">
+        <div class="topPanel">
+            <div class="toolbar">
+                <div class="btn-group">
+                    <a class="btn btn-primary" title="刷新" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+                </div>
+                <div class="btn-group">
+                    <a id="btn_ImportBat" asp-action="ImportDrugBat" authorize="yes" title="批量导入药品" class="btn btn-primary dropdown-text"><i class="fa fa-plus"></i>批量导入</a>
+                    <a id="btn_Add" authorize="yes" title="新建药品" class="btn btn-primary dropdown-text" onclick="btn_Add();"><i class="fa fa-plus"></i>新建药品</a>
+                </div>
+                @*<div class="btn-group">
+                        <a id="btn_Export" authorize="yes" class="btn btn-info" title="导出记录" href="/Role/Export_Role"><i class="fa fa-file-excel-o"></i>导出</a>
+                    </div>*@
+                <div class="operate">
+                    <ul class="nav nav-pills">
+                        <li class="first">已选中<span>1</span>项</li>
+                        <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit();"><i class="fa fa-pencil-square-o"></i>修改药品</a></li>
+                        <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete();"><i class="fa fa-trash-o"></i>删除药品</a></li>
+                        <li class="split"></li>
+                        <li><a id="btn_Details" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看药品</a></li>
+                    </ul>
+                    <a href="javascript:;" class="close"></a>
+                </div>
+            </div>
+            <div class="search">
+                <table class="search-group">
+                    <tr>
+                        <td style="width:100px;">
+                            <select class="form-control" id="applyStatus">
+                                <option value="">--审核状态--</option>
+                                <option value="APPLYING">待审核</option>
+                                <option value="ALLOWED">通过</option>
+                                <option value="REJECT">未通过</option>
+                            </select>
+                        </td>
+                        <td style="width:140px;">
+                            @{
+                                var items = myRazor.GetSelectListItemsByDictKey("DrugStockType");                                
+                            }
+                            <select asp-items="items" id="drugStockTypeId" class="form-control">
+                                <option value="">请选择药品库</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="input-group search-group" style="margin-top:2px;">
+                                <input id="txt_Search" type="text" class="form-control" placeholder="请输入药品名称/简拼/全拼/缩写">
+                                <span class="input-group-btn">
+                                    <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </td>                
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="gridPanel">
+            <table id="gridList"></table>
+            <div id="pager"></div> 
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/js/ah-load-before-scripts.js"></script>
+    <script>
+        var pagedata = {
+            drugImgRoot:'@(Global.ConfigSettings.DrugImagePathRoot)',
+            ver:1.0
+        };
+        var CE;
+        $(function () {
+            gridInit();
+
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) {
+                var e = e || window.event;
+                if (e && e.keyCode == 13) {
+                    $("#btn_Search").click();
+                }
+            })
+
+            //查询记录
+            $("#btn_Search").click(function () {
+                CE.reload({ searchTxt: $("#txt_Search").val(), drugStockTypeId: $("#drugStockTypeId").val(), applyStatus: $('#applyStatus').val() });
+            });
+
+        })
+         
+        //网格初始
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "药品档案",
+                url: "/Code/CHIS_Code_DrugMsg_Edit",      //编辑记录地址
+                jqurl: "/Code/getDrugListByDrugStockTypeId",  //网格查询地址
+                width: "80%", height: "100%",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+
+            });
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: "主键", name: "drugId", hidden: true, key: true },
+                    { label: '图', name: 'drugPicUrl', width: 110, formatter: function (cv) { return "<img src='" + $.getImgPath(pagedata.drugImgRoot, cv)+"' width='60' />"; }},
+                    {
+                        label: '药品名称', name: 'drugName', width: 450, align: 'left', formatter: function (cellvalue, options, r) {
+                            return "<b>" + r.drugName + "</b><small class='alias'>" + (r.alias == null ? "" : r.alias) + "</small><a onclick='GetDrugInfo(" + r.drugId + ")'>刷取</a><div>"
+                                + (!!r.manufacturerOrigin ? r.manufacturerOrigin : "") + (!!r.originPlace ? r.originPlace : "") +
+                                "</div><div>" + r.drugModel + "</div>"
+                        }
+                    },
+                    //{ label: '型号规格', name: 'drugModel', width: 200, align: 'left' },
+                  //  { label: '厂商/产地', name: 'originPlace', formatter: function (cv, opt, r) { return (!!r.manufacturerOrigin?r.manufacturerOrigin:"") + (!!r.originPlace? r.originPlace:"");}},
+                    { label: '药品库类', name: 'drugStockTypeName', width: 200, align: 'left' },
+                    { label: '药品分类', name: 'mediTypeName', width: 200, align: 'left' },
+                    { label: '剂型分类', name: 'formTypeName', width: 200, align: 'left' },
+                    { label: '生产性质', name: 'propertyName', width: 200, align: 'left' },
+                    { label: '拼码', name: '', width: 200, align: 'left', formatter: function (cellvalue, options, r) { return "<div class='px'>全拼:{1}<br>简拼:{0}&emsp;<s>缩写:{2}</s><br>五笔:{3}</div>".format(r.pyCode,r.qpCode,r.sCode,r.wbCode); } },
+                    { label: '使用状态', name: 'isEnable', width: 200, align: 'left', formatter: function (cellvalue) { return cellvalue ? "启用" : "禁用"; } }
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            });
+        };
+
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().drugId;
+            CE.Modify("recID=" + keyValue, function (index, win) {
+                win.submitForm();
+            });
+        }
+
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().drugId;
+            CE.Delete("recID=" + keyValue, function (index, win) {
+                win.submitForm();
+            });
+        }
+
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().drugId;
+            CE.View("recID=" + keyValue);
+        }
+
+        function GetDrugInfo(drugId) {
+            $.getJson("/openapi/drug/UpdateDrugInfo", { drugId: drugId }, function (jn) { 
+                if (jn.rlt) $.msg("刷新成功！");
+                else $.alertError("失败：" + jn.msg);
+            });
+        }
+    </script>
+}

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ah.Models.ViewModel.DoctorSimpleInfo>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    @if (!item.DoctorName.IsEmpty())
+    {
+        <div class="follow-doctor">
+            <div class="ah-flex ah-doctor-main">
+                <div class=" layui-anim ah-doctor-bj" data-doctorid="@item.DoctorId">
+                    <div class="ah-doctor-pic" style="background:url(@item.DoctorPhotoUrl)"></div>
+                    <div class="ah-flex-auto" style="overflow:hidden;">
+                        <div class="doctorName">@item.DoctorName</div>
+                        <div><span class="postTitleName">@(item.PostTitleName)</span></div>
+                        <div class="doctorRmk">
+                            @if (item.DoctorSkillRmk == null)
+                            {
+                                <span>暂无数据</span>
+                            }
+                            else
+                            {
+                                @if (item.DoctorSkillRmk.Count() > 37)
+                                {
+                                    @item.DoctorSkillRmk.Substring(0, 37)<span>...</span>
+                                }
+                                else
+                                {
+                                    @item.DoctorSkillRmk
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                @if (item.IsFollow == true)
+                {
+                    <div class="ah-flex ah-doctor-active">
+                        <a class="ah-flex" onclick="FOLLOW.CustomerFollow(null,@item.DoctorId,false,this)"><i class="layui-icon">&#xe600;</i>取消关注</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="ah-flex ah-doctor-active">
+                        <a class="ah-flex" onclick="RECANT.ContinueAppointment(@item.DoctorId,null,'doctor')"><i class="fa fa-history fa-lg"></i>继续约诊</a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}

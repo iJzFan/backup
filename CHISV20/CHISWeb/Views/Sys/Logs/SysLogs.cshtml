@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "系统日志";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.FuncId = 2127;
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+<link href="~/css/ah-layout.css" rel="stylesheet" />
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="搜索内容" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="logLevel"><strong>日志等级：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="logLevel" class="ah-search-radio" value="Trace" /><span>Trace</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="logLevel" class="ah-search-radio" value="Debug" /><span>Debug</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="logLevel" class="ah-search-radio" value="Info" /><span>Info</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="logLevel" class="ah-search-radio" value="Warn" /><span>Warn</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="logLevel" class="ah-search-radio" value="Error" /><span>Error</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="logLevel" class="ah-search-radio" value="Fatal" /><span>Fatal</span></label>
+                        </section>
+                    </div>
+                </div>
+                <div class="sl-ext">
+                    <a class="sl-e-more J_extMore" href="javascript:;" style="visibility: visible;">更多<i></i></a>
+                </div>
+            </div>
+            <div class="sl-wrap">
+            <div class="sl-key" title-key="TimeRange"><strong>查询时间段：</strong></div>
+            <div class="sl-value">
+                <div class="clr"></div>
+                <div class="sl-v-list">
+                    <section class="section-inline">
+                        <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="Today"/><span>当日</span></label>
+                        <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisWeek"/><span>本周</span></label>
+                        <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisMonth"/><span>本月</span></label>
+                        <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisQuarter"/><span>本季</span></label>
+                        <label class="radio-inline"><input type="radio" ah-radio="false" name="TimeRange" class="ah-search-radio" value="ThisYear"/><span>本年</span></label>
+                    </section>
+                    </div>
+                    <section class="section-inline ah-search-input">
+                        <div class="section-more-wrap">
+                            <input type="text" name="dt0" name-title="开始时间" class="ah-input-date ah-date" placeholder="开始时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd"/>
+                            至
+                            <input type="text" name="dt1" name-title="结束时间" class="ah-input-date ah-date" placeholder="结束时间" asp-format="{0:yyyy-MM-dd HH:mm}" data-format="yyyy-mm-dd"/>
+                            <button class="ah-btn-blue" type="button">确定</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ah-table-wrap" ah-id="TREAT-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+@section scripts{
+    <script src="~/js/ah-common-search.js"></script>
+    <script>
+        $(function () {
+            SEARCH.searchMain = "TREAT-TABLE";//搜索结果存放区域
+            SEARCH.searchUrl = "/Logs/MainLogs"; //设置搜索的请求地址
+            SEARCH.search(1);
+            //$.get("/Nurse/GetCompletedRxList", {}, function (html) {
+            //    $('#CompletedRxList').html(html);
+            //})
+
+        });
+
+
+        //搜索
+        function loadDetail(e, id) {
+            SEARCH.loadRowDetail(e, '/Logs/LogDetail?id=' + id);
+        }
+    </script>
+}

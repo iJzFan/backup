@@ -1,0 +1,185 @@
+﻿@model ah.Models.ViewModel.DoctorSimpleInfo
+@{
+    ViewData["Title"] = "预约";
+    Layout = "../Shared/_LayoutAppointment.cshtml";
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+    <link rel="stylesheet" href="~/customer/css/pages/ah-layout.css" />
+    <style>
+        .wrap {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+    </style>
+}
+<div class="appointment-seldocinfo ah-flex ah-flex-column layui-form">
+    <div class="doctor-bj">
+        <div class="doctor-pic" style="background-image:url(@Model.DoctorPhotoUrl)"></div>
+        <div class="ah-flex doctor-hear">
+            <div>@Model.DoctorName</div>
+            <div>@(Model.PostTitleName)</div>
+        </div>
+        <div class="doctor-follow">
+             @if (Model.IsFollow == true)
+            {
+                <i class="layui-icon open" state="false">&#xe600;</i><span>已关注</span>
+            }
+            else { 
+                <i class="layui-icon" state="true">&#xe600;</i><span>未关注</span>
+            }
+        </div>
+    </div>
+    <div class="doctor-rmk">
+        @if (Model.DoctorSkillRmk!=null)
+        {
+            @Model.DoctorSkillRmk
+        }
+        else
+        {
+            <span>该医生什么都没留下！</span>
+        }
+    </div>
+    <div class="ah-flex-auto doctor-main">
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">工作站</div>
+                <select role-initial="false" class="ah-data-select" lay-filter="station" id="station">
+                    <option value="">暂无数据</option>
+                </select>
+            </div>
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label">科室</div>
+                <select role-initial="false" class="ah-data-select" lay-filter="dep" id="dep">
+                    <option value="">请先选择工作站</option>
+                </select>
+            </div>
+        </div>
+        <div class="ah-flex-layout ah-col-md1 ah-mt-10">
+            <button class="ah-btn-green ah-m-0" style="background:#74b6aa" onclick="history.go(-1)">返回</button>
+            <button class="ah-btn-green ah-flex-auto" id="subSelectDoctorInfo">去约诊</button>
+        </div>
+    </div>
+    <div class="appointment-nav-app">
+        <a href="/Customer/Appointment">
+            <i class="glyphicon glyphicon-th-list"></i>
+            健康预约
+        </a>
+        <a href="/doctor/AllDoctorsLists" style="color: #22a88f;">
+            <i class="glyphicon glyphicon-heart"></i>
+            医生团队
+        </a>
+        <a href="/Customer/home">
+            <i class="glyphicon glyphicon-user"></i>
+            个人中心
+        </a>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var pagedata = {
+            doctorId:@Model.DoctorId,
+            stationId: null,
+            stationName: null,
+            departId: null,
+        }
+        layui.use(['form'], function () {
+            var $ = layui.jquery;
+            var form = layui.form; //执行一个form实例
+            //工作站下拉监听
+            form.on('select(station)', function (data) {
+                if (data.value) {
+                    var opt = {
+                        stationId: data.value,
+                        doctorId: pagedata.doctorId,
+                    }
+                    $.get(CONFIG.ApiRoot + "/openapi/Doctor/JetDoctorDepartmentsOfStation", opt, function (jn) {
+                        if (jn.rlt) {
+                            pagedata.stationId = data.value;
+                            pagedata.stationName = data.othis.find("input").val();
+                            $.addSelectOption({
+                                msg: "请选择科室",
+                                items: jn.items,
+                                valKey: "departId",
+                                textKey: "departmentName",
+                                dom: "#dep"
+                            });
+                            if (jn.items.length == 1) {
+                                pagedata.departId = jn.items[0].departId;
+                            } else if (jn.items.length > 1) {
+                                pagedata.departId = null;
+                            }
+                        }
+                        form.render();
+                    });
+                } else {
+                    pagedata.stationId = null;
+                    pagedata.departId = null;
+                    pagedata.stationName = null;
+                    $.addSelectOption({
+                        msg: "请选择工作站",
+                        items: [],
+                        valKey: "departId",
+                        textKey: "departmentName",
+                        dom: "#dep"
+                    });
+                    form.render();
+                }
+            });
+            //科室下拉监听
+            form.on('select(dep)', function (data) {
+                if (data.value) {
+                    pagedata.departId = data.value;
+                } else {
+                    pagedata.departId = null;
+                }
+            });
+            $(".doctor-follow").on('click', "i", function (data) {
+                var s = true;
+                if ($(this).attr("state") == "false") {
+                    s=false
+                }
+                $.isFollow(null, pagedata.doctorId, s, function () { 
+                    if (s) {
+                        $(".doctor-follow").html('<i class="layui-icon open" state="false">&#xe600;</i><span>已关注</span>')
+                    } else {
+                        $(".doctor-follow").html('<i class="layui-icon" state="true">&#xe600;</i><span>未关注</span>')
+                    }
+                })
+            }); 
+            $.get(CONFIG.ApiRoot + "/openapi/Doctor/JetDoctorsStations", { doctorId: pagedata.doctorId }, function (jn) {
+                if (jn.rlt) {
+                    $.addSelectOption({
+                        msg: "请选择工作站",
+                        items: jn.items,
+                        valKey: "stationId",
+                        textKey: "stationName",
+                        dom: "#station"
+                    });
+                    if (jn.items.length == 0) {
+                        $("#subSelectDoctorInfo").attr("disabled", "disabled");
+                        $("#subSelectDoctorInfo").unbind();
+                    } else {
+                        $("#subSelectDoctorInfo").on("click", function () {
+                            if (pagedata.stationName != null && pagedata.stationId != null && pagedata.departId != null) {
+                                window.location.href = "/Customer/Appointment/IndexStep2?stationName=" + pagedata.stationName + "&stationId=" + pagedata.stationId + "&departId=" + pagedata.departId + "&doctorId=" + pagedata.doctorId;
+                            } else {
+                                $.err("请选择必要信息！")
+                            }
+                        })
+                    }
+                }
+                form.render();
+            });
+        });
+    </script>
+}

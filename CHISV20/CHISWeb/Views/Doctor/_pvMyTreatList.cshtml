@@ -1,0 +1,116 @@
+﻿@model Ass.Mvc.PageListInfo<CHIS.Models.DataModel.DoctorTreatItem>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var u = this.GetUserSelf();
+}
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th style="width:76px;">约诊日期</th>
+                <th class="">接诊单位</th>
+                <th style="width:80px;">患者姓名</th>
+                <th class="ah-tr-hide">性别</th>
+                <th>患者电话</th>
+                <th>主诊断</th>
+                <th class="ah-tr-hide">接诊时间</th>
+                <th>医生/医助</th>
+                <th>处方医生</th>
+                <th>状态</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.RegisterDate?.ToDateString()</td>
+                    <td class="ah-td-left ah-td-showall" title="@(item.StationName) ">
+                        @item.StationName
+                    <div>@(item.DepartmentName)</div>
+                </td>
+
+                <td>@item.CustomerName</td>
+                <td class="ah-tr-hide">
+                    @item.Gender?.ToGenderString()
+                    @item.Birthday?.ToAgeString()
+                </td>
+                <td>@item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode)</td>
+                <td>@item.Diagnosis1</td>
+                <td class="ah-tr-hide">
+                    <small>始: @item.FirstTreatTime?.ToStdString()</small><br />
+                    <small>终: @item.TreatTime.ToStdString()</small>
+                </td>
+                <td>
+                    @item.DoctorName
+                </td>
+                <td>
+                    @if (item.IsNeedRxSign)
+                    {
+                        if (item.RxDoctorId == u.DoctorId)
+                        {
+                            <i class="ahico16 ahico-rxdoctor"></i>
+                        }
+                        @item.RxDoctorName
+                    }
+                </td>
+                <td>
+                    <span class="ah-treat-mk-@(item.TreatStatus)">
+                        @(CHIS.DictValues.TreatStatus.Ins().GetName(item.TreatStatus.ToString()))
+                    </span>
+                    <div>
+                        @if (item.TreatStatus == 1)
+                        {
+                            <a onclick="setTreated(@(item.TreatId),this)">标记已诊</a>
+                        }
+                    </div>
+                    @if (item.IsNeedRxDoctorSign == true && item.RxDoctorId == u.DoctorId)
+                    {
+                        <span class="ah-mk-needsign">需要签名</span>
+                    }
+                </td>
+                <td class="ah-td-left">
+                    <span class="ah-linkbg"><a onclick="loadDetail(event,'@item.TreatId','@item.RegisterID')">详情</a></span>
+                    @*如果为在诊，允许继续接诊*@
+                    @if (item.TreatStatus == 1)
+                    {
+                        <a asp-action="PatientDetail" asp-controller="Doctor"
+                           asp-route-customerId="@(item.CustomerId)"
+                           asp-route-registId="@(item.RegisterID)"
+                           asp-route-treatId="@(item.TreatId)">接诊</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+
+    </table>
+}
+@ViewBag.DebugText
+<script>
+    var pager = {
+        pagenumber: @Model.PageIndex,
+        pagecount: @Model.PageTotal,
+        ver:1
+    };
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+    function loadDetail(e, treatId,registerId) {
+        SEARCH.loadRowDetail(e, '/Doctor/MyTreatInfo?treatId=' + treatId +'&registId='+registerId);
+    }
+    function setTreated(treatId,_this) {
+        $.post("/doctor/SetTreated?treatId=" + treatId, function (jn) {
+            if (jn.rlt) {
+                $.ok("成功！");
+                $(_this).parents("td").html("<span class='ah-treat-mk-2'>已诊</span>");
+            } else $.error("失败:" + jn.msg);
+        });
+    }
+</script>

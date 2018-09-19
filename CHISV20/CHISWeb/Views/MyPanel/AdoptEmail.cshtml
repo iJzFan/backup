@@ -1,0 +1,126 @@
+﻿@model CHIS.Models.ViewModel.ChangeLoginInfo
+@{
+    ViewBag.Titel = "通过邮箱验证码修改";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section links {
+    <style>
+        .adop-code {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 24px;
+            z-index: 999;
+        }
+
+        .title {
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .error {
+            color: #b14927;
+        }
+    </style>
+}
+<form id="form" asp-conroller="MyPanel" asp-action="ChangePassword" method="post" autocomplete="off" class="ah-max-width">
+    <div class="ah-changepas-wrap">
+        <div class="ah-changepas-title">通过邮箱验证修改</div>
+        <div class="ah-adop-mobile">
+            <div class="ah-flex-layout ah-fixed-md1 ">
+                <input type="hidden" id="Email" name="Email" value="@(ViewBag.Email)" />
+                <input type="hidden" id="VarifyType" name="VarifyType" value="email" />
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">邮箱</div>
+                    <div class="ah-data-div">@(ViewBag.Email)</div>
+                </div>
+                <div class="ah-col-md1 ah-postion-relative">
+                    <div class="ah-data-label ah-required">验证码</div>
+                    <input class="ah-data-input ah-flex-auto" type="text" asp-for="EmailVCode" placeholder="输入验证码" tabindex="1"
+                           autocomplete="off" data-rule-required="true" data-msg-required="请输入验证码"
+                           data-rule-minlength="6" data-msg-minlength="请最低输入6个字符"
+                           data-rule-maxlength="6" data-msg-maxlength="请最多输入6个字符" />
+                    <button class="ah-btn-blue adop-code" type="button" onclick="SendEmailVCode(this)">获取验证码</button>
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">新密码</div>
+                    <input type="password" class="ah-data-input" id="MyPswd" name="MyPswd" placeholder="输入新密码" tabindex="2"
+                           data-rule-required="true" data-msg-required="请输入新密码"
+                           data-rule-minlength="6" data-msg-minlength="请最低输入6个字符" />
+                </div>
+                <div class="ah-col-md1">
+                    <div class="ah-data-label ah-required">确认新密码</div>
+                    <input type="password" class="ah-data-input" id="MyPswdConfirm" name="MyPswdConfirm" placeholder="请确认新密码"
+                           data-rule-required="true" data-msg-required="请输入确认密码" tabindex="3"
+                           data-rule-equalTo="#MyPswd" />
+                </div>
+                <div class="ah-col-md1 ah-mt-10 ah-flex ah-justify-end">
+                    <button type="button" class="ah-btn-white" onclick="history.go(-1);" tabindex="5">返回</button>
+
+                    <button type="submit" class="ah-btn-blue" tabindex="4">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>  
+
+        $(function () {
+            //密码、显示隐藏切换
+            $(".pwd-btn").click(function () {
+                var target = $(this).attr("target");
+                var $c = $('#' + target);
+                var et = $c.attr("type");
+                if (et == "password") {
+                    $c.attr("type", "text");
+                    $(this).find("span").attr("class", "fa fa-eye-slash");
+                } else {
+                    $c.attr("type", "password");
+                    $(this).find("span").attr("class", "fa fa-eye");
+                }
+            });
+
+            $('#form').validate();//验证
+
+        });
+
+        function SendEmailVCode(c) {
+            //首先调用后台接口，发送邮件验证码
+            var email = $('#Email').val();
+            
+            $.loadJSON("/mypanel/SendEmailVerifyCode", { email: email }, function (jn) {
+                if (jn.rlt) {
+                    //成功了开始计时
+                    var e = $(c);
+                    e.attr('disabled', true).addClass("disabled");
+                    var n = 60;
+                    var handle = setInterval(function () {
+                        e.html("剩" + (n--) + "秒重发)");
+                        if (n == 0) {
+                            clearTimeout(handle);
+                            e.removeClass("disabled").removeAttr('disabled').html("重新发送");
+                        }
+                    }, 1000);
+                } else {
+                    $.alertError("发现错误" + jn.msg);
+                }
+            });
+        }
+    </script>
+
+    @*<script>
+        //密码、显示隐藏切换
+        $("#togglePassword").click(function () {
+            var et = $("#password").attr("type");
+            if (et == "password") {
+                $("#password").attr("type", "text");
+                $("#faChange").attr("class", "fa fa-eye-slash");
+            } else {
+                $("#password").attr("type", "password");
+                $("#faChange").attr("class", "fa fa-eye");
+            }
+        });    
+    </script>*@
+}

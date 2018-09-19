@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <DocFile Include="bin\*\*\ah.CustomerWeb.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+  </Target>
+  <PropertyGroup>
+    <!--<PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>-->
+    <RootNamespace>ah</RootNamespace>
+    <UserSecretsId>a405853d-db32-4bb7-b8c1-bb57e5a864a4</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\ah.CustomerWeb.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;1573;1572</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\ah.CustomerWeb.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;1573;1572</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="App_Data\WeixinTraceLog\**" />
+    <Compile Remove="Services\新文件夹\**" />
+    <Compile Remove="wwwroot\js\pages\**" />
+    <Compile Remove="wwwroot\lib\date-time\**" />
+    <Compile Remove="wwwroot\lib\jquery-calendar-150418163134\**" />
+    <Compile Remove="wwwroot\lib\vue\**" />
+    <Content Remove="App_Data\WeixinTraceLog\**" />
+    <Content Remove="Areas\Apis\**" />
+    <Content Remove="Services\新文件夹\**" />
+    <Content Remove="wwwroot\js\pages\**" />
+    <Content Remove="wwwroot\lib\date-time\**" />
+    <Content Remove="wwwroot\lib\jquery-calendar-150418163134\**" />
+    <Content Remove="wwwroot\lib\vue\**" />
+    <EmbeddedResource Remove="App_Data\WeixinTraceLog\**" />
+    <EmbeddedResource Remove="Services\新文件夹\**" />
+    <EmbeddedResource Remove="wwwroot\js\pages\**" />
+    <EmbeddedResource Remove="wwwroot\lib\date-time\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery-calendar-150418163134\**" />
+    <EmbeddedResource Remove="wwwroot\lib\vue\**" />
+    <None Remove="App_Data\WeixinTraceLog\**" />
+    <None Remove="Services\新文件夹\**" />
+    <None Remove="wwwroot\js\pages\**" />
+    <None Remove="wwwroot\lib\date-time\**" />
+    <None Remove="wwwroot\lib\jquery-calendar-150418163134\**" />
+    <None Remove="wwwroot\lib\vue\**" />
+    <None Include="App_Data\Document\**" CopyToOutputDirectory="Always" />
+    <Content Remove="wwwroot/Customer\appointment\image\station-icon.jpg" />
+    <Content Remove="wwwroot/MP_verify_oEPmKCBUdiiAHtq4.txt" />
+ 
+    <PackageReference Include="Ass" Version="2.0.27" />
+	<PackageReference Include="DotNetCore.NPOI" Version="1.0.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" /> 
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />    
+    <PackageReference Include="Abp.MailKit" Version="3.3.0" />    
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.1" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+    <PackageReference Include="Senparc.Weixin.MP" Version="14.10.3" />
+    <PackageReference Include="Senparc.Weixin.MP.MVC" Version="5.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="Yi" Version="2.0.0" />
+ 
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+ 
+    <ProjectReference Include="..\ah.DbContext\ah.DbContext.csproj" />
+    <ProjectReference Include="..\ah.Models.SysAuto\ah.Models.SysAuto.csproj" />
+    <ProjectReference Include="..\ah.Models\ah.Models.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties bundleconfig_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

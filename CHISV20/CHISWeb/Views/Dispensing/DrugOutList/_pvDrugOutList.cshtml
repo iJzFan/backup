@@ -1,0 +1,68 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_DrugStock_Out>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+ 
+}
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th style="width:140px;">发药时间</th>
+                @*<th style="width:60px;">药品号</th>*@
+                <th class="ah-td-left">药品名称</th>
+                <th class="ah-tr-hide ah-td-left">厂商/产地</th>
+                <th class="ah-tr-right">数量</th>                 
+                <th class="ah-tr-right" style="width:80px;">原数量</th>
+                <th class="ah-tr-right" style="width:80px;">现数量</th>
+                <th style="width:80px;">医生</th>
+                <th class="ah-tr-hide" style="width:80px;">患者</th>
+                <th class="ah-tr-hide ah-td-left">说明</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.OutTime.ToStdString("yyyy-MM-dd HH:mm",true)</td>
+                    @*<td class="ah-td-left" >@item.DrugId</td>*@
+                    <td class="ah-td-left">
+                        <a onclick="searchDrug(@item.DrugId)" class="ah-fd-this">
+                            <b>@item.DrugName</b>
+                            </a>
+                        <div class="ah-kf-gray"> @(item.DrugModel) </div>
+                    </td>
+                    <td class="ah-tr-hide ah-td-left">
+                        <span>@item.ManufacturerOrigin</span>
+                        <span>@item.OriginPlace</span>
+                    </td>
+                    <td class="ah-tr-right">
+                        @item.Qty
+                        @item.UnitName
+                    </td>               
+                    <td class="ah-tr-right">@item.StockNumPre</td>
+                    <td class="ah-tr-right">@item.StockNumAft</td>
+                    <td>@item.DoctorName </td>
+                    <td class="ah-tr-hide">@(item.CustomerName) (@item.Gender?.ToGenderString())</td>
+                    <td class="ah-tr-hide ah-td-left ah-td-mult-line">                          
+                            接诊号: @item.TreatId       <br />
+                            支付号: @item.PayOrderId <br />
+                            @item.Rmk                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@ViewBag.DebugText
+<script>
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+</script>

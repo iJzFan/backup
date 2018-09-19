@@ -1,0 +1,151 @@
+﻿@using Ass;
+@model CHIS.Models.CHIS_Code_Customer
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    ViewBag.Title = "用户注册";
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+<link href="~/css/other/reservation-register.css" rel="stylesheet" />
+ <style>
+     .row {
+    margin-left: -10px;
+    margin-right: -10px;
+
+    body {
+            background: url(/images/web_bg.jpg);
+            background-size: cover;
+        }
+}
+ </style>
+<div class="container">
+    <div class="row">
+        <div id="selted" class="col-xs-10 col-sm-6 col-md-4 center">
+            <form id="registerForm" asp-action="CustomerRegister" method="post" role="form">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="page-header" style="margin: 20px 0 15px; color:#2e6da4; border-bottom:1px solid #eee; font-size:16px; font-weight:600;">                          
+                            用户信息完善                          
+                        </div>
+                    </div>
+                    <div class="form-bottom" style="padding: 0 15px 10px;">
+                           
+                            <div class="row">
+                                @Html.ValidationSummary() 
+                                <div id="UsrInfor" class="col-sm-12">
+                                    <div class="form-group">
+                                        <input asp-format="text" class="form-control" asp-for="CustomerName" placeholder="姓名" style="height:50px;" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12 col-md-4 form-group" style="padding:0 10px 0px 0px;">
+                                            @{var certificateType = myRazor.GetSelectListItemsByDictKey("CertificateType");}
+                                            <select class="form-first-name form-control h_50" asp-for="CertificateTypeId" asp-items="certificateType" onchange="setBirthdayAndSex(this.value);"></select>
+                                        </div>
+                                        <div class="col-xs-12 col-md-8 form-group" style="padding:0;">
+                                            <input class="form-control input_font input_right" asp-for="IDcard" type="text" placeholder="证件号码" />
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="form-group" id="byValDispaly">
+                                        <div class="col-xs-12 col-md-4 form-group" style="padding:0 10px 0px 0px;">
+                                            <select class="form-first-name form-control h_50" asp-for="Gender">
+                                                <option value="">- 性别 -</option>
+                                                <option value="1">男</option>
+                                                <option value="0">女</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-md-8 form-group" style="padding:0;">
+                                            <div class="input-group date form_date" data-date="" id="departmentSelect" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                <input class="form-control" size="16" type="text" value="" readonly asp-for="Birthday">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                            <input type="hidden" id="dtp_input2" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div class="form-group">
+                                        <input type="text" asp-for="Telephone" class="form-control"
+                                               placeholder="手机号码">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group" >
+                                            <input class="form-control input_font" id="verifyCode" name="verifyCode" type="text" placeholder="获取验证码" />     
+                                            <span class="input-group-btn">
+                                                <input type="button" id="getSms" class="form-control btn-subscribe w_60 v-btn"
+                                                       onclick="getSmsTime(this)" value="获取验证码" />
+                                            </span>                                   
+                                        </div>
+                                        
+
+                                    </div>
+                                    <!--<div class="form-group" id="byValDispaly">
+                                        <div class="col-xs-12 col-md-4 form-group" style="padding:0 10px 0px 0px;">
+                                            <select class="form-first-name form-control h_50" asp-for="Sex">
+                                                <option value="">- 请选择省份 -</option>
+                                                <option value="1">男</option>
+                                                <option value="0">女</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-md-4 form-group" style="padding:0 10px 0px 0px;">
+                                            <select class="form-first-name form-control h_50" asp-for="Sex">
+                                                <option value="">- 请选择地区 -</option>
+                                                <option value="1">男</option>
+                                                <option value="0">女</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-md-4 form-group" style="padding:0 10px 0px 0px;">
+                                            <select class="form-first-name form-control h_50" asp-for="Sex">
+                                                <option value="">- 请选择城市 -</option>
+                                                <option value="1">男</option>
+                                                <option value="0">女</option>
+                                            </select>
+                                        </div> 
+                                    </div>-->
+                                    <div class="form-group"> 
+                                        <div class="input-group w_100">
+                                            <div class="input-group-addon select-area" tagfor-id="areaId" tagfor-text="areaText" title="选择地址" style="width:50%;">
+                                                <div class="pull-right">
+                                                    <a><span class="glyphicon glyphicon-map-marker" style="color:#1276c1;"></span></a>
+                                                </div>
+                                                <div class="area-detail" id="areaText" name="sss">广东 东莞市</div>
+                                                <input type="hidden" id="areaId" asp-for="AddressAreaId" />
+                                            </div>
+                                            <input class="form-control input_font" id="addres" asp-for="Address" type="text" placeholder="输入详细地址" />
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" id="registerSubmit" class="btn w_100 right">确定</button>
+                                    <h3 class="pull-right">
+                                        <a href="appointment" style="font-size:14px; font-family:'微软雅黑'; text-decoration:underline; color:#1276c1;">已完善，马上去预约</a>
+                                    </h3>                       
+                                </div>
+
+                            </div>
+
+                        </div>
+                
+                   </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="body_footer">
+    <span>版权所有：东莞市天使健康管理有限公司&nbsp;&nbsp;服务热线：0769-86325818</span>
+</div>
+
+@section scripts{
+<script src="~/js/pages/reservation-register.js"></script>
+    <script>
+        /*
+        加载的时候判断注册页面的证件类别，如果不是身份证的时候，需要显示生日input和性别input
+        */        
+
+        $(function () {       
+            
+            $('.select-area').SelectArea();//弹出区域选择
+            $('#areaText').text().replace(",", "-");
+        });
+    </script>
+
+
+}

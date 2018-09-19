@@ -1,0 +1,116 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+    //Layout = "~/Views/Shared/_LayoutMin.cshtml";
+    ViewData["Title"] = "剑客调整价格";
+}
+@section links{
+    <link rel="stylesheet" href="~/lib/jquery-pager/Pager.css" />
+    <style>
+        body,th,td{font-size:12px}.price-input{width:60px;border-top:0;border-left:none;border-right:0;border-bottom:1px dashed #999;text-align:right}.a-link{cursor:pointer;font-size:.8em}.td-price{color:#ff6a00}.table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{line-height:1.2;padding:6px}
+    </style>
+}
+<div class="container">
+
+    <div style="margin-top:0px; text-align:center;">
+        <h4>健客药品价格调整接口</h4>
+    </div> 
+    <div class="row">
+        <div class="input-group">
+            <input id="searchText" type="text" class="form-control" placeholder="请输入健客药品编号或者药品名称,回车搜索" />
+            <span class="input-group-btn">
+                <button id="search" class="btn btn-default" type="button" onclick="loadDrugs();">查询</button>
+            </span>
+
+        </div>
+        <div>
+            <p style="color:#0094ff">输入药品Id或者名称后Enter直接搜索。输入药品价格后，直接Enter提交。Tab切换。</p>
+        </div>
+    </div>
+    <div class="row" id="content">
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/lib/jquery-pager/jquery.pager.js"></script>
+    <script>
+        function loadDrugs(pageIndex) {
+            var searchText = $('#searchText').val();
+            $('#content').load("/P3Tools/pvLoadJKDrugList", { searchText: searchText, pageIndex: pageIndex });
+        }
+
+        function setPager(pagerId, pageIndex, pageTotal) {
+            $("#" + pagerId).pager({
+                pagenumber: pageIndex, pagecount: pageTotal,
+                buttonClickCallback: function (selPageIndex) { loadDrugs(selPageIndex); }
+            });
+        }
+
+
+        function SetPrice(drug3Id, _this) {
+            var price = $(_this).parents("td").first().find("input").val();
+            $.post("/P3Tools/setJKPrice", { drug3Id: drug3Id, price: price }, function (jn) {
+                if (jn.rlt) {
+                    $(_this).parents("tr").first().find(".td-price").text(price);
+                    alert("设置成功");
+                }
+                else alert("失败:" + jn.msg);
+            }, "json");
+        }
+
+        $(function () {
+            $('#content').on("click", "table .price-input", function () {
+                $(this).select();
+            });
+
+        });
+
+
+        function onlyNumbersEvt(evt) {
+            //只能输入数字
+            evt = evt || window.event;
+            var keynum;
+            if (window.event) // IE
+                keynum = evt.keyCode
+            else if (evt.which) // Netscape/Firefox/Opera
+                keynum = evt.which
+             
+            var c = String.fromCharCode(keynum);
+            //小键盘
+            switch (keynum) {
+                case 96: c = "0"; break;
+                case 97: c = "1"; break;
+                case 98: c = "2"; break;
+                case 99: c = "3"; break;
+                case 100: c = "4"; break;
+                case 101: c = "5"; break;
+                case 102: c = "6"; break;
+                case 103: c = "7"; break;
+                case 104: c = "8"; break;
+                case 105: c = "9"; break;
+                case 8://退格
+                case 9://tab
+                case 46://删除
+                case 110:
+                case 190: return true;//小数点
+
+            }
+            return /[\d]/.test(c);
+        }
+
+
+        document.onkeydown = function (event_e) {
+            if (window.event) { event_e = window.event; }
+            var int_keycode = event_e.charCode || event_e.keyCode;
+            if (int_keycode == '13') {
+                if ($(':focus').attr("id") == "searchText") { $('#search').click(); }
+                if ($(':focus').attr("class") == "price-input") {
+                    $(':focus').parents("td").find(".a-link").click();
+                }
+                return false;
+            }
+        }
+
+
+    </script>
+}

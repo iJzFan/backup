@@ -1,0 +1,112 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_Code_Customer>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.AccessService _accSvr
+@{
+    var u = this.GetUserSelf();
+    var bmod = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsMod).ToBool();
+    var bdel = _accSvr.GetFuncConfig(MyConfigNames.UserDocs_CRUD_IsDel).ToBool();
+}
+<style>
+    .ah-img-vip {
+        position: absolute;
+        top: 19px;
+        left: 55px;
+    }
+
+    .user-info {
+        line-height: 20px;
+        padding: 10px 0;
+    }
+</style>
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th width="90px"></th>
+                <th>姓名</th>
+                <th class="ah-tr-hide">性别</th>
+                <th>年龄</th>
+                <th class="ah-tr-hide">登录码</th>
+                <th width="90px">手机</th>
+                <th class="ah-tr-hide" width="145px">邮箱</th>
+                <th width="145px">身份证号</th>
+                <th class="ah-tr-hide">注册日期</th>
+                <th class="ah-tr-hide">来自</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>
+                        <img class='tbupic2' src='@(myRazor.GetCustomerDefImagePath(item.PhotoUrlDef,item.Gender))' />
+                        @Html.Raw(item.IsVIP == true ? "<i class='ah-img-vip'></i>" : "")
+                    </td>
+                    <td>@(item.CustomerName)<i class="ah-nickname-@(Ass.P.PStr(item.NickName).Length>0?1:0)">@(item.NickName)</i></td>
+                    <td class="ah-tr-hide">@(item.Gender?.ToGenderString())</td>
+                    <td>@(item.Birthday?.ToAgeString())</td>
+                    <td class="ah-tr-hide">@item.LoginName</td>
+                    <td class="ah-tb-multline">
+                        @if (Ass.P.PStr(item.CustomerMobile).Length > 0)
+                        {
+                            <span class="ah-red-highlight">
+                                <i class="mobile_@(Ass.P.PStr(item.CustomerMobile).Length>0?"1":"0")">@(item.CustomerMobile.ToMarkString(Ass.Models.MaskType.MobileCode))</i>
+                            </span>
+                        }
+                        else
+                        {
+                            <span>无</span>
+                        }
+                    </td>
+                    <td class="ah-tb-multline ah-tr-hide">
+                        @if (Ass.P.PStr(item.Email).Length > 0)
+                        {
+                            <span class="ah-red-highlight">
+                                <i class="email_@(Ass.P.PStr(item.Email).Length>0?"1":"0")">@(item.Email.ToMarkString(Ass.Models.MaskType.EmailCode))</i>
+                            </span>
+                        }
+                        else
+                        {
+                            <span>无</span>
+                        }
+                    </td>
+                    <td class="ah-tb-multline">
+                        @if (Ass.P.PStr(item.IDcard).Length > 0)
+                        {
+                            <span class="ah-red-highlight">
+                                <i class="idcode_@(Ass.P.PStr(item.IDcard).Length>0?"1":"0")">@(item.IDcard.ToMarkString(Ass.Models.MaskType.IDCode))</i>
+                            </span>
+                        }
+                        else
+                        {
+                            <span>无</span>
+                        }
+                    </td>
+                    <td class="ah-tr-hide">@item.CustomerCreateDate?.ToDateString()</td>
+                    <td class="ah-tr-hide">@item.sysSource</td>
+                    <td>
+                        <span class="ah-linkbg"><a onclick="loadDetail(event,'@item.CustomerID')">详情</a></span>
+                        @if (bmod)
+                        {<a onclick="CE.Modify(@(item.CustomerID))">修改</a>}
+                        @if (bdel)
+                        {<a onclick="CE.Delete(@(item.CustomerID),null,event)">删除</a>}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<script>
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+
+    function loadDetail(e, id) {
+            SEARCH.loadRowDetail(e, '/Code/LoadRowDetailOfCustomer?cusId=' + id);
+    }
+</script>

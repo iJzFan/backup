@@ -1,0 +1,161 @@
+﻿@using Ass;
+@using CHIS.Models;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+    var doctor = ViewBag.Doctor as vwCHIS_Code_Doctor;
+    var myRoles = ViewBag.MyRoles as IEnumerable<vwCHIS_Sys_Rel_DoctorStationRoles>;
+    var myStations = myRoles.Select(m => new { stationId = m.StationId, stationName = m.StationName }).Distinct();
+}
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" type="text/css" />
+    <style>
+        .role-list {
+            font-size: 14px;
+        }
+
+            .role-list .des:before {
+                content: "(";
+            }
+
+            .role-list .des:after {
+                content: ")";
+            }
+
+            .role-list .des {
+                color: goldenrod;
+            }
+
+        .station-role-list { margin:8px;
+        }
+        .station-role-list li{width:23%;border:1px solid #ccc;margin:2px 1%;display:inline-block;height:120px;float:left;}
+            .station-role-list li div.title{width:100%;height:24px;position:relative;background:#4680ea;color:white;padding:2px;}
+            .station-role-list li div.title>a{color:#fff}
+            .station-role-list li div.title>a:hover{color:#0b60f8}
+            .station-role-list li div.roles{width:100%;padding:1px 5px;}
+             .station-role-list li div.roles:hover{background-color:#eee;}
+            .station-role-list li div.roles>a{cursor:pointer;float:right;}
+        .station-role-list li.notset{border:none;width:100%;text-align:center;font-size:1.2em;color:#f24d36;float:none;}
+        .lkbtn{cursor:pointer;}
+    </style>
+
+}
+  
+
+<div class="container-fluid">
+    <div class="row"> 
+       <h5><span class="fa fa-user-secret"></span>&nbsp;设置 @doctor.DoctorName 的权限</h5>
+        <hr style="margin-bottom:2px;margin-top:9px;" />
+    </div> 
+    <div class="row">
+        <ul class="station-role-list">
+            @if (myStations.Count() == 0)
+            {
+                <li class="notset">该医生还没有设置权限</li>
+            }
+
+            @foreach (var station in myStations)
+            {
+                var roles = myRoles.Where(m => m.StationId == station.stationId);
+            <li>
+                <div class="title">
+                    <b> @station.stationName</b>
+                    <a class="pull-right lkbtn" onclick="DeleteDoctorAccess(this,@station.stationId,@doctor.DoctorId)">删除所有</a>
+                </div>
+                @foreach (var role in roles)
+                {
+                <div class="roles">
+                   <a>删除</a> @role.RoleName
+                </div>
+                }
+            </li>
+            }
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <h4>选择所属的工作站</h4>
+            <ul id="ztree-WorkStation" class="ztree"></ul>
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <h4>选择工作站下允许的角色</h4>
+            <div>
+                <a class="ah-btn-blue" id="add_role">添加</a>
+            </div>
+            <div>
+                <ul class="role-list" id="role_list"></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script>
+        var pagedata = {
+            doctorId:@(doctor.DoctorId),
+            var:1
+        }
+        $(function () {
+            var tree = zTreeObj({
+                id: 'ztree-WorkStation',
+                url: '/api/syshis/StationsOfMy',
+                onLoaded: null,
+                onClickNode: function (node) { loadRoleOfThisStation(node.id,pagedata.doctorId); }
+            });
+
+            //添加角色
+            $('#add_role').click(function () {
+            var doctorId =pagedata.doctorId;
+            var stationId = tree.getSelectOneNode().id;
+            var roles = new Array();
+            $.each($('#role_list li input[type=checkbox]:checked'), function (i, m) { m.value && roles.push(m.value); });
+            var bupdate = doctorId && stationId && roles.length > 0;
+            bupdate && $.loadJSON("/code/UpsertDoctorStationRoles", { doctorId: doctorId, stationId: stationId, roles: roles }, function (jn) {
+                if (jn.rlt) {
+                    $.msg("设置成功！");
+                    $.reload();
+                } else $.alertError(jn.msg);
+            });
+
+
+
+            });
+
+        })
+
+        //载入允许选择的角色
+        function loadRoleOfThisStation(stationId,doctorId) {
+            $ul = $('#role_list').empty();
+            $.loadJSON("/api/syshis/AllRolesOfStationOnlySelect", { stationId: stationId }, function (jn) {
+                jn && $.each(jn, function (i, m) {
+                    $ul.append("<li><a><input type='checkbox' value='{0}'/> {1} <span class='des'>{2}</span></a></li>".format(m.roleId, m.roleName, m.roleDescript));
+                });
+                $.loadJSON("/api/syshis/DoctorRolesOfStation", { stationId: stationId, doctorId: doctorId }, function (jn) {
+                    jn && $.each(jn, function (i, m) { 
+                        $ul.find("li input[value='" + m + "']").prop("checked", true);
+                    });                   
+                });
+
+            })
+        }
+        function DeleteDoctorAccess(_this,stationId, doctorId) {
+            $.confirm("删除权限","是否删除该医生在本工作站的权限?", function () { 
+                $.getJSON("/api/syshis/DeleteDoctorAccessOfStation", {
+                    doctorId: doctorId, stationId: stationId
+                }, function (jn) {
+                    if (jn.rlt) {
+                        $.msg("成功！");
+                        $(_this).parents("li").remove();
+                    }
+                    else $.alertError("失败:" + jn.msg);
+                 });
+            });
+        }
+
+    </script>
+}

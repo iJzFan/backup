@@ -1,0 +1,38 @@
+/*
+    公用复写样式 最后载入
+*/
+
+ 
+
+ /*Layer 由于是动态最后载入的，所以放在最后载入复写*/
+
+/*ah-layer*/
+.ah-layer-err{border:none;background-color:rgba(245, 26, 26, 0.64) !important;color:white;}
+.ah-layer-err .layui-layer-ico{background: rgba(0, 0, 0, 0) url("/images/layer-icon.png") no-repeat scroll 0 0;}
+.ah-layer-err .layui-layer-ico2{ background-position: -60px 0;}
+
+.ah-layer-ok{border:none;background-color:#4780eb !important;color:white;}
+.ah-layer-ok .layui-layer-ico{background: rgba(0, 0, 0, 0) url("/images/layer-icon.png") no-repeat scroll 0 0;}
+.ah-layer-ok .layui-layer-ico2{ background-position: -30px 0;}
+
+.ah-layer-ok .layui-layer-ico-ok {
+    background: url("/images/layer-icon-1.png") no-repeat scroll 0 0 !important;
+    background-size: 100% 100% !important;
+}
+.ah-layer-err .layui-layer-ico-err {
+    background: url("/images/layer-icon-2.png") no-repeat scroll 0 0 !important;
+    background-size: 100% 100% !important;
+}
+/*.layui-form input[type="checkbox"], .layui-form input[type="radio"],*/
+.layui-form select {
+    display: block;height:0;width:1px;overflow:hidden;padding:0;border:none;
+}
+
+.layui-textarea {    min-height: 38px;line-height:16px;}
+.layui-layer-title { background-color: #fff;}
+
+/*多态checkbox*/
+.status3 .status3-fm[value="True"]::after {
+    background-color: #4680EB;
+    border-color: #4680EB;
+}

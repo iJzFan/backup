@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "个人中心-我的健康";
+}
+@section links{
+    <style>
+        .customer-main {
+            background-image: url(/images/bg/bg2.png);
+            background-size: contain;
+        }
+        .sumary-item{
+            width:100%;position:relative;
+        }
+        .sumary-item:hover{background: #3497B0;color:#fff;}
+        .sumary-item:hover>a{color:#fff;}
+        .sumary-item>a>img{width:50px;}
+        .sumary-item>a{width:100%;padding:10px;display:block;}
+        @@media screen and (max-width:500px) {
+            .ah-pg-title {
+                padding: 5px 8px;
+                background: #dfdfdf;
+                margin-left: -10px;
+                margin-right: -10px;
+            }
+            .my-healthMgr-wrap{
+                display:flex;
+                flex-wrap:wrap;
+            }
+            .my-healthMgr-wrap a{
+
+            }
+        }
+
+    </style>
+}
+
+
+@* 用户中心控制台 *@
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li class="active"><a>健康检测中心</a></li>
+    </ol>
+</div>
+<div class="bg">
+    <div class="my-healthMgr-wrap">
+        <div class="sumary-item">
+            <a asp-action="BreastSumary">
+                <img src="~/images/hmgr/rxa.png" /><span>乳腺癌筛查管理</span>
+            </a>
+        </div>
+        <div>
+
+        </div>
+
+    </div>
+</div>

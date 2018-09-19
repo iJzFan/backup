@@ -1,0 +1,166 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.DataModel.DoctorLogin
+@{
+    ViewBag.Title = "登录设置";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <style>
+        body {
+            background: #fff;
+        }
+    </style>
+}
+<div class="container layui-form">
+    <!--该部分是导航部分-->
+    <ul class="ah-step-wrap ah-flex">
+        @if (ViewBag.op == "NEWF")
+        {
+            <li class="ah-strp-active"><a>1.用户选择</a></li>
+            <li class="ah-strp-active"><a>2.医生基础信息</a></li>
+            <li class="ah-strp-active"><a>3.诊所/角色/科室/</a></li>
+            <li class="ah-strp-active"><a>4.登录设置</a></li>
+            <li><a>5.提交审核</a></li>
+        }
+        else
+        {
+            <li class="ah-strp-active"><a asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">用户信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_DoctorBase" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">医生基础信息</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_StationRoleDepart" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">诊所/角色/科室</a></li>
+            <li class="ah-strp-active"><a asp-action="DoctorSets_Login" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">登录设置</a></li>
+            <li><a asp-action="DoctorSets_ForCheck" asp-route-op="@ViewBag.op" asp-route-customerid="@ViewBag.customerId" asp-route-doctorid="@ViewBag.doctorId">完成</a></li>
+        }
+    </ul>
+    @*--------------------------显示医生基本信息---------------------*@
+    <section class="ah-require-one-group">
+        <h5>用户基本信息</h5>
+        <div>
+            <span>@Model.Doctor.DoctorId</span>
+            <span>@Model.Doctor.DoctorName</span>
+            <span>@Model.Doctor.Gender?.ToGenderString()</span>
+            <span>@Model.Doctor.Birthday?.ToAgeString()</span>
+            <span>@myRazor.GetDictDetailNameById(Model.Doctor.PostTitle)</span>
+        </div>
+    </section>
+
+    <form id="form1" asp-controller="Code" asp-action="DoctorSets_Login_Save" asp-route-op="@ViewBag.op" style="margin-top:30px;">
+        <input type="hidden" id="doctorId" name="doctorId" asp-for="Doctor.DoctorId" />
+        <input type="hidden" id="CustomerId" name="CustomerId" value="@ViewBag.customerId" />
+
+        <input type="hidden" asp-for="Login.CustomerId" />
+        <input type="hidden" asp-for="Doctor.DoctorId" />
+        <input type="hidden" asp-for="Login.LoginId" />
+        <div class="ah-flex-layout">
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-col-md3 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        <span>
+                            @if (Model.Login.EmailIsAuthenticated == true){<i class="ah-mk-char">验</i> }
+                            绑定邮箱
+                        </span>
+                        <span>@Model.Login.EmailAuthenticatedTime?.ToStdString()</span>
+                    </div>
+                    <div class="ah-data-div">@Model.Login.Email</div>
+                </div>
+                <div class="ah-col-md3 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        <span>
+                            @if (Model.Login.MobileIsAuthenticated == true){<i class="ah-mk-char">验</i> }
+                            绑定手机
+                        </span>
+                        <span>@Model.Login.MobileAuthenticatedTime?.ToStdString()</span>
+                    </div>
+                    <div class="ah-data-div">@Model.Login.Mobile</div>
+                </div>
+                <div class="ah-col-md3 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        <span>
+                            @if (Model.Login.IdCardNumberIsAuthenticated == true){<i class="ah-mk-char">验</i> }
+                            绑定身份证
+                        </span>
+                        <span>@Model.Login.IdCardNumberAuthenticatedTime?.ToStdString()</span>
+                    </div>
+                    <div class="ah-data-div">@Model.Login.IdCardNumber</div>
+                </div>
+            </div>
+            <div class="ah-col-md1 ah-flex-data">
+                <div class="ah-data-label" onclick="setLoginName('#Login_LoginName');" style="cursor:pointer;">登录名（点此自动填）</div>
+                <input class="ah-data-input" type="text" asp-for="Login.LoginName" />
+                <span asp-validation-for="Login.LoginName"></span>
+            </div>
+            <div class="ah-col-md1 ah-flex-layout">
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">登录密码重设(不设定则留空)
+                        @if (Model.Login.LoginPassword.IsNotEmpty())
+                        {<s class="ah-required">有密码</s>}
+                    </div>
+                    <input class="ah-data-input" type="password" asp-for="LoginPwd" />
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">重复登录密码</div>
+                    <input class="ah-data-input" type="password" asp-for="CheckLoginPwd" />
+                </div>
+                <span asp-validation-for="CheckLoginPwd"></span>
+            </div>
+            <div class="ah-col-md1 ah-flex-layout">
+                @Html.CheckBoxFor(m => m.IsLoginToDoctor, new { @title = "允许作为医生登录" })
+            </div>
+            <div class="ah-col-md1 ah-flex-layout">
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        <span>锁定时间</span>
+                        @Html.CheckBoxFor(m => m.Login.IsLock, new { @title = "是否锁定" })
+                    </div>
+                    <input class="ah-data-input ah-date" type="text" asp-for="Login.LockTime" />
+                </div>
+                <div class="ah-col-md2 ah-flex-data">
+                    <div class="ah-data-label">锁定缘由</div>
+                    <input class="ah-data-input" type="text" asp-for="Login.WhyLock" />
+                </div>
+            </div>
+        </div>
+        @Html.ValidationSummary(true)
+    </form>
+
+</div>
+
+<div class="ah-doc-sets-btns ah-flex">
+    @if (ViewBag.op == "NEWF")
+    {
+        <a title="上一步" class="ah-btn-blue" asp-action="DoctorSets_SelectCustomer" asp-route-op="@ViewBag.op">上一步</a>
+    }
+    <button type="button" title="保存后下一步" class="ah-btn-blue" onclick="submitForm();">下一步</button>
+</div>
+
+
+@section scripts{
+    <script src="~/js/pages/code-doctor.js"></script>
+    <script>
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        docImgRoot:'@Global.ConfigSettings.DoctorImagePathRoot',
+        ver:1
+    };
+        $(function () { initialLoad(); });
+        function submitForm() {
+            $('#form1').submit();
+        }
+
+        function setLoginName(id) {
+            $.post("/Customer/GetDefCustomerLoginName",
+                {
+                    name:'@Html.Raw(Model.Doctor.DoctorName)',
+                    gender: @(Model.Doctor.Gender??0),
+                    birthday: '@(Model.Doctor.Birthday?.ToDateString())'
+                }, function (jn) {
+                    if (jn.rlt) $(id).val(jn.loginName);
+                    else $.err("获取错误" + jn.msg);
+                });
+
+        }
+    </script>
+}

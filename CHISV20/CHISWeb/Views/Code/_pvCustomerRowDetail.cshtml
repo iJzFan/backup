@@ -1,0 +1,62 @@
+﻿@model vwCHIS_Code_Customer
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+ 
+}
+
+<style>
+    .ah-flex-layout {
+        margin: 8px 20px;
+    }
+</style>
+<div class="ah-row-detail ah-flex">
+    <div class="ah-row-left">
+        <img class="ah-row-upic" src="@(myRazor.GetImageUrl(Global.ConfigSettings.CustomerImagePathRoot, Model.PhotoUrlDef))" />
+    </div>
+    <div class="ah-flex-auto">
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">姓名:</span>
+                <span class="ah-row-value">@Model.CustomerName</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">昵称:</span>
+                <span class="ah-row-value">@Model.NickName</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">性别:</span>
+                <span class="ah-row-value">@Model.Gender?.ToGenderString()</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">年龄:</span>
+                <span class="ah-row-value">@(Model.Birthday?.ToAgeString()) (@(Model.Birthday?.ToDateString()))</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">登录名:</span>
+                <span class="ah-row-value">@Model.LoginName</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">手机:</span>
+                <span class="ah-row-value">@Model.CustomerMobile</span>
+            </div>
+        </div>
+        <div class="ah-flex-layout">
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">邮箱:</span>
+                <span class="ah-row-value">@Model.Email</span>
+            </div>
+            <div class="ah-col-md2 ah-flex">
+                <span class="ah-row-title">身份证:</span>
+                <span class="ah-row-value">@Model.IDcard</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

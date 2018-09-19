@@ -1,0 +1,32 @@
+﻿@model CHIS.Models.ViewModel.SickNoteCheckModel
+@{
+    
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+ 
+<div class="row-fluid">
+  <table class="table">
+      <tbody>
+          <tr><th>编号:</th><td>@(Model.SickNote.SickNoteId)</td></tr>
+          <tr><th>姓名:</th><td>@(Model.SickNote.CustomerName)</td></tr>
+          <tr><th>性别:</th><td>@(Model.SickNote.CustomerGender.ToGenderString())</td></tr>
+          <tr><th>年龄:</th><td>@(Model.Treat.TreatCustomerAge?.ToString("#0.#"))岁</td></tr>
+          <tr><th>打印时间:</th><td>@(Model.SickNote.FirstPrintTime)</td></tr>
+          <tr><th>打印时间(末):</th><td>@(Model.SickNote.LastPrintTime)</td></tr>
+          <tr><th>病假医嘱:</th><td>@(Model.SickNote.SickNoteDoctorAdvice)</td></tr>
+          <tr><th>病假时间(起):</th><td>@(Model.SickNote.TimeStart.ToString("yyyy-MM-dd HH时"))</td></tr>
+          <tr><th>病假时间(止):</th><td>@(Model.SickNote.TimeEnd.ToString("yyyy-MM-dd HH时"))</td></tr>
+          <tr><th>医生:</th><td>@(Model.SickNote.DoctorName)</td></tr>
+          <tr><th>科室:</th><td>@(Model.Treat.DepartmentName)</td></tr>
+          <tr><th>诊断:</th>
+                <td>@(Model.Treat.Diagnosis1 +(Model.Treat.FstIsDiag?"?":"")) 
+                    @(Model.Treat.Diagnosis2 + (Model.Treat.SecIsDiag ? "?" : ""))
+                    @(Model.Treat.Diagnosis3 + (Model.Treat.ThrIsDiag ? "?" : "")) 
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+ 

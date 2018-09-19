@@ -1,0 +1,284 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.DataModel.Doctor
+@{
+    ViewBag.Title = "编辑医生档案";
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+}
+@section links{
+    <link href="~/css/ah-layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/select2/dist/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/pages/code-doctor.css" type="text/css" rel="stylesheet" />
+}
+<div class="container">
+
+
+    <form id="form1" asp-controller="Code" asp-action="DoctorEdit" asp-route-op="@ViewBag.OP">
+        <div style="padding: 10px">
+            <input type="hidden" asp-for="DoctorInfo.DoctorId" />
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left" style="line-height:30px;">基本信息</h3>
+                    <div class="base-bg pull-left select_customerinfo">
+                        <div class="single-selector" id="sel_customer">
+                            <span class="customer-name"></span>
+                            <input type="hidden" asp-for="BaseInfo.CustomerID" />
+                        </div>
+                    </div>
+                    <div id="sel_cus_t" class="pull-left ah-doc-select-title">请选择人员，没有请 <a class="ah-minbtn" onclick="createCustomer()">新增</a> .</div>
+                </div>
+                <div class="panel-body" style=" background-color:#eee;">
+                    <table class="ah-doc-detail">
+                        <tr>
+                            <th style="width:100px">医生姓名</th>
+                            <td colspan="6">
+                                <input type="text" asp-for="BaseInfo.CustomerName" readonly />
+                            </td>
+                            <th style="width:100px">本人手机</th>
+                            <td colspan="6">
+                                <input type="text" asp-for="BaseInfo.CustomerMobile" readonly />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width:100px">身份证号</th>
+                            <td colspan="6">
+                                <input type="text" asp-for="BaseInfo.IDcard" readonly />
+                            </td>
+                            <th style="width:100px">电子邮件</th>
+                            <td colspan="6">
+                                <input type="email" asp-for="BaseInfo.Email" readonly />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width:100px">出生日期</th>
+                            <td colspan="6">
+                                <div class="input-group">
+                                    <input type="text" class="input-datetime" data-format="yyyy-mm-dd" asp-for="BaseInfo.Birthday" asp-format="{0:yyyy-MM-dd}" readonly />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <th style="width:100px">用户性别</th>
+                            <td colspan="6">
+                                <select asp-for="BaseInfo.Gender" readonly>
+                                    <option value="">未选择</option>
+                                    <option value="1">男</option>
+                                    <option value="0">女</option>
+                                </select>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th style="width:100px">婚姻状况</th>
+                            <td colspan="6">
+                                @{
+                                    var marg = myRazor.GetSelectListItemsByDictKey("Marriage");
+                                }
+                                <select asp-items="marg" asp-for="BaseInfo.Marriage" readonly>
+                                    <option value="">未选择</option>
+                                </select>
+                            </td>
+                            <th style="width:100px">文化程度</th>
+                            <td colspan="6">
+                                @{
+                                    var edu = myRazor.GetSelectListItemsByDictKey("EduLevel");
+                                }
+                                <select asp-items="edu" asp-for="BaseInfo.EduLevel" readonly>
+                                    <option value="">未选择</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th style="width:100px">家庭地址</th>
+                            <td colspan="12">
+                                <div>
+                                    <span id="cus_addr_pro">@myRazor.GetChinaAreaById(Model.BaseInfo?.AddressAreaId)?.MergerName</span>
+                                    <span id="cus_addr_detail">@Model.BaseInfo?.Address</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                @* 健康基本信息 *@
+                <div class="panel panel-default" style="border:none;">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a>医生信息</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne">
+                        <div class="panel-body" style="width: 98%;">
+                            <table class="ah-doc-detail">
+                                <tr>
+                                    <th>我的头像</th>
+                                    <td colspan="13">
+                                        <div class="ah-pic-edit">
+                                            <input asp-for="DoctorInfo.DoctorPhotoUrl" type="hidden" />
+                                            <div id="cusImg" class="img" style="background-image:url(@(myRazor.GetImageUrl(Global.ConfigSettings.DoctorImagePathRoot,Model.DoctorInfo?.DoctorPhotoUrl)));"></div>
+                                            <div class="pic-btns"><a id="EditUserPic" style="cursor:pointer;">修改</a></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th style="width:95px">职位</th>
+                                    <td colspan="6">
+                                        @{
+                                        var princ = myRazor.GetSelectListItemsByDictKey("Principalship");
+                                        }
+                                        <select class="form-control" asp-items="princ" asp-for="DoctorInfo.Principalship">
+                                            <option value="">未选择</option>
+                                        </select>
+                                    </td>
+                                    <th style="width:95px">职称</th>
+                                    <td colspan="6">
+                                        @{
+                                        var posttitle = myRazor.GetSelectListItemsByDictKey("PostTitle");
+                                        }
+                                        <select class="form-control" asp-items="posttitle" asp-for="DoctorInfo.PostTitle">
+                                            <option value="">未选择</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:95px">入职日期</th>
+                                    <td colspan="6">
+                                      
+                                            <input type="text" class="ah-data-input ah-date"   asp-for="DoctorInfo.OnDutyDate" />                                          
+                                       
+                                    </td>
+                                    <th style="width:95px">转正日期</th>
+                                    <td colspan="6">
+                                      
+                                            <input type="text"  class="ah-data-input ah-date"  asp-for="DoctorInfo.ApprovalDate" />
+                                             
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:95px">在离职状态</th>
+                                    <td colspan="6">
+                                        <select class="form-control" asp-for="DoctorInfo.DutyState">
+                                            <option value="">未选择</option>
+                                            <option value="True">在职</option>
+                                            <option value="False">离职</option>
+                                        </select>
+                                    </td>
+                                    <th style="width:95px">离职日期</th>
+                                    <td colspan="6">
+                                       
+                                            <input type="text" class="ah-data-input ah-date"  asp-for="DoctorInfo.OutDutyDate" />
+                                            
+                                         
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:95px">是否可用</th>
+                                    <td colspan="6">
+                                        <select class="form-control" asp-for="DoctorInfo.IsEnable">
+                                            <option value="True">可用</option>
+                                            <option value="False">禁用</option>
+                                        </select>
+                                    </td>
+                                    <th style="width:95px">禁用日期</th>
+                                    <td colspan="6">
+                                       
+                                            <input type="text"  class="ah-data-input ah-date"  asp-for="DoctorInfo.StopDate" />
+                                            
+                                         
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:95px">接诊费</th>
+                                    <td colspan="6">
+                                        <input type="number" class="form-control" min="0.00" max="9999.99" asp-for="DoctorInfo.TreatFee" asp-format="{0:0.00}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:95px">专长简介</th>
+                                    <td colspan="13">
+                                        <textarea cols="2" class="form-control" asp-for="DoctorInfo.DoctorSkillRmk"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:95px">备注</th>
+                                    <td colspan="13">
+                                        <textarea cols="2" class="form-control" asp-for="DoctorInfo.Remark"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default" style="border:none;">
+                    <div class="panel-heading"><h4 class="panel-title"><a>接诊科室信息</a></h4></div>
+                    <div id="collapseTow">
+                        <div class="panel-body" style="width: 98%;">
+                            <table class="ah-doc-detail">
+                                <tr>
+                                    <th style="width:95px">所在门诊</th>
+                                    <td colspan="12">
+                                        <div class="sel_wid_30">
+                                            <select class="form-control">
+                                                <option value="">未选择</option>
+                                            </select>
+                                        </div>
+                                        <div class="sel_wid_30">
+                                            <select class="form-control" multiple="multiple">
+                                                <option value="">--请选择角色--</option>
+                                                <option value="">一般医生</option>
+                                                <option value="">全责医生</option>
+                                                <option value="">护士</option>
+                                            </select>
+                                        </div>
+                                        <div class="sel_wid_30">
+                                            <select class="form-control"  multiple="multiple">
+                                                <option value="">--请选择科室--</option>
+                                                <option value="">外科</option>
+                                                <option value="">内科</option>
+                                                <option value="">中医科</option>
+                                            </select>
+                                        </div>
+                                       
+                                      
+                                      
+                                    </td>                                     
+                                    <td>
+                                        <button type="button" class="ah-btn-blue">添加</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>已选信息</th>
+                                    <td colspan="13">
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div style="height:100px;"></div>
+    </form>
+
+</div>
+
+@section scripts{
+    <script src="~/js/pages/code-doctor.js"></script>
+    <script>
+    var pagedata = {
+        op: '@ViewBag.op',
+        isView: '@ViewBag.op' == 'VIEW',
+        docImgRoot:'@Global.ConfigSettings.DoctorImagePathRoot',
+        ver:1
+    };
+   $(function () { initialLoad(); });
+    </script>
+}

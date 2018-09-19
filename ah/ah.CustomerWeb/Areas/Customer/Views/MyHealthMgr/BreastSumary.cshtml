@@ -1,0 +1,119 @@
+﻿@model ah.Models.ViewModel.BreastMgrSumery
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "健康中心-乳腺癌";
+    var n = 1;
+}
+
+@section links{
+    <style>
+        .customer-main {
+            background-image: url(/images/bg/bg5.png);
+            background-size: cover;
+        }
+
+        @@media screen and (max-width:500px) {
+            .breastInfo {
+                padding: 10px 0;
+            }
+            .breadcrumb{margin-top:10px;}
+        }
+        .breast-icon{float:left;display:block;margin-right:10px;width:10px;height:17px}
+        .breast-level-1{background:#32b16c}
+        .breast-level-2{background:#e8762a}
+        .breast-level-3{background:#e45f5f}
+        .breast-level-4{background:#323232}
+        .plan-item{margin-bottom: 10px;width:100%;border-collapse:collapse;border-top:1px solid #ebebeb;table-layout:fixed;text-align:center;border-spacing:0}
+        .plan-item td{padding:5px;border:1px solid #ebebeb}
+        .plan-item tr:nth-child(odd){background:#F4F4F4}
+        .breastInfo-data{margin-bottom:10px}
+        .level-pic{width:20px}
+        .plan-ul li {
+            margin-bottom: 10px;
+            color:#666;
+        }
+        .plan-ul li i {
+            margin-right: 10px;
+        } 
+    </style>
+}
+
+
+@* 用户中心控制台 *@
+
+<div>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void;" onclick="history.go(-1);">健康中心</a></li>
+        <li><a>乳腺癌管理</a></li>
+    </ol>
+    <div>
+        <h4>我的乳腺癌管理</h4>
+       
+    </div>
+    <div class="breastInfo">
+
+        <div class="breastInfo-data">
+            <span class="breast-icon breast-level-@(Model.MyBreastLevel)"></span> 等级: <img class="level-pic" src="~/customer/image/level_@(Model.MyBreastLevel).png" />
+        </div>
+        <div class="breastInfo-data">
+            <span class="breast-icon breast-level-@(Model.MyBreastLevel)"></span> 管理创建时间: @(Model.BreastMgrMain.BreastCreateTime?.ToDateString())
+        </div>
+        <div class="breastInfo-data">
+            <span class="breast-icon breast-level-@(Model.MyBreastLevel)"></span> <a asp-action="QuestionDetails" asp-route-qid="@(Model.BreastMgrMain.BreastQuestionId)" asp-controller="MyHealthMgr">我的乳腺癌健康问卷</a>
+        </div>
+
+        <table class="plan-item">
+            <tbody>
+                <tr>
+                    <td width="90px">时间</td>
+                    <td width="90px">方式</td>
+                    <td style="text-align:left">干预内容</td>
+                    <td width="90px">干预状态</td>
+                </tr>
+                @foreach (var item in Model.BreastMgrDetails)
+                {
+                    <tr>
+                        <td>@item.BreastPlanStartTime?.ToDateString()</td>
+                        <td>@item.BreastPlanMainType</td>
+                        <td style="text-align:left">@item.BreastPlanContent</td>
+                        <td><span title="&emsp;执行人 : @(item.BreastPlanDealMan) &#10;执行时间 : @(item.BreastPlanDealTime?.ToStdString())">@(item.BreastPlanIsDeal == true ? "已执行" : "未执行")</span></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div class="breastInfo-data">
+            <span class="breast-icon breast-level-@(Model.MyBreastLevel)"></span> 干预方案: 
+        </div>
+        <ul class="plan-ul">
+            @if (Model.MyBreastLevel == 1)
+            {
+                <li><i class="glyphicon glyphicon-tasks"></i>月经初潮至25岁前至少1次乳腺B超检查，有条件做乳腺癌、卵巢癌基因检测；</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>年龄在20-40岁的女性，应于每月例假过后一周内做一次乳房自检；每年，由专业医师做一次临床检查、乳腺b超或乳房摄影术；</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>年龄在40-49岁间的女性，除每月定期做乳房自检外，每半年做一次专业性的乳房B超检查和专业医师做一次临床检查；</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>年龄在50岁以上的女性，每月应定期做乳房自检，且每半年年须做一次临床乳房检查和乳房X光摄影（钼靶）和专业医师做一次临床检查。</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>同时建议：控制减肥、避免饮酒、少喝咖啡、多吃果菜、定期作乳房检查。</li>
+            }
+            else if (Model.MyBreastLevel == 2)
+            {
+                <li><i class="glyphicon glyphicon-tasks"></i>务必坚持终生、定期专科检查。因为乳腺癌是恶性肿瘤，恶性肿瘤最大的危害就是复发和转移，危害患者的健康和生命；可以对乳腺癌复发、转移的早发现、早诊断及早治疗。<br />① 控制病情、防止恶化；<br />② 抢救生命、促进健康。</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>对患者身体状况的了解、掌握、评估，医师可作出针对性的健康指导，以提高其生存质量。例如：<br />① 大力开展乳腺疾病的普查工作；<br />② 加强各乳腺专科的技术力量；<br />③ 加大对女性良性病变治疗力度，把乳腺癌消灭在萌芽状态；<br />④ 健康教育女性乳房自查方法与技巧，防微杜渐。</li>
+            }
+            else if (Model.MyBreastLevel == 3)
+            {
+                <li><i class="glyphicon glyphicon-tasks"></i>针对晚期乳腺癌病人一旦出现远处转移，疾病不可逆转后，医护人员、病人及家属应当积极配合，尽量减少癌症给病人带来的痛苦，延长病人的生命，提高生活质量的措施。</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>随着科技的发展，中医、中药、基因治疗、免疫治疗和其他一些疗法逐渐应用于临床，可较好的改善晚期乳腺癌病人的生存质量。</li>
+            }
+            else if (Model.MyBreastLevel == 4)
+            {
+                <li><i class="glyphicon glyphicon-tasks"></i>针对晚期乳腺癌病人一旦出现远处转移，疾病不可逆转后，医护人员、病人及家属应当积极配合，尽量减少癌症给病人带来的痛苦，延长病人的生命，提高生活质量的措施。</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>随着科技的发展，中医、中药、基因治疗、免疫治疗和其他一些疗法逐渐应用于临床，可较好的改善晚期乳腺癌病人的生存质量。</li>
+                <li><i class="glyphicon glyphicon-tasks"></i>主要是安抚、阵痛、沟通和亲人的陪护和分离。</li>
+            }
+        </ul>
+
+    </div>
+</div>

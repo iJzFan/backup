@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+    var q = ViewBag.UseBreastQues as vwAHMS_QAFlow_Main;
+    var qr = ViewBag.ReplaceBreastQues as vwAHMS_QAFlow_Main;
+}
+@section links{
+    <style>
+    </style>
+}
+
+<div class="container">
+    <div class="main-title">
+        <i class="fa fa-file"></i>问卷状态确认
+    </div>
+    <p>加入管理的问卷用户，问卷正在管理中...</p>
+    <div>
+        <table class="table">
+            <tr>
+                <td>
+                    <b>使用会员:</b><span>@(q.CustomerName)(@(q.Gender?.ToGenderString()))</span><br />
+                    <b>问卷名:</b><span>@(q.QAName)@(q.QAVer)</span><br />
+                    <b>问卷时间:</b><span>@(q.QATime?.ToStdString())</span><br />
+                    <a class="btn btn-default" onclick="history.go(-1)">返回</a>
+                </td>
+                <td valign="middle"><span style="font-size:1.5em;"> == 替换为 ==></span></td>
+                <td>
+                    <b>问卷名:</b><span>@(qr.QAName)@(qr.QAVer)</span><br />
+                    <b>问卷时间:</b><span>@(qr.QATime?.ToStdString())</span><br />
+                    <a class="btn btn-primary" asp-action="UseNewQues" asp-controller="BackPanel" asp-route-qid="@(qr.QAFlowMainId)" >确定使用新问卷</a>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+
+        });
+    </script>
+}

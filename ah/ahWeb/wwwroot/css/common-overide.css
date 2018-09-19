@@ -1,0 +1,17 @@
+/*
+    此css文件是对第三方控件样式的覆盖
+    bootstrap 样式覆盖
+*/
+
+a:focus{
+    outline:none;
+}
+select:focus{outline:none;}
+.breadcrumb {
+    background: #eee;
+    border-radius: 5px;
+}
+
+
+/*bootstrap*/
+.table-hover>tbody>tr:hover{background:#f3f3f3;}

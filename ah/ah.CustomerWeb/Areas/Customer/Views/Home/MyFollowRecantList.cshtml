@@ -1,0 +1,46 @@
+﻿@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "我的记录";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+}
+@section links{
+
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/MyFollowRecantList">我的记录</a></li>
+    </ol>
+</div>
+<div class="ah-public-main">
+    <div class="layui-form">
+        <div class="layui-tab layui-tab-brief ah-blue-layuitab" lay-filter="my-follow-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">医生记录</li>
+                <li>诊所记录</li>
+            </ul>
+            <div class="layui-tab-content" id="MYFOOLOWTAB">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/customer/js/pages/home-my-follow-recant-list.js "></script>
+    <script>
+        var op = {
+
+        }
+        $(function () {
+            layui.use('element', function () {
+                var element = layui.element;
+                RECANT.InitFollowRecantLists();
+            });
+        });
+        function deleteRecent() {
+            $.get("/Customer/Follow/DeleteRecent", {}, function (html) { $('#MYFOOLOWTAB').html(html); })
+        }
+    </script>
+}

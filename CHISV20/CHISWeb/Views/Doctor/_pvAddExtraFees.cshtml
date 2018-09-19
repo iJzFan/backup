@@ -1,0 +1,38 @@
+﻿@model IEnumerable<vwCHIS_Doctor_ExtraFee>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var fees = myRazor.GetSelectListItemsByDictKey("ExtraFeeType");
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+}
+<section ah-id="addOtherFeesForm" class="ah-pd-10">
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data" style="width: 50%;padding-right: 10px;">
+            <div class="ah-data-label">费用类型</div>
+            <select class="ah-data-select" ah-id="TreatFeeTypeId" role-initial="false" asp-items="fees">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="ah-col-md2 ah-flex-data" style="width: 50%;">
+            <div class="ah-data-label">数量</div>
+            <input class="ah-data-input" type="text" ah-id="Qty" placeholder="数量" onkeydown="return $.f.onlyNumbersEvt(event);"/>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data" style="width: 50%;padding-right: 10px;">
+            <div class="ah-data-label">原价</div>
+            <input class="ah-data-input" type="text" ah-id="TreatFeeOriginalPrice" placeholder="原价" onkeydown="return $.f.onlyNumbersEvt(event);" />
+        </div>
+        <div class="ah-col-md2 ah-flex-data" style="width: 50%;">
+            <div class="ah-data-label">新价格</div>
+            <input class="ah-data-input" type="text" ah-id="TreatFeePrice" placeholder="新价格" onkeydown="return $.f.onlyNumbersEvt(event);" />
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label ah-flex ah-space-between">
+                费用说明
+            </div>
+            <textarea placeholder="费用说明" rows="3" ah-id="FeeRemark" class="layui-textarea"></textarea>
+        </div>
+    </div>
+</section>

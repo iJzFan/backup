@@ -1,0 +1,32 @@
+﻿@using Ass
+@*@inject CHIS.Code.Managers.IUserFrameMgr CusHelper*@
+@{
+    Layout = "~/Views/Shared/_LayoutAhBase.cshtml";
+ 
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    int funcId = Ass.P.PIntV(Context.Request.Query["pagefn"], Ass.P.PIntV(ViewBag.FuncId));
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@section link3part{
+    @RenderSection("link3part", required: false)
+}
+@section links{
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        body{
+            background:#fff;
+        }
+    </style>
+    @RenderSection("links", required: false)
+}
+
+@section scriptsPart{
+    @RenderSection("scriptsPart", required: false)
+}
+@section scripts{
+    @RenderSection("scripts", required: false)
+}
+<div class="layui-form ah-layer-open">
+    @RenderBody()
+</div>

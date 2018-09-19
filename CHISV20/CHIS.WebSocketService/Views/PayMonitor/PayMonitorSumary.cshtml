@@ -1,0 +1,118 @@
+﻿@using CHIS.WebSocketService.Middlewares;
+@{
+    ViewData["Title"] = "监控器状态查看";
+}
+@inject PayQrWebSocketConnectionMgr _QrWsConnMgr
+@inject PayStationWebSocketConnectionMgr _WsConnMgr
+
+@section meta{  
+    <meta http-equiv="Refresh" content="33; url=/PayMonitor/PayMonitorSumary">
+}
+
+<br />
+
+
+<div>
+    <div class="pull-right">
+        <a href="#" onclick="self.location.reload(true);">刷新</a>
+    </div>
+    <br />
+</div>
+<div class="container">
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr> <th>IP</th><td>@(Context.Connection.RemoteIpAddress.MapToIPv4().ToString())</td></tr>
+            <tr> <th>X-Forwarded-For</th><td>@(Context.Request.Headers["X-Forwarded-For"].FirstOrDefault())</td></tr>
+            <tr> <th>HTTP_CLIENT_ip</th><td>@(Context.Request.Headers["HTTP_CLIENT_ip"])</td></tr>
+            <tr> <th>REMOTE_ADDR</th><td>@(Context.Request.Headers["REMOTE_ADDR"])</td></tr>
+            <tr> <th>Proxy-Client-IP</th><td>@(Context.Request.Headers["Proxy-Client-IP"])</td></tr>
+            <tr> <th>WL-Proxy-Client-IP</th><td>@(Context.Request.Headers["WL-Proxy-Client-IP"])</td></tr> 
+        </tbody>
+    </table>
+</div>
+<div>
+
+
+    <h3>付款监控器的状态查看</h3>
+
+
+    <table class="table table-bordered">
+        <caption>工作站手机口框架监控</caption>
+        <tbody>
+            <tr>
+                <th>数量：</th>
+                <td>@( ViewBag.MonitorNum)</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table sw-detail">
+        <thead>
+           <tr><th>Id</th><th>StationId</th><th>DoctorId</th><th>创建时间</th></tr> 
+        </thead>
+        <tbody>
+            @foreach(var item in _WsConnMgr.GetAll())
+            {
+                <tr>
+                    <td>
+                        <div><b>Id:</b>@(item.Value.Id)</div>
+                        <div><b>键:</b>@(item.Key)</div>
+                    </td>
+                    <td>@item.Value.StationId</td>
+                    <td>@item.Value.DoctorId</td>
+                    <td>@item.Value.CreatTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <caption>内部二维码监控器 状态查看</caption>
+        <tbody>
+            <tr>
+                <th>数量：</th>
+                <td>@(_QrWsConnMgr.MonitorSocketCount)</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table sw-detail">
+        <thead>
+            <tr>
+                <th>Id</th>          
+                <th>PayOrderId</th>
+                <th>StationId</th>
+                <th>DoctorId</th>
+                <th>QrUrl</th> 
+                <th>开始时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _QrWsConnMgr.GetAll())
+            {
+                var m = item.Value;
+                <tr>
+                    <td>
+                        <div><b>Id:</b>@(m.Id)</div>
+                        <div><b>键:</b>@(item.Key)</div>
+                    </td>        
+                    <td>@(m.PayOrderId)</td>
+                    <td>@(m.StationId)</td>
+                    <td>@(m.DoctorId)</td>
+                    <td> 
+                        <div><b>微&emsp;信:</b>@(m.WxQrUrl)</div>
+                        <div><b>支付宝:</b>@(m.AliQrUrl)</div>
+                    </td>                   
+                    <td>@(m.StartScanTime)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+
+</div>
+@section scripts{
+
+}

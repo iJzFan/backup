@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    ViewData["Title"] = "注册成功";
+}
+
+@section links{
+    <style>
+        html {
+            background: url(/images/bg-login.jpg) no-repeat;
+            background-size: 100% 100%;
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            background: none;
+        }
+
+        .regist-wrap {
+            width: 545px;
+            position: relative;
+            left: 50%;
+            margin-left: -300px;
+            margin-top: 121px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .regist-logo {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        .regist-content {
+            flex: 1;
+            background: #fff;
+            border-radius: 5px;
+            padding-top: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 235px;
+            margin-top: 72px;
+        }
+
+        .regist-foot {
+            position: absolute;
+            bottom: 0;
+            height: 35px;
+            width: 100%;
+            background: #666;
+            text-align: center;
+            line-height: 35px;
+            opacity: 0.5;
+        }
+        .regist-content .success-pic {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .regist-content .success-text-wrap {
+            height: 100px;
+            line-height: 45px;
+            margin-left: 33px;
+        }
+        .regist-content .success-text {
+            font-size: 30px;
+            color: #34b388;
+        }
+        .regist-content .success-text-wrap a {
+            color: #34b388 !important;
+            text-decoration: underline;
+        }
+        #sec {
+            font-size: 16px;
+            color: #34b388;
+            margin:0 3px;
+            font-weight:bold;
+        }
+    </style>
+}
+<div class="regist-wrap">
+    <img class="regist-logo" src="@(Global.Config.GetSection("SystemSettings:RdCoLogoRootPath").Value)" />
+    <div class="regist-content">
+        <img class="success-pic" src="~/images/success-2.png" />
+        <div class="success-text-wrap">
+            <div class="success-text">注册成功</div>
+            <span>系统将在<i id="sec"></i>秒后转向 <a asp-action="Login" asp-controller="Home"><span id="login">登录</span></a> 页面</span>
+        </div>
+    </div>
+</div>
+<div class="regist-foot">
+    @(Global.Config.GetSection("SystemSettings:RdCompanyFullName").Value)
+    备案号:粤ICP备16128948号 Copyright &copy; 2016 - @DateTime.Now.Year
+</div>
+@section scripts{
+    <script>
+        var num = 8;
+        var handle = setInterval(function () {
+            $('#sec').text(num--);
+            if (num-- <= 0) {
+                $('#login').click();
+                clearInterval(handle);
+            }
+        }, 1000);
+    </script>
+}

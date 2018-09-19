@@ -1,0 +1,203 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "工作站配置";
+    Layout = "~/Views/Shared/_LayoutSys.cshtml";
+}
+
+@section links{
+  <style>
+      .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
+          vertical-align: middle;
+      }
+      .ah-ws-mk{background-color:#0094ff;color:#fff;border-radius:3px;padding:1px 3px;}
+    </style>
+    }
+<div class="container">
+    <div class="topPanel row">
+        <div class="toolbar">
+            <div class="btn-group">
+                <a class="btn btn-primary" onclick="$.reload();"><span class="glyphicon glyphicon-refresh"></span></a>
+            </div>
+            <div class="btn-group">
+                <a id="btn_Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_Add()"><i class="fa fa-plus"></i>新建</a>
+            </div>
+            <div class="operate">
+                <ul class="nav nav-pills">
+                    @*<li class="first">已选中<span>1</span>项</li>*@
+                    <li><a id="btn_Edit" authorize="yes" onclick="btn_Edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
+                    <li><a id="btn_Delete" authorize="yes" onclick="btn_Delete()"><i class="fa fa-trash-o"></i>删除</a></li>
+                    <li class="split"></li>
+                    <li><a id="btn_View" authorize="yes" onclick="btn_View();"><i class="fa fa-search-plus"></i>查看</a></li>               
+                </ul>
+                <a href="javascript:;" class="close"></a>
+            </div>
+        </div>
+        <div class="search">
+            <input type="hidden" id="txt_Station" />
+            <table>
+                <tr>
+                    <td>
+                        <div class="input-group search-group">
+                            <input id="txt_Search" type="text" class="form-control" placeholder="名称/地址/法人" >
+                            <span class="input-group-btn">
+                                <button id="btn_Search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-xs-2">
+            <div class="ah-tree-bg">
+                <ul id="ztree-WorkStation" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-10 col-xs-10">
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+      var pagedata = {
+            stationPicPath:'@(Global.ConfigSettings.StationImagePathRoot)',
+        }
+        $(function () {
+            //控件初始
+            var tree = zTreeObj({
+                id: 'ztree-WorkStation',
+                url: '/api/syshis/StationsOfMy',
+                isExpandAll:false,
+                onLoaded: gridInit,
+                onClickNode: function (node) { Search(); }
+            });
+            //回车快捷查询
+            $('#txt_Search').on('keydown', function (e) { var e = e || window.event; if (e && e.keyCode == 13) { $("#btn_Search").click(); } });
+            //查询记录
+            $('#btn_Search').click(Search);
+
+            //载入过程内函数
+            function Search() {
+                CE.reload({
+                    keyword: $('#txt_Search').val(),
+                    stationId: tree.getSelectOneNode().id
+                });
+            }
+        })
+
+
+
+
+
+        var CE;
+        //网格初始化
+        function gridInit() {
+            CE = new CommonEdit({
+                title: "工作站信息",
+                url: "/Code/CHIS_Code_WorkStation_Edit",  //编辑记录地址
+                jqurl: "/Code/GetGridJson_Workstation",   //网格查询地址
+                width: "80%", height: "650px",
+                btn: ['确认', '关闭'],
+                btnclass: ['btn btn-primary', 'btn btn-warning'],
+                jqGridId: "gridList",
+                jqGridPager: "pager"
+            });
+
+            CE.InitialJqGrid({
+                colModel: [
+                    { label: "主键", name: "stationID", hidden: true, key: true },   
+                    { label: '图片', name: 'defStationPic', width: 68, formatter: function (cellvalue) { return "<img class='tbupic2' src='" + pagedata.stationPicPath+ cellvalue + "'></img>"; } },
+                    { label: '工作站', name: 'stationName', width: 300, align: 'left' },
+                    {label:"",name:"",formatter(cellvalue,options,rowobj){
+                        var s="<div>";
+                            if(rowobj.isCenterDrugStore) s+="<span class='ah-ws-mk'>药库</span>";
+                        return s+"</div>";
+                    }},            
+                    { label: '序', name: 'showOrder', width: 28  },
+                    { label: '地址', name: 'addressInfo', width: 350, align: 'left' },
+                    { label: '电话', name: 'telephone', width: 120, align: 'left' },
+                    { label: '传真', name: 'fax', width: 120, align: 'left' },
+                    { label: '负责人', name: 'legalPerson', width: 80, align: 'left' },
+                    {
+                        label: '状态', name: 'isEnable', width: 80, align: 'center',
+                        formatter: function (cellvalue) {
+                            return cellvalue ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-circle-thin\"></i>";
+                        }
+                    },
+                    {
+                        label: '停用日期', name: 'stopDate', width: 80, align: 'left',
+                        formatter: 'date', formatoptions: { newformat: 'Y-m-d' }
+                    },
+                    { label: '备注', name: 'remark', width: 150, align: 'left' }
+                ],
+                height: $(window).height() - 188,//高度，表格高度。可为数值、百分比或'auto'
+                //网格双击事件
+                ondblClickRow: function (rowId) {
+                    if (rowId > 0) btn_View();
+                }
+            })
+        }
+        //新增记录
+        function btn_Add() {
+            CE.Add(function (index, win) {
+                win.submitForm();
+            });
+        };
+        //修改记录
+        function btn_Edit() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().stationID;
+           // alert(keyValue);
+            CE.Modify("recID=" + keyValue,
+                function (index, win) {
+                    win.submitForm();
+                });
+        }
+        //删除记录
+        function btn_Delete() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().stationID;
+            CE.Delete("recID=" + keyValue);
+        }
+        //查看记录
+        function btn_View() {
+            var keyValue = CE.$jqGrid.jqGridRowValue().stationID;
+            CE.View("recID=" + keyValue);
+        }
+
+      function btn_SetAccess() {
+            var layerIndex = layer.open({
+                type: 2,
+                icon: 1,
+                area: ['50%', '60%'],
+                title: '设置医生权限',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                content: "/code/setDoctorAccess?doctorId=" + CE.$jqGrid.jqGridRowValue().doctorId,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    $tagcontrol.val($pv2.val());
+                    var txt = $pv2.find("option:selected").data("areatxt");
+                    $tagtxtcontrol.text(initAddressName(txt));
+                    layer.close(layerIndex);
+                    $this.find('label.error').remove();//移除错误提示
+                },
+                cancel: function () {
+                    //右上角关闭回调
+                }
+            });
+        }
+
+    </script>
+  
+
+}

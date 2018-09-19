@@ -1,0 +1,40 @@
+.XPage {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.XPage a {
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    background: #fff;
+    border: 1px solid #dcdcdc;
+    margin: 0 2px;
+    color: #009688;
+    font-size: 12px;
+    border-radius:3px;
+    cursor: pointer;
+}
+.XPage a:hover {
+    background: #009688;
+    color: #fff;
+    border: 1px solid #009688;
+}
+.XPage .no {
+    background: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+}
+.XPage .no:hover {
+    background: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+    border: 1px solid #dcdcdc;
+}
+.XPage .cur {
+    background: #009688;
+    color: #fff;
+    border: 1px solid #009688;
+}

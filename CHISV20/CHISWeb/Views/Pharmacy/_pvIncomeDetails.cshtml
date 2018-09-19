@@ -1,0 +1,98 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_DurgStock_Income>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+
+}
+<style>
+    .drug-big-pic {
+        position: absolute;
+        width: 135px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        left: 56px;
+        display: none;
+        top: -37px;
+    }
+
+    s.ah-stock-pre {
+        color: #999;
+    }
+    s.ah-stock-pre:before{content:"(";}
+    s.ah-stock-pre:after{content:")";}
+</style>
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <table class="ah-tb-left">
+        <thead>
+            <tr>
+                <th class="ah-td-time">入库时间</th>
+                <th class="ah-tr-hide">药品ID</th>
+                <th style="width:40px;" class="ah-tr-hide"></th>
+                <th style="width:20%;">药品名称</th>
+                <th class="ah-tr-hide " style="width:20%;">厂商/产地</th>
+                <th class="ah-tr-hide">批号</th>
+                <th style="width:10%;">入库价格</th>
+                <th style="width:10%;text-align:right;padding-right:12px;">数量</th>
+                <th style="width:10%;" class="ah-tr-right ah-tr-hide">库存数</th>
+                <th width="8%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td class="ah-td-time">
+                        @item.InTime.ToString("yy年 M月d日 HH:mm")
+                    </td>
+                    <td class="ah-tr-hide">@item.DrugId</td>
+                    <td style="position:relative;" class="ah-tr-hide">
+                        <img src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode ,true))" width="32" onmouseover="showBigImg(this);" onmouseout="hideBigImg(this)" />
+                        <img class="drug-big-pic" src="@(item.DrugPicUrl.ahDtUtil().GetDrugImg(item.MedialMainKindCode,false))" />
+                    </td>
+                    <td>
+                        <span class="ah-red-highlightb" title="@((item.DrugName + item.Alias))">@item.DrugName</span>
+                        <span class="ah-red-highlight">@item.Alias</span>
+                        <div title="@item.DrugModel">@item.DrugModel</div>
+                    </td>
+                    <td class="ah-tr-hide">
+                        <span>@item.ManufacturerOrigin</span>
+                        <span>@item.OriginPlace</span>
+                    </td>
+                    <td class="ah-tr-hide">@item.BatNo</td>
+
+                    <td>
+                        <span>@item.IncomePrice?.ToString("#0.00##")</span>
+                    </td>
+                    <td class="ah-tr-right">
+                        <div class="num-unit">
+                            <span class="num">@item.Num</span><span class="unit">@item.InUnitName</span>
+                        </div>
+                    </td>
+                    <td class="ah-tr-right ah-tr-hide">
+                        <s class="ah-stock-pre">@(item.StockNumPre)</s>
+                        @item.StockNum @item.OutUnitSmallName                        
+                    </td>
+                    <td>
+                        <a onclick="INCOME.delTurnoverDurg(@(item.StockInId),this)">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<!--分页结束-->
+@ViewBag.DebugText
+<script>
+    var pager = {
+        pagenumber: @Model.PageIndex,
+        pagecount: @Model.PageTotal,
+        ver:1
+    };
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+    })
+</script>

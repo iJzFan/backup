@@ -1,0 +1,195 @@
+﻿
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutBase.cshtml";
+    ViewData["Title"] = "公众号首页";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerId").Value));
+}
+@section links{
+    <link href="~/lib/jquery-weui/jquery-weui.css" rel="stylesheet" />
+    <link href="~/lib/jquery-weui/weui.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #f0f0f0;
+            font-family: "Microsoft YaHei";
+        }
+
+        .weui-tabbar {
+            position: static;
+            flex-wrap: wrap;
+            padding: 10px 20px;
+            border-bottom: 1px solid #dcdcdc;
+            background-color: #fff;
+        }
+
+        .weui-inex-icon {
+            width: 25%;
+            display: block;
+            padding: 5px 0 0;
+            font-size: 0;
+            color: #999;
+            text-align: center;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            position:relative;
+        }
+
+        .today_hot {
+            height: 60px;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #dcdcdc;
+            border-bottom: 1px solid #dcdcdc;
+            margin: 15px 0;
+            font-family: 微软雅黑;
+        }
+
+        .weui-panel {
+            margin-top: 15px;
+        }
+
+        .td_left {
+            float: left;
+            border-right: 1px dashed #ccc;
+            padding: 16px;
+            color: #00a3ba;
+            max-height: 60px;
+        }
+        .swiper-slide img {
+            width: 100%;
+        }
+
+        .td_right {
+            float: left;
+            padding: 16px;
+        }
+
+        .weui-tabbar__label {
+            font-family: "Microsoft YaHei";
+            color: #000;
+        }
+        .weui-media-box_appmsg .weui-media-box__thumb {
+            height:100%;
+        }
+
+
+
+        a[disabled] {opacity: 0.2;}
+            a[disabled] > .weui-tabbar__icon > img {
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                -o-filter: grayscale(100%);
+                filter: grayscale(100%);
+                filter: gray;
+            }
+        .weui-panel__hd{
+            font-size:16px;
+        }
+    </style>
+}
+<div class="weui-tabbar">
+    <a href="http://h.jk213.com/HealthMgr/Breast/Index" class="weui-inex-icon">
+        <div class="weui-tabbar__icon">
+            <img src="~/images/ruxian.png" />
+        </div>
+        <p class="weui-tabbar__label">乳腺癌</p>
+    </a>
+    <a href="~/customer/appointment/index" class="weui-inex-icon">
+        <div class="weui-tabbar__icon">
+            <img src="~/images/yuyue.png" />
+        </div>
+        <p class="weui-tabbar__label">预约问诊</p>
+    </a>
+    <a asp-action="MyOrderList" asp-controller="Home" class="weui-inex-icon">
+        <div class="weui-tabbar__icon">
+            <img src="~/images/order.png" />
+        </div>
+        <p class="weui-tabbar__label">就诊订单</p>
+    </a>
+    <a href="~/Customer/Home/Index" class="weui-inex-icon">
+        <div class="weui-tabbar__icon">
+            <img src="~/images/member.png" />
+        </div>
+        <p class="weui-tabbar__label">客户中心</p>
+    </a>
+    <a href="#tab3" class="weui-inex-icon" disabled>
+        <div class="weui-tabbar__icon">
+            <img src="~/images/watch.png" />
+        </div>
+        <p class="weui-tabbar__label">智能手表</p>
+    </a>
+    <a href="#tab3" class="weui-inex-icon" disabled>
+        <div class="weui-tabbar__icon">
+            <img src="~/images/data.png" />
+        </div>
+        <p class="weui-tabbar__label">体检数据</p>
+    </a>
+    <a href="#tab3" class="weui-inex-icon" disabled>
+        <div class="weui-tabbar__icon">
+            <img src="~/images/xueya.png" />
+        </div>
+        <p class="weui-tabbar__label">智能血压计</p>
+    </a>
+    <a href="#tab4" class="weui-inex-icon">
+        <div class="weui-tabbar__icon">
+            <img src="~/images/more.png" />
+        </div>
+        <p class="weui-tabbar__label">更多</p>
+    </a>
+</div>
+
+<div class="today_hot">
+    <div class="td_left">今日热点</div>
+    <div class="td_right"><a href="http://vip.mydt.cn/index.php?g=video&c=app">天使健康APP新版本上线啦!!</a></div>
+</div>
+
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide"><img src="~/images/mobilepage1.png" /></div>
+        <div class="swiper-slide"><img src="~/images/mobilepage1.png" /></div>
+        <div class="swiper-slide"><img src="~/images/mobilepage1.png" /></div>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+
+<div class="weui-panel weui-panel_access">
+    <div class="weui-panel__hd">医学常识</div>
+    <div class="weui-panel__bd" id="article_list">
+        <a href="http://mp.weixin.qq.com/s/rDRUnf896gcs57ullC4djQ" class="weui-media-box weui-media-box_appmsg">
+            <div class="weui-media-box__hd">
+                <img class="weui-media-box__thumb" src="~/images/wei.jpg" alt="">
+            </div>
+            <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title">护「胃」健康</h4>
+                <p class="weui-media-box__desc">人们常说"人食五谷杂粮，孰能无疾"。而饮食入口，首先影响的就是胃。因此养成良好的饮食习惯是防治胃炎的关键，总的来说做到以下几点：</p>
+            </div>
+        </a>
+        <a href="http://mp.weixin.qq.com/s/l-jem3m4q7l5voDW99oL1Q" class="weui-media-box weui-media-box_appmsg">
+            <div class="weui-media-box__hd">
+                <img class="weui-media-box__thumb" src="~/images/fruit.jpg" alt="">
+            </div>
+            <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title">夏天慎防水果病</h4>
+                <p class="weui-media-box__desc">春夏季节，正是各种水果上市的时候。红彤彤的荔枝，黄澄澄的橘子，酸甜的菠萝，无不让人垂涎欲滴胃口大开。然而，如果你无节制地大吃特吃某些水果，却极可能吃出毛病来，重者还可能危及生命。</p>
+            </div>
+        </a>
+    </div>    
+</div>
+
+
+
+@section scripts{
+<script src="~/lib/jquery-weui/fastclick.js"></script>
+<script src="~/lib/jquery-weui/swiper.js"></script>
+    <script>
+        $(function () {
+            FastClick.attach(document.body);
+        });
+
+        $(".swiper-container").swiper({
+            loop: true,
+            autoplay: 3000
+        });        
+    </script>
+}

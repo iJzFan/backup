@@ -1,0 +1,339 @@
+﻿@model CHIS.Models.CHIS_SYS_Role
+@{
+    ViewBag.Title = "系统角色修改";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+
+    var FuncDetailList = ViewBag.RoleFuncDetails as IEnumerable<CHIS.Models.DataModel.sp_Sys_GetRoleFuncDetailsByRoleId>;
+}
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@section links{
+    <link href="~/sys/wdtree/tree.css" rel="stylesheet" />
+    <link href="~/sys/projcommon.css" rel="stylesheet" />
+    <style>
+        .ah-switch {
+            cursor: pointer;
+        }
+
+        .fa-toggle-off {
+            font-size: 22px;
+            color: #aea7a7;
+        }
+
+        .fa-toggle-on {
+            font-size: 22px;
+            color: #57c756;
+        }
+        .func-remark{color:#aaa;}
+        .func-remark>span{margin-right:9px;}
+    </style>
+}
+
+
+<form id="form1">
+    <div class="widget-body">
+        <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
+            <ul class="steps">
+                <li data-target="#step-1" class="active"><span class="step">1</span>角色信息<span class="chevron"></span></li>
+                <li data-target="#step-2"><span class="step">2</span>板块权限<span class="chevron"></span></li>
+                <li data-target="#step-3"><span class="step">3</span>功能权限<span class="chevron"></span></li>
+            </ul>
+        </div>
+        <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+            <div class="step-pane active" id="step-1" style="margin: 10px; margin-bottom: 0px;">
+                <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                    <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                    请填写角色信息，用于创建或修改角色信息！
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">表单信息</h3>
+                        @Html.HiddenFor(m => m.RoleID)
+                    </div>
+                    <div class="panel-body" style="width: 98%;">
+                        <table class="form">
+                            <tr>
+                                <th class="formTitle">角色键名</th>
+                                <td class="formValue" colspan="3">
+                                    <input type="text" asp-for="RoleKey" class="form-control required" placeholder="请输入角色键名" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">角色名称</th>
+                                <td class="formValue" colspan="3">
+                                    <input type="text" asp-for="RoleName" class="form-control required" placeholder="请输入角色名称" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">角色描述</th>
+                                <td class="formValue" colspan="3">
+                                    <input type="text" asp-for="Descript" class="form-control required" placeholder="请输入角色描述" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">适用范围</th>
+                                <td class="formValue" colspan="3">
+                                    <div class="ckbox">
+                                        <input type="checkbox" asp-for="IsForTreatUnit" />
+                                        <label for="IsForTreatUnit">接诊门诊可用</label>
+                                    </div>
+                                    <div class="ckbox">
+                                        <input type="checkbox" asp-for="IsForManageUnit" />
+                                        <label for="IsForManageUnit">管理层级的工作站</label>
+                                    </div>
+                                    <div class="ckbox">
+                                        <input type="checkbox" asp-for="IsForNetTreatUnit" />
+                                        <label for="IsForNetTreatUnit">网上平台可用</label>
+                                    </div>
+                                    <div class="ckbox">
+                                        <input type="checkbox" asp-for="IsForTestUnit" />
+                                        <label for="IsForTestUnit">测试站可用</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">可用状态</th>
+                                <td class="formValue">
+                                    <input type="hidden" asp-for="IsEnable" />
+                                    <a id="chk_IsEnable" class="ah-switch" ah-targ="ahchk-switchshow"><i class="fa fa-toggle-off"></i></a>
+                                </td>
+                                <th class="formTitle">停用日期</th>
+                                <td class="formValue" style="height:55px;">
+                                    <fieldset class="disabled ah-dis">
+                                        <input type="text" class="Wdate" asp-format="{0:yyyy-MM-dd}" date-format="yyyy-MM-dd" style="height:28px;width:155px;"
+                                               onClick="WdatePicker({skin:'default'})" asp-for="StopDate" />
+                                        <span class="add-on">
+                                            <i class="icon-calendar" data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                                        </span>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">备注</th>
+                                <td class="formValue" colspan="3">
+                                    <input asp-for="Remark" type="text" class="form-control" style="width:485px;height:28px;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">操作&emsp;人</th>
+                                <td class="formValue">
+                                    <fieldset class="disabled">
+                                        @Html.TextBoxFor(m => m.OpMan, new { @style = "height:28px;width:155px;" })
+                                    </fieldset>
+                                </td>
+                                <th class="formTitle">操作时间</th>
+                                <td class="formValue">
+                                    <fieldset class="disabled">
+                                        @Html.TextBoxFor(m => m.OpTime, new { @style = "height:28px;width:155px;" })
+                                    </fieldset>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="step-pane" id="step-2">
+                <div id="RoleRightTree"></div>
+            </div>
+            <div class="step-pane" id="step-3">
+                <div id="role_funcdetailsettings" style="padding:8px;">
+
+                    @if(FuncDetailList!=null){ 
+                    var grouplist = FuncDetailList.Select(m => new { bid = m.BelongFunctionId, name = m.FunctionName }).Distinct();                    
+                    foreach (var mm in grouplist)
+                    {
+                        var temp = FuncDetailList.Where(m => m.BelongFunctionId == mm.bid);
+                        int i = 1;
+                        <h5 style="font-weight:bold;color:#147e96;"><i class="fa fa-tags"></i> @mm.name</h5>
+                    <table class="table">
+                        @foreach (var item in temp)
+                        {
+                        <tr>
+                            <td width="10%"></td>
+                            <td>@(i++)</td>
+                            <td>@(item.FuncDetailName) (@item.KeyName)
+                            <br />
+                            <span class="func-remark">
+                                <span>类型:@item.TypeName</span>
+                                <span>默认值:@item.DefValue</span>
+                                <span>多值平准法:@item.MultiMethod</span><br />
+                                <span>@item.FuncDetailRmk</span>
+                            </span>
+                            </td>                     
+                            <td>
+                                @switch (item.TypeName.ToLower())
+                                {
+                                    case "bool":
+                                        var selectlist = myRazor.GetSelectListItems("[是,True][否,False]", item.ValueSetted);
+                                        <select asp-items="selectlist" funcdetailid="@item.FuncDetailId"></select>
+                                        break;
+                                    case "int":
+                                        <input type="number" class="form-control" funcdetailid="@item.FuncDetailId" value="@item.ValueSetted" />
+                                        break;
+                                    case "string":
+                                        <input type="text" class="form-control" funcdetailid="@item.FuncDetailId" value="@item.ValueSetted" />
+                                        break;
+                                }
+                            </td>
+                            <td width="10%"></td>
+                        </tr>
+                        }
+                    </table>
+                    }
+                                    }
+                </div>
+            </div>
+        </div>
+        <div class="form-button" id="wizard-actions">
+            <a id="btn_prev" disabled class="btn btn-default btn-prev">上一步</a>
+            <a id="btn_next" class="btn btn-default btn-next">下一步</a>
+            <a id="btn_close" class="btn btn-default ah-btn-close" style="display: none;" onclick="$.modalClose();">关&emsp;闭</a>
+            <a id="btn_finish" class="btn btn-default" style="display: none;" onclick="submitForm();">完成</a>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        var pagedata = {
+                                        op: '@(ViewBag.OP)',
+            isView:'@(ViewBag.OP)'=='VIEW',
+            var:1
+        }
+
+    $(function () {
+        initControl();
+        $("#chk_IsEnable").on("click", function () {
+            var p = $(".ah-dis");
+            var t = $("#StopDate");
+            var fp = p.hasClass("disabled");
+            if (fp) {
+                p.removeClass("disabled");
+                $('#IsEnable').val('False');
+                t.val(new Date().formatDateTime('yyyy-MM-dd'));
+            }
+            else {
+                p.addClass("disabled");
+                $('#IsEnable').val('True');
+                t.val('');
+            }
+        });
+
+        $("#chk_IsLock").on("click", function () {
+            if ($('#IsLock').val() == 'True')
+                $('#IsLock').val('False');
+            else
+                $('#IsLock').val('True');
+
+        });
+
+        //===========判断初始化=============
+        //是否可用
+        var ic = $('#IsEnable').parent().find('[ah-targ="ahchk-switchshow"] i');
+        if ($("#IsEnable").val() == "True") {
+            ic.removeClass("fa-toggle-off").addClass("fa-toggle-on")
+            $('#chk_IsEnable').addClass("disabled");
+            $(".ah-dis").addClass("disabled");
+        }
+        else {
+            ic.removeClass("fa-toggle-on").addClass("fa-toggle-off")
+            $(".ah-dis").removeClass("disabled");
+        }
+
+        //是否锁定
+        var iCheck = $('#IsLock').parent().find('[ah-targ="ahchk-switchshow"] i');
+        if ($("#IsLock").val() == "True") {
+            iCheck.removeClass("fa-toggle-off").addClass("fa-toggle-on")
+        }
+        else {
+            iCheck.removeClass("fa-toggle-on").addClass("fa-toggle-off")
+        }
+
+    })
+    function initControl() {
+        $('#wizard').wizard().on('change', function (e, data) {
+            var $prev = $("#btn_prev");
+            var $next = $("#btn_next");
+            var $close = $("#btn_close");
+            var $finish = $("#btn_finish");        
+            if (data.direction == "next") {
+                $prev.show();
+                $prev.removeAttr('disabled');
+                switch (data.step) {
+                    case 1:
+                        if (!$('#form1').formValid()) {
+                            return false;
+                        }                        
+                        break;
+                    case 2:
+                        $next.hide();
+                        (pagedata.op == 'VIEW') ? $close.show() : $finish.show();
+                        if (pagedata.op == "NEW") { //新增
+                            submitForm();//提交
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $next.show();
+                $close.hide();
+                $finish.hide();
+                switch (data.step) {
+                    case 1:
+                    case 2:
+                        $prev.attr('disabled', 'disabled');
+                        break;
+                    default:
+                        $prev.removeAttr('disabled');
+                        break;
+                }
+            }
+        });
+
+        //角色功能权限设置
+            $("#RoleRightTree").treeview({
+                height:$(window).height()-90,
+                showcheck: true,
+                url: "/Role/GetPermissionTree",
+                param: { roleId: $('#RoleID').val() }
+                });
+
+
+        //是否可用
+        var ic = $('#IsEnable').parent().find('[ah-targ="ahchk-switchshow"] i');
+        if ($("#IsEnable").val() == "True") {
+            ic.removeClass("fa-toggle-off").addClass("fa-toggle-on")
+            $('#chk_IsEnable').addClass("disabled");
+            $(".ah-dis").addClass("disabled");
+        }
+        else {
+            ic.removeClass("fa-toggle-on").addClass("fa-toggle-off")
+            $(".ah-dis").removeClass("disabled");
+        }
+    }
+
+    //保存记录
+    function submitForm()
+    {
+        var postData = $("#form1").formSerialize();      
+        postData["functionIds"] = String($("#RoleRightTree").getCheckedNodes());
+        postData["roleFuncValue"] = getRoleValues();
+                 
+        $.submitData("/Role/CHIS_SYS_Role_Edit", "op="+pagedata.op, postData, "gridList");
+    }
+        function getRoleValues() {    
+            var arr = new Array();
+            var $this = $('#role_funcdetailsettings');
+            $this.find("select").each(function (i, item) { 
+                arr.push({ funcDetailId: $(item).attr("funcdetailid"), val: $(item).val()});
+            });
+            $this.find("input").each(function (i, item) { 
+                arr.push({ funcDetailId: $(item).attr("funcdetailid"), val: $(item).val() });
+            });
+            return arr;
+        }
+    </script>
+
+}

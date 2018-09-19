@@ -1,0 +1,273 @@
+﻿@using Ass;
+@model CHIS.Models.ViewModel.PrintSickNoteModel
+@{
+    ViewBag.Title = "病假单";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+<style>
+    .flex {
+        display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+        display: -moz-box; /* 老版本语法: Firefox (buggy) */
+        display: -ms-flexbox; /* 混合版本语法: IE 10 */
+        display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+        display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+    }
+    .wrap {
+        flex-direction:column;
+    }
+    .head .logo {
+        height: 80px;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .head .logo img {
+        width: 130px;
+    }
+    .head .title {
+        text-align: center;
+        position: relative;
+        height: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1.5px solid #000;
+        line-height: 40px;
+    }
+    .head .title span {
+        position: absolute;
+        right: 0;
+        font-size: 12px;
+        top: -37px;
+    }
+    .head .title span b {
+        color: #bf4e11;
+        font-size: 14px;
+    }
+    .main {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .main span {
+        width: 30px;
+        flex: none;
+        font-weight: bold;
+    }
+    .main div {
+        padding-right: 3px;
+        flex: 1 1 auto;
+    }
+    .main input {
+        border: none;
+        border-bottom: 1px solid #000;
+        width: 100%;
+    }
+    .fillIn{
+
+    }
+    .fillIn .title {
+        font-weight: bold;
+        flex: none;
+        padding-right:10px;
+    }
+    .autograph {
+        position: relative;
+        text-align: right;
+    }    
+    .autograph div{
+        font-weight:bold;
+    }
+    .autograph input {
+        border: none;
+        border-bottom: 1px solid #000;
+        width: 100px;
+        margin-right: 2px;
+    }
+    .autograph .tips {
+        font-size: 12px;
+    }
+    .foot {
+        border-top: 1px solid #000;
+        margin-top: 19px;
+        padding-top: 17px;
+    }
+    .ah-qr-preno {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .title span{
+        font-size:12px;
+        font-weight:normal;
+    }
+    .ah-print-drug {
+        height: 28px;
+        overflow:hidden;
+    }
+</style>
+
+
+
+<div class="wrap flex">
+    <div class="head">
+        <div class="flex logo">
+            <img src="~/images/ahlogo1.png" />
+            <b>门诊部：@Model.SickNote.StationName</b>
+        </div>
+        <div class="title">
+            病 假 证 明 书
+            <span>单据编号:<b>@(Model.SickNote.SickNoteId)</b></span>
+        </div>
+    </div> 
+    <div class="main flex">
+        <div class="flex">
+            <span>姓名</span>
+            <div>
+                <u>&nbsp;@(Model.SickNote.CustomerName)&nbsp;</u>           
+            </div>
+        </div>
+        <div class="flex">
+            <span>性别</span>
+            <div>
+                @(Model.SickNote.CustomerGender.ToGenderString())
+            </div>
+        </div>
+        <div class="flex">
+            <span>年龄</span>
+            <div>
+                @(Model.Treat.Birthday?.ToAgeString())
+            </div>
+        </div>
+        <div class="flex">
+            <span>科室</span>
+            <div>                
+                @(Model.Treat.DepartmentName)
+            </div>
+        </div>
+        <div class="flex">
+            <span>日期</span>
+            <div>
+                @(Model.Treat.TreatTime.ToString("yyyy-MM-dd"))
+            </div>
+        </div>
+    </div>
+    <div class="fillIn flex" style="height:30px">
+        <div class="title">临床诊断:</div>
+        <div>
+            @(Model.Treat.Diagnosis1 + (Model.Treat.FstIsDiag ? "?" : "")) 
+            @(Model.Treat.Diagnosis2 + (Model.Treat.SecIsDiag ? "?" : "")) 
+            @(Model.Treat.Diagnosis3 + (Model.Treat.ThrIsDiag ? "?" : ""))            
+        </div>
+    </div>
+    <div class="fillIn flex" style="height:30px">
+        <div class="title">建议休假段:</div>
+        <div>从 <u>@(Model.SickNote.TimeStart.ToString("yyyy-MM-dd HH时"))</u>
+             至 <u>@(Model.SickNote.TimeEnd.ToString("yyyy-MM-dd HH时"))</u> 止</div>
+    </div>
+    <div class="fillIn flex" style="height: 97px;overflow:hidden">
+        <div class="title">医生医嘱:</div>
+        <div>
+            @{
+                if (Model.SickNote.SickNoteDoctorAdvice.Count()>186) {
+                    @Model.SickNote.SickNoteDoctorAdvice.Substring(0, 180)<span>...</span>
+                }
+                else {
+                    @Model.SickNote.SickNoteDoctorAdvice
+                }
+            }
+        </div>
+    </div>
+    <div class="autograph">
+        <div>医师<input type="text" style="text-align:center;" value="@Model.SickNote.DoctorName"/>  门诊签章<input type="text" /></div>
+        <span class="tips">(盖章有效)</span>
+    </div>
+    <div class="foot">
+        @{
+            var qrurl = $"{Global.ConfigSettings.QrScanUrl}?n=SickNoteId&v={Model.SickNote.SickNoteId}&t=SickNote";
+        }
+        <div class="ah-qr-preno" id="this_pre_no" qr-text="@qrurl"></div>     
+        <div class="flex" style="flex-direction:column">
+            <div class="title" style="font-weight:bold">附:<span>(本次就诊部分病历)</span></div>
+            <div style="line-height: 22px;margin-right: 120px;overflow: hidden;font-size:12px">
+                @{
+                    var i = 0;
+                }
+                @if (Model.Formed.Count() > 0)
+                {
+                    <div style="display:block">成药</div>
+                    i += 1;
+                    @foreach (var item in Model.Formed)
+                    {
+                        i += 1;
+                        if (i <= 8) {
+                            <div class="ah-print-drug">
+                                <span>
+                                    @item.DrugName
+                                </span>
+                                <span style="float:right">@item.Qty @item.UnitName</span>
+                            </div>
+                           
+                        }
+                        else
+                        {
+                            <div style="display:block;text-align:center;"><-扫码查看更多-></div>
+                            break;
+                        }
+                    }
+                }
+
+                @if (Model.Herbs.Count() > 0)
+                {
+                    if (i <= 8)
+                    {
+                        i += 1;
+                        <div style="display:block">中药</div>
+                        @foreach (var item in Model.Herbs)
+                        {
+                            i += 1;
+                            if (i <= 8)
+                            {
+                                <div class="ah-print-drug">
+                                    <span>
+                                        @item.DrugName
+                                    </span>
+                                    <span style="float:right">@item.Qty @item.UnitName</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="display:block;text-align:center;"><-扫码查看更多-></div>
+                                break;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        <div style="display:block;text-align:center;"><-扫码查看更多-></div>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<span style="left: 0;position: absolute;bottom: 0;">
+    打印时间：@DateTime.Now.ToStdString()
+    <span>扫二维码网上查真伪</span>
+</span>
+<script>
+
+    function setQrCode(cid) {
+        var $c;
+        try { $c = $('#' + cid); }
+        catch (e) {
+            $c = parent.$('#' + cid);
+            $c = parent.$(self.document.getElementById(cid));
+            $c.empty();
+        }
+        $c.qrcode({ width: 102, height: 102, text: $c.attr("qr-text") });
+    }
+    setQrCode('this_pre_no');
+</script>
+

@@ -1,0 +1,14 @@
+﻿@model PaySetModel
+@{
+    ViewData["Title"] = "测试设置";
+}
+<br />
+<form action="TestSet" method="post">
+    <table class="table">
+        <caption>设置手机端外层监控</caption>
+        <tr>           <th>工作站Id</th><td><input type="number" asp-for="StationId" /></td>       </tr>
+        <tr>           <th>医生Id</th><td><input type="number" asp-for="DoctorId" /></td>       </tr>
+        <tr>           <th>payOrderId</th><td><input type="text" asp-for="payOrderId" /></td>       </tr>
+    </table>
+    <input type="submit" />
+</form>

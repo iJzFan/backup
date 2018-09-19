@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="=en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width,initial=scale=1.0" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/jquery.scrollbar/css/jquery.scrollbar.css" />
+    @RenderSection("links", required: false)
+</head>
+<body>
+    @RenderBody()
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery.scrollbar/js/jquery.scrollbar.js"></script>
+    @RenderSection("scripts",required:false)
+
+</body>
+
+</html>

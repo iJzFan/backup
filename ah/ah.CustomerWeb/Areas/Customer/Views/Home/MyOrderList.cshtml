@@ -1,0 +1,109 @@
+﻿@inject ah.Code.Managers.IMyRazor myRazor
+@inject ah.Code.Managers.IUserFrameMgr CusHelper
+@{
+    ViewBag.Title = "我的订单";
+    var cus = CusHelper.GetCustomerData(int.Parse(User.FindFirst("CustomerID").Value));
+}
+@section links{
+
+}
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/Home/MyOrderList">我的订单</a></li>
+    </ol>
+</div>
+<div class="pc"> 
+    <ul class="order-nav">
+        <li class="active">
+            <a href="#test1" data-toggle="tab"><i class="glyphicon glyphicon-stats"></i>未完成<br /><small>(最近一周)</small></a>
+            <i class="glyphicon glyphicon-triangle-bottom nav-i"></i>
+        </li>
+        <li>
+            <a href="#test2" data-toggle="tab"><i class="glyphicon glyphicon-credit-card"></i>已完成</a>
+            <i class="glyphicon glyphicon-triangle-bottom nav-i"></i>
+        </li>
+    </ul>
+    <div class="order-nav-main">
+        <div class="tab-pane fade in order-nav-content active" id="test1">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>工作站</th>
+                        <th>医生</th>
+                        <th>时间</th>
+                        <th>金额</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ah-id="need-pc-table"></tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade order-nav-content" id="test2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>工作站</th>
+                        <th>医生</th>
+                        <th>时间</th>
+                        <th>金额</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ah-id="pay-pc-table"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="app ah-public-main">
+    <div class="layui-form">
+        <div class="layui-tab layui-tab-brief ah-blue-layuitab" lay-filter="my-follow-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">未完成<small>(最近一周)</small></li>
+                <li>已完成</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:10px 0;">
+                <div class="layui-tab-item layui-show">
+                    <!--未完成订单-->
+                    <ul class="app order-app-ul">
+                        @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                    </ul>
+                </div>
+                <div class="layui-tab-item">
+                    <!--已完成订单-->
+                    <ul class="app order-app-ul" ah-id="payed_order_app">
+                        @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/customer/js/pages/home-my-order-list.js"></script>
+    <script>
+        var op = {
+            isWechat: ORDER.isWeChat(),//判断是否在微信
+            customerId:@cus.CustomerID,//用户ID
+            openId: '@(ViewBag.openid)',
+            iswxdebug: '@(ViewBag.debug)' === 'debug',
+            ver:1
+        }
+        $(function () {
+            layui.use('element', function () {
+                var element = layui.element;
+                if (op.isWechat && !op.openId) {
+                    self.location.href = "http://my.jk213.com/customer/home/WechatEntry?isdebug=" + (op.iswxdebug ? 1 : 0);
+                }
+
+                ORDER.GetCustomerNeedPayList();
+                ORDER.GetCustomerPayedList();
+                ORDER.OnOrderInfoClick();//添加监听
+            });
+        });
+
+    </script>
+}

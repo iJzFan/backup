@@ -1,0 +1,257 @@
+﻿@using Ass
+@inject CHIS.Services.TreatService treatSvr
+@{
+    Layout = null;
+    ViewData["Title"] = "诊断搜索";
+    var u = this.GetUserSelf();
+    var myhis = treatSvr.GetMyHistoryDiagnosis("", u.DoctorId, u.StationId, 1, 20);
+}
+<style>
+    body {
+        background: #fff;
+    }
+
+    .ah-wrap {
+        padding: 10px;
+        padding-left: 0;
+    }
+
+    #diagnosis-item-wrap {
+        flex-wrap: wrap;
+        overflow: auto;
+    }
+
+    #diagnosis-item-wrap li {
+        width: 50%;
+        flex: none;
+        padding-left: 10px;
+        height: 40px;
+        margin-bottom: 10px;
+        align-content: flex-start;
+        position: relative;
+    }
+
+    #diagnosis-item-wrap li div {
+        height: 100%;
+        line-height: 40px;
+        border: 1px solid #eaeaea;
+        padding-left: 10px;
+        border-radius: 2px;
+        background: #f0f0f0;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+    }
+
+    #diagnosis-item-wrap li div:hover {
+        background: #4680ea;
+        color: #fff;
+        border-color: #4680ea;
+    }
+
+    .ah-diagnsis-item-remove {
+        background-image: url('/images/error.png');
+        width: 50px;
+        height: 37px;
+        display: block;
+        background-size: 25px 25px;
+        position: absolute;
+        top: 2px;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        right: 0;
+        background-repeat: no-repeat;
+        background-position-x: 11px;
+        background-position-y: 5px;
+    }
+
+    #diagnosis-item-wrap li div:hover > .ah-diagnsis-item-remove {
+        background-image: url('/images/error-fff.png');
+    }
+
+    .diag-tix {
+        padding-left: 10px;
+        color: #808080;
+    }
+
+    .en {
+        color: #356ef5;
+        font-size: 1.2em;
+    }
+
+    .err {
+        color: #ff0000;
+    }
+
+    .ing {
+        font-size: 1.2em;
+    }
+
+    @@media (max-width:450px) {
+        #diagnosis-item-wrap li {
+            width: 100%;
+        }
+    }
+</style>
+<div class="ah-wrap">
+    <div class="ah-max-height ah-flex ah-flex-column">
+        <div class="ah-select-model ah-flex" style="flex:none;">
+            <span>搜索诊断:</span>
+            <a class="ah-link" name="search_submit" onclick="addDiagnosisPv()">新增诊断</a>
+        </div>
+        <div class="ah-fMultiple-search-wrap ah-flex" style="flex:none;">
+            <input name="diagnosis-search" style="width: initial;" class="ah-data-input" placeholder="请输入诊断 拼音汉字简拼均可 2有效字符后自动搜索" />
+            <button class="ah-btn-blue" type="button" name="search_submit" onclick="searchDiagnosis($('input[name=\'diagnosis-search\']').val())">搜索</button>
+
+        </div>
+        @*历史诊断*@
+        @if (myhis.Count()>0)
+        {
+            <div class="">
+                <ul class="ah-myhis-ul ah-flex">
+                    @foreach (var dm in myhis)
+                    {
+                        <li ah-id="@dm.DiagnosisId">
+                            <div>@(treatSvr.GetDiagnosisById(dm.DiagnosisId).DiagnoisisName)</div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    @*搜索的诊断*@
+        <div class="ah-flex-auto scrollbar-dynamic ah-flex ah-flex-column">
+            <ul class="ah-flex ah-flex-auto" id="diagnosis-item-wrap"></ul>
+            <div class="ah-flex ah-sub-wrap ah-rx-selectPage ah-max-width" id="diagnosis-item-page"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var actionID = '@ViewBag.actionID';
+    var search = {
+        searchText: null,
+        pageSize: 12,
+        pageIndex: 1
+    }
+    $(function () {
+        //if ($(document).width() <= 800) {
+        //    $("input[name='diagnosis-search']")[0].focus();
+        //}
+        //搜索诊断(回车)
+        $("input[name='diagnosis-search']").keydown(function (e) {
+            var text = $(this).val();
+            var key = e.which; //e.which是按键的值
+            if (key == 13) {
+                searchDiagnosis(text)
+            }
+        });
+        //搜索诊断
+        var sendIndex;//用于记录时间
+        $("input[name='diagnosis-search']").keyup(function () {
+            var text = $(this).val();
+            clearTimeout(sendIndex);//清除上一次的等待
+            sendIndex = setTimeout(function () {
+                searchDiagnosis(text);
+            }, 800);
+        });
+        //选择诊断监听
+        $("#diagnosis-item-wrap").on("click", "li", function () {
+            var _this = $(this);
+                parent.DIAGNOSIS.DiagnosisCallback(actionID, _this.text(), _this.attr("ah-id"));
+                layer.closeAll();
+            //$.confirm("是否确诊", "是否诊断为 \"" + _this.text() + "\"", function () {
+
+            //});
+        });
+        //删除诊断监听
+        $("#diagnosis-item-wrap").on("click", "li .ah-diagnsis-item-remove", function (event) {
+            var _this = $(this);
+            var li = _this.parents("li").first();
+            var did = li.attr("ah-id");
+            var text = li.text();
+            event.stopPropagation();
+           //console.log(search.searchText, search.pageIndex);
+            $.confirm("是否删除", "是否删除诊断： \"" + text + "\"", function () {
+                $.get("/openapi/Treat/DeleteDiagnosis", { diagId: did }, function (jn) {
+                    if (jn.rlt) {
+                        $.ok("删除成功！");
+                        li.remove();
+                        searchDiagnosis(search.searchText, search.pageIndex);
+                        parent.DIAGNOSIS.DelectDiagnosisCallback(actionID, did);
+                    } else {
+                        $.err(jn.msg);
+                    }
+                });
+            });
+        });
+    })
+    //新增诊断
+    function addDiagnosisPv() {
+        $.get("/Doctor/AddDiagnosis", { actionID: actionID }, function (html) {
+            var pageWrap = $("#diagnosis-item-page");
+            pageWrap.html("");//清除上一次的DOM
+            $("#diagnosis-item-wrap").html(html);
+            //更新滚动条
+            $.updataScrollbar();
+        });
+    }
+    //搜索诊断
+    function searchDiagnosis(searchText, pageIndex) {
+        var pageSize = 12;
+        if (!pageIndex) {
+            pageIndex = 1;
+        }
+        searchText = str(searchText).trim();
+        if (searchText.length < 2) {
+            $("#diagnosis-item-wrap").html("<div class='diag-tix'>请输入查找</div>");
+            return false;
+        }
+        else { $("#diagnosis-item-wrap").html("<div class='diag-tix ing'><i class='fa fa-spinner fa-spin'></i> 搜索中...</div>");}
+        $.ajax({
+            url: "/openapi/Treat/JetDiagnosis",
+            dataType: "json",
+            data: {
+                searchText: searchText,
+                pageSize: pageSize,
+                pageIndex: pageIndex
+            },
+            success: function (data) {
+                if (data.rlt) {
+                   // console.log(data);
+                    var html = "";
+                    if (data.items.length > 0) {
+                        for (var i = 0; i < data.items.length; i++) {
+                            html += '<li ah-id="' + data.items[i].value + '"><div>' + data.items[i].label;
+                            if (data.items[i].itemTypeCode == "USERDEFINED") {
+                                html += '<i class="ah-diagnsis-item-remove"></i>';
+                            }
+                            html += '</div></li>';
+                        }
+                        var pageWrap = $("#diagnosis-item-page");
+                        pageWrap.html("");//清除上一次的DOM
+                        if (pageIndex != 1) {
+                            var Prev = $("<a class='ah-btn-blue' onclick='searchDiagnosis(\"" + searchText + "\"," + (parseInt(pageIndex) - 1) + ")'>上一页</a>");
+                            pageWrap.append(Prev);
+                        }
+                        var Next = $("<a class='ah-btn-blue' onclick='searchDiagnosis(\"" + searchText + "\"," + (parseInt(pageIndex) + 1) + ")'>下一页</a>");
+                        pageWrap.append(Next);
+                        $("#diagnosis-item-wrap").html(html);
+                        search.searchText = searchText;
+                        search.pageIndex = pageIndex;
+                        search.pageSize = pageSize;
+                    } else {
+                        $("#diagnosis-item-wrap").html("<div class='diag-tix en'>无更多数据！</div>");
+                    }
+                } else {
+                    $("#diagnosis-item-wrap").html("<div class='diag-tix err'>错误:"+rlt.msg+"</div>");
+                }
+                //更新滚动条
+                $.updataScrollbar();
+            }
+        });
+    }
+</script>

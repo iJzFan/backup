@@ -1,0 +1,254 @@
+﻿@{
+    Layout = "~/Areas/HealthMgr/Views/Shared/_LayoutBackPanel.cshtml";
+    var bMgr = (vwAHMS_HMGR_BreastMgr)ViewBag.BreastMgr;
+}
+@inject ah.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        .plan-ul {
+            color: #787878;
+            font-size: 13.0px;
+            margin-top: 10px;
+        }
+
+        .plan-ul li {
+            line-height: 25px;
+        }
+        .plan-ul li i{
+            margin-right:10px;
+        } 
+        .measures {
+            font-size: 13.0px;
+            margin-top: 10px;
+        }
+
+        .complete {
+            border-radius: 3px;
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+            color: #fff;
+            background-color: #7eb564;
+            display: flex;
+            flex: 1;
+        }
+
+        .no-complete {
+            border-radius: 3px;
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+            color: #fff;
+            background-color: #e07777;
+            display: flex;
+            flex: 1;
+        }
+
+        .add-measures {
+            margin: 10px 0;
+            display: flex;
+        }
+
+        .plan-type, .plan-date {
+            width: 160px;
+            margin-right: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            height: 35px;
+            padding: 0 10px;
+        }
+
+        .plan-content {
+            flex: 1;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            padding: 0 10px;
+        }
+
+        .plan-sub {
+            margin-left: 10px;
+            background: #009688;
+            padding: 0 20px;
+            border-radius: 3px;
+            border: none;
+            color: #fff;
+        }
+        .default {
+            background: #ededed;
+            cursor: not-allowed;
+        }
+        .upic{
+            width:100px;
+            height:100px;
+            border-radius:4px;
+        }
+        .u-wrap {
+            display: flex;
+            margin-bottom:20px;
+        }
+        .u-info {
+            font-size: 22px;
+            margin-left: 18px;
+            color: #009688;
+        }
+        .u-data {
+            margin-left: 18px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .u-data i{
+            margin-right:5px;
+        }
+        .immediately input{
+            margin-right:3px;
+        }
+    </style>
+}
+
+<div class="main-title">
+    <i class="glyphicon glyphicon-th-list"></i>干预详情
+</div>
+
+<div class="main-content">
+    <div class="mian">
+        <div class="main-content-title"><i class="glyphicon glyphicon-info-sign"></i>基本信息</div>
+        <div class="main-content-wrap">
+            <div class="u-wrap">
+                <img class="upic" src="@(myRazor.GetCustomerDefImagePath(bMgr.CustomerPhoto,bMgr.Gender))" />
+                <div class="flex-wrap" style="flex-direction: column;">
+                    <div class="u-info">
+                        @bMgr.CustomerName (@bMgr.Gender?.ToGenderString())
+                    </div>
+                    <div class="u-data">
+                        @bMgr.MarriageStatus @bMgr.Birthday?.ToAgeString()
+                    </div>
+                    <div class="u-data">
+                        <i class="glyphicon glyphicon-phone"></i>@bMgr.CustomerMobile
+                    </div>
+                    <div class="u-data">
+                        <i class="glyphicon glyphicon-envelope"></i>@bMgr.Email
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content-title">
+            <i class="glyphicon glyphicon-list-alt"></i>干预方案
+            
+        </div>
+        <div class="main-content-wrap">
+            <img class="level-pic" src="~/HealthMgr/img/level_@(bMgr.BreastMgrLevel).png" width="18" style="margin-right:5px"/>干预方案
+            <ul class="plan-ul">
+                @if (bMgr.BreastMgrLevel == 1)
+                {
+                    <li><i class="glyphicon glyphicon-tasks"></i>月经初潮至25岁前至少1次乳腺B超检查，有条件做乳腺癌、卵巢癌基因检测；</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>年龄在20-40岁的女性，应于每月例假过后一周内做一次乳房自检；每年，由专业医师做一次临床检查、乳腺b超或乳房摄影术；</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>年龄在40-49岁间的女性，除每月定期做乳房自检外，每半年做一次专业性的乳房B超检查和专业医师做一次临床检查；</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>年龄在50岁以上的女性，每月应定期做乳房自检，且每半年年须做一次临床乳房检查和乳房X光摄影（钼靶）和专业医师做一次临床检查。</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>同时建议：控制减肥、避免饮酒、少喝咖啡、多吃果菜、定期作乳房检查。</li>
+                }
+                else if (bMgr.BreastMgrLevel == 2)
+                {
+                    <li><i class="glyphicon glyphicon-tasks"></i>务必坚持终生、定期专科检查。因为乳腺癌是恶性肿瘤，恶性肿瘤最大的危害就是复发和转移，危害患者的健康和生命；可以对乳腺癌复发、转移的早发现、早诊断及早治疗。①控制病情、防止恶化；②抢救生命、促进健康。</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>对患者身体状况的了解、掌握、评估，医师可作出针对性的健康指导，以提高其生存质量。例如：①大力开展乳腺疾病的普查工作；②加强各乳腺专科的技术力量；③加大对女性良性病变治疗力度，把乳腺癌消灭在萌芽状态；④健康教育女性乳房自查方法与技巧，防微杜渐。</li>
+                }
+                else if (bMgr.BreastMgrLevel == 3)
+                {
+                    <li><i class="glyphicon glyphicon-tasks"></i>针对晚期乳腺癌病人一旦出现远处转移，疾病不可逆转后，医护人员、病人及家属应当积极配合，尽量减少癌症给病人带来的痛苦，延长病人的生命，提高生活质量的措施。</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>随着科技的发展，中医、中药、基因治疗、免疫治疗和其他一些疗法逐渐应用于临床，可较好的改善晚期乳腺癌病人的生存质量。</li>
+                }
+                else if (bMgr.BreastMgrLevel == 4)
+                {
+                    <li><i class="glyphicon glyphicon-tasks"></i>针对晚期乳腺癌病人一旦出现远处转移，疾病不可逆转后，医护人员、病人及家属应当积极配合，尽量减少癌症给病人带来的痛苦，延长病人的生命，提高生活质量的措施。</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>随着科技的发展，中医、中药、基因治疗、免疫治疗和其他一些疗法逐渐应用于临床，可较好的改善晚期乳腺癌病人的生存质量。</li>
+                    <li><i class="glyphicon glyphicon-tasks"></i>主要是安抚、阵痛、沟通和亲人的陪护和分离。</li>
+                }
+            </ul>
+        </div>
+        <div class="main-content-title">
+            <i class="glyphicon glyphicon-saved"></i>干预措施
+        </div>
+        <div class="main-content-wrap">
+            <span class="immediately">
+                <input type="checkbox" id="immediately" autocomplete="off" />
+                <label for="immediately">立即执行措施</label>
+            </span>
+            <div class="add-measures">
+                @{
+                    var dmm = myRazor.GetSelectListItemsByDictKey("HealthPlanType");
+                }
+                <select class="plan-type" asp-items="dmm">
+                    <option value="">-- 请选择干预项类别 --</option>
+                </select>
+                <input type="text" class="plan-date" data-date-format="yyyy-mm-dd hh:ii" id="datetimepicker" placeholder="请填写实施时间" />
+
+                <input type="text" class="plan-content" placeholder="请填写实施内容" />
+                <button class="plan-sub" type="button" onclick="addPlan()">提交</button>
+            </div>
+            措施内容
+            <div id="plan">
+                <!--使用部分视图来刷新局部页面-->
+                @Html.Partial("_BreastPlanDetailOfCus_PlanList", (object)ViewBag.PlanDetail) 
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var pagedata = {
+            BreastMgrId:@bMgr.BreastMgrId,
+            Ver:1
+        }
+        function test() { 
+            $("#datetimepicker").datetimepicker();
+        }
+        $(function () {
+            getBreasPlanDetail();
+            
+            $("#immediately").click(function () { 
+                if ($(this).is(':checked')) {
+                    var d = new XDate();
+                    d.addMinutes(10);
+                    $($(".plan-date")[0]).val(d.toString("yyyy-MM-dd HH:mm:ss")).attr("disabled","true");
+                } else { 
+                    $($(".plan-date")[0]).removeAttr("disabled");
+                }
+            });
+        });
+
+
+
+        function addPlan() {
+            var type = $($(".plan-type")[0]).val();
+            var date = $($(".plan-date")[0]).val();
+            var content = $($(".plan-content")[0]).val();
+            if (!type || !date || !content) {
+                layer.msg("请完善措施信息!");
+                return;
+            }
+            var data = {
+                BreastMgrId:pagedata.BreastMgrId,
+                BreastPlanMainTypeId: type,
+                BreastPlanStartTime: date,
+                BreastPlanContent:content,
+            }
+            $.ajax({
+                type: "post", dataType: "json",
+                url: "/HealthMgr/BackPanel/AddBreastPlanOneItem",
+                data: data,               
+                success: function (jn) {if (jn.rlt) {getBreasPlanDetail(data.BreastMgrId);} else {layer.msg(jn.message);}}
+            });
+        }
+        function getBreasPlanDetail(bid) {
+            $.ajax({
+                type: "post",url: "/HealthMgr/BackPanel/GetViewBreastPlanDetails", //使用partialView
+                data: {breastMgrId: pagedata.BreastMgrId},
+                success: function (html) {$("#plan").html(html);}
+            });
+        }
+    </script>
+}

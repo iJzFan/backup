@@ -1,0 +1,18 @@
+﻿@model ah.Models.ViewModel.ResvationReturn
+@{ 
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutBase.cshtml";
+}
+<style>
+    .ah-rxResult-wrap .title {
+        font-size: 2.2em;
+        color: #34b388;
+        margin-top: 26px;
+    }
+</style>
+<link rel="stylesheet" href="~/customer/css/pages/ah-layout.css" />
+<div class="ah-rxResult-wrap ah-flex">
+    <img src="~/customer/appointment/image/error-icon.png" width="25%" style="margin-top: 40px;" />
+    <div class="ah-rx-error"></div>
+    <div class="title">预约失败</div>
+    <div>@Model.msg</div>
+</div>  

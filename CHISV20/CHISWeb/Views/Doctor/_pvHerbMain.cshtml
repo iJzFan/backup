@@ -1,0 +1,124 @@
+﻿@model CHIS.Models.ViewModels.CnHerbsMainViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var uid = Guid.NewGuid().ToString("N");
+    var mTakeList = myRazor.GetSelectListItemsByDictKey("DrugGivenTakeType");
+}
+<style>
+    @@media (max-width:800px) {
+        .ah-col-md5 {
+            width: 20%;
+        }
+    }
+</style>
+<section role="HERBS" id="@(uid)">
+    @Html.HiddenFor(m => m.Main.TreatId)
+    <div class="ah-flex ah-flex-column" rolename="boxitem1" drugType="HERBS">
+        <div class="ah-flex ah-center-between ah-pvdrug-title">
+            <div class="ah-flex ah-flex-auto" style="display:none;">
+                处方编号:
+                <input type="text" d-name="prescriptionNo" readonly placeholder="<新增>" class="ah-flex-auto" asp-for="Main.PrescriptionNo" />
+            </div>
+            <div class="ah-flex ah-center-between ah-flex-auto">
+                <div class="ah-charge-@(Model.Main.ChargeStatus)"></div>
+                @if (Model.Main.ChargeStatus == 0)
+                {
+                    <i onclick="HERB.DelHerbPrescription(this);" title="删除此处方" class="glyphicon glyphicon-remove"></i>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="ah-herb-main ah-flex" rolename="boxitem-drugs">
+
+        @foreach (var item in Model.Details)
+        {
+            await Html.RenderPartialAsync("_pvHerbDetail", item);
+        }
+        @if (Model.Main.ChargeStatus == 0)
+        {
+            <div rolename="ZDRUG" class="ah-herb-wrap">
+                <div class="ah-herb-item ah-flex ah-herb-add ah-justify-content">
+                    <input type="hidden" id="zDrugId" />
+                    <input type="search" id="zDrugName" myrole="zDrugSearchList" placeholder="请输入药品名称添加药品" onclick="HERB.AddHerbal(this);" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="ah-flex-layout ah-herb-info">
+        <div class="ah-col-md5 ah-flex-data">
+            <div class="ah-data-label ah-required">
+                处方数量(付)
+                <a onclick="$.moreToggle($(this).parents('.ah-flex-layout').first().find('.more'),this);" style="float:right;">更多&nbsp;<i class="fa fa-angle-double-right"></i></a>
+            </div>
+            <!--处方数量-->
+            @if (Model.Main.ChargeStatus != 0)
+            {
+                <span class="ah-data-input">@Model.Main.Qty</span>
+            }
+            else
+            {
+                <input class="ah-data-input" type="number" onkeydown="return $.f.onlyNumbersEvt(event);" onafterpaste="onlyNumOnafterpaste(this)" asp-for="Main.Qty" placeholder="数量" title="数量" onfocus="this.select();" min="1" max="99" style="font-size:1.3em;" />
+            }
+        </div>
+        
+        <div class="ah-col-md5 ah-flex-data more">
+            <div class="ah-data-label">处方名称</div>
+            <input class="ah-data-input" asp-for="Main.HerbTitle" placeholder="处方名称" title="处方名称" type="text" />
+        </div>
+        <div class="ah-col-md5 ah-flex-data more">
+            <div class="ah-data-label">频次</div>
+            <select role-initial="false" asp-items="mTakeList" asp-for="Main.GivenTakeTypeId" class="ah-data-select">
+                <option value="">请选择</option>
+            </select>
+        </div>
+        <div class="ah-col-md5 ah-flex-data more" id="@(uid)_seltop">
+            <div class="ah-data-label">
+                <span>手写用法</span>
+                <span class="dropdown ah-lable-dropdown">
+                    <button type="button" class="btn dropdown-toggle pull-right" data-toggle="dropdown" id="@(uid)_usel">
+                        [填选                        <span class="caret"></span>]
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="@(uid)_usel">
+                        <li role="presentation"><a href="#" role="menuitem">水煎服</a></li>
+                        <li role="presentation"><a href="#" role="menuitem">外用</a></li>
+                    </ul>
+                </span>
+            </div>
+            <input type="text" class="ah-data-input" placeholder="手写用法" title="手写药品用法，比如 3次/日" asp-for="Main.GivenRemark">
+        </div>
+        <div class="ah-col-md5 ah-flex-data more">
+            <div class="ah-data-label">其他医嘱</div>
+            <input type="text" class="ah-data-input" placeholder="其他医嘱" title="有关药品的其他注意事项的遗嘱，比如“血压增高时服用.”" asp-for="Main.DoctorAdvice">
+        </div>
+
+    </div>
+    <div class="ah-herb-amount">
+        <!--处方单价：药品单价*药品数量-->
+        @Html.HiddenFor(m => m.Main.Price)
+        单价：<span class="ah-price">@(Model.Main.Price)</span>
+        合计：<span class="ah-price">@(Model.Main.Amount)</span>
+    </div>
+    <div class="ah-formed-active ah-flex ah-center-between">
+        <div class="ah-flex">
+            @if (Model.Main.ChargeStatus == 0)
+            {
+                <a href="javascript:void(0)" onclick="HERB.SaveHerbPrescription(this);" ah-roleid="SaveHerbCF" title="保存此处方"><i class="fa fa-save"></i>&nbsp;保存</a>
+            }
+        </div>
+        <div class="ah-flex">
+            <a href="javascript:void(0)" class="no-border" onclick="Print(SaveTreatData,'PrintHerbPrescription', 'prescriptNo=@(Model.Main.PrescriptionNo)');" title="打印此处方"><i class="fa fa-print"></i>&nbsp;打印</a>
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    $(function () {
+        setHerbInit($('#@(uid)'));
+        $('#@(uid)_seltop').on("click", "ul>li>a", function () {
+            $('#@(uid)_seltop').find("#Main_GivenRemark").val($(this).text());
+        });
+    });
+
+</script>

@@ -1,0 +1,405 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+    ViewData["Title"] = "医护审批详细";
+
+    var doctor = (vwCHIS_Code_Doctor)ViewBag.Doctor;//医生信息
+    var login = (vwCHIS_Sys_Login)ViewBag.Login;//登录信息
+    var departs = (IEnumerable<vwCHIS_Code_Rel_DoctorDeparts>)ViewBag.MyDeparts; //申请部门信息
+    var certbooks = (IEnumerable<vwCHIS_Code_DoctorCertbook>)ViewBag.MyCerts;//医生证书信息
+    var stationRoles = (IEnumerable<vwCHIS_Sys_Rel_DoctorStationRoles>)ViewBag.StationAccess; //人员工作站权限
+}
+
+@section links{
+    <style>
+        .glyphicon-ok {
+            color: #4ca932;
+        }
+
+        .glyphicon-remove {
+            color: #ff0000;
+        }
+
+        .icheckbox_square-blue {
+            margin-right: 5px;
+        }
+
+        td[rowspan], td[rowspan] ~ td {
+            border-top: 2px solid #ddd;
+        }
+
+        .iframe-title {
+            color: #0e7486;
+        }
+
+        .ah-input-num {
+            border: none;
+            border-bottom: 1px dashed #ccc;
+            padding: 5px;
+        }
+    </style>
+}
+<div class="iframe-content-wrap container">
+    <div class="doctor-pic-wrap">
+        <img class="doctor-pic" src="@(Global.ConfigSettings.DoctorImagePathRoot + doctor.PhotoUrlDef)" />
+    </div>
+    <div class="iframe-padding-10">
+        <div class="iframe-title">
+            <i class="glyphicon glyphicon-user"></i>医护人员基本信息
+        </div>
+        <div class="doctor-info-wrap ">
+            <div class="doctor-data-info">
+                <div class="data-label">
+                    姓名:
+                </div>
+                <div class="data-content">
+                    @(doctor.DoctorName)
+                </div>
+            </div>
+            <div class="doctor-data-info">
+                <div class="data-label">
+                    性别:
+                </div>
+                <div class="data-content">
+                    @(doctor.Gender?.ToGenderString())
+                </div>
+            </div>
+            <div class="doctor-data-info">
+                <div class="data-label">
+                    年龄:
+                </div>
+                <div class="data-content">
+                    @(doctor.Birthday?.ToAgeString())
+                </div>
+            </div>
+            <div class="doctor-data-info">
+                <div class="data-label">
+                    电话:
+                </div>
+                <div class="data-content">
+                    @(doctor.Telephone)
+                </div>
+            </div>
+            <div class="doctor-data-info">
+                <div class="data-label">
+                    身份证:
+                </div>
+                <div class="data-content">
+                    @(doctor.IDcard)
+                </div>
+            </div>
+            <div class="doctor-data-info">
+                <div class="data-label">
+                    邮箱:
+                </div>
+                <div class="data-content">
+                    @(doctor.Email)
+                </div>
+            </div>
+        </div>
+        <div class="iframe-title">
+            <i class="glyphicon glyphicon-credit-card"></i>身份证审核
+        </div>
+        <div class="doctor-info-wrap doctor-idCard-wrap">
+            <table class="iframe-table" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <th>身份证正面</th>
+                        <th>身份证反面</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@(Global.ConfigSettings.CertificateImagePathRoot + doctor.IDCardAImg)" target="_blank">
+                                <img src="@(Global.ConfigSettings.CertificateImagePathRoot + doctor.IDCardAImg)" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@(Global.ConfigSettings.CertificateImagePathRoot + doctor.IDCardBImg)" target="_blank">
+                                <img src="@(Global.ConfigSettings.CertificateImagePathRoot + doctor.IDCardBImg)" />
+                            </a>
+                        </td>
+                        <td role-status="idcaed">
+                            @if (login.IdCardNumberIsAuthenticated == true)
+                            {
+                                <i class="glyphicon glyphicon-ok" title="@(login.IdCardNumberAuthenticatedTime)"></i>
+                            }
+                            else
+                            {
+                                <i class="glyphicon glyphicon-remove"></i>
+                            }
+                        </td>
+                        <td>
+                            <a class="pendingPass" role-name="idcaed" role-uid="@(doctor.CustomerId)" role-rlt="True"><i class="glyphicon glyphicon-ok"></i>通过</a>
+                            <a class="pendingReject" role-name="idcaed" role-uid="@(doctor.CustomerId)" role-rlt="False"><i class="glyphicon glyphicon-remove"></i>驳回</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="iframe-title">
+            <i class="glyphicon glyphicon-file"></i>科室审批
+        </div>
+        <div class="doctor-info-wrap ">
+            <table class="iframe-table" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <th>门诊</th>
+                        <th>门诊权限</th>
+                        <th>科室</th>
+                        <th style="text-align:center">状态</th>
+                        <th style="text-align:center">操作</th>
+                    </tr>
+                    @{ int? stationId = 0;
+                        foreach (var item in departs)
+                        {
+                            <tr>
+                                @if (stationId != item.StationID)
+                                {
+                                    stationId = item.StationID;
+                                    var rowspannum = departs.Where(m => m.StationID == item.StationID).Count();
+                                    bool? isRoleAllDoctor = stationRoles.FirstOrDefault(m => m.StationId == item.StationID && m.RoleKey == MPS.RoleTreatAllDoctor)?.MyRoleIsEnable;
+                                    bool? isRoleDoctor = stationRoles.FirstOrDefault(m => m.StationId == item.StationID && m.RoleKey == MPS.RoleTreatDoctor)?.MyRoleIsEnable;
+                                    bool? isRoleTreatNurse = stationRoles.FirstOrDefault(m => m.StationId == item.StationID && m.RoleKey == MPS.RoleTreatNurse)?.MyRoleIsEnable;
+                                    bool? isRoleTreatNurseAdv = stationRoles.FirstOrDefault(m => m.StationId == item.StationID && m.RoleKey == MPS.RoleTreatNurseAdv)?.MyRoleIsEnable;
+
+                                    <td rowspan="@(rowspannum)">
+                                        @(item.StationName)                                        
+                                    </td>
+                                    <td rowspan="@(rowspannum)">
+                                        <div>
+                                            <label><input type="checkbox" sid="@(item.StationID)" name="isRoleAndAll" value="@(MPS.RoleTreatAllDoctorId)" @Html.Raw(isRoleAllDoctor == true ? "checked='checked'" : "") /><span>全责医生</span></label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" sid="@(item.StationID)" name="isRoleAndAll" value="@(MPS.RoleTreatDoctorId)" @Html.Raw(isRoleDoctor == true ? "checked='checked'" : "") /><span>一般医生</span></label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" sid="@(item.StationID)" name="isRoleAndAll" value="@(MPS.RoleTreatNurseId)" @Html.Raw(isRoleTreatNurse == true ? "checked='checked'" : "") /><span>护士&emsp;&emsp;</span></label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" sid="@(item.StationID)" name="isRoleAndAll" value="@(MPS.RoleTreatNurseAdvId)" @Html.Raw(isRoleTreatNurseAdv == true ? "checked='checked'" : "") /><span>护士长&emsp;</span></label>
+                                        </div>
+                                    </td>
+                                }
+                                <td>@(item.DepartmentName)</td>
+                                <td style="text-align:center" role-status="depart">
+                                    @if (item.IsVerified)
+                                    {
+                                        <i class="glyphicon glyphicon-ok" title="@(item.VerifiedTime)"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    }
+                                </td>
+                                <td style="text-align:center">
+                                    <a class="pendingPass" role-name="depart" role-dbid="@(item.DoctorDepartsId)" role-rlt="True"><i class=" glyphicon glyphicon-ok"></i>通过</a>
+                                    <a class="pendingReject" role-name="depart" role-dbid="@(item.DoctorDepartsId)" role-rlt="False"><i class="glyphicon glyphicon-remove"></i>驳回</a>
+                                </td>
+                            </tr>
+                        } }
+                </tbody>
+            </table>
+        </div>
+        <div class="iframe-title">
+            <i class="glyphicon glyphicon-file"></i>资格证书审批
+        </div>
+        <div class="doctor-info-wrap ">
+            <table class="iframe-table" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <th>证书名称</th>
+                        <th>证书</th>
+                        <th style="text-align:center">状态</th>
+                        <th style="text-align:center">操作</th>
+                    </tr>
+                    @foreach (var item in certbooks)
+                    {
+                        <tr>
+                            <td>@(item.DoctorCertType)</td>
+                            <td>
+                                <a class="cert" target="_blank" href="@(Global.ConfigSettings.CertificateImagePathRoot+item.CertImgUrl)">
+                                    <img class="cert-pic" src="@(Global.ConfigSettings.CertificateImagePathRoot+item.CertImgUrl)" />
+                                </a>
+                            </td>
+                            <td style="text-align:center" role-status="cert">
+                                @if (item.IsVerified)
+                                {
+                                    <i class=" glyphicon glyphicon-ok" title="@(item.VerifiedTime)"></i>
+                                }
+                                else
+                                {
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                }
+                            </td>
+                            <td style="text-align:center">
+                                <a class="pendingPass" role-name="cert" role-cid="@(item.DoctorCertbookId)" role-rlt="True"><i class=" glyphicon glyphicon-ok"></i>通过</a>
+                                <a class="pendingReject" role-name="cert" role-cid="@(item.DoctorCertbookId)" role-rlt="False"><i class="glyphicon glyphicon-remove"></i>驳回</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="iframe-title">
+            <i class="glyphicon glyphicon-file"></i>医生资格审批
+        </div>
+        <div class="doctor-info-wrap " style="align-items: center; margin-bottom:30px;">
+            <input type="checkbox"
+                   @if (doctor.DoctorIsAuthenticated == true) { @("checked='checked'") } id="isDoctorAuthenticated" /> 是否给予医护人员资格
+
+            <span style="margin-left:20px;">
+                <input type="checkbox" id="IsDoctor" @Html.Raw(doctor.IsDoctor == true ? "checked='checked'" : "") />确认是医生
+            </span>
+
+            <span style="margin-left:20px;">
+                <input type="checkbox" id="IsDoctorPerson" @Html.Raw(doctor.IsDoctorOfPerson == true ? "checked='checked'" : "") />确认是真实个人医生
+            </span>
+
+            <span style="margin-left:20px;">
+                <input type="checkbox" id="IsForTest" @Html.Raw(doctor.IsForTest == true ? "checked='checked'" : "") />测试医护员
+            </span>
+            <span style="margin-left:20px;">
+                诊金 : <input type="number" class="ah-input-num" value="@doctor.TreatFee" id="doctorTreatFee" />
+            </span>
+        </div>
+
+        <div class="doctor-info-wrap">
+            <button class="btn btn-primary" style="width:100%;" onclick="finishCheck();">审核完毕</button>
+        </div>
+        <div style="height:80px;">
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var pagedata = {
+            doctorId:@(doctor.DoctorId),
+            doctorPicPath: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+            ver:1
+        };
+
+        $(function () {
+            $("input[type='checkbox']").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square',
+                increaseArea: '20%' // optional
+            });
+            $("input[name='isRoleAndAll']").on('ifChanged', function (event) {
+                var state = $(event.currentTarget).is(':checked');//获取当前状态
+                var sid = $(event.currentTarget).attr("sid");
+                var rid = $(event.currentTarget).val();
+                 
+                $.loadJSON("/Doctor/SetDoctorStationRole", {
+                    doctorId: pagedata.doctorId,
+                    stationId: sid,
+                    roleId:rid,
+                    isEnable: state
+                }, function (jn) {
+                    if (jn.rlt) {
+                        layer.msg("修改成功!");
+                    } else $.alertError(jn.msg);
+                });
+            });
+            $("#isDoctorAuthenticated").on('ifChanged', function (event) {
+                var state = $('#isDoctorAuthenticated').is(':checked');
+                $.loadJSON("/Doctor/SetDoctorAuthenticated", { doctorId: pagedata.doctorId, isVed: state }, function (jn) {
+                    if (jn.rlt) {
+                        layer.msg("修改成功!");
+                    } else $.alertError(jn.msg);
+                });
+            });
+            //设置是否是测试医生
+            $("#IsForTest").on('ifChanged', function (event) {
+                var state = $('#IsForTest').is(':checked');
+                $.loadJSON("/Doctor/SetDoctorIsForTest", { doctorId: pagedata.doctorId, isTest: state }, function (jn) {
+                    if (jn.rlt) {layer.msg("设置成功!");} else $.alertError(jn.msg);
+                });
+            });
+            //设置是否是医生
+            $("#IsDoctor").on('ifChanged', function (event) {
+                var state = $('#IsDoctor').is(':checked');
+                $.loadJSON("/Doctor/SetIsDoctor", { doctorId: pagedata.doctorId, isDoctor: state }, function (jn) {
+                    if (jn.rlt) { layer.msg("设置医生成功!"); } else $.alertError(jn.msg);
+                });
+            });
+            //设置是否是真实特定医生
+            $("#IsDoctorPerson").on('ifChanged', function (event) {
+                var state = $('#IsDoctorPerson').is(':checked');
+                $.loadJSON("/Doctor/SetIsDoctorOfPerson", { doctorId: pagedata.doctorId, isDoctor: state }, function (jn) {
+                    if (jn.rlt) { layer.msg("设置成功!"); } else $.alertError(jn.msg);
+                });
+            });
+
+
+            //设置诊金
+            $('#doctorTreatFee').change(function () { 
+                $.loadJSON("/Doctor/SetDoctorTreatFee", { doctorId: pagedata.doctorId, fee: $(this).val() }, function (jn) {
+                    if (jn.rlt) { layer.msg("设置成功!"); } else $.alertError(jn.msg);
+                });
+            });
+
+            //设置科室的审核
+            $('a[role-name=depart]').click(function () {
+                var $this = $(this);
+                var rlt = $this.attr("role-rlt")=="True"; //结果
+                var dbid = $this.attr("role-dbid");//
+                $.loadJSON("/Doctor/SetDoctorDepartIsVerifedByKey", { dbid: dbid, isVed: rlt }, function (jn) {
+                    if (jn.rlt) {
+                        var html = returnIconHtml(rlt);
+                        $this.parents("tr").first().find("[role-status=depart]").html(html);
+                    }else $.alertError(jn.msg);
+                });
+            });
+            //设置证书的审核
+            $('a[role-name=cert]').click(function () {
+                var $this = $(this);
+                var rlt = $this.attr("role-rlt") == "True"; //结果
+                var cid = $this.attr("role-cid");//
+                $.loadJSON("/Doctor/SetCertIsVerified", { certbookId: cid, isVed: rlt }, function (jn) {
+                    if (jn.rlt) {
+                        var html = returnIconHtml(rlt);
+                        $this.parents("tr").first().find("[role-status=cert]").html(html);
+                    } else $.alertError(jn.msg);
+                });
+            });
+            //设置身份证的审核
+            $('a[role-name=idcaed]').click(function () {
+                var $this = $(this);
+                var rlt = $this.attr("role-rlt") == "True"; //结果
+                var uid = $this.attr("role-uid");//
+                $.loadJSON("/Doctor/SetCustomerIdCardAuthenticated", { customerId: uid, isVed: rlt }, function (jn) {
+                    if (jn.rlt) {
+                        var html = returnIconHtml(rlt);
+                        $this.parents("tr").first().find("[role-status=idcaed]").html(html);
+                    } else $.alertError(jn.msg);
+                });
+            });
+            //返回状态图标HTML
+            function returnIconHtml(rlt) {
+                var html = $('<i></i>');
+                if (rlt) {
+                    html.addClass("glyphicon glyphicon-ok");
+                } else {
+                    html.addClass("glyphicon glyphicon-remove");
+                }
+                return html
+            }
+        });
+
+        //审核完毕
+        function finishCheck() {
+            $.loadJSON("/Doctor/SetDoctorCheckingFinished", { doctorid:pagedata.doctorId}, function (jn) {
+                if (jn.rlt) {
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    //var $c = parent.$('#layui-layer' + index + ' .layui-layer-btn a.layui-layer-btn0');
+                    //$c.trigger("click");
+                    parent.layer.close(index); //再执行关闭弹出layer
+                    parent.$("#gridList").trigger("reloadGrid");// 重刷新数据
+                } else $.alertError(jn.msg);
+            });
+        }
+
+    </script>
+}

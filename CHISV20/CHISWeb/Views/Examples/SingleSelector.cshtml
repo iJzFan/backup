@@ -1,0 +1,304 @@
+﻿@using Ass;
+@{
+
+}
+@*依赖注入我的前端Razor工具*@
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+
+@section links{
+    <style>
+        .single-selector:after {
+            clear: both;
+        }
+
+
+        .search-panel {
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 4px;
+            position: absolute;
+            right: -202px;
+            top: 0px;
+            height: 300px;
+            z-index: 20000;
+            width: 200px;
+        }
+
+        .search-bg {
+            width: 100%;
+            padding: 3px;
+            border-bottom: 1px solid #ccc;
+        }
+
+
+
+        .search-btn {
+            width: 50px;
+            float: left;
+        }
+
+        .search-content {
+            padding: 8px 0;
+            height: 260px;
+            overflow-y: scroll;
+        }
+
+            .search-content ul {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+
+                .search-content ul li {
+                    width: 100%;
+                    border-bottom: 1px dashed #ddd;
+                }
+
+                    .search-content ul li > a {
+                        display: block;
+                        width: 100%;
+                        padding: 6px;
+                        cursor: pointer;
+                    }
+
+                        .search-content ul li > a:hover {
+                            background-color: #eee;
+                        }
+    </style>
+
+}
+<div class="container" style="height:600px">
+
+    <h3>单选</h3>
+    <div style=" width:100px;height:30px;">
+
+        <div class="single-selector" id="sel_doctor" style="width:160px;">
+            <input type="hidden" value="" name="SelValue" />
+            <div class="display-content">
+                <div>
+                    <b class="name">aaa</b>
+                </div>
+            </div>
+            @*<a class='select'>选择</a>
+            <div class='search-panel' style="display:none;">
+                <div class='search-bg'>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control search-text" placeholder="请输入姓名或者电话">
+                        <span class="input-group-btn">
+                            <a class="btn btn-default search-btn"><i class='fa fa-search'></i></a>
+                        </span>
+                    </div>
+
+                </div>
+                <div class="search-content">
+                    <ul>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <b>张三</b> (男)<br />
+                                <span>13300008888</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>*@
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+</div>
+
+
+@section scripts{
+    <script>
+
+        $(function () {
+
+            var $c = $('#sel_doctor');
+
+
+            var options = {
+                placeholder:"请输入姓名或者电话",
+                valueName: 'doctorId',
+                searchUrl: '/api/common/GetDoctors',
+                onSelect: function (itemValue) {
+                    $('.display-content b').text(itemValue.doctorName);
+                },
+                formatSearchItem: function (jn) {
+                    var gender = jn.gender == 1 ? "男" : "女";
+                    var mobile = jn.telephone == 'null' || jn.telephone == null || jn.telephone == undefined ? "" : jn.telephone;
+                    return "<li><a><b>" + jn.doctorName + "</b> (" + gender + ")" + jn.employeeCode + "<br /><span>" + mobile + "</span></a></li>";
+                }
+            };
+
+            $('#sel_doctor').singleSelector(options);
+
+            return;
+
+            //初始化
+            var def = {
+                placeholder: "请输入查询内容",
+                ver: 1
+            };
+
+            var opt = $.extend(def, options);
+
+
+            var cc = "<a class='select'>选择</a><div class='search-panel' style='display:none;'><div class='search-bg'><div class='input-group input-group-sm'><input type='text' class='form-control search-text'><span class='input-group-btn'><a class='btn btn-default search-btn'><i class='fa fa-search'></i></a></span></div></div><div class='search-content'><ul></ul></div></div>";
+            $c.append(cc);
+
+
+
+            $('.search-panel').hide();
+            $('.search-panel .search-text').attr('placeholder', opt.placeholder);
+
+            $('.select').click(function () {
+                $('.search-panel .search-content ul').empty();
+                $('.search-panel .search-text').val('');
+                $('.search-panel').show();
+            });
+
+            $('.search-btn').click(search);
+            $('.search-content ul>li>a').click(selectOneItem);
+
+
+            var initalVal = $c.find("input[type=hidden]").val();
+            if (initalVal) {
+                $.getJSON(opt.searchUrl, { id: initalVal }, function (jn) {
+                    var v = (jn == null || jn == "null" || jn == undefined) ? null : jn[0];
+                    selectOneItem(v);                      
+                });
+            }
+
+
+            function selectOneItem(item) {
+                $c.find("input[type=hidden]").val(item[opt.valueName]);
+                $c.find(".search-panel").hide();
+                if (opt.onSelect) opt.onSelect(item);
+            }
+
+
+            function search() {
+                var txt = $('.search-text').val();
+                var url = opt.searchUrl;
+                $ul = $('.search-content ul').empty();
+                txt&&$.getJSON(url, { searchtext: txt }, function (jn) {
+                    if (jn && jn!='null') {
+                        $.each(jn, function (i, m) {
+                            var template = "请初始化选择后的列表模板";
+                            if (opt.formatSearchItem) template = opt.formatSearchItem(m);
+                            var $template = $(template);
+                            $template.click(function () {
+                                selectOneItem(m);
+                            });
+                            $ul.append($template);
+                        });
+                    }
+                });
+
+            }
+
+
+
+            $("body").on("click", function (event) {
+                var $target = $(event.target).first();                                
+                var isOut = $target.parents(".search-panel").length == 0;
+                if (event.target.tagName == "A" && event.target.className=="select") isOut = false;
+                if(isOut) $c.find(".search-panel").hide();                
+            });
+
+
+
+
+
+
+
+        })
+
+
+
+
+
+    </script>
+}

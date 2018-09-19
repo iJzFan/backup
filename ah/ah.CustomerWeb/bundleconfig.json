@@ -1,0 +1,46 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/ahzp-appointment.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/lib/font-awesome/css/font-awesome.min.css",
+      "wwwroot/lib/datepicker/foundation-datepicker.css",
+      "wwwroot/lib/jquery-weui/jquery-weui.css",
+      "wwwroot/lib/jquery-weui/weui.min.css",
+      "wwwroot/lib/layui/css/layui.css",
+      "wwwroot/lib/jquery-pager/Pager.css",
+      "wwwroot/lib/jquery.scrollbar/css/jquery.scrollbar.css",
+      "wwwroot/customer/css/appintment-layer-0.css",
+      "wwwroot/css/common-overide.css",
+      "wwwroot/css/common-self.css"  
+    ]
+  }, 
+  { 
+    "outputFileName": "wwwroot/js/ahzp-appointment.min.js",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "wwwroot/lib/vue.min.js",
+      "wwwroot/lib/template.js",
+      "wwwroot/lib/third-part-library/bootstrap-datetimepicker.min.js",
+      "wwwroot/lib/third-part-library/locales/bootstrap-datetimepicker.zh-CN.js",
+      "wwwroot/lib/layer/build/layer.js",
+      "wwwroot/lib/datepicker/foundation-datepicker.js",
+      "wwwroot/lib/third-part-library/template.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "wwwroot/lib/iCheck/icheck.js",
+      "wwwroot/lib/jquery-weui/fastclick.js",
+      "wwwroot/lib/jquery-weui/jquery-weui.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "wwwroot/lib/jquery-pager/jquery.pager.js",
+      "wwwroot/lib/jquery.form.min.js",
+      "wwwroot/lib/jquery.scrollbar/js/jquery.scrollbar.js",
+      "wwwroot/lib/citySelect.js",
+      "wwwroot/lib/layui/layui.js",
+      "wwwroot/js/common-function.js",
+      "wwwroot/js/common-project.js"
+    ],
+    "minify": {"enabled": true,"renameLocals": true},
+    "sourceMap": true
+  }
+]
+

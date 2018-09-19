@@ -1,0 +1,305 @@
+﻿@using Ass
+@*@inject CHIS.Code.Managers.IUserFrameMgr CusHelper*@
+@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+
+    var actionName = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    int funcId = Ass.P.PIntV(Context.Request.Query["pagefn"], Ass.P.PIntV(ViewBag.FuncId));
+    var umgr = this.GetUserMgr();
+    var ulogin = umgr.GetMyLoginData();
+    var ua = this.GetUserMgr().GetUserAccessInfo();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@section link3part{
+    @RenderSection("link3part", required: false)
+}
+@section links{
+    <link href="~/css/layout-main.css" rel="stylesheet" />
+    @RenderSection("links", required: false)
+}
+
+@section scriptsPart{
+    @RenderSection("scriptsPart", required: false)
+}
+@section scripts{
+    @RenderSection("scripts", required: false)
+    @if (ua == null)
+    {
+        <script>
+            window.location.href = "/Home/OutLogin";
+        </script>
+    }
+    else
+    {
+        <script>
+
+            if (self != top) top.window.location.href = window.location.href; //传给顶层
+        </script>
+
+    }
+    <script>
+            $(function () {
+
+
+            })
+
+            /**
+                * 切换工作站
+                */
+            function changeStation() {
+                var index = layer.open({
+                    type: 2,
+                    title: false,// '切换工作站',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['80%', '80%'],
+                    content: '/home/ChangeStation' //iframe的url
+                });
+            }
+            var depItem = false;
+            //切换科室
+            function changeDep() {
+                if (!depItem) {
+                    $(".select-dep-items").show();
+                } else {
+                    $(".select-dep-items").hide();
+                }
+                depItem = !depItem;
+            }
+    </script>
+}
+
+
+@if (ua != null)
+{
+    @*---------------------------------------------------  顶部导航  ---------------------------------------------------------*@
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand nav-logo">
+                    <a asp-area="" asp-action="Index" asp-controller="Home" asp-route-doctorId="@ua.DoctorId">
+                        <img src="@(Global.Config.GetSection("SystemSettings:RdCoLogoRootPath").Value)" />
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-collapse collapse">
+                @*<div style="margin:0 auto;">*@
+
+
+
+
+
+
+                <form asp-area="" asp-controller="Home" asp-action="OutLogin" method="post" id="logoutForm" class="navbar-right" style="margin-bottom:0;margin-top:0;padding:0">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div class="ah-station-info">
+                                <b title="@(ua.MyStationInfo.Station.Address)"> @(ua.MyStationInfo.Station.StationName)</b>
+                                <pv url="/api/Statistics/Statistics_DoctorTreat_BasicSummary_NeedTreatHtml_ThisStationOfMe" class="ah-my-needtreat"></pv>
+
+                                <div class="layou-select-wrap">
+                                    @{
+                                        var departs = ua.MyStationInfo.GetAllDepartsOfStation();//获取当前工作站的允许的科室
+                                    }
+                                    @if (ua.MyStationInfo.SelectedDepartment != null) //如果有选择的部门
+                                    {
+                                        <span>
+                                            <b>
+                                                @(ua.MyStationInfo.SelectedDepartment.DepartmentName)
+                                                <button onclick="changeDep()" class="select-dep-btn" type="button"><i class="glyphicon glyphicon-retweet"></i>切换科室</button>
+                                            </b>
+                                        </span>
+                                    }
+
+                                    <ul class="select-dep-items">
+                                        @foreach (var item in departs)
+                                        {
+                                            <li><a asp-action="ChangeDepart" asp-controller="Home" asp-route-departid="@item.DepartId">@item.DepartmentName</a></li>
+                                        }
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                        </li>
+                        <li class="dropdown profile-dropdown userpanel">
+                            <a href="#" class="dropdown user-topbox" data-toggle="dropdown" data-customerid="@ua.Doctor.CustomerId" data-stationid="@ua.MyStationInfo.Station.StationID">
+                                <img src="@(Global.ConfigSettings.DoctorImagePathRoot+ ua.Doctor.PhotoUrlDef)" />
+                                <span>@(ua.Doctor.DoctorName)</span>
+                                <i class="fa fa-chevron-down right-arrowdown"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                @*<li><a class="menuItem" data-id="userInfo" href="/SystemManage/User/Info"><i class="fa fa-user"></i>个人信息</a></li>*@
+                                <li class="user-info">
+                                    <div>
+                                        @if (ulogin.IdCardNumberIsAuthenticated == true)
+                                        {<span class="binding-item" title="身份证@(ulogin.IdCardNumber.ToMarkString( Ass.Models.MaskType.IDCode))&#10;已经绑定并认证通过"><i class="fa fa-credit-card"></i></span> }
+                                        else
+                                        { <span class="unbinding-item" title="身份证@(ulogin.IdCardNumber.ToMarkString( Ass.Models.MaskType.IDCode))&#10;未绑定/未认证"><i class="fa fa-credit-card"></i></span> }
+                                        @if (ulogin.MobileIsAuthenticated == true)
+                                        {<span class="binding-item" title="手机@(ulogin.Mobile.ToMarkString( Ass.Models.MaskType.MobileCode))&#10;已经绑定并验证"><i class="glyphicon glyphicon-phone"></i></span> }
+                                        else
+                                        { <span class="unbinding-item" title="手机@(ulogin.Mobile.ToMarkString( Ass.Models.MaskType.MobileCode))&#10;未绑定/未验证"><i class="glyphicon glyphicon-phone"></i></span> }
+                                        @if (ulogin.EmailIsAuthenticated == true)
+                                        {<span class="binding-item" title="邮箱@(ulogin.Email.ToMarkString( Ass.Models.MaskType.EmailCode))&#10;已经绑定并验证"><i class="fa fa-envelope"></i></span>  }
+                                        else
+                                        {<span class="unbinding-item" title="邮箱@(ulogin.Email.ToMarkString( Ass.Models.MaskType.EmailCode))&#10;未绑定/未验证"><i class="fa fa-envelope"></i></span>  }
+                                    </div>
+                                    <div>
+                                        @ua.MyStationInfo.Station.StationName
+                                    </div>
+                                </li>
+                                <li>
+                                    <ul class="user-info-links">
+                                        <li><a asp-controller="MyPanel" asp-action="DoctorInfos"><i class="fa fa-user-circle-o"></i>我的资料</a></li>
+                                        <li><a asp-controller="MyPanel" asp-action="ChangePassword">修改密码</a></li>
+                                        <li><a asp-controller="MyPanel" asp-action="ChangeLoginInfo">绑定手机/邮箱</a></li>
+                                        <li><a asp-controller="MyPanel" asp-action="MyConfig">我的配置</a></li>
+                                    </ul>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <ul class="user-info-links">
+                                        @if (ua.MyStationInfo.AllowedStations.Count() > 0)
+                                        {
+                                            <li><a href="javascript:void();" onclick="changeStation();"><i class="fa fa-th-large"></i>切换工作站</a></li>
+                                        }
+                                        <li><a asp-action="OutLogin" asp-controller="Home"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link" title="安全退出" style="height:auto;"><i class="ace-icon fa fa-power-off"></i></button>
+                        </li>
+                    </ul>
+                </form>
+
+                <ul class="nav menus-select" id="left_nav">
+                    @foreach (var item in ua.AllMenuTree.SubItems)
+                    {
+                        var b1 = item.SubItems.Any(m => m.ThisItem.UrlAddress.IsNotEmpty());
+                        var b2 = item.SubItems.Any(m => m.SubItems.Any(t => t.ThisItem.UrlAddress.IsNotEmpty()));
+                        if (item.HasSubs && (b1 || b2))
+                        {
+                            //一级菜单
+                            <li id="auto-toggle">
+                                <a data-toggle="dropdown" style="color:#fff;" href="javascript:void(0);">
+                                    @(item.ThisItem.FunctionName)
+                                </a>
+
+                                @*二级菜单*@
+                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                    @foreach (var item2 in item.SubItems)
+                                    {
+                                        if (item2.HasSubs || (!string.IsNullOrEmpty(item2.ThisItem.UrlAddress)))
+                                        {
+                                            <li class="@(item2.HasSubs ? ("dropdown-submenu") : "")">
+                                                <a href="@(item2.HasSubs ? "javascript:void(0);" : item2.ThisItem.UrlAddress + "?pagefn=" + item2.ThisItem.FunctionID)">@(item2.ThisItem.FunctionName)</a>
+                                                @if (item2.HasSubs)
+                                                {
+                                                    //三级菜单
+                                                    <ul class="dropdown-menu">
+                                                        @foreach (var item3 in item2.SubItems)
+                                                        {
+                                                            <li>
+                                                                <a href="@(item3.HasSubs ? "javascript:void(0);" : item3.ThisItem.UrlAddress + "?pagefn=" + item3.ThisItem.FunctionID)">@(item3.ThisItem.FunctionName)</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+
+                                                }
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+
+
+                            </li>
+                        }
+                    }
+                </ul>
+
+
+
+            </div>
+        </div>
+    </nav>
+
+
+    @*---------------------------------- 单元导航 ------------------------------------------------*@
+
+                                        @*<div class="mn">
+                                                <ul>
+                                                    @foreach (var item in u.AllMenuTree.SubItems)
+                                                    {
+                                                        <li>
+                                                            <a >@(item.ThisItem.FunctionName)</a>
+                                                            @if (item.HasSubs)
+                                                            {
+                                                                <ul>
+                                                                    @foreach (var item2 in item.SubItems)
+                                                                {
+                                                                        <li>
+                                                                            <a href="@(item2.HasSubs?"":item2.ThisItem.UrlAddress)">@(item2.ThisItem.FunctionName)</a>
+
+                                                                            @if (item2.HasSubs)
+                                                                            {
+                                                                                <ul>
+                                                                                    @foreach (var item3 in item2.SubItems)
+                                                                                    {
+                                                                                        <li>
+                                                                                            <a  href="@(item3.HasSubs?"":item3.ThisItem.UrlAddress)">@(item3.ThisItem.FunctionName)</a>
+                                                                                            @if (item3.HasSubs)
+                                                                                            {
+                                                                                                <ul>
+                                                                                                    @foreach (var item4 in item3.SubItems)
+                                                                                                    {
+                                                                                                        <li><a  href="@(item4.HasSubs?"":item4.ThisItem.UrlAddress)">@(item4.ThisItem.FunctionName)</a></li>
+                                                                                                    }
+                                                                                                </ul>
+
+                                                                                            }
+
+                                                                                        </li>
+                                                                                    }
+
+                                                                                </ul>
+
+                                                                            }
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            }
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div>@u.sysProcessTime</div>*@
+
+
+                                        @*--------------------给顶部一个位移空间--------------*@
+                                        <div style="height:52px;"></div>
+                                        }
+
+                                        @*-----------------------顶部页面导航-------------------*@
+                                        <div>
+                                            @Html.Raw(myRazor.loadPageNav(funcId))
+                                        </div>
+
+
+
+                                        @*----------------------------- 内容 ----------------------------*@
+                                        @RenderBody()
+
+
+
+

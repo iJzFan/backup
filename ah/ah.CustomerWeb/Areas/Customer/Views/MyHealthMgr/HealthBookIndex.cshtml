@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "健康记事本";
+}
+
+@section links{
+    <style>
+
+        @@media screen and (max-width:500px) {
+            .ah-pg-title {
+                padding: 5px 8px;
+                background: #dfdfdf;
+                margin-left: -10px;
+                margin-right: -10px;
+            }
+
+            .ah-g-icon {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+                .ah-g-icon > li {
+                    margin: 0;
+                    padding: 10px;
+                    width: 25%;
+                    display: block;
+                    position: relative;
+                }
+
+                    .ah-g-icon > li > a > span.img {
+                        display: table-cell;
+                        width: 100%;
+                        text-align: center;
+                        -webkit-filter: grayscale(100%);
+                        -moz-filter: grayscale(100%);
+                        -ms-filter: grayscale(100%);
+                        -o-filter: grayscale(100%);
+                        filter: grayscale(100%);
+                        filter: gray;
+                    }
+
+                    .ah-g-icon > li > a img {
+                        width: 90%;
+                        vertical-align: middle;
+                        text-align: center;
+                        border-radius: 220px;
+                        border: 1px solid #efefef;
+                    }
+
+                    .ah-g-icon > li > a span.t {
+                        display: block;
+                        width: 100%;
+                        margin-top: 3px;
+                        margin-bottom: 6px;
+                        text-align: center;
+                        color: #333;
+                        font-size: 0.9em;
+                    }
+
+                    .ah-g-icon > li > a:hover > span.img {
+                        -webkit-filter: grayscale(0%);
+                        -moz-filter: grayscale(0%);
+                        -ms-filter: grayscale(0%);
+                        -o-filter: grayscale(0%);
+                        filter: grayscale(0%);
+                        filter: transparent;
+                    }
+
+                    .ah-g-icon > li > a:hover img {
+                        border-color: rgba(255, 106, 0, 0.29);
+                    }
+
+                    .ah-g-icon > li > a:hover span.t {
+                        color: #ff6a00;
+                    }
+        }
+    </style>
+}
+
+
+@* 用户中心控制台 *@
+<!--导航栏-->
+<div class="mune">
+    <ol class="breadcrumb">
+        <li><a href="/Customer">首页</a></li>
+        <li class="active"><a href="/Customer/MyHealthMgr/HealthBookIndex">我的健康记事本</a></li>
+    </ol>
+</div>
+<div>
+    <ul class="ah-g-icon">
+        <li>
+            <a asp-action="AllergyRecord" asp-controller="MyHealthMgr">
+                <span class="img"><img src="~/images/gm.jpg" /></span>
+                <span class="t">过敏记录</span>
+            </a>
+        </li>
+        <li>
+            <a asp-action="Index" asp-controller="MyHealthMgr" disabled>
+                <span class="img"><img src="~/images/dym.png" /></span>
+                <span class="t">姨妈来访</span>
+            </a>
+        </li>
+        @*<li>
+                <a asp-action="AllergyRecord" asp-controller="MyHealthMgr">
+                    <span class="img"><img src="~/images/gm.jpg" /></span>
+                    <span class="t">过敏记录</span>
+                </a>
+            </li>
+            <li>
+                <a asp-action="AllergyRecord" asp-controller="MyHealthMgr">
+                    <span class="img"><img src="~/images/gm.jpg" /></span>
+                    <span class="t">过敏记录</span>
+                </a>
+            </li>
+            <li>
+                <a asp-action="AllergyRecord" asp-controller="MyHealthMgr">
+                    <span class="img"><img src="~/images/gm.jpg" /></span>
+                    <span class="t">过敏记录</span>
+                </a>
+            </li>
+            <li>
+                <a asp-action="AllergyRecord" asp-controller="MyHealthMgr">
+                    <span class="img"><img src="~/images/gm.jpg" /></span>
+                    <span class="t">过敏记录</span>
+                </a>
+            </li>*@
+    </ul>
+
+</div>

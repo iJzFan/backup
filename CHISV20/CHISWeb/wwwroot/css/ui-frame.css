@@ -1,0 +1,130 @@
+﻿
+a{
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:none;
+}
+table a{cursor:pointer;}
+ul,li{
+    margin:0px;
+    padding:0px;
+    list-style:none;
+}
+a:hover {
+    text-decoration:none;
+}
+.ui-header {
+    background: url("/images/bg.png") center;
+    background-size: 100%;
+    position: absolute;
+    top: 0;
+    position: relative;
+    width: 100%;
+    z-index: 100;
+    margin-bottom: 20px;
+}
+.ui-logo {
+    padding:15px 0;
+}
+.ui-tips {
+    padding-top:25px;
+    font-size: 24px;
+    color: #fff;
+    margin-right:10px;
+}
+
+.ui-nav{
+    width: 220px;
+    height: auto;
+    position: absolute;
+}
+.ui-portrait {
+    background:url(/images/portrait_bg.png) no-repeat;
+    padding:15px 0;position:relative;
+}
+.ui-portrait img {
+        height: 105px;
+        border-radius: 50%;
+    }
+.ui-portrait h5{
+     text-align:center;
+     line-height:20px;      
+     margin:8px;
+     padding:0px;
+     color:#fff;
+}
+    .ui-portrait span.user-age {
+        position:absolute;
+        top:10px;left:10px; color:#ffd800;font-size:18px;
+    }
+    .ui-nav ul {
+        position: relative;
+        top: 5px;
+        margin: 0px;
+        padding: 0px;
+    }
+.ui-nav ul li {
+    line-height: 42px;
+    display: block;
+    text-align:center;
+    font-size:13px;
+    color:#666;
+    margin:2px 0;
+}
+.ui-nav ul li a {
+        line-height: 42px;
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        color: #666;
+        text-decoration: none;
+        /*border-left: 5px solid #eee;*/
+    }
+ .ui-nav ul li a:hover {
+            color: #ff6a00;
+            text-decoration: none;
+            border-left: 5px solid #ff6a00;
+        }
+.ui-content {
+            margin-left: 235px;
+            top: 0;
+            position: relative;
+            min-height:761px;
+        }
+.ui-content .container {
+    width:100%;position:relative;padding-left:20px;padding-right:20px;
+}
+
+.ui-footer {
+    width: 100%;
+    bottom: 0;
+    background: #333 no-repeat scroll;
+    height:100px;
+    padding:20px;
+    text-align:center;
+    line-height:35px;
+}
+.footer_top{
+    line-height:35px;
+    border-bottom:1px solid #eee;
+}
+.footer_top ul{
+    margin:0px;
+    padding:0px;
+    text-align:center;
+}
+.footer_top ul li{
+    text-align:center;
+    color:#fff;
+    float:left;
+    margin-left:20px;
+}
+
+
+.ah-s-li{position:relative;height:80px;width:100%;}
+.ah-s-li:hover{background-color:#ccc;}
+.ah-s-li>a{width:100%;height:100%;cursor:pointer;padding:5px 10px;display:block;}
+.ah-doctor-pic{width:70px;border-radius:120px;}
+.ah-s-l{float:left;}
+.ah-s-r{float:left;}

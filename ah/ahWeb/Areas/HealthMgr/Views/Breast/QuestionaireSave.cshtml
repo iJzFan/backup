@@ -1,0 +1,272 @@
+﻿@model ah.Models.AHMS_QAFlow_Main
+@{
+    ViewBag.Title = "乳腺癌调查问卷提交";
+}
+@section links{
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+            background-color: #fff;
+        }
+
+        .content-title {
+            color: #FFFFFF;
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+            position: relative;
+            font-size: 24px;
+        }
+
+        .content-wrap {
+            padding: 20px;
+            width: 80%;
+            margin: 0 auto;
+            background: #fff;
+            box-sizing: border-box;
+            box-shadow: 0 0 5px #aaaaaa;
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            font-size: 14.0px;
+            border-radius: 0px;
+            border-width: 1px;
+            border-style: solid;
+            text-align: center;
+            line-height: 20px;
+            font-weight: normal;
+            font-style: normal;
+            z-index: 5;
+            opacity: 1;
+            pointer-events: auto;
+            margin-bottom: 100px;
+        }
+
+        .content {
+            margin-top: 40px;
+            box-sizing: border-box;
+            border: 2px solid #e04689;
+            padding: 25px 30px 15px;
+            width: 100%;
+            position: relative;
+            text-align: left;
+            min-height: 500px;
+            background: url(/HealthMgr/img/data_bj.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position-y: 100%;
+        }
+
+        .text-title {
+            background: #fff;
+            color: #5677fc;
+            font-size: 24.0px;
+            font-weight: bold;
+            position: absolute;
+            top: -22px;
+            padding: 10px;
+            left: 20px;
+        }
+
+        .bowknot-wrap {
+            position: absolute;
+            top: -22px;
+            right: -18px;
+            background: #fff;
+            width: 58px;
+            text-align: center;
+        }
+
+            .bowknot-wrap img {
+                transform: rotate(331deg);
+                -webkit-transform: rotate(331deg);
+                width: 24px;
+                height: 50px;
+            }
+
+        .text-wrap {
+            line-height: 24px;
+        }
+
+            .text-wrap p {
+                margin: 0;
+            }
+
+        .keyword {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .foot {
+            line-height: 55px;
+            font-size: 18px;
+            text-align: left;
+            margin: 30px 0;
+        }
+
+            .foot a {
+                background: #ff6091;
+                color: #fff;
+                height: 53px;
+                display: block;
+                float: right;
+                border: 1px solid #d81b60;
+                border-radius: 5px;
+                padding: 0 22px;
+                cursor: pointer;
+            }
+
+        .clear {
+            clear: both;
+        }
+
+        .sub-float {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: #ff6091;
+            border-radius: 3px;
+            right: 0.5%;
+            bottom: 30px;
+            margin-top: 53px;
+            transition: all 1s;
+            -moz-transition: all 1s; /* Firefox 4 */
+            -webkit-transition: all 1s; /* Safari 和 Chrome */
+            -o-transition: all 1s; /* Opera */
+            opacity: 1;
+            padding: 10px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+            .sub-float img {
+                width: 100%;
+                height: 100%;
+            }
+
+        @@media screen and (max-width:500px) {
+            .sub-float {
+                display: none;
+            }
+            .content-wrap{width:99%;}
+
+
+        }
+
+        .prohibit {
+        }
+    </style>
+}
+
+
+<form asp-action="QuestionaireSave2">
+    <img src="~/HealthMgr/img/briefing_bj.jpg" style="position: fixed;top: 0;left:0;width:100%;" />
+    <div class="content-title">
+        乳腺癌调查问卷
+    </div>
+    <div class="content-wrap">
+        @Html.ValidationSummary()
+        <div class="content">
+            <div class="text-title">
+                调查结果
+            </div>
+            <div class="bowknot-wrap">
+                <img src="~/HealthMgr/img/bowknot.png" />
+            </div>
+            <div class="text-wrap">
+                <div class="text-wrap">
+                    <p>亲爱的 @Model.Name ：</p>
+                    <p style="text-indent: 28px;">你好，十分感谢你对我们天使健康的信任。根据你所填写的调查问卷，我们经过系统的详尽分析以及专家的初步诊断，针对你在乳腺癌方面做出以下初步判断及评级。</p>
+                    <p style="text-indent: 28px;">本次结果的评定只是一次初步的结果，若想要了解更多的有关乳房健康的问题，天使健康会提供专业、优质的服务。</p>
+                </div>
+
+                <div>
+                    <div> 如果已经是会员，请登录我的中心，查询结果。 <a class="btn btn-primary" onclick="loginCustomer();">登录</a></div>
+                    <div> 或者先注册后登录 <a class="btn btn-primary" onclick="registCustomer();">注册</a></div>
+                </div>
+                @*<div class="text-wrap">
+                        <p style="text-indent: 28px;">查询本次问卷调查结果可访问右侧的地址：<a href="http://www.angel-eap.com/">http://www.angel-eap.com/</a></p>
+                    </div>*@
+                @*<div>
+                        <div>问卷已经提交成功，请再次确认您的基本资料。</div>
+
+                        <select>
+                            <option value="">选择性别</option>
+                            <option value="0">女</option>
+                            <option value="1">男</option>
+                            <option value="2">其他</option>
+                        </select>
+                        <input type="date" asp-format="{0:yyyy-MM-dd}" asp-for="Birthday" />
+                        <input type="text" asp-for="Email" placeholder="请填写您的联系电子信箱" />
+                        <input type="text" asp-for="Mobile" placeholder="请填写您的联系手机" />
+
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+@section scripts{
+    <script>
+        $(function () {
+
+        });
+
+        function loginCustomer() {
+            var dd = {
+                cusName: '@(Model.Name)',
+                cusMobile: '@(Model.Mobile)',
+                cusEmail: '@(Model.Email)',
+                callBack:'/Customer/CusProc/QuesProc?qid=@(Model.QAFlowMainId)'
+            }
+            CustomerLogin(dd);
+        }
+        function registCustomer() {
+            var dd = {
+                cusName: '@(Model.Name)',
+                cusMobile: '@(Model.Mobile)',
+                cusEmail: '@(Model.Email)',
+                callBack:'/Customer/CusProc/QuesProc?qid=@(Model.QAFlowMainId)'
+            }
+            CustomerRegist(dd);
+        }
+
+        function CustomerLogin(dd) {
+            dd = $.extend({actionType:"customer_login"},dd);
+            //配置的用户登录和注册接口数据
+            var lk = '@(Global.ConfigSettings.CustomerActionPath)';
+            //向新的连接post数据过去
+            postPage(lk, dd, false);
+        }
+        function CustomerRegist(dd) {
+            dd = $.extend({ actionType: "customer_regist" }, dd);
+             //配置的用户登录和注册接口数据
+            var lk = '@(Global.ConfigSettings.CustomerActionPath)';
+            //向新的连接post数据过去
+            postPage(lk, dd, false);
+        }
+
+        function postPage(link, data, bFrame) {
+
+            var $h = $('<form action="' + link + '" method="post" style="display:none;"></form>');
+            for (var key in data) {
+                console.log(key);
+                console.log(data[key]);
+                $h.append("<input type='hidden' name='"+key+"' value='"+data[key]+"' />");    
+            }
+            console.log($h);
+            if (bFrame) { //弹出窗口
+               
+
+            } else { //本页面跳转
+                $(window.document.body).append($h);
+                $h.submit();
+            }
+        }
+
+    </script>
+}

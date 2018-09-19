@@ -1,0 +1,99 @@
+﻿@model CHISSysLoginExt
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@inject CHIS.Services.LoginService loginSvr
+@{
+    var u = this.GetUserSelf();
+}
+<div class="ah-public-title">店员信息</div>
+<form method="post" asp-action="EditLoginExt" id="editLoginExt" class="ah-max-width"
+      ah-role-method="ajax" ah-success-callback="sendLoginEditSuccess" ah-fail-callback="sendLoginEditFailed">
+    <input type="hidden" name="LoginExtParentLoginId" value="@(u.LoginId)" />
+    <input type="hidden" asp-for="LoginExtId" />
+
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">姓名</div>
+            <input class="ah-data-input" type="text" asp-for="LoginExtName">
+            <span asp-validation-for="LoginExtName"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">手机</div>
+            <input class="ah-data-input" type="text" asp-for="LoginExtMobile">
+            <span asp-validation-for="LoginExtMobile"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">登录密码</div>
+            <input class="ah-data-input" type="password" asp-for="LoginExtPassword">
+            <span asp-validation-for="LoginExtPassword"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">确认密码</div>
+            <input class="ah-data-input" type="password" asp-for="LoginExtPasswordConfirm">
+            <span asp-validation-for="LoginExtPasswordConfirm"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">选择角色</div>
+            @{
+                var canSelRoles = loginSvr.GetCanSelectRoles(u.StationId, u.LoginId);
+                var selItems = canSelRoles.Select(m => new SelectListItem
+                {
+                    Text = m.LoginExtRoleName,
+                    Value = m.LoginExtRoleKey
+                });
+            }
+            <div id="addRoleGroup" class="ah-addrole-grp">
+                <div>
+                    <select class="ah-multiple-select" asp-items="selItems" onclick="seeRoleDetail(this);" id="canSelRoles" lay-ignore multiple></select>
+                </div>
+                <div>
+                    <a onclick="addRole(this)">添加=></a><br /><br />
+                    <a onclick="removeRole(this)"><=移除</a><br /><br />
+                </div>
+                <div>
+                    <select class="ah-multiple-select" id="selectedRoles" lay-ignore multiple onclick="seeRoleDetail(this);" name="RoleKeys"></select>
+                </div>
+            </div>
+            <div id="roleDetail"></div>
+            <input type="hidden" asp-for="LoginExtRoleKeys" />
+            <span asp-validation-for="LoginExtRoleKeys"></span>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md3 ah-flex-data">
+            <div class="ah-data-label">可用/禁用</div>
+            <input type="checkbox" title="可用" asp-for="LoginExtEnabled" />
+        </div>
+    </div>
+
+    <div>
+        @*总体错误*@
+        @Html.ValidationSummary(true)
+    </div>
+    <div>
+        <button type="reset" class="ah-btn-white">重置</button>
+        @if (Model.LoginExtId > 0)
+        {
+            <button class="ah-btn-blue">修改</button>
+        }
+        else
+        {
+            <button class="ah-btn-blue">添加</button>
+        }
+    </div>
+</form>
+<script>
+    $(function () {
+    updataLayui();
+    $.revalidate($('#editLoginExt'));/*动态添加重新整理验证*/
+    initialData();
+    });
+</script>
+

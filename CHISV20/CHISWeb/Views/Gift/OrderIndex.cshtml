@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "商品列表";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="收货人或者订单Id" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap ah-flex-auto">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="orderStatus"><strong>订单状态：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="orderStatus" class="ah-search-radio" value="UnShipped" /><span class="ah-def-active">未发货</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="orderStatus" class="ah-search-radio" value="Shipped" /><span>已发货</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="orderStatus" class="ah-search-radio" value="Virtual" /><span>虚拟商品</span></label>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ah-table-wrap" ah-id="GIFTORDERLIST-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+@section scripts{
+    <script src="~/js/pages/gift-order-index.js"></script>
+    <script src="~/js/ah-common-search.js"></script>
+    <script>
+        SEARCH.searchMain = "GIFTORDERLIST-TABLE";//搜索结果存放区域
+        SEARCH.searchUrl = "/Gift/GiftOrderList"; //设置搜索的请求地址
+        SEARCH.search(1);
+    </script>
+}

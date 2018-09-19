@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>CHIS.Models</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CHISDirtValues - 副本.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CHISDirtValues - 副本.cs</LastGenOutput>
+    </None>
+    <None Update="CHISDirtValues.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CHISDirtValues.cs</LastGenOutput>
+    </None>
+    <None Update="CHISModel - 副本.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CHISModel - 副本.cs</LastGenOutput>
+    </None>
+    <None Update="CHISModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CHISModel.cs</LastGenOutput>
+    </None>
+    <None Update="MyConfigNames.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MyConfigNames.cs</LastGenOutput>
+    </None>
+    <None Update="MyFuncDetail.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MyFuncDetail.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CHISDirtValues.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CHISDirtValues.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CHISModel.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CHISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Update="MyConfigNames.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MyConfigNames.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

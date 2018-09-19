@@ -1,0 +1,146 @@
+﻿@using Ass;
+@model CHIS.Models.DataModel.MyConfig
+@{
+    ViewBag.Title = "我的设置";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var u = this.GetUserSelf();
+    var umgr = this.GetUserMgr();
+    var ulogin = umgr.GetMyLoginData();
+    var bShowDetail = !u.MyRoleNames.Contains("drugstore_nurse") && (u.StationTypeId != CHIS.DictValues.StationType.k_StationType_DrugStore);
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@section links{
+    <style>
+        .ah-select {
+            max-width: 120px;
+        }
+
+        .table tbody tr th {
+            padding-right: 20px;
+            text-align: right;
+            width: 20%;
+        }
+
+        .table tbody tr td:nth-child(2) {
+            width: 50%;
+        }
+
+        caption {
+            background-color: #eee;
+            padding-left: 6px;
+            font-weight: bold;
+        }
+    </style>
+}
+
+
+<div class="ah-max-width">
+    <table class="table">
+        <caption>我的个人习惯配置</caption>
+        <tbody>
+            <tr>
+                <th>药品默认用法显示</th>
+                <td>
+                    <div class="ah-select">
+                        <select name="DefDrugTakeShow" asp-for="DefDrugTakeShow" onchange="saveConfig(this)">
+                            <option value="EnCh">英文(中文)</option>
+                            <option value="Ch">中文</option>
+                            <option value="En">英文</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    药品用法下拉显示
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+    <table class="table">
+        <caption>工作站配置</caption>
+        <tbody>
+            <tr>
+                <th>药房显示</th>
+                <td>
+                    <div class="ah-checkbox-wrap">
+                        <input type="checkbox" title="本地药房" value="Local" name="SelectDrugStores" @Html.Raw(Model.CheckBoxChecked(Model.SelectDrugStores, "Local")) onchange="saveConfig(this);" />
+                        <input type="checkbox" title="天使药房" value="AHDrugs" name="SelectDrugStores" @Html.Raw(Model.CheckBoxChecked(Model.SelectDrugStores, "AHDrugs")) onchange="saveConfig(this);" />
+                        <input type="checkbox" title="网上药房" value="NetWeb" name="SelectDrugStores" @Html.Raw(Model.CheckBoxChecked(Model.SelectDrugStores, "NetWeb")) onchange="saveConfig(this);" />
+                    </div>
+                </td>
+                <td>
+                    设置药品来源的药房显示
+                </td>
+            </tr>
+
+            <tr>
+                <th>出药默认单位</th>
+                <td>
+                    <div class="ah-radio">
+                        <input type="radio" title="包装大单位" name="DefDrugUnit" @Html.Raw(Model.RadioChecked(Model.DefDrugUnit, "BIG")) value="BIG" onchange="saveConfig(this);" />
+                        <input type="radio" title="拆零封装小单位" name="DefDrugUnit" @Html.Raw(Model.RadioChecked(Model.DefDrugUnit, "SMALL")) value="SMALL" onchange="saveConfig(this);" />
+                    </div>
+                </td>
+                <td>
+
+                    药品入库或者开药的时候，默认的单位。比如诊所药房一般是按拆零来开药，而药房药品则是按照包装来发药的。
+                </td>
+            </tr>
+            <tr>
+                <th>收费发药包含整个工作站</th>
+                <td>
+                    <div class="ah-radio">
+                        <input type="checkbox" title="整个工作站" name="DefIncludeStation" value="True" @Html.Raw(Model.DefIncludeStation ? "checked" : "") onchange="saveConfig(this,'bool');" />
+                    </div>
+                </td>
+                <td>
+                    包含整个工作站的收费
+                </td>
+            </tr>
+            <tr>
+                <th>收费后默认自动发药</th>
+                <td>
+                    <div class="ah-radio">
+                        <input type="checkbox" title="自动发药" name="DefAutoSendDrugs" value="True" @Html.Raw(Model.DefAutoSendDrugs ? "checked" : "") onchange="saveConfig(this,'bool');" />
+                    </div>
+                </td>
+                <td>
+                    包含整个工作站的收费
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <caption>业务配置</caption>
+        <tbody>
+            <tr>
+                <th>
+                    处方审核医生
+                    <div> <a onclick="addDoctor();"><i class="fa fa-plus-circle"></i> 添加</a></div>
+                </th>
+                <td>                                       
+                    <div id="my_rxdoctors">
+                        @await Html.PartialAsync("MyConfig_RxDoctors", Model.MyRxDoctors)
+                    </div>
+                </td>
+                <td>
+                    处方需要医生审核,签字
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+@section scripts{
+
+    <script>
+         var pagedata = {
+             docRoot: '@(Global.ConfigSettings.DoctorImagePathRoot)',
+             certRoot:'@(Global.ConfigSettings.CertificateImagePathRoot)'
+        };
+    </script>
+    <script src="~/js/pages/my-panel-sets.js"></script>
+}

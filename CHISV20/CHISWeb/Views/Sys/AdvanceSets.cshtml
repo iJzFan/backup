@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "高级设置";
+    ViewBag.FuncId = 71;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+    var departs = ViewBag.Departs as List<KeyValueItem>;
+    var doctors = ViewBag.Doctors as List<KeyValueItem>;
+    var u = this.GetUserSelf();
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+
+@section links{
+
+}
+
+<div>
+    <div class="panel-default" >
+        <h4>基本信息</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Sql数据连接</th>
+                    <td>@(ViewBag.DBConnString)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h4>操作列表</h4>
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <th>生成地址js数据文件</th>
+                    <td>
+                        <button class="btn btn-primary" onclick="LoadJsonAction('/Sys/SetAreaJsFile');"> 操作 </button>
+                    </td>                
+                </tr>
+                <tr>
+                    <th>清理静态数据</th>
+                    <td>
+                        <button class="btn btn-primary" onclick="LoadJsonAction('/Sys/ClearStaticData');"> 操作 </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+ 
+@section scripts{
+    <script>
+        function LoadJsonAction(url,data) {
+            $.post(url, data, function (jn) { 
+                if (jn.rlt) { $.ok("成功！"); }
+                else $.err("错误！");
+            });
+        }
+    </script> 
+}

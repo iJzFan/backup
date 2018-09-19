@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+@inject CHIS.Code.Managers.IMyRazor myRazor
+
+@section links{
+    <link href="~/css/pages/select-formed-drug.css" rel="stylesheet" />
+    <link href="~/css/ah-layout.css" rel="stylesheet" />
+    <style>
+        body{background:#fff;}
+        .select-more{text-align:right;cursor:pointer;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
+        .select2-container--default .select2-selection--multiple {border-radius:1px;border: 1px solid #e4e4e4;transition: all .3s;-webkit-transition: all .3s;}
+        .select2-container--default .select2-selection--multiple:hover{border-color: #687db6;color: #666;}
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {border-radius:1px;} 
+        .select2-container--default.select2-container--focus .select2-selection--multiple {border: 1px solid #687db6;}
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {background-color:#4680EB;border-color:#4680EB;color:#fff;}
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {color: #fff;}
+        .select2-container--default .select2-results__option--highlighted[aria-selected]{background-color: #687db6;}
+        #drup_list tr {cursor:pointer;}
+    </style>
+}
+
+<!-- 添加药品 搜索药品弹出层 -->
+<div class="search-drug-background" id="search-bg" style="padding:15px;">
+    <form id="searchForm" onkeydown="if(event.keyCode==13)return false;" asp-action="" method="post" role="form">
+        <div class="ah-max-width">
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label">药品名称</div>
+                    <input type="text" id="search_drupinfos" class="ah-data-input" placeholder="输入药品名 拼音汉字简拼均可 最少3个字符" value="@(ViewBag.drugId)">
+                </div>
+            </div>
+            <div class="ah-flex-layout">
+                <div class="ah-col-md1 ah-flex-data">
+                    <div class="ah-data-label ah-flex ah-space-between">
+                        <span id="unitTitle" style="display:none">封装单位</span>
+                        <span class="ah-flex-auto select-more" onclick="$('#adv_search').toggle();$('#unitTitle').toggle();">高级搜索项</span>  
+                    </div>
+                    @{
+                        var goodsUnit = myRazor.GetSelectListItemsByDictKey("GoodsUnit");
+                    }
+                    <div id="adv_search" class="ah-max-width" style="display:none;">
+                        <div id="sel_units_group">
+                            <select asp-items="goodsUnit" class="ah-data-input" multiple="multiple" name="unitIds" id="unitIds"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="marb10">
+                <div class="table-responsive" ah-id="selectDrugTable">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>序号</th>
+                                <th>药品名</th>
+                                <th>规格</th>
+                                <th>厂商/产地</th>
+                                <th>包装单位</th>
+                                <th>封装单位</th>
+                                <th>剂量单位</th>
+                            </tr>
+                        </thead>
+                        <tbody id="drup_list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="input-group" style="display:none">
+        <input id="choosed_medicine" type="text" class="form-control input-lg">
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/pages/select-income-drug.js"></script>
+    <script>
+        var pagedata = {
+            ver:1
+        }
+    </script>
+}

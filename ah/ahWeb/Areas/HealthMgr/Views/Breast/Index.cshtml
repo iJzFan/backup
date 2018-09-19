@@ -1,0 +1,266 @@
+﻿
+
+
+@{
+    ViewBag.Title = "关爱女性-乳腺癌专题";
+}
+@section links{
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+            background-color: #fff;
+        }
+
+        .content-title {
+            color: #FFFFFF;
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+            position: relative;
+            font-size: 24px;
+        }
+
+		.content-wrap {
+			padding: 20px;
+			width: 80%;
+			margin: 0 auto;
+			background: #fff;
+			box-sizing: border-box;
+			box-shadow: 0 0 5px #aaaaaa;
+			transform: rotate(0deg);
+			-webkit-transform: rotate(0deg);
+			font-size: 14.0px;
+			border-radius: 0px;
+			border-width: 1px;
+			border-style: solid;
+			text-align: center;
+			line-height: 20px;
+			font-weight: normal;
+			font-style: normal;
+			z-index: 5;
+			opacity: 0.8;
+			pointer-events: auto;
+			margin-bottom: 100px;
+		}
+
+		.content {
+			margin-top: 40px;
+			box-sizing: border-box;
+			border: 2px solid #e04689;
+			padding: 25px 30px 15px;
+			width: 100%;
+			position: relative;
+			text-align: left;
+		}
+
+		.text-title {
+			background: #fff;
+			color: #5677fc;
+			font-size: 24.0px;
+			font-weight: bold;
+			position: absolute;
+			top: -22px;
+			padding: 10px;
+			left: 20px;
+		}
+
+		.bowknot-wrap {
+			position: absolute;
+			top: -22px;
+			right: -18px;
+			background: #fff;
+			width: 58px;
+			text-align: center;
+		}
+
+		.bowknot-wrap img {
+			transform: rotate(331deg);
+			-webkit-transform: rotate(331deg);
+			width: 24px;
+			height: 50px;
+		}
+
+		.text-wrap {
+			line-height: 24px;
+		}
+		.text-wrap p{
+			margin: 0;
+		}
+		.keyword {
+			font-size: 20px;
+			font-weight: bold;
+			margin-right: 8px;
+		}
+		.foot{
+			line-height: 55px;
+			font-size: 18px;
+			text-align: left;
+			margin: 30px 0;
+		}
+		.foot a{
+			background: #ff6091;
+			color: #fff;
+			height: 53px;
+			display: block;
+			float: right;
+			border: 1px solid #d81b60;
+			border-radius: 5px;
+			padding: 0 22px;
+			cursor: pointer;
+		}
+		.clear{
+			clear:both;
+		}
+		.sub-float{
+			position: fixed;
+			width: 50px;
+			height: 50px;
+			background: #ff6091;
+			border-radius: 3px;
+			right: 0.5%;
+			bottom: 30px;
+			margin-top: 53px;
+
+			transition: all 1s;
+			-moz-transition: all 1s; /* Firefox 4 */
+			-webkit-transition: all 1s; /* Safari 和 Chrome */
+			-o-transition: all 1s; /* Opera */
+
+			opacity: 1;
+			padding: 10px;
+			box-sizing: border-box;
+			cursor: pointer;
+		}
+		.sub-float img{
+			width: 100%;
+			height: 100%;
+		}
+	    @@media screen and (max-width:690px){
+		    .sub-float{
+			    display: none;
+		    }
+            .content-wrap{width:99%;padding:16px;}
+            .content {     padding: 23px 12px 9px; }
+            .foot {                 line-height: 29px;                       }
+            .foot a{height:35px;}
+	    }
+    </style>
+}
+
+<img src="~/HealthMgr/img/briefing_bj.jpg" style="position: fixed;top: 0;left:0;width:100%;" />
+<div class="sub-float" onclick="foot()">
+    <img src="~/HealthMgr/img/bottom_icon.png" />
+</div>
+<div  style="position:absolute;top:10px;left:10px;color:#fff;">
+    <a href="/">首页</a>
+</div>
+<div class="content-title">    
+    关爱女性，珍爱乳房
+</div>
+<div class="content-wrap">
+  
+    <div class="content">
+        <div class="text-title">术语解释</div>
+        <div class="bowknot-wrap">
+            <img src="~/HealthMgr/img/bowknot.png" />
+        </div>
+        <div class="text-wrap">
+            <span class="keyword">乳腺癌</span>是发生在乳腺腺上皮组织的恶性肿瘤。乳腺癌中99%发生在女性，男性仅占1%。
+        </div>
+    </div>
+    <div class="content">
+        <div class="text-title">疾病现状</div>
+        <div class="bowknot-wrap">
+            <img src="~/HealthMgr/img/bowknot.png" />
+        </div>
+        <div class="text-wrap">
+            在中国，癌症的健康负担逐年增长，每年超过 160 万人诊断为癌症，其中120 万人因癌症而死亡。乳腺癌也成为了中国女性最常见的癌症；每年中国乳腺癌新发数量和死亡数量分别占全世界的 12.2% 和 9.6%
+        </div>
+    </div>
+    <div class="content">
+        <div class="text-title">疾病现状</div>
+        <div class="bowknot-wrap">
+            <img src="~/HealthMgr/img/bowknot.png" />
+        </div>
+        <div class="text-wrap">
+            <p>1.年龄：年龄&gt;40岁</p>
+            <p>2.遗传因素：具有血缘关系的亲属罹患：乳腺癌/卵巢上皮癌/输卵管癌/原发性腹膜癌</p>
+            <p>3.乳房疾病：曾患过乳腺癌（治疗后）和（或）其他乳房疾病</p>
+            <p>4.月经初潮年龄：初潮&lt;12岁</p>
+            <p>5.绝经年龄：绝经时&gt;55岁</p>
+            <p>6.第一次怀孕年龄：生育第一胎时&gt;30岁</p>
+            <p>7.生育哺乳史：不孕不育；未生育、未哺乳</p>
+            <p>8.绝经后补充雌激素：绝经后有补充雌激素</p>
+            <p>9.长期口服避孕药：长期口服避孕药</p>
+            <p>10.食物：脂肪饮食；高热量饮食</p>
+            <p>11.饮酒：饮酒史</p>
+            <p>12.体重：肥胖或体重增加</p>
+            <p>13.病毒感染：感染HPV（人乳头状瘤病毒）、EBV（EB病毒）</p>
+            <p>14.放射性作用：曾接触放射性物质、从事放射性工作、既往行胸部放疗</p>
+            <p>15.精神因素：长期精神紧张</p>
+            <p>16.基因检测：乳腺癌或者卵巢癌风险超过“++”者</p>
+        </div>
+    </div>
+    <div class="content">
+        <div class="text-title">临床表现</div>
+        <div class="bowknot-wrap">
+            <img src="~/HealthMgr/img/bowknot.png" />
+        </div>
+        <div class="text-wrap">
+            <p>1.乳腺肿块</p>
+            <p>80%的乳腺癌患者以乳腺肿块首诊</p>
+            <p>2.乳头溢液</p>
+            <p>非妊娠期从乳头流出血液、浆液、乳汁、脓液，或停止哺乳半年以上仍有乳汁流出者，称为乳头溢液</p>
+            <p>3.皮肤改变</p>
+            <p>乳腺皮肤出现一个小凹陷，像小酒窝一样，或乳腺皮肤出现许多小点状凹陷，就像橘子皮一样。乳腺癌晚期，在主癌灶周围的皮肤形成散在分布的质硬结节。</p>
+            <p>4.乳头、乳晕异常</p><p>乳头皮肤瘙痒、糜烂、破溃、结痂、脱屑、伴灼痛，以致乳头回缩。</p>
+            <p>5.腋窝淋巴结肿大&nbsp;</p>
+        </div>
+    </div>
+    <div class="content">
+        <div class="text-title">预防措施</div>
+        <div class="bowknot-wrap">
+            <img src="~/HealthMgr/img/bowknot.png" />
+        </div>
+        <div class="text-wrap">
+            <p>1.建立良好的生活方式，调整好生活节奏，保持心情舒畅。</p>
+            <p>2.坚持体育锻炼，积极参加社交活动，避免和减少精神、心理紧张因素，保持心态平和。</p>
+            <p>3.养成良好的饮食习惯。婴幼儿时期注意营养均衡，提倡母乳喂养；儿童发育期减少摄入过量的高蛋白和低纤维饮食；青春期不要大量摄入脂肪和动物蛋白，加强身体锻炼；绝经后控制总热量的摄入，避免肥胖。平时养成不过量摄入肉类、煎蛋、黄油、奶酪、甜食等饮食习惯，少食腌、熏、炸、烤食品，增加食用新鲜蔬菜、水果、维生素、胡萝卜素、橄榄油、鱼、豆类制品等。</p>
+            <p>4.积极治疗乳腺疾病。</p>
+            <p>5.不乱用外源性雌激素。</p>
+            <p>6.不长期过量饮酒。</p>
+            <p>7.学习乳房自检的方法，在每次月经来潮后第9-11天进行检查</p>
+        </div>
+    </div>
+    <div class="foot">
+        如果需要更详细的预防及就医指导，可以去填写调查问卷，我们会做出详细的评估及建议。
+        <a href="/HealthMgr/Breast/Questionnaire">去填调查问卷</a>
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            newScroll();
+            $(window).scroll(function () {
+                newScroll();
+            });
+        });
+        function foot() {
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+        function newScroll() {
+            if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                $(".sub-float").css("opacity", "0");
+            } else {
+                $(".sub-float").css("opacity", "1");
+            }
+        }     
+    </script>
+}

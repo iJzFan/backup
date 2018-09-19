@@ -1,0 +1,17 @@
+﻿@model List<DoctorSEntityV00>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li class="ah-s-li" ondblclick="selectThisDoctor(@item.DoctorId);">
+            <a>
+                <div class="ah-s-l">
+                    <img src="@item.DoctorPhotoUrl" class="ah-doctor-pic"  />
+                </div>
+                <div class="ah-s-r">
+                    <div>@item.DoctorName</div>
+                    <div>@item.PostTitleName</div>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

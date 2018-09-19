@@ -1,0 +1,101 @@
+﻿@model PayDetail 
+<style>
+.charge-wrap{padding:20px}
+.charge-pay-info{text-align:left; background:#fdf8e4;border:1px solid #f9eac9;border-radius:3px;padding:10px;color:#896b39;font-size:14px;line-height:25px}
+.charge-pay-info span{margin-left:10px}
+.charge-durg-wrap{margin-top:10px}
+.table{table-layout:fixed}
+.v_0{display:none;}
+
+
+
+</style>
+<div class="charge-wrap container">
+    <div class="charge-pay-info">
+        <div>订单编号:<span>@Model.Pay.PayOrderId</span></div>
+        <div>支付时间:<span>@Model.Pay.PayedTime.ToString("yyyy-MM-dd HH:mm:ss")</span></div>
+        <div>用户信息:<span>@Model.Pay.CustomerName,@Model.Pay.Telephone</span></div>
+        <div>支付备注:<span>@Model.Pay.PayRemark</span></div>
+    </div>
+    <div class="charge-durg-wrap v_@(Model.Herbs.Count())">
+        <table class="table">
+            <caption>中药</caption>
+            <thead>
+                <tr>
+                    <th>品名</th>
+                    <th>数量/付</th>
+                    <th>总数量</th>
+                    <th class="ah-th-price">单价</th>
+                    <th class="ah-th-price">总价</th>
+                </tr>  
+            </thead>
+            <tbody>                    
+                @foreach (var item in Model.Herbs)
+                {
+                    <tr>
+                        <td>@item.DrugName</td>
+                        <td>@item.Qty/@item.UnitName</td>
+                        <td>@item.Quantity</td>
+                        <td class="ah-td-price">@item.Price</td>
+                        <td class="ah-td-price">@item.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="charge-durg-wrap  v_@(Model.Formeds.Count())">
+        <table class="table">
+            <caption>成药</caption>
+            <thead>
+                <tr>
+                    <th>品名</th>
+                    <th>&nbsp;</th>
+                    <th>数量</th>
+                    <th class="ah-th-price">单价</th>
+                    <th class="ah-th-price">总价</th>
+                </tr>  
+            </thead>
+            <tbody>
+                         
+                @foreach (var item in Model.Formeds)
+                {
+                    <tr>
+                        <td>@item.DrugName</td>
+                        <td>&nbsp;</td>
+                        <td>@item.Qty/@item.UnitName</td>
+                        <td class="ah-td-price">@item.Price</td>
+                        <td class="ah-td-price">@item.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="charge-durg-wrap  v_@(Model.Extras.Count())">
+        <table class="table">
+            <caption>附加费</caption>
+            <thead>
+                <tr>
+                    <th>品名</th>
+                    <th>&nbsp;</th>
+                    <th>数量</th>
+                    <th class="ah-th-price">单价</th>
+                    <th class="ah-th-price">总价</th>
+                </tr>     
+            </thead>
+            <tbody>
+                     
+                @foreach (var item in Model.Extras)
+                {
+                    <tr>
+                        <td>@item.FeeName</td>
+                        <td>&nbsp;</td>
+                        <td>@item.Qty</td>
+                        <td class="ah-td-price">@item.TreatFeePrice</td>
+                        <td class="ah-td-price">@item.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

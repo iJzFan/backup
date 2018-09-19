@@ -1,0 +1,460 @@
+﻿@using Ass;
+@{
+    ViewBag.Title = "患者预约";
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+
+@section links{
+<link href="~/css/other/reservation-appointment.css" rel="stylesheet" />
+<link href="~/css/other/common-overide1.css" rel="stylesheet" />
+    <style>
+        html{
+            height:100%;
+        }
+        body {
+            background: url(/images/web_bg.jpg);
+            background-size: cover;
+            height:100%;
+        }
+        h5 {
+            font-size:12px!important;
+        }
+        footer {
+            font-size: 10px!important;
+        }
+        input[type=text][readonly], input[type=number][readonly], input[type=tel][readonly], input[type=password][readonly], input[type=email][readonly], textarea, .form-control[readonly] {
+            border: 1px solid #cccccc;
+            background-color: #f5f5f5;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            padding-left: 15px;
+            font-size:12px;
+        }
+        .select2-container .select2-selection--single{
+            height:38px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered{
+            line-height:38px;
+        }
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left:15px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            height:38px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items:center;
+        }
+        .h_50 {
+            height:38px;
+        }
+        .success {
+            font-size:12px;
+        }
+        .media-object {
+            width:2em;
+        }
+        .font-38 {
+            font-size:1.5em;
+        }
+        .app_succ{
+            font-size:14px;
+            text-align:center;
+        }
+        .return_page {
+            top:35px;
+            left:45px;
+        }
+    </style>
+}
+
+<div class="top-content" style="height:100%;">
+    <div class="container" style="height:90%;">
+        <div class="col-xs-12 col-sm-6 col-md-4 center-block" style="overflow:visible!important;">
+                <form role="form" action="" method="post" class="registration-form">
+                    <fieldset id="userInfo">
+                        <div class="form-bottom">
+                            <div class="form-title text-center">
+                                <img class="" src="~/images/logo1.png">
+                                <p>天使健康就诊预约</p>
+                            </div>
+                            <div class="form-group">
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <label class="sr-only" for="form-first-name">姓名</label>
+                                <input type="text" name="cusName" placeholder="姓名" class="form-first-name form-control h_50" id="formUserName" style="font-family:'微软雅黑'; padding-left:35px;font-size:14px">
+                            </div>
+                            <div class="form-group">
+                                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                                <label class="sr-only" for="form-last-name">身份证/手机号</label>
+                                <input type="text" name="searchNumber" placeholder="身份证/手机号"
+                                       class="form-last-name form-control h_50" id="formUserIdMobile" style="font-family:'微软雅黑';padding-left:35px;font-size:14px">
+                            </div>
+                            <button type="button" class="btn btn_primary_dap w_100 " id="gh_search">
+                                <h5 class="fontStyle">就诊挂号</h5>
+                            </button>
+
+                            <p class="sign btn-sign">
+                                @*<a href="register" style="font-size:14px; font-family:'微软雅黑';text-decoration:none; color:#1276c1;">信息不完善？马上去完善</a>*@
+                            </p>
+                        </div>
+                    </fieldset>
+
+                    <fieldset id="userSelect">
+                        <div class="form-top">
+                            <div class="app_succ">
+                                <img class="return_page btn-index" src="~/images/mobile_return.png" />
+                                <span>
+                                    选择用户
+                                </span>
+                            </div>
+
+                        </div>
+                        <div id="userList" class="form-bottom" style="max-height:500px;height:80%;overflow-y:scroll;">
+                            <script id="selUserTemplate" type="text/html">
+                                {{each items as user i}}
+                                <div class="cho_user btn-next choose_department">
+                                    <div class="f_l"><img style="width:70px;" src="{{user.customerImage}}"></div>
+                                    <div class="f_l">
+                                        <blockquote>
+                                            <p>
+                                                <h5>
+                                                    {{user.customerName}} | {{user.gender}} | {{user.mobileNumber}}
+                                                    <input type="hidden" class="customerIdSelect" value="{{user.customerId}}" />
+                                                </h5>
+                                            </p>
+                                            <footer>注册时间：{{user.createDate}}</footer>
+                                        </blockquote>
+                                    </div>
+                                    <div class="f_r"><img src="~/images/right.png"></div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                                {{/each}}
+                            </script>
+                    </fieldset>
+
+
+
+                    <fieldset class="department" id="stationSelectFiled">
+                        <div class="form-top">
+                            <div class="app_succ">
+                                <img class="return_page btn-index" src="~/images/mobile_return.png" />
+                                <span>
+                                    选择门诊
+                                </span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="customerid" value="" />
+                        <div class="form-bottom">
+                            <div id="departmemt_list">
+                                <script id="selDepTemplate" type="text/html">
+                                    {{each items as station i}}
+                                    <div class="cho_user btn-next cursor-hand" onclick="departmentIdByQuery({{station.stationId}});">
+                                        <div class="f_l"><img src="~/images/choose_department.png"></div>
+                                        <div class="f_l">
+                                            <blockquote>
+                                                <p>
+                                                    <h5>
+                                                        {{station.stationName}} {{station.stationDetail}}
+                                                    </h5>
+                                                </p>
+                                                <footer>{{station.stationAddress}}</footer>
+                                            </blockquote>
+
+                                        </div>
+                                        <div class="f_r"><img src="~/images/right.png" width="80%"></div>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                    {{/each}}
+
+                                    <nav aria-label="Page navigation" id="staion_pager">
+                                        <ul class="pager">
+                                            <li class="previous" data-flag="-1">
+                                                <a href="#" class="page_radius">
+                                                    <span aria-hidden="true" class="glyphicon glyphicon-menu-left btn-index"></span>
+                                                </a>
+                                            </li>
+                                            <li class="page_num">
+                                                第<span style="border:0px;">
+                                                    <span class="page-index">
+                                                        {{pageIndex}}
+                                                    </span>
+                                                </span>页
+                                            </li>
+                                            <input type="hidden" id="page_totalPages" value="{{totalPages}}" />
+                                            <li class="next" data-flag="1">
+                                                <a href="#" class="page_radius">
+                                                    <span aria-hidden="true" class="glyphicon glyphicon-menu-right"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </script>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="his_info">
+                        <div class="form-top">
+                            <div class="app_succ">
+                                <img class="return_page  btn-previous" src="~/images/mobile_return.png">
+                                <span>
+                                    预约信息
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <div class="form-group">
+                                <input type="hidden" id="departmentIdVal" value="" />
+                                <label class="sr-only" id="depName" for="form-first-name">石碣门诊部</label>
+                                <input style="height:38px;" type="text" id="form-first-names" name="form-first-name"
+                                       readonly="readonly"
+                                       placeholder="石碣门诊部" value="石碣门诊部" class="form-first-name form-control" />
+                            </div>
+                            <div class="form-group">
+                                <select id="departmentSelect" style="height:38px;" class="form-first-name form-control"
+                                        onchange="GetDocsByDepartmemtId();">
+                                    <option value="">科室</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select id="DocsSelect" style="height:38px;" class="form-first-name form-control">
+                                    <option value="default">医生</option>
+                                </select>
+                            </div>
+
+                            <div id="time_solt_row">
+                                <div class="col-xs-12 col-md-8 form-group" style="padding-left:0px; padding-right:0; height:38px;">
+                                    <div style="height:38px;" class="input-group date" data-date="" id="departmentSelect" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input style="height:38px;" class="form-control" id="reservation_time" size="16" type="text" value="" readonly onchange="changeDoctorTime();">
+                                        <span style="height:38px;" class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input2" value="" /><br />
+                                </div>
+
+
+                                <div class="col-xs-12 col-md-4 form-group" style="padding-left:0px; padding-right:0px;">
+                                    <select style="height:38px;" id="day-time" class="form-first-name form-control" onchange="changeDoctorTimeSlot();">
+                                        <option value="1">上午</option>
+                                        <option value="2">下午</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <h5 class="pull-right font-organge" style="line-height:24px; height:24px;" id="restTip">
+                                <span> 预计剩余预约数量 :</span> <span id="restResNum">-</span><span id="fullMark"></span>
+                            </h5>
+                            <button type="button" class="btn btn-reservation w_100" id="btn_reservation">
+                                <h5 class="fontStyle">去预约</h5>
+                            </button>
+                            <br /><br />
+                            <p>
+                                注：<br>若无法选择较近的时间，可能是医生正在接着别的患者，请选择等待时间较少的选项，给您带来的不便请您谅解。
+
+                            </p>
+                        </div>
+                    </fieldset>
+
+                    <fieldset id="reservation-info">
+                        <div class="form-top">
+                            <div class="app_succ">
+                                <img class="return_page  btn-previous" src="~/images/mobile_return.png">
+                                <span>
+                                    预约完成
+                                </span>
+                            </div>
+                            <div class="media">
+                                <img class="media-object" src="~/images/success.png">
+                                <span class="font-orange font-38">恭喜，您已预约成功！</span>
+                            </div>
+                        </div>
+
+                        <div class="form-bottom">
+                            <div class="form-group">
+                                <div class="success" id="reservation-success">
+                                    <script id="selInfoTemplate" type="text/html">
+                                        <ul>
+                                            <li><span class="ah-Warnning">{{registStatus}}</span></li>
+                                            <li>预约编号：{{registerId}}</li>
+                                            @*<li>预约序号：{{registerSeq}}</li>*@
+                                            <li>用户姓名：{{customer.customerName}}</li>
+                                            <li>手机号码：{{customer.telephone}}</li>
+                                            <li>预约门诊：{{stationName}}</li>
+                                            <li>预约科室：{{departmentName}}</li>
+                                            <li>预约医生：{{employee.doctorName}}</li>
+                                            <li>预约时间：{{reservationDate}}&emsp;{{timeInfo}}</li>
+                                        </ul>
+                                    </script>
+                                </div>
+                            </div>
+                            <a class="btn btn-index w_100" id="btn_finished" asp-action="Appointment">
+                                <span class="fontStyle">完成<span id="finishedSecondsShow"></span>  </span>
+                            </a>
+                            <p>
+                                注：<br>请按预定时间到指定医院进行就诊，以免耽误您的治疗。
+
+                            </p>
+                        </div>
+                    </fieldset>
+
+
+
+
+                    <fieldset class="choose_doctor">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3 class="go_index back btn-department">
+                                    <img src="~/images/last.png">选择门诊<a class="inter_doc btn-doctor">
+                                        <img src="~/images/doctor.png" style="width: 28px;">网络医生
+                                    </a>
+                                </h3>
+                                <p class="title_span"><b>选择门诊</b></p>
+                                <div>
+                                    <div class="row doc_controlline">
+                                        <span class="search_btn pull-left">全部</span>
+                                        <span class="search_btn pull-left">接诊数<span class="caret"></span></span>
+                                        <span class="search_btn pull-left">距离<span class="caret"></span></span>
+                                        <a class="glyphicon glyphicon-search pull-right text-muted"
+                                           style="line-height: 30px;"></a>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4 btn-his">
+                                            <div class="thumbnail">
+                                                <img src="~/images/lh.jpg" alt="..." class="doc_img">
+                                                <div class="caption">
+                                                    <p>
+                                                        刘海<br>内科、口腔科<br>接诊量（<span class="text-danger">153</span>）
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4 btn-his">
+                                            <div class="thumbnail">
+                                                <img src="~/images/dzr.jpg" alt="..." width="doc_img">
+                                                <div class="caption">
+                                                    <p>
+                                                        刘海<br>内科、口腔科<br>接诊量（<span class="text-danger">153</span>）
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4 btn-his">
+                                            <div class="thumbnail">
+                                                <img src="~/images/qs.jpg" alt="..." width="doc_img">
+                                                <div class="caption">
+                                                    <p>
+                                                        刘海<br>内科、口腔科<br>接诊量（<span class="text-danger">153</span>）
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="thumbnail">
+                                                <img src="~/images/lh.jpg" alt="..." class="doc_img">
+                                                <div class="caption">
+                                                    <p>
+                                                        刘海<br>内科、口腔科<br>接诊量（<span class="text-danger">153</span>）
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="thumbnail">
+                                                <img src="~/images/dzr.jpg" alt="..." width="doc_img">
+                                                <div class="caption">
+                                                    <p>
+                                                        刘海<br>内科、口腔科<br>接诊量（<span class="text-danger">153</span>）
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="thumbnail">
+                                                <img src="~/images/qs.jpg" alt="..." width="doc_img">
+                                                <div class="caption">
+                                                    <p>
+                                                        刘海<br>内科、口腔科<br>接诊量（<span class="text-danger">153</span>）
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <nav aria-label="Page navigation">
+                                <ul class="pager">
+                                    <li class="previous">
+                                        <a href="#" class="page_radius">
+                                            <span aria-hidden="true"
+                                                  class="glyphicon glyphicon-menu-left"></span>
+                                        </a>
+                                    </li>
+                                    <li class="page_num">第<span style=" border:0px;">1</span>页</li>
+                                    <li class="next">
+                                        <a href="#" class="page_radius">
+                                            <span aria-hidden="true"
+                                                  class="glyphicon glyphicon-menu-right"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </fieldset>
+                </form>
+        </div>
+    </div>
+
+    <div class="body_footer">
+        <span>版权所有：东莞市天使健康管理有限公司&nbsp;&nbsp;服务热线：0769-86325818</span>
+    </div>
+
+</div>
+@section scripts{
+<script src="~/js/pages/reservation-appointment.js"></script>
+    <script type="text/javascript">
+        var pdata = {
+            cusId: '@(Context.Request.Query["customerID"])',
+            mobile: '@(Context.Request.Query["mobile"])',
+            cusName: '@(Context.Request.Query["cusName"])',
+            pagePoz: '@(Context.Request.Query["pagePoz"])',
+            lastCmd: '@(Context.Request.Query["lastCmd"])'
+        };
+        $("#customerid").val(pdata.cusId);
+        $(function () {
+            (pdata.lastCmd=="REG_CUSTOMER_SUCCESS") &&$.confirm("询问", "注册成功，马上去预约？", function () {
+                if (pdata.pagePoz == 'SELECT_STATION') {
+                    $.getJSON("/Reservation/Json_GetStationList", { pageIndexSearch: 1 }, function (jn) {
+                        //列表
+                        //模板与模板数据
+                        //$('#startAppointment').hide();
+                        var html = template('selDepTemplate', jn);
+                        //插入生成的数据
+                        document.getElementById('departmemt_list').innerHTML = html;
+                        $('#stationSelectFiled').show();
+                        $('#userInfo').hide();
+                    });
+                }
+            })
+
+
+
+        });
+
+        if (navigator.platform.indexOf('Win32') != -1) {
+            //pc
+            location.href = "Appointment";
+        } 
+
+
+
+    </script>
+}

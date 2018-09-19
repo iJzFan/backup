@@ -1,0 +1,42 @@
+.iframe-wrap {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 40px 10px 0px;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.iframe-data-wrap {
+    height: 35px;
+    margin-bottom: 20px;
+    display: flex;
+    align-content: center;
+}
+.data-wrap-50 {
+    width: 50%;
+    display: flex;
+}
+.data-wrap-100 {
+    width: 100%;
+    display: flex;
+}
+.data-title {
+    width: 70px;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 28px;
+}
+.data-input {
+    flex: 1;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius:3px;
+}
+.data-select {
+    flex: 1;
+    border: 1px solid #ccc;
+}

@@ -1,0 +1,196 @@
+﻿@using Ass;
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@model CHIS.Models.CHIS_Code_Department
+@{
+    ViewBag.Title = "编辑科室资料";
+    Layout = "~/Views/Shared/_LayoutModalWin.cshtml";
+}
+@section links{
+    <style>
+        table.form tr td select {
+            height: 30px;
+        }
+        .control-label{width:100%;text-align:right;}
+.col-lg-3>.col-lg-6,
+.col-lg-3>.col-md-6,
+.col-md-3>.col-lg-6,
+.col-md-3>.col-md-6{
+   padding-left:2px;padding-right:0px;
+}
+    </style>
+}
+
+<form id="form1">
+    <div style="padding: 10px">
+        @Html.HiddenFor(m => m.DepartmentID)        
+        <input type="hidden" asp-for="StationID" required />
+        <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+            <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+            请填写工作站科室信息，用于创建或修改科室记录！
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"> 
+                <h3 class="panel-title">表单信息</h3>
+                @Html.HiddenFor(m => m.OpID)               
+            </div>
+            <div class="panel-body" style="width: 98%;">
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">科室名称</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6">
+                        <input type="text" asp-for="DepartmentName" class="form-control formValue" required data-msg-required="需要填写科室名称" />
+                    </div>
+                   
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <div class="status3">
+                            <!--采用该样式实现三态效果-->
+                            <select asp-for="IsNotTreatDept">
+                                <option value="">未选择</option>
+                                <option value="True">是</option>
+                                <option value="False">否</option>
+                            </select>
+                            <label>非接诊科室</label>
+                        </div>                        
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12">
+                        @{ 
+                            var dts = myRazor.GetSelectListItemsByDictKey("DepartType");
+                        }
+                        <select asp-for="SpetialDepartTypeId" asp-items="dts">
+                            <option value="">--特殊类别设置--</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12" style="position:relative;">
+                        <span class="col-lg-6 col-md-6 col-sm-6"><label class="control-label">显示顺序</label></span> 
+                        <span class="col-lg-6 col-md-6 col-sm-6">  <input asp-for="ShowOrder" type="number" min="1" max="@(ViewBag.Count)" class="form-control " required /></span>
+                    </div>
+                </div>     
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">科室介绍</label>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-9">
+                        <textarea class="form-control" asp-for="DepartmentDiscript"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">备&emsp;&emsp;注</label>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-9">                        
+                        <input type="text" asp-for="Remark" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">可用状态</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-3">
+                        <div class="status3" id="IsEnabled_status3">
+                            <!--采用该样式实现三态效果-->
+                            <select asp-for="IsEnable">
+                                <option value="">未选择</option>
+                                <option value="True">是</option>
+                                <option value="False">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">停用时间</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-3">
+                        <div class="input-group">
+                            <input type="text" asp-for="StopDate" asp-format="{0:yyyy-MM-dd}" date-format="yyyy-mm-dd" class="form-control input-datetime" pickerpos="top-left" />
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>   
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">操作人</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-3">
+                        <input type="text" asp-for="OpMan" readonly /> 
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <label class="control-label">操作时间</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-3">
+                        <input type="text" asp-for="OpTime" readonly /> 
+                    </div>
+                </div>
+ 
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section scripts{
+<script>
+
+    var pagedata = {
+        op: '@ViewBag.OP',
+        isView:'@(ViewBag.OP)'=="VIEW",
+        ver:1
+    };
+
+    $(function () {
+     
+        //科室与工作站联动
+        $("#StationID").click(function () {
+            $("#ParentID").empty();
+            $("#ParentID").append("<option value=''>未选择</option>");
+            var count = 0;
+            var stationID = $(this).val();
+            if (stationID) {
+                $.getJSONx("/Base/Json_Department", { stationID: stationID, mode: 1 }, function (json) {
+                    $.each(json, function (index, item) {
+                        count += 1;
+                        $("#ParentID").append("<option value ='{0}'>{1}</option>".format(item.id, item.name));
+                    })
+                    if (pagedata.op=="NEW") count+=1;
+                    $('#ShowOrder').attr('max', count);  //更改最大显示顺序
+                    if (parseInt($('#ShowOrder').val())>count) $('#ShowOrder').val(count);
+                });
+            }
+
+        })
+
+        //可用状态三态显示
+        $('#IsEnabled_status3').status3("setOptions",{
+            onChange: function (v) {
+                if (v == "True") {                    
+                    $('#StopDate').val('').attr("disabled", "");
+                    $('#ShowOrder').focus();
+                } else if (v == "False") {
+                    $('#StopDate').removeAttr("disabled").val(new Date().formatDateTime('yyyy-MM-dd'));
+                    $('#StopDate').focus();
+                }
+            }
+        });
+ 
+    });
+
+    //保存记录
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        $.submitForm({
+            url: "/Code/CHIS_Code_Department_Edit?op=" + pagedata.op,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+ 
+
+
+
+</script>
+    }

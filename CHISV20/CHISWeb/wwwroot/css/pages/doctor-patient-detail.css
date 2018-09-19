@@ -1,0 +1,364 @@
+﻿.public-layout-body{background:#f0f0f0}
+.ui-helper-hidden-accessible{display:none}
+.input_prescribestyles{margin-top:10px;padding-left:2px;width:24%;border:none;border-bottom:1px dashed #bbb;background:0 0}
+.herb-num{text-align:center;font-weight:700;font-style:italic;font-size:1pc!important;font-family:Arial}
+.herb-p{padding:2px 5px 2px 0;border:1px solid #aaa}
+.herb-p .pv:after{margin:0 3px;content:"/"}
+.herb-p span{margin-right:3px;padding:2px;background:#aaa none repeat scroll 0 0;color:#fff}
+.notSelectDivCss{padding:9pt;border:1px dashed #ccc}
+body{background-color:#e6e6e6}
+.ui-state-active{padding:3px;border-radius:3px;background:#5ba89e;color:#fff}
+.ui-autocomplete{overflow-x:hidden;overflow-y:auto;max-height:130px}
+.row{margin-right:auto}
+.padding15{padding:6px 30px}
+.brown_color{background:#f0f0f0}
+.brown_color li{width:8pc;text-align:center}
+.brown_color li a{color:#000}
+.margin-b{margin-bottom:20px}
+.ah-data-list li{display:flex;border-bottom:1px dotted rgba(59,141,181,.45);line-height:26px;align-items:center}
+.ah-data-list li>b{color:#333;font-weight:400}
+.list-unstyled li textarea{border:none}
+.ah-data-list li>b{display:inline-block}
+.ah-data-list li>span.fst{padding-left:10px}
+.select2-container{z-index:10000000000}
+.ui-menu{border:1px solid;background:#fff;z-index: 9999;}
+.tab_switch{border:0}
+.tab_switch li{margin-right:10px;border:1px solid #bbb;border-radius:10px}
+.tab_switch a{color:#000;cursor:pointer}
+.ah-gender{margin-left:20px}
+.ah-icolink{position:relative;padding-left:5px!important}
+.ah-icolink>i{margin-right:6px}
+.btn-link{padding:5px}
+.btn-link:hover{color:#37b1e6}
+.btn-link:active{box-shadow:none}
+.ah-data-list>li i{font-style:normal}
+.ah-data-list>li s{margin-left:3px;color:#156779;text-decoration:none}
+.border-right{border-right:1px dotted #bbb;color:#000}
+.medicinal_info{padding:15px 0;background:#ebebeb;color:#000}
+.medicinal_info h6{margin:0;margin-left:15px;padding:0}
+.mart10{margin-top:10px}
+.marb10{margin-bottom:20px}
+.select-custom{padding:8px 9pt;height:38px;border:1px solid #ccc;border-radius:4px}
+.medicinal_info h6{font-size:1pc}
+.medicinal_info a{color:#000;cursor:pointer}
+.mytabs,.top-row{background-color:#fff}
+.mytabs{padding-right:0;padding-bottom:10px;padding-left:0;border:1px solid #ddd}
+.mytabs>ul{border-bottom:1px solid #ddd!important}
+.mytabs>ul>li:first-child.active>a{border-left:none!important}
+.mytabs>ul>li.active>a{border-radius:0!important;border-top-color:transparent!important;border-left-color:#ddd!important;border-right-color:#ddd!important}
+.cus-pic{position:relative}
+.cus-pic .cus-tab{position:absolute;top:0;padding:10px;width:100%;background-color:rgba(0,0,0,.5);color:#fff}
+.cus-pic .cus-tab>b{color:#333;color:#fff;font-weight:400;font-size:1.2em}
+.title_border{margin-top:1pc;margin-right:-15px;margin-left:-15px;border-bottom:1px dotted #ccc}
+.padding5{padding-right:5px;padding-left:0}
+#drup_list tr:hover,.active_ass{border-color:#446e9b;background-color:#446e9b;color:#fff;cursor:pointer}
+.padding5 input,.padding5 select{padding:5px;height:2pc;font-size:13px}
+.form-control-feedback{width:2pc;height:2pc;line-height:2pc}
+.select-linkage{display:1;width:32%}
+.ui-menu-item a s{float:right;color:#ccc;text-decoration:none}
+.ui-menu .ui-menu-item{float:left;clear:left;margin:0;padding:0;padding:3px;width:100%;border-bottom:1px dotted #ccc}
+.ui-menu .ui-menu-item a{display:block;padding:2px .4em;text-decoration:none;font-weight:400;line-height:1.5}
+.ui-widget-content a{color:#404040}
+.ui-corner-all,.ui-corner-bottom,.ui-corner-left,.ui-corner-right,.ui-corner-top{border-radius:0}
+.ui-menu .ui-menu-item a.ui-state-active,.ui-menu .ui-menu-item a.ui-state-focus{margin:0;border-color:rgba(0,0,0,.1) rgba(0,0,0,.1) rgba(0,0,0,.25);background:#0064cd -moz-linear-gradient(center top,#049cdb,#0064cd) repeat-x scroll 0 0;color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.25);font-weight:400}
+.ui-menu .ui-menu-item a.ui-state-active{padding:1px .4em}
+.ui-menu .ui-state-disabled{margin:.4em 0 .2em;font-weight:400;line-height:1.5}
+.ui-menu .ui-state-disabled a{cursor:default}
+.ui-menu-icons{position:relative}
+.toptab>div{min-height:500px}
+div[ah-input-key=BloodPress_H]:after,div[ah-input-key=BloodPress_L]:after{position:absolute;top:-2px;right:-4px;width:15px;height:15px;border:1px solid #aaa;border-radius:2px;background-color:#ddd;color:#555;text-align:center;font-size:10px;line-height:14px}
+div[ah-input-key=BloodPress_H]:after{content:"\9AD8"}
+div[ah-input-key=BloodPress_L]:after{content:"\4F4E"}
+.tab-img{font-size:18px;line-height:23px}
+.tab-img i{cursor:pointer}
+.grp-{border-left:3px solid #888}
+.grp-1,.grp-10,.grp-2,.grp-3,.grp-4,.grp-5,.grp-6,.grp-7,.grp-8,.grp-9{margin-bottom:0!important;border-left-width:3px;border-left-style:solid}
+.grp-1:last-child:after,.grp-2:last-child:after{display:block;height:10px;content:" "}
+.grp-1{border-left-color:#37b1e6}
+.grp-2{border-left-color:#ff6a00}
+.grp-3{border-left-color:#552365}
+.grp-4{border-left-color:#cc2a2a}
+.grp-5{border-left-color:#dba138}
+.grp-6{border-left-color:#1d62dd}
+.grp-7{border-left-color:#6fc739}
+.grp-8{border-left-color:#f22ab7}
+.grp-9{border-left-color:#40a517}
+.grp-10{border-left-color:#a2b718}
+.grp-11{border-left-color:#e437c6}
+.grp-12{border-left-color:#ff6a00}
+.grp-13{border-left-color:#552365}
+.grp-14{border-left-color:#cc2a2a}
+.grp-15{border-left-color:#dba138}
+.grp-16{border-left-color:#1d62dd}
+.grp-17{border-left-color:#6fc739}
+.grp-18{border-left-color:#f22ab7}
+.grp-19{border-left-color:#40a517}
+.grp-20{border-left-color:#a2b718}
+ul>li.device-space{position:relative;top:-1px;margin-bottom:20px;border-top:1px solid #f5f5f5}
+.grp-+li.device-space{margin-bottom:0!important}
+.yfinput input[type=text],.yfinput select{margin-right:1px;padding-top:3px;padding-bottom:3px;height:28px;border-radius:2px}
+input.readonly-input{margin:1px;padding:1px;border:none;background-color:transparent;ime-mode:disabled}
+.pagination{margin:1px 0}
+.img_prescribestyles{margin-right:20px;margin-bottom:3px;cursor:pointer}
+.select_prescribestyles:hover{background:#ccc url(/images/arrow.png) no-repeat scroll right center}
+.input_prescribestyles:hover{background-color:#ccc}
+.input_prescribestyles,.select_prescribestyles{margin-bottom:10px;padding-bottom:2px;padding-left:2px;width:24%;border:none;border-bottom:1px dashed #bbb;background:0 0;font-size:13px}
+.input_pre2{margin-top:10px;width:32.2%}
+.input_prescribestyles:focus,.select_prescribestyles:focus{background-color:#fff}
+.input_prescribestyles:focus{border:1px solid #ddd;border-radius:2px}
+.i_prescribestyles{margin-right:20px;font-size:1pc;line-height:23px;cursor:pointer}
+.ahico16{display:inline-block;width:1pc;height:1pc;background:url(/images/ico16.png)}
+.ahico16-dosage{background-position:0 0}
+.ahico16-dosage:hover,.ahico16-package[selected]{background-position:0 -1pc}
+.ahico16-formed{background-position:-1pc 0}
+.ahico16-formed:hover,.ahico16-package[selected]{background-position:-1pc -1pc}
+.ahico16-package{background-position:-2pc 0}
+.ahico16-package:hover,.ahico16-package[selected]{background-position:-2pc -1pc}
+.drugitem-status{position:absolute;top:7px;right:0;line-height:normal}
+.drugitem-status>span{font-size:9pt}
+select{appearance:none;-moz-appearance:none;-webkit-appearance:none}
+.add-medicinal{margin-top:20px;width:100%;border-top:1px dashed #bbb}
+.add-medicinal:hover{background-color:#bababa}
+.drug-num{position:relative;float:left;display:inline-block}
+.drug-num .unit{float:left;margin-top:1px;padding-left:2px;border-bottom:1px dashed #bbb;color:#39b77e;font-weight:700;font-size:14px;line-height:28px}
+.drug-num .qty{width:40px;border:none;border-bottom:1px dashed #bbb;background-color:transparent;color:#017cc2;color:#39b77e;text-align:center;font-style:italic;font-family:arial;line-height:27px}
+.drug-num .qty,.price{float:left;text-align:right;font-weight:700;font-size:1pc}
+.price{min-width:5pc;color:#ff6a00;font-family:Arial}
+.price:before,.td-price:before{content:"￥";font-family:Arial}
+.td-price{min-width:5pc;color:#ff6a00;text-align:right;font-weight:700;font-size:14px;font-family:Arial}
+.td-dj{display:inline-block;margin-right:10px;width:46px;text-align:right}
+li[rolename=boxitem-drugs-item] input[type=text]:focus{border:1px solid #ddd;border-radius:3px;background-color:#fff}
+.price-style{position:absolute;top:10px;right:72%}
+.price-state{font-size:20px}
+.price-state strong{margin:0 10px 0 0;color:red;font-size:24px}
+#top_box li[rolename=boxitem-drugs-item]:hover{background:#eaeaea}
+.chargestatus-1 span{background-color:#3cb521}
+.chargestatus-2 span{background-color:#f0ad4e}
+.chargestatus-3 span{background-color:#337ab7}
+.chargestatus- span,.chargestatus-0 span{display:none}
+.ah-fee-refresh{position:absolute;top:4px;left:-28px;cursor:pointer}
+li[chargestatus="1"] .drug-num,li[chargestatus="2"] .drug-num,li[chargestatus="3"] .drug-num{border-bottom:none}
+ul.other-fees{margin-right:20px;margin-left:0;padding-left:0;list-style:none}
+ul.other-fees>li:first-child{border-left:none}
+ul.other-fees>li{display:inline;margin-right:10px;margin-left:0;padding-left:10px;border-left:1px solid #ccc;list-style:none}
+.other-fees .price{float:none;margin-top:0}
+.other-fees .feename{height:40px}
+.other-fees .feename:after{content:":"}
+.other-fees .price-orig{display:block;width:100%;color:#aaa;text-align:right;font-size:9pt}
+.other-fees .price-orig:before{margin-left:6px;content:"￥"}
+.other-fees .pricearea{display:inline-block;width:5pc;height:40px}
+.selectDiv:hover{border:1px solid #65b76f;background:rgba(0,0,0,.1);opacity:.8;-moz-opacity:.8}
+.notSelectDivCss.selectDiv{padding:10px;border:1px solid #65b76f;border-radius:4px;background:#fff}
+input[type=number]{-moz-appearance:textfield}
+input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{margin:0;-webkit-appearance:none!important}
+.cf-top-right{position:absolute;top:-18px;right:6px}
+.herb-num{margin-top:0;margin-left:10px;width:5pc;color:#39b77e;text-align:center;font-size:18px;font-family:arial}
+.herb-select-geventype{margin-left:10px;width:75pt}
+.prescrip-no{display:inline;width:380px;border:none;background-color:transparent;color:#ddd;text-transform:uppercase;}
+.cf-drug-img{position:relative;float:left;display:flex;margin-top:3px;margin-right:8px;width:110px;height:110px;border:1px solid #eee;border-radius:2px;cursor:pointer}
+.cf-drug-img img{width:81pt;height:81pt}
+.cf-drug-info{float:left}
+.cf-drug-chk{position:absolute;top:-1px;left:-20px;margin:0;padding:0}
+.cf-drug-chk input[type=checkbox]{margin:0}
+.cf-drug-title{margin-right:10px;line-height:36px}
+.cf-drug-name{font-size:14px}
+.cf-mark {position: relative; margin-right: 5px;padding: 0 5px 0 0;border: 1px solid #aaa; background: #fff;display: flex;justify-content: center;align-items: center;}
+.cf-mark span{margin-right:3px;padding:2px;background:#aaa none repeat scroll 0 0;color:#fff}
+.cf-mark .cf-pv:after{margin:0 3px;content:"/"}
+.cf-mark .fa-tag{position:absolute;top:-2px;right:-8px;color:#ff6a00;font-size:14px}
+.formed-wrap{display:flex;padding:15px}
+.formed-left{padding-left:15px}
+.formed-conten{padding-left:10px;flex:1}
+.formed-content-top{display:flex;align-items:center}
+.formed-right{display:flex;padding:0 10px;align-items: center;}
+div.cf-herb-bg{background-color:#f5f5f5;background-image:url(/images/bg/herbbg.png);background-repeat:no-repeat}
+.herb-item{margin-bottom:15px}
+.cf-herb-img{position:relative;float:left;display:flex;margin-top:0;margin-right:8px;border-radius:2px;border-radius:75pt;cursor:pointer}
+.cf-herb-img,.cf-herb-img img{width:4pc;height:4pc}
+.cf-herb-info{float:left}
+.herb-title{line-height:30px}
+.herb-flex-title{font-weight:700;font-size:14px;line-height:30px}
+.herb-flex-wrap{display:flex;flex-wrap:wrap}
+.herb-wrap-33{margin-bottom:10px;padding:0 5px;width:33.33334%}
+.fa-exclamation-circle{color:#ee6f10}
+.ah-herb-pkgunit{display:inline-block;border-bottom:1px dashed #bbb;color:#39b77e;font-weight:700;font-size:14px;line-height:27px}
+.drug-active{border-color:rgba(237,123,56,.2);box-shadow:0 0 10px #ed7b38}
+div[rolename=boxitem1],div[rolename=boxitem]{position:relative}
+.drug-status-bar{position:absolute;top:0;left:0}
+.ah-charge-,.ah-charge-0,.ah-charge-1,.ah-charge-2,.ah-charge-3{display:inline-block}
+.ah-charge-0:after,.ah-charge-1:after,.ah-charge-2:after,.ah-charge-3:after,.ah-charge-:after{display:inline-block;padding:2px 9px;border:1px solid transparent;color:#fff}
+.ah-charge-:after{background-color:#ccc;content:"未知"}
+.ah-charge-0:after{background-color:#ccc;content:"待付款"}
+.ah-charge-1:after{background-color:#39b77e;content:"已支付"}
+.ah-charge-2:after{background-color:#dba138;content:"待退"}
+.ah-charge-3:after{background-color:#a2b718;content:"已退"}
+span.herb-num{display:inline-block;padding:2px;width:46px;min-width:46px;border-bottom:1px dashed #ccc;text-align:center}
+
+
+
+
+
+@media (max-width:800px){.herb-wrap-33{width:100%}
+}
+.herb-wrap-33:hover{opacity:.8;-moz-opacity:.8}
+.herb-wrap{position:relative;display:flex;padding:10px;width:100%;border:1px solid #39b77e;border-radius:6px;background:#fff;align-items:center}
+.herb-flex-pic{width:56px;height:56px}
+.herb-flex-name{padding:0 5px;flex:1}
+.herb-flex-data{width:85px}
+.herb-flex-close{position:absolute;right:0;bottom:0;z-index:20;cursor:pointer}
+.other-fees-wrap{position:absolute;top:8px;right:0}
+.other-charges{display:flex;margin-bottom:10px;padding:10px;border:1px solid #ddd;background-color:#f5f5f5;background-image:url(../../images/fee.png);background-repeat:no-repeat;background-position-x:100%;flex-direction:column}
+.other-fees-top{height:26px;border-bottom:1px solid #ddd;font-size:13px;line-height:29px}
+.other-fees-table{padding:10px;width:100%}
+.other-fees-table tr{display:flex;line-height:40px}
+
+
+
+
+@media (max-width:950px){.other-fees-table tr{flex-direction:column}
+}
+.other-fees-table td{display:flex;padding:0 5px;flex:1;align-items:center}
+.other-fees-input,.other-fees-select{margin-left:5px;padding:0 5px;height:30px;border:none;border-bottom:1px dashed #bbb;border-radius:3px;background:unset;font-size:13px;border-bottom-width:medium;border-bottom-style:none;border-bottom-color:currentcolor;flex:1}
+.other-fees-select:hover{border:1px solid #ccc;background:#fff url(/images/arrow.png) no-repeat scroll right center!important}
+.other-fees-input:hover{border:1px solid #ccc;background:#fff}
+.other-fees-label{padding-right:5px;min-width:61px;text-align:right}
+.other-fees-active{display:flex;align-items:center;justify-content:right}
+.other-fees-amount{color:#ff6a00;font-weight:700;font-size:1pc;font-family:Arial}
+.other-fees-amount:before{content:"￥";font-family:Arial}
+.other-fees-active-sub{margin-left:10px;padding:3px 5px;border-radius:4px;background:#286090;color:#fff!important;cursor:pointer}
+.other-fees-item-wrap{width:100%;border-top:1px solid #ddd;background-color:#f5f5f5;background-repeat:no-repeat;color:#666;table-layout:fixed;text-align:center;background-position-x:100%}
+.other-fees-item-wrap tr{background:#f5f5f5;line-height:30px}
+.other-fees-item-wrap td{border-bottom:1px solid #f0f0f0}
+.other-fees-item-wrap tr:nth-child(even){background:#f9f9f9}
+.other-fees-item-wrap a{cursor:pointer}
+
+/*显示详细药品信息*/
+.drugdetail{  -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #ddd;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 1px 1px 3px;
+    border-left-color:#286901;
+    height: 343px;
+    left: 118px;
+    position: absolute;
+    top: 4px;
+    width: 700px;box-shadow: 1px 1px 3px #333;
+    z-index: 2;}
+.drugdetail:before{
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  left: -23px;
+  position: absolute;
+  width: 0;
+  border-width: 10px;
+  border-right-color: #286901;
+  top: 15px;
+}
+.drugdetail iframe{border:none;width:100%;height:100%;}
+.color_1{color:red;}
+.form-control {
+    border: 1px solid #d5d5d5
+}
+.patient_detail_nav {
+    clear: both;
+    position: relative;
+    padding-top: 26px;
+}
+.patient_detail_nav .tab-content {
+    background: #fff;
+    padding: 0 20px;
+}
+.patient_detail_nav .nav {
+    margin: 0 15px;
+    margin-bottom: 20px;
+}
+.patient_detail_nav .nav .active {
+    background: #337ab7 !important;
+}
+.patient_detail_nav .nav .active a{
+    color: #fff !important;
+}
+.patient_detail_nav .nav a {
+    color: #666;
+}
+.patient_detail_nav .nav li {
+    border-radius: 29px;
+    margin-right: 13px;
+    color: #666;
+    background: #ededed;
+}
+.patient_detail_nav .nav a:hover, .patient_detail_nav .nav a:focus {
+    background-color: unset;
+}
+.patient_detail_nav .tab-pane {
+    clear: both;
+}
+.clear {
+    clear: both;
+}
+.tab-pane .glyphicon{
+    margin-left:10px;
+    cursor:pointer;
+}
+.tab-pane .tips {
+    display: none;
+    font-weight: normal;
+    color: #999;
+    width: 100%;
+    line-height: 24px;
+    margin-top: 5px;
+}
+.tab-pane .tips i {
+    position: absolute;
+    right: -6px;
+    top: -5px;
+    font-size: 23px;
+}
+.pvSt-Item {
+    border-left: 1px dotted #ccc;
+    margin-left: 12px;
+}
+.pvSt-Item li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 13px;
+}
+.pvSt-Item li::before {
+    content: "";
+    background-image: url('../../images/circular.png');
+    position: absolute;
+    left: -12px;
+    color: #3144d4;
+    background-size: 22px;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    top: 4px;
+}
+.pvSt-Item-Title {
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+}
+.pvSt-Item-Value {
+    font-size: 14px;
+    color: #666;
+    padding: 10px;
+    padding-left: 10px;
+    margin-top: 7px;
+    border-left: 2px solid #bcd0d8;
+    padding-left: 27px;
+}
+#Record i {
+    color: #337ab7;
+    margin-left: 0;
+    margin-right: 4px;
+}
+.patient_detail_nav .col-md-12 {
+    padding: 0;
+}

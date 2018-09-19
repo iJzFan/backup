@@ -1,0 +1,56 @@
+﻿@model Ass.Mvc.PageListInfoDs
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    
+}
+@if (!Model.HaveRecords)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <div>
+        <span class="pull-right"> 合计:<span class="ah-price">@(ViewBag.TotalAmount)</span></span>
+    </div>
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th style="width:140px;">支付时间</th>
+                <th>工作站</th>
+                <th style="width:60px;">类型</th>
+                <th class="ah-tr-hide">用户</th>
+                <th class="ah-tr-hide">医生</th>
+                <th class="ah-th-price">金额</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (System.Data.DataRow item in Model.MainTable.Rows)
+            {
+                <tr>
+                    <td>@(item["payedTime"].ToObjReturn().ToDateTime()?.ToStdString())</td>
+                    <td>@item["StationName"]</td>
+                    <td>@(CHIS.FeeTypes.ToName(item["feeTypeCode"]))</td>
+                    <td class="ah-tr-hide">
+                        @item["customerName"]
+                        <span class="ah-mk-@(Utils.ZeroFlag(Ass.P.PStr(item["customerName"])))">
+                            @(item["gender"].ToObjReturn().ToInt().ToGenderString())
+                        </span>                     
+                    </td>
+                    <td class="ah-tr-hide"><i class="ahico16 ahico-doctor"></i>@item["doctorName"]</td>
+                    <td class="ah-td-price">@item["totalAmount"]</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+<div>
+    <span>共计 @(Model.RecordTotal) 条 / @Model.PageTotal 页</span>
+
+</div>
+
+@ViewBag.DebugText
+<script>
+   $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+</script>

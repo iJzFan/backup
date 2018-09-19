@@ -1,0 +1,86 @@
+﻿html {height:100%;min-height: 800px;min-width: 1368px;}
+body {
+    height: 100%;
+    font-family: "Microsoft YaHei" !important;
+}
+input {
+    outline: none;
+    -webkit-appearance: none;
+}
+input{-webkit-appearance:none!important}
+ 
+
+.customer-wrap {
+    display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -moz-box; /* Firefox 17- */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: -moz-flex; /* Firefox 18+ */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex; /* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
+    margin: 0 auto;
+    width: 100%;
+    background: #fff;
+    max-width: 1280px;
+}
+.customer-left{width:220px;flex:none}
+.customer-main{padding:0 10px 0 50px;flex:1}
+.app{display:none}
+a>i.fa,a>i.glyphicon{margin-right:3px}
+.portrait{height: 100%;}
+
+@media screen and (max-width:800px){
+html {height:100%;min-width:inherit;min-height:inherit;background:#fff;}
+.customer-wrap{background:#fff;max-width:100%;overflow:initial !important;}
+body{position:absolute;top:0;right:0;bottom:0;left:0;background:#eee;}
+    .customer-main {
+        padding: 10px;
+        border-top: .027rem solid #e7e7e7;
+        width: 100%;
+        background: #f1f2f7;
+        overflow: auto;
+    }
+.izl-rmenu,.pc,.udesk-feedback-tab-left,.ui-footer{display:none!important}
+.app{display:flex;flex-direction:column}
+.app-head-wrap{display:flex;padding:10px;flex: none;height:115px;background:url(/images/bg.png);background-size:100% 100%;align-items:center;justify-content:space-between}
+.app-head-pic{display:block;width:70px;height:70px;border:3px solid #fff;border-radius:50%}
+.app-user-info{margin-left:20px;color:#fff;font-size:1.3em;flex:1}
+.app-more{position:relative;margin-right:20px;color:#fff;font-size:22px;cursor:pointer}
+.app-more ul{position:absolute;top:100%;right:0;z-index:1000;float:left;display:none;margin:2px 0 0;margin-top:2px;margin-top:2px;padding:10px;min-width:110px;border:1px solid #ccc;border:1px solid rgba(0,0,0,.15);border-radius:4px;border-top-right-radius:4px;border-top-right-radius:4px;border-top-left-radius:4px;border-top-left-radius:4px;background-color:#fff;background-clip:padding-box;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);color:#666;list-style:none;text-align:left;font-size:16px;-webkit-background-clip:padding-box}
+.app-more ul li{font-size:14px;line-height:34px}
+.app-more ul li a{color:#666}
+.app-head-sex{position:absolute;top:22px;left:63px;padding:2px;width:20px;height:20px;border-radius:7px;background:#fff}
+.app-nav{margin-bottom:15px}
+.app-nav-ul{display:flex;border-bottom:.027rem solid #e7e7e7;background:#fff;flex-wrap:wrap}
+.app-nav-ul a{position:relative;display:flex;width:25%;height:72px;color:#575757;text-align:center;font-size:11px;flex-direction:column;align-items:center;justify-content:center}
+.app-nav-ul a:hover>span,
+.app-nav-ul a:hover{color:#3497B0;}
+.app-nav-ul a span{display:table-cell;height:36px;color:#999;vertical-align:middle;font-size:24px;align-content:center}
+.app-nav-ul a span>i{vertical-align:middle}
+a.app-nav-img>span{margin-bottom:0}
+a.app-nav-img>span>img{height:36px;border-radius:100px;-webkit-filter:grayscale(100%);-moz-filter:grayscale(100%);-ms-filter:grayscale(100%);-o-filter:grayscale(100%);filter:grayscale(100%);filter:gray}
+.ah-my-calendar{border:none!important;font-size:12px}
+.ah-my-calendar>tbody>tr>td{border:none!important}
+.ah-my-calendar>thead>tr>td{border:none!important}
+.ah-cr-bg .sday{font-size:14px!important}
+.ah-cr-bg{display:flex;height:60px!important}
+.ah-cr-bg .lday{top:34px!important;font-size:10px}
+.ah-cr-bg .today{border-color:red}
+ul.ah-yz-lst>li{line-height:.5!important}
+ul.ah-yz-lst>li>span.cicle{width:6px!important;height:6px!important}
+.ah-reserv-rcd{margin-bottom:0!important;border:none!important}
+.reg-items{display:flex;margin-bottom:10px;padding:15px 10px 8px;border-radius:5px;background-size:100% 100%;color:#666;line-height:26px;flex-direction:column}
+.reg-items div{display:flex;justify-content:space-between}
+.ah-mob-hiden{display:none}
+.ah-mob-tb20{width:20%}
+.ah-mob-table{margin-top:10px;font-size:.9em}
+.ah-btn-area{margin:19px 0 30px 0;width:100%}
+.ah-btn-area .btn{width:100%}
+.breadcrumb{border-radius:0;background-color:#f5f5f5;padding-left:8px;margin-bottom: 10px;}
+
+.ah-public-main {
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    border-radius: 2px;
+    padding: 10px;
+}
+}

@@ -1,0 +1,28 @@
+﻿@using Ass;
+@model CHIS.Models.ViewModel.RolesAndDepartsOfStation
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+}
+ 
+<form autocomplete="off">
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">选择角色</div>
+            @foreach (var r in Model.Roles)
+            {
+                <div class="ah-checkbox-wrap"><input type="checkbox" name="StationRoles" lay-skin="primary" value="@r.RoleId" title="@r.RoleName" @Html.Raw(Model.SelectedRoles.Any(m => m == r.RoleId) ? "checked='checked'" : "") /></div>
+            }
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md1 ah-flex-data">
+            <div class="ah-data-label">选择科室</div>
+            <div class="ah-checkbox-wrap"><input type="checkbox" name="StationDeparts" lay-skin="primary" value="0" title="无科室" /></div>
+            @foreach (var d in Model.Departs)
+            {
+                <div class="ah-checkbox-wrap"><input type="checkbox" name="StationDeparts" lay-skin="primary" value="@d.DepartmentID" title="@d.DepartmentName" @Html.Raw(Model.SelectedDeparts.Any(m => m == d.DepartmentID) ? "checked='checked'" : "") /></div>
+            }
+        </div>
+    </div>
+</form>
+<button type="button" class="ah-btn-blue ah-margin-0" onclick="addRolesAndDep()">添加/更新</button>

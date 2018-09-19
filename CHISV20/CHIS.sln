@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layer", "Layer", "{83185170-E0DD-4147-AE4B-A028FAAD3B54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIS.Models", "CHIS.Models\CHIS.Models.csproj", "{52546958-9D25-4C43-9A9B-89A4314BE7DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIS.Models.SysAuto", "CHIS.Models.SysAuto\CHIS.Models.SysAuto.csproj", "{837B74B4-B2BF-4A9D-8B23-DF4DE9760925}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIS.DbContext", "CHIS.DbContext\CHIS.DbContext.csproj", "{92C41DE0-5C45-4810-8214-221E6C313EAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHISWeb", "CHISWeb\CHISWeb.csproj", "{8D6C8F36-5EC5-400E-819D-16A06D296088}"
+	ProjectSection(ProjectDependencies) = postProject
+		{19128C83-B99E-4A58-9158-E63FAA88461E} = {19128C83-B99E-4A58-9158-E63FAA88461E}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0A42E336-2C62-4676-97DF-9381F9BE64D1}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\Administrator\Desktop\AHIS短信模板.docx = ..\..\Users\Administrator\Desktop\AHIS短信模板.docx
+		docs\前端开发说明.docx = docs\前端开发说明.docx
+		docs\前端调用后端接口文档.docx = docs\前端调用后端接口文档.docx
+		docs\前端通用搜索结构说明.jpg = docs\前端通用搜索结构说明.jpg
+		docs\后端开发说明.docx = docs\后端开发说明.docx
+		docs\数据库开发说明.docx = docs\数据库开发说明.docx
+		E:\VSFile\montnets-sms-api-.net-5.2\montnets-sms-api-.net-5.2\API V5.3接口说明文档\梦网平台 API V5.3 接口说明.doc = E:\VSFile\montnets-sms-api-.net-5.2\montnets-sms-api-.net-5.2\API V5.3接口说明文档\梦网平台 API V5.3 接口说明.doc
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ZTEST", "ZTEST", "{6AADA510-D52F-404E-9341-84A21D105203}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIS.DAL", "CHIS.DAL\CHIS.DAL.csproj", "{71C6D71E-CB87-452F-A1ED-3D3EBCC09BDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIS.BllCaller", "CHIS.BllCaller\CHIS.BllCaller.csproj", "{A7D8E57B-3640-4007-98B5-D0F378CCDCFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIS.WebSocketService", "CHIS.WebSocketService\CHIS.WebSocketService.csproj", "{19128C83-B99E-4A58-9158-E63FAA88461E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52546958-9D25-4C43-9A9B-89A4314BE7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52546958-9D25-4C43-9A9B-89A4314BE7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52546958-9D25-4C43-9A9B-89A4314BE7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52546958-9D25-4C43-9A9B-89A4314BE7DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{837B74B4-B2BF-4A9D-8B23-DF4DE9760925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{837B74B4-B2BF-4A9D-8B23-DF4DE9760925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{837B74B4-B2BF-4A9D-8B23-DF4DE9760925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{837B74B4-B2BF-4A9D-8B23-DF4DE9760925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92C41DE0-5C45-4810-8214-221E6C313EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92C41DE0-5C45-4810-8214-221E6C313EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92C41DE0-5C45-4810-8214-221E6C313EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92C41DE0-5C45-4810-8214-221E6C313EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6C8F36-5EC5-400E-819D-16A06D296088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6C8F36-5EC5-400E-819D-16A06D296088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6C8F36-5EC5-400E-819D-16A06D296088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6C8F36-5EC5-400E-819D-16A06D296088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71C6D71E-CB87-452F-A1ED-3D3EBCC09BDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C6D71E-CB87-452F-A1ED-3D3EBCC09BDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C6D71E-CB87-452F-A1ED-3D3EBCC09BDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C6D71E-CB87-452F-A1ED-3D3EBCC09BDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D8E57B-3640-4007-98B5-D0F378CCDCFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D8E57B-3640-4007-98B5-D0F378CCDCFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D8E57B-3640-4007-98B5-D0F378CCDCFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D8E57B-3640-4007-98B5-D0F378CCDCFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19128C83-B99E-4A58-9158-E63FAA88461E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19128C83-B99E-4A58-9158-E63FAA88461E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19128C83-B99E-4A58-9158-E63FAA88461E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19128C83-B99E-4A58-9158-E63FAA88461E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{52546958-9D25-4C43-9A9B-89A4314BE7DA} = {83185170-E0DD-4147-AE4B-A028FAAD3B54}
+		{837B74B4-B2BF-4A9D-8B23-DF4DE9760925} = {83185170-E0DD-4147-AE4B-A028FAAD3B54}
+		{92C41DE0-5C45-4810-8214-221E6C313EAF} = {83185170-E0DD-4147-AE4B-A028FAAD3B54}
+		{71C6D71E-CB87-452F-A1ED-3D3EBCC09BDC} = {83185170-E0DD-4147-AE4B-A028FAAD3B54}
+		{A7D8E57B-3640-4007-98B5-D0F378CCDCFE} = {83185170-E0DD-4147-AE4B-A028FAAD3B54}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE1BD5B5-67C5-4C3E-B45D-3C841976FF52}
+	EndGlobalSection
+EndGlobal

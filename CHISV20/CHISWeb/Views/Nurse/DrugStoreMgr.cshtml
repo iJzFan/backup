@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "门店管理";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@*@inject CHIS.Code.Managers.IMyRazor myRazor
+    @inject CHIS.Services.LoginService loginSvr*@
+@section links{
+    <link href="~/css/pages/chis-charge-main.css" rel="stylesheet" />
+    <style>
+        .ah-user-items li {
+            height: auto;
+            position: relative;
+        }
+        .ah-sidebar{
+            padding-left:10px;
+        }
+        .ah-LoginExtEnabled i {
+            font-size: 21px;
+            margin-right: 6px;
+        }
+        .ah-i-True {
+            color: #4780eb
+        }
+        .ah-i-False {
+            color: #eb5847;
+        }
+                .ah-multiple-select{border: 1px solid #aaa !important;
+    border-radius: 0 !important;
+    height: 80px !important;
+    padding-right: 0 !important;
+    width: 210px !important;}
+        .ah-multiple-select>option{padding:2px 4px;}
+        .ah-addrole-grp{width:500px;position:relative;}
+        .ah-addrole-grp>div{display:inline-block;}
+    </style>
+}
+
+<div class="ah-flex ah-m-fullwidth ah-max-width">
+    <div class="ah-sidebar ah-charge-sidebar">
+        <div class="ah-public-title">现有店员 <a onclick="createNewStaff();">新增</a></div>
+        @await Html.PartialAsync("DrugStoreMgr_pvMyStaff", (IEnumerable<CHIS_Sys_LoginExt>)ViewBag.MyStaffs)
+    </div>
+
+    <div class="ah-flex-auto charge-main-wrap ah-postion-relative">
+        <div class="ah-flex ah-flex-column ah-max-height ah-table-wrap" id="MyStaffEdit" style="padding: 0 10px 40px 10px;">
+            @await Html.PartialAsync("~/Views/Shared/NotData.cshtml")
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/js/pages/drug-store-mgr.js"></script>
+}

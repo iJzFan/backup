@@ -1,0 +1,104 @@
+﻿@model CHIS.Models.CHIS_Doctor_SickNote
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+    var fees = myRazor.GetSelectListItemsByDictKey("ExtraFeeType");
+}
+
+<div ah-container="SickNote">
+    <input type="hidden" asp-for="SickNoteId" />
+    <input type="hidden" asp-for="TreatId" />
+    <input type="hidden" asp-for="CustomerId" />
+    <input type="hidden" asp-for="StationId" />
+    <input type="hidden" asp-for="DoctorId" />
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label ah-flex ah-space-between">
+                <span>是否已开</span>
+                <span style="color:#666">
+                    @if (Model.FirstPrintTime != new DateTime())
+                    {
+                        @(Model.FirstPrintTime)
+                    }
+                    @if (Model.LastPrintTime != new DateTime())
+                    {
+                        @(Model.LastPrintTime)
+                    }
+                </span>
+            </div>
+            <div class="ah-data-div">
+                @(Model.IsPrinted ? "已开":"未开")
+            </div>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label">
+                真实姓名
+            </div>
+            <input type="text" class="ah-data-input" asp-for="CustomerName" />
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label">
+                性别
+            </div>
+            <div>
+                <input type="radio" asp-for="CustomerGender" value="0" title="女" />
+                <input type="radio" asp-for="CustomerGender" value="1" title="男" />
+            </div>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label">
+                建议休假时段
+            </div>
+            <input class="ah-data-input ah-date-range" ah-format="yyyy年MM月dd日 HH:mm:ss" ah-type="dateTime" id="sick-note-date" data-val-dt0="@(Model.TimeStart)" data-val-dt1="@(Model.TimeEnd)" type="text" />
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <div class="ah-col-md2 ah-flex-data">
+            <div class="ah-data-label">
+                休假医嘱
+            </div>
+            <textarea class="layui-textarea" maxlength="250" asp-for="SickNoteDoctorAdvice"></textarea>
+        </div>
+    </div>
+    <div class="ah-flex-layout">
+        <a class="ah-btn-blue" onclick="printSickNote(this);">打印病假单</a>
+    </div>
+</div>
+<script>
+    var pagedata = {
+        dt0: '@(Model.TimeStart.ToDateString())',
+        dt1:'@(Model.TimeEnd.ToDateString())'
+    }
+    //转换日期范围格式
+    var dt0 = new XDate(pagedata.dt0).toString("yyyy年MM月dd日 HH:mm:ss");
+    var dt1 = new XDate(pagedata.dt1).toString("yyyy年MM月dd日 HH:mm:ss");
+    $("#sick-note-date").val(dt0 + " ～ " + dt1);
+
+    function printSickNote(_this) {
+        var $p = $(_this).parents('[ah-container="SickNote"]').first();
+        //首先保存数据,保存后得到SickNoteId,然后传入打印
+        $.post("/Doctor/SaveSickNote", {
+            SickNoteId: $p.find('#SickNoteId').val(),
+            TreatId: pagedata.treatId,
+            StationId: $p.find('#StationId').val(),
+            DoctorId: $p.find('#DoctorId').val(),
+            CustomerId: $p.find('#CustomerId').val(),
+            CustomerName: $p.find('#CustomerName').val(),
+            CustomerGender: $p.find('input[name=CustomerGender]:checked').val(),
+            TimeStart: $p.find('#sick-note-date').attr("data-val-dt0"),
+            TimeEnd: $p.find('#sick-note-date').attr("data-val-dt1"),
+            SickNoteDoctorAdvice: $p.find('#SickNoteDoctorAdvice').val(),
+        }, function (jn) {
+            if (jn.rlt) {
+                $p.find('#TreatId').val(jn.TreatId);
+                $p.find('#SickNoteId').val(jn.SickNoteId);
+                Print(null, 'PrintSickNote', 'sickNoteId=' + jn.SickNoteId);
+            } else $.err("错误：" + jn.msg);
+        });
+    }
+</script>

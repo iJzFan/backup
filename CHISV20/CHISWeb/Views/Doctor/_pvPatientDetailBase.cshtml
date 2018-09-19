@@ -1,0 +1,94 @@
+﻿@model CHIS.Models.ViewModels.PatientDetailViewModel
+@inject CHIS.Code.Managers.IMyRazor myRazor
+<div class="ah-flex-layout">
+    <div class="ah-col-md1 ah-flex-data">
+        <div class="ah-data-label ah-flex ah-space-between">
+            基本信息
+        </div>
+        <div class="ah-data-div">
+            挂号日期：@(Model.CHIS_Register.RegisterDate?.ToDateString())
+            &emsp;出诊时间:@(Model.DoctorTreat.FirstTreatTime?.ToString("yyyy-MM-dd HH:mm"))
+            &emsp;最后接诊：@(Model.DoctorTreat.TreatTime.ToString("yyyy-MM-dd HH:mm"))
+            挂号科室：@(Model.DoctorTreat.DepartmentName)<br />
+
+        </div>
+    </div>
+</div>
+<div class="ah-flex-layout">
+    <input type="radio" name="isShow" onchange="isShowPatientDetailBase(false,'.ah-patientDetail-canHide')" checked="" title="隐藏接诊明细" />
+    <input type="radio" name="isShow" onchange="isShowPatientDetailBase(true,'.ah-patientDetail-canHide')" title="显示接诊明细" />
+    <div class="ah-patient-isfstTreat ah-flex">
+        <input type="checkbox" asp-for="DoctorTreat.IsFstTreat" title="是否首诊" />
+    </div>
+</div>
+<div class="ah-flex-layout">
+    <div class="ah-col-md1 ah-flex-data">
+        <div class="ah-data-label ah-flex ah-space-between ah-required">
+            主诉
+        </div>
+        <textarea asp-for="DoctorTreat.Complain" ah-id="complain" rows="3" placeholder="患者病患描述" class="layui-textarea"></textarea>
+    </div>
+</div>
+<div class="ah-flex-layout ah-patientDetail-canHide">
+    <div class="ah-col-md1 ah-flex-data">
+        <div class="ah-data-label ah-flex ah-space-between">
+            现病史
+        </div>
+        <textarea asp-for="DoctorTreat.PresentIllness" ah-id="complain" rows="3" placeholder="患者现病史描述" class="layui-textarea"></textarea>
+    </div>
+</div>
+<div class="ah-flex-layout ah-patientDetail-canHide">
+    <div class="ah-col-md1 ah-flex-data">
+        <div class="ah-data-label">体格检查</div>
+        <input class="ah-data-input" type="text" asp-for="DoctorTreat.Examination" placeholder="患者病症" />
+    </div>
+</div>
+<div class="ah-flex-layout">
+    <div class="ah-col-md1 ah-flex-data">
+        <div class="ah-data-label ah-flex ah-space-between ah-required">
+            <span>主诊断</span>
+        </div>
+        <div class="ah-row-group">
+            <label class="ah-is-diag" title="待确诊">
+                <input type="checkbox" lay-skin="primary" asp-for="DoctorTreat.FstIsDiag" lay-ignore="yes" />
+                <span>?</span>
+            </label>
+            <input type="hidden" id="complete1_id" asp-for="DoctorTreat.FstDiagnosis" />
+            <div class="ah-data-div" id="complete1" myrole="diagnosisinput" style="background: #eaeaea;cursor: pointer;">
+                @if (Model.DoctorTreat.Diagnosis1 == null)
+                {
+                    <span style="color:#999">点击请选择诊断</span>
+                }
+                else
+                {
+                    @Model.DoctorTreat.Diagnosis1
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="ah-flex-layout ah-patientDetail-canHide">
+    <div class="ah-col-md1 ah-flex-data">
+        <div class="ah-data-label ah-flex ah-space-between">
+            <span>次诊断</span>
+        </div>
+        <div class="ah-row-group">
+            <label class="ah-is-diag" title="待确诊">
+                <input type="checkbox" lay-skin="primary" asp-for="DoctorTreat.SecIsDiag" lay-ignore="yes" />
+                <span>?</span>
+            </label>
+            <input type="hidden" id="complete2_id" asp-for="DoctorTreat.SecDiagnosis" />
+            <div class="ah-data-div" id="complete2" myrole="diagnosisinput" style="background: #eaeaea;cursor: pointer;">
+                @if (Model.DoctorTreat.Diagnosis2 == null)
+                {
+                    <span style="color:#999">点击请选择诊断</span>
+                }
+                else
+                {
+                    @Model.DoctorTreat.Diagnosis2
+                }
+            </div>
+        </div>
+    </div>
+</div>

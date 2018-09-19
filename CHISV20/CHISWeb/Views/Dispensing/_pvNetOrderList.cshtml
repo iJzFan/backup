@@ -1,0 +1,67 @@
+﻿@model Ass.Mvc.PageListInfo<vwCHIS_Shipping_NetOrder>
+@inject CHIS.Code.Managers.IMyRazor myRazor
+@{
+ 
+}
+@if (Model.DataList.Count() == 0)
+{
+    @await Html.PartialAsync("~/Views/Shared/NotData.cshtml");
+}
+else
+{
+    <div>
+        <span class="pull-right"> 合计:<span class="ah-price">@(ViewBag.AmountPrice)</span></span>
+    </div>
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th style="width:140px;">发药时间</th>
+                <th style="width:60px;">姓名</th>
+                <th class="ah-tr-hide">工作站</th>               
+                <th>总价</th>  
+                <th class="ah-tr-hide">收货</th>
+                <th class="ah-tr-hide">发药平台</th>
+                <th>状态</th>
+                <th class="ah-tr-hide">回单号</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>@item.SendTime.ToStdString()</td>
+                    <td>@item.CustomerName</td>
+                    <td class="ah-tr-hide ah-td-left">@item.StationName</td>
+                    <td class="ah-td-price" >@item.TotalAmount</td>          
+                    <td class="ah-tr-hide">
+                        @item.ContactName 
+                        @(item.Mobile)
+                    </td>
+
+                    <td class="ah-tr-hide">@item.SupplierShortName</td>
+                    <td>
+                        @Html.Raw((item.SendedStatus==1).ToString("<i class='ah-true'>成功</i>","待发"))                   
+
+                    </td>
+                    <td class="ah-tr-hide">
+                        <span><i class="fa fa-ambulance"></i> <a title="查询物流信息">@item.NetOrderNO</a></span>                     
+                    </td>
+                  
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+<div>
+    <span>共计 @(Model.RecordTotal) 条</span>
+   
+</div>
+
+@ViewBag.DebugText
+<script>
+    $(function () {
+        $("#pager").ahPages(@Model.RecordTotal,@Model.PageIndex, @Model.PageTotal);
+                        })
+</script>

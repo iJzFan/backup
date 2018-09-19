@@ -1,0 +1,404 @@
+﻿@using Ass;
+@model CHIS.Models.ViewModel.PrintFormedModel
+@inject CHIS.Services.DrugService _drugSvr
+
+@{
+    ViewBag.Title = "成药处方";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml"; 
+    var u = this.GetUserSelf();
+    bool bHideDoctor = u.MyRoleNames.Contains("drugstore_treat_ext");
+    //药店则需要处方医生
+    bool bNeedRxDoctor = u.StationTypeId == CHIS.DictValues.StationType.k_StationType_drugstore2;
+}
+
+@section links{
+    <style>
+        body, table, td, th {
+            font-size: 12px;
+            font-family: SimSun,SimHei;
+        }
+
+        .fm-tb {
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .table {
+            border-collapse: collapse
+        }
+
+        .table tr > td {
+            line-height: 12px;
+            border-collapse: collapse
+        }
+
+        .center {
+            text-align: center;
+            position: relative
+        }
+
+        .row > div {
+            display: inline-block
+        }
+
+        .title {
+            font-size: 22px;
+            display: inline-block;
+            font-weight: 700;
+            margin-top: 48px;
+            font-family: 楷体,"Microsoft YaHei"
+        }
+
+        .type {
+            border: 1px solid #333;
+            padding: 3px 8px;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            border-radius: 3px;
+        }
+
+        .station {
+            font-size: 16px;
+            font-family: "Microsoft YaHei"
+        }
+
+        .p-no {
+            text-transform: uppercase;
+            color: #aaa;
+            text-align: right;
+            font-size: 10px;
+            right: 0;
+            bottom: 0;
+            position: absolute
+        }
+
+        .sec-line {
+            border-bottom: 1px solid #888;
+            margin: 5px 0;
+            padding-bottom: 3px;
+            position: relative
+        }
+
+        .row-item {
+            width: 100%;
+            padding: 2px 10px
+        }
+
+        .row-item > div {
+            display: inline
+        }
+
+        .row-item .r {
+            float: right
+        }
+
+        .row > .m {
+            width: 25%
+        }
+
+        .row > .m2 > b:after, .row > .m > b:after {
+            content: ":";
+            margin-right: 3px
+        }
+
+        .table {
+            width: 100%
+        }
+
+        .table thead th {
+            text-align: left
+        }
+
+        .bottom {
+            bottom: 50px;
+            width: 100%
+        }
+
+        .doc-sign {
+            position: absolute;
+            width: 80%;
+            right: 0;
+            bottom: 1px;
+            border-bottom: 1px solid #666
+        }
+
+        .doc-sign .doc-sign-item {
+            float: right;
+            width: 50%;
+        }
+
+        .doc-sign-item > b {
+            font-size: 1.3em
+        }
+
+        .doc-sign-item > .sign {
+            color: #999;
+        }
+
+        .rx {
+            font-size: 16px;
+            font-weight: 700;
+            position: relative
+        }
+
+        .rx:before {
+            content: "R";
+            font-family: Arial
+        }
+
+        .rx:after {
+            content: "x";
+            position: absolute;
+            left: 12px;
+            top: 2px;
+            font-family: Arial
+        }
+
+        .ah-qr-preno {
+            position: absolute;
+            top: 0;
+            right: 0
+        }
+
+        tr.tr-td-sec:first-child td {
+            display: none
+        }
+
+        tr.tr-td-sec td i {
+            display: block;
+            padding-bottom: 2px;
+            line-height: 1px;
+            border-bottom: 1px dashed #ccc;
+            margin-bottom: 2px
+        }
+
+        tr.line-row td:first-child {
+            border-bottom: none
+        }
+
+        .warning-rmk {
+            background-color: #ff6a00;
+            color: #fff;
+            border-radius: 2px;
+            padding: 1px 3px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+
+        .ah-sign{cursor:pointer;padding:2px 3px;display:inline-block;width:40px;height:24px;
+                 background:url(/images/btn24.png) no-repeat;
+                 background-position:0 0;
+        }
+        .ah-sign:hover{background-color:#4a6df7;color:#fff;border-radius:3px;
+                       background-position:0 -24px;
+        }
+        @@media print{
+            .ah-sign{display:none;}
+        }
+
+    </style>
+}
+
+<table class="fm-tb" id="content_table">
+    <thead style="display:table-header-group">
+        <tr>
+            <td>
+                <div class="center">
+                    <div class="title">处 方 签</div>
+                    <span class="type">成药</span>
+                    <div class="station">@Model.Treat.StationName</div>
+                </div>
+                @{
+                    var qrurl = $"{Global.ConfigSettings.QrScanUrl}?n=TreatPreNo&v={Model.Main.PrescriptionNo}&tid={Model.Treat.TreatId}&t=Formed";
+                }
+                <div class="ah-qr-preno" id="this_pre_no" qr-text="@qrurl"></div>
+                <div class="sec-line">
+                    <span>就诊日期:@Model.Treat.TreatTime.ToDateString()</span>
+                    <div class="p-no">处方号:@Model.Main.PrescriptionNo</div>
+
+                </div>
+                <div class="sec-line">
+                    <div class="row">
+                        <div class="m">
+                            <b>姓名</b>
+                            @Model.Treat.CustomerName
+                        </div>
+                        <div class="m">
+                            <b>性别</b>
+                            @Model.Treat.Gender?.ToGenderString()
+                        </div>
+                        <div class="m">
+                            <b>年龄</b>
+                            @Model.Treat.Birthday?.ToAgeString()
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="m">
+                            <b>科室</b>
+                            @Model.Treat.DepartmentName
+                        </div>
+                        <div class="m2">
+                            <b>诊断</b>
+                            @(Model.Treat.Diagnosis1 + (Model.Treat.FstIsDiag ? "?" : ""))
+                            @(Model.Treat.Diagnosis2 + (Model.Treat.SecIsDiag ? "?" : ""))
+                            @(Model.Treat.Diagnosis3 + (Model.Treat.ThrIsDiag ? "?" : ""))
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <div>
+                    <b class="rx"></b>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>品名</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var n = 0; short? gn = 0; string nstr = "";
+                                var items = Model.Detail;
+                            }
+                            @foreach (var item in items)
+                            {
+                                if (gn != item.GroupNum || !item.GroupNum.HasValue) { n++; nstr = $"{n}"; gn = item.GroupNum; }
+                                else { nstr = ""; }
+                                if (nstr.IsNotEmpty())
+                                {
+                                    <tr class="tr-td-sec"><td colspan="3"><i></i></td></tr>
+                                }
+                                <tr>
+                                    <td>@(nstr)</td>
+                                    <td>
+                                        @*显示网药标志*@
+                                        @{
+                                            var f = Model.DrugAttrList.FirstOrDefault(m => m.DrugId == item.DrugId);
+                                            if (f != null && f.DrugSourceFrom != (int)DrugSourceFrom.Local)
+                                            {
+                                                <i class="warning-rmk">@(f.SupplierCompanyShortName)</i>
+                                            }
+                                        }
+                                        <span><b>@item.DrugName</b><i>@item.DrugModel</i></span>
+                                    </td>
+                                    <td><span class="r">@item.Qty @item.UnitName</span></td>
+                                </tr>
+                                <tr class="line-row">
+                                    <td></td>
+                                    <td colspan="2">
+                                        <small>【用法用量】</small>
+                                        <span>@(item.GivenTimeTypeName) @(item.GivenWhereTypeName.RemovePart('(')) </span>
+                                        @if (item.GivenDosage.IsNotEmpty())
+                                        {
+                                            @($"{item.GivenDosage}{item.DosageUnitName}/次")
+                                        }
+                                        <span>@(item.GivenTakeTypeName.RemovePart('('))</span>
+                                        <span>@(item.GivenDays?.ToString("0天"))</span>
+
+                                        <span>@(item.GivenRemark)</span>
+                                        <span>@(item.Advice)</span>
+
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>-</td>
+                                <td colspan="3">&lt; 内容完毕 &gt;</td>
+                            </tr>
+                            @*该部分用来控制单页的高度*@
+                            <tr>
+                                <td colspan="4" id="auto_height"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot style="display:table-footer-group">
+        <tr>
+            <td>
+                <div class="bottom">
+                    <div class="sec-line">
+                        <div class="doc-sign">
+                            <div class="doc-sign-item">
+                                @if (bNeedRxDoctor)
+                                {
+                                    <b>医务助理:</b>
+                                }
+                                else
+                                {
+                                    <b>医师:</b>
+                                }
+                                @if (!bHideDoctor)
+                                {
+                                    <span class="sign">@Model.Treat.DoctorName</span>
+                                }
+                                @if (Model.Treat.DoctorId == u.DoctorId && Model.Main.DoctorSignUrl.IsEmpty())
+                                {
+                                <a class="ah-sign"  onclick="showSign();"></a>
+                                }
+                            </div>
+                            @if (bNeedRxDoctor)
+                            {
+                            <div class="doc-sign-item">
+                                <b>处方医生:</b>
+                                <span class="sign">@(Model.RxDoctorName)</span>
+                                @if (Model.RxDoctorId == u.DoctorId && Model.Main.RxDoctorSignUrl.IsEmpty())
+                                {
+                                <a class="ah-sign" onclick="showSign();"></a>
+                                }
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <div>打印时间：@DateTime.Now.ToStdString()</div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+ 
+
+<script>
+
+    function showSign() {
+        parent.showSign();
+    }
+
+    function setQrCode(cid) {
+        var $c;
+        try { $c = $('#' + cid); }
+        catch (e) {
+            $c = parent.$('#' + cid);
+            $c = parent.$(self.document.getElementById(cid));
+            $c.empty();
+        }
+        $c.qrcode({ width: 102, height: 102, text: $c.attr("qr-text") });
+    }
+
+    setQrCode('this_pre_no');
+    setTimeout(function () {
+        try {/*设置高度*/
+            var h1 = $('#content_table').parents(".page").first().height();
+            var h0 = $('#content_table').height();
+            //var h = h0 < h1 ? h1 - h0 : (h0 % h1) - 220;
+            if (h0 < h1) $('#auto_height').css("height", (h1 - h0) + "px");
+        }
+        catch (e) { }
+    }, 100);
+
+
+</script>
+

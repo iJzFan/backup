@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "商品列表";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div ah-tools="wrap" class="ah-max-width">
+    <div class="ah-tools">
+        <div class="ah-tool-wrap">
+            <input class="ah-text-blut" type="text" ame="searchText" ah-id="searchText" placeholder="请输入搜索内容" value="@(Context.Request.Query["searchText"])" />
+            <button class="ah-btn-blue" onclick="SEARCH.addSearchText();">搜索</button>
+        </div>
+        <div class="ah-tool-wrap ah-flex-auto">
+            <a class="ah-tool-more-btn" onclick="ahTools(this)">高级搜索项</a>
+        </div>
+        <div class="ah-tool-wrap">
+            <button class="ah-btn-blue" onclick="GIFT.add()"><i class="fa fa-plus"></i>&nbsp;新建</button>
+        </div>
+    </div>
+    <div id="J_selector" class="selector ah-tool-more">
+        <div class="search-conditions" id="search_items">
+            <div class="title">
+                已选：
+            </div>
+            <div class="sel-items">
+
+            </div>
+        </div>
+        <div class="J_selectorLine s-brand">
+            <div class="sl-wrap">
+                <div class="sl-key" title-key="giftStatus"><strong>商品状态：</strong></div>
+                <div class="sl-value">
+                    <div class="clr"></div>
+                    <div class="sl-v-list">
+                        <section class="section-inline">
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="giftStatus" class="ah-search-radio" value="OutOfStock" /><span>缺货</span></label>
+                            <label class="radio-inline"><input type="radio" ah-radio="false" name="giftStatus" class="ah-search-radio" value="Expire" /><span>到期</span></label>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ah-table-wrap" ah-id="GIFTLIST-TABLE"></div>
+    <div class="ah-page-wrap" id="pager"></div>
+</div>
+@section scripts{
+    <script src="~/js/pages/gift-index.js"></script>
+    <script src="~/js/ah-common-search.js"></script>
+    <script>
+        SEARCH.searchMain = "GIFTLIST-TABLE";//搜索结果存放区域
+        SEARCH.searchUrl = "/Gift/GetGiftList"; //设置搜索的请求地址
+        SEARCH.search(1);
+    </script>
+}
